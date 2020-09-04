@@ -1,14 +1,7 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% block body %}
     <button>파일열기</button>
     <form>커밋메세지</form>
     <button>제출</button>
-</body>
-</html>
+{% endblock %}
