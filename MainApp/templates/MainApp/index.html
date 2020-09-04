@@ -1,13 +1,9 @@
+{% extends 'base.html' %}
 {% load sass_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+{% block scss %}
     <link href="{% sass_src 'MainApp/CSS/test.scss' %}" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <h1> main app test </h1>
-</body>
-</html>
+{% endblock %}
+{% block body %}
+    <h1> 하위~ FromNode </h1>
+    <button><A href="#">로그인</A></button>
+{% endblock %}

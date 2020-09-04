@@ -47,7 +47,7 @@ ROOT_URLCONF = 'FromNode.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'baseTemplates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,6 +116,7 @@ STATIC_DIR = (
     '/NodeApp/static/',
     '/ProjectApp/static/',
     '/UserApp/static/',
+    'baseTemplates/static/',
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_FINDERS = [
