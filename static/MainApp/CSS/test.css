@@ -1,4 +1,4 @@
-body { background-color: black; }
+body > * { all: unset; height: 100vh; }
 
 h1 { font-size: 100px; }
 

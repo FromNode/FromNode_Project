@@ -17,7 +17,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     
 @receiver(post_save,sender=User)
 def save_user_profile(sender,instance,**kwargs):
-    instance.Profile.save()
+    instance.profile.save()
 # receiver는 이벤트가 발생 할 때 찾는 놈입니다. 
 # save가 발생 할 때 마다 create_user_profile/save_user_profile로 Profile도 같이 생성되게 하는 놈이에여
 # 결론 = 지우지마!

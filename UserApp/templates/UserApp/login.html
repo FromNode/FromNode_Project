@@ -1,13 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form>아이디,비밀번호</form>
-    <button>가입하기</button>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% block body %}
+<form method='POST' action = '{% url "login" %}'>
+    {% csrf_token %}
+    {{login_form.as_p}}
+<input type='submit' value='가입하기'>
+
+{% endblock %}
