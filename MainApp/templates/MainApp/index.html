@@ -4,10 +4,11 @@
     <link href="{% sass_src 'MainApp/CSS/test.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block body %}
-    <Div> 
-        <span class="title"> FromNode </span>
-    </Div>
-   <Div class="main_container">
-        <button><A href="#">로그인</A></button>
-    </Div>
+    <h1> 하위~ FromNode </h1>
+    {%if user.is_authenticated %}
+    로그인해버려따구
+    <button><a href="{% url 'logout' %}">로그아웃</a></button>
+    {%else%}
+    <button><a href="{% url 'login' %}">로그인</A></button>
+    {% endif %}
 {% endblock %}

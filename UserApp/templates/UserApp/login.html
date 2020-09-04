@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% block body %}
-    <form>아이디,비밀번호</form>
-    <button>가입하기</button>
+<form method='POST' action = '{% url "login" %}'>
+    {% csrf_token %}
+    {{login_form.as_p}}
+<input type='submit' value='가입하기'>
+
 {% endblock %}
