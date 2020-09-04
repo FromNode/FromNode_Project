@@ -5,5 +5,10 @@
 {% endblock %}
 {% block body %}
     <h1> 하위~ FromNode </h1>
-    <button><A href="#">로그인</A></button>
+    {%if user.is_authenticated %}
+    로그인해버려따구
+    <button><a href="{% url 'logout' %}">로그아웃</a></button>
+    {%else%}
+    <button><a href="{% url 'login' %}">로그인</A></button>
+    {% endif %}
 {% endblock %}

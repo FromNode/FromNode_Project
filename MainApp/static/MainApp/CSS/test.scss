@@ -1,7 +1,11 @@
-body > * {
-    all: unset;
+body{
     height: 100vh;
 }
-h1{
-    font-size: 100px;
+.title{
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+.main_container{
+    display: flex;
 }
