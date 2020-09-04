@@ -1,26 +1,23 @@
 from django.shortcuts import render,redirect
-from .models import User,Profile
-from .forms import UserForm
+from django.contrib.auth.models import User
+from .models import Profile
+from .forms import UserForm, ProfileForm
 
 # Create your views here.
 
 def signup(request):
+    
     if request.method == 'POST':
-        user = User()
-        #profile = Profile()
-
-        user_form = UserForm()
-        profile_form = ProfileForm()
-
-        if user_form.is_vaild() and profile_form.is_vaild():
-            user.username = request.POST['username']
-            user.password = request.POST['password']
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-            user.save()
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
         return render(request,'MainApp/index.html')
 
-    elif request.mehod == 'GET':
+    elif request.method == 'GET':
+        user_form = UserForm()
+        profile_form = ProfileForm()
         return render(request,'UserApp/signup.html',{'user_form':user_form,'profile_form':profile_form})
     else:
         return render(request,'MainApp/index.html')

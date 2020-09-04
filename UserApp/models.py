@@ -5,6 +5,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
+    colors = models.TextField(max_length=50)
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
     
 @receiver(post_save,sender=User)
