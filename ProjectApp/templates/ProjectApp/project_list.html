@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% block body %}
-    <button>프로젝트 1</button>
-    <button>프로젝트 2</button>
+    <button><a href="{% url 'project_detail' %}">프로젝트 1</a></button>
+    <button><a href="{% url 'project_detail' %}">프로젝트 2</a></button>
+    <p>최근에 작업한 프로젝트가 최상단에 위치</p>
 
-    <button>프로젝트 만들기</button>
-    <button>프로젝트 참여하기</button>
+    <button><a href="{% url 'create_project' %}">프로젝트 만들기</a></button>
+    <div>
+        <p>다른 프로젝트 참여하기</p>
+        <input type="text">
+        <button type="submit">시작하기</button>
+    </div>
 {% endblock %}

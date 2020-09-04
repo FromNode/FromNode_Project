@@ -35,8 +35,7 @@ def login(request):
         user = auth.authenticate(username=username,password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('index')
-
+            return redirect('show_project')
     else:
         login_form = LoginForm()
         return render(request,'UserApp/login.html',{'login_form':login_form})
