@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% block body %}
-    업로드
     <button>파일열기</button>
     <form>커밋메세지</form>
     <button>제출</button>
+    <button><a href="{% url 'show_project' %}">프로젝트 리스트로 돌아가기</a></button>
 {% endblock %}
