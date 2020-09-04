@@ -10,16 +10,16 @@
     {% endblock %}
 </head>
 <body>
-    <!-- 로그인 여부에 따라 보여주는 navbar 내용이 달라야한다 -->
-    <div class="navbar">
-        <span>FromNode</span>
-        <a hrer="#">어딘가로</a>
-        <a hrer="#">어딘가로</a>
-        <a hrer="#">어딘가로</a>
-        <a hrer="#">어딘가로</a>
-    </div>
     <!-- 페이지 컨텐츠가 들어갈 영역 -->
     {% block body %}
     {% endblock %}
+        <!-- 
+        각각의 html에 해당하는 navbar가 서로 상이하게 나중에 따로 해줘야 할듯 
+        아니면 base를 쓰지말까?
+    -->
+    <div class="navbar">
+        <a href="{% url 'index' %}">index로</a>
+        <a href="{% url 'upload' %}">upload로</a>
+    </div>
 </body>
 </html>
