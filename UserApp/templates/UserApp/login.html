@@ -4,6 +4,6 @@
 <form method='POST' action = '{% url "login" %}'>
     {% csrf_token %}
     {{login_form.as_p}}
-<input type='submit' value='가입하기'>
+<input type='submit' value='로그인하기'>
 
 {% endblock %}
