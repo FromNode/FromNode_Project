@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% block body %}
+<h1>프로젝트 상세내용 - 페이지번호 : 06</h1>
     <button><a href="{% url 'show_project' %}">프로젝트 리스트로 가기</a></button>
-    <a href="{% url 'upload' %}">upload로</a>
+    <a href="{% url 'upload' %}">upload로</a><br>
+    {% for node in node_all %}
+        {{ node.Code }}<br>
+    {% endfor %}
     프로젝트디테일-> 트리장소
     최근작업영역이라던지 
 {% endblock %}

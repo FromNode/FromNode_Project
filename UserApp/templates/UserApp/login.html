@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% block body %}
-<form method='POST' action = '{% url "login" %}'>
+<form method='POST' action = '{% url "show_project" %}'>
     {% csrf_token %}
     {{login_form.as_p}}
 <input type='submit' value='로그인하기'>

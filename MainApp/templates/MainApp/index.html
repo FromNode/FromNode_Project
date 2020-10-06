@@ -4,12 +4,13 @@
     <link href="{% sass_src 'MainApp/CSS/test.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block body %}
-    <a href="{% url 'index' %}">FromNode</a>
-    {%if user.is_authenticated %}
-    로그인해버려따구
-    <button><a href="{% url 'logout' %}">로그아웃</a></button>
-    {%else%}
+    <a href="#">FromNode</a>
+    <h1>소개페이지 - 페이지번호 : 01</h1>
+    {%if user.is_authenticated %} 
+     로그인해버려따구 
+     <button><a href="{% url 'logout' %}">로그아웃</a></button> 
+     {%else%} 
     <button><a href="{% url 'login' %}">로그인</A></button>
     <button><a href="{% url 'signup' %}">가입하기</A></button>   
-    {% endif %}
+     {% endif %} 
 {% endblock %}
