@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'NodeApp',
     'ProjectApp',
     'UserApp',
+    'FileApp',
     'sass_processor',
 ]
 
