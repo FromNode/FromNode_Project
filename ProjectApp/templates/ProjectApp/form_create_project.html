@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% block body %}
+<button><a href="{% url 'show_project' %}">프로젝트 리스트로 가기</a></button>
+    <form action= "{% url 'create_project' %}">
+        프로젝트 이름<br>
+        <input type="text" size="15" name="projectName"/><br/>
+        <input type="submit" id="btn" value="생성하기"/>
+    </form>
+    {% endblock %}

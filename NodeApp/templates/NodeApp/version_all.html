@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% block body %}
+<h1>파일 상세내용 - 페이지번호 : 07</h1>
+<h1>여기가 바로 '그 트리' 가 등장해야 할 곳</h1>
+    {% for node in node_obj %}
+        <a href='{% url 'node_detail' %}'> {{ node.Code }} </a><br>
+    {% endfor %}
+<button><a href="{% url 'project_detail' %}">파일 리스트로 돌아가기</a></button>
+{% endblock %}
