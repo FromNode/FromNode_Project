@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% block body %}
+<button><a href="{% url 'project_detail' %}">프로젝트 페이지로 돌아가기</a></button>
+    <form action= "{% url 'create_new_file' %}">
+        파일 이름<br>
+        <input type="text" size="15" name="fileName"/><br/>
+        <input type="submit" id="btn" value="새 파일 추적하기!"/>
+    </form>
+    {% endblock %}
