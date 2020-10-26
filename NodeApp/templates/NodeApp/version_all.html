@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
+{% load static %}
+
+{% block scss %}
+    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block body %}
-<h1>파일 상세내용 - 페이지번호 : 07</h1>
-<h1>여기가 바로 '그 트리' 가 등장해야 할 곳</h1>
-    {% for node in node_obj %}
-        <a href='{% url 'node_detail' %}'> {{ node.Code }} </a><br>
-    {% endfor %}
-<button><a href="{% url 'project_detail' %}">파일 리스트로 돌아가기</a></button>
+    <h1>파일 상세내용 - 페이지번호 : 07</h1>
+    <h1>여기가 바로 '그 트리' 가 등장해야 할 곳</h1>
+        {% for node in node_obj %}
+            <a href='{% url 'node_detail' %}'> {{ node.Code }} </a><br>
+        {% endfor %}
+    <div class="drop-zone">
+        <!-- form 으로 전체를 담아서 input submit을 하면 되지 않을까? -->
+        <span class="drop-zone__prompt">drop-zone</span>
+        <!-- <div class="drop-zone__thumb" data-label="myfile.txt">
+
+        </div> -->
+        <input type="file" name="myFile" class="drop-zone__input" multiple>
+    </div>
+    <button><a href="{% url 'project_detail' %}">파일 리스트로 돌아가기</a></button>
+{% endblock %}
+{% block JS %}
+    <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
 {% endblock %}

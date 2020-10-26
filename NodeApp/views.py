@@ -9,3 +9,6 @@ def version_all(request):
 
 def node_detail(request):
     return render(request, 'NodeApp/node_detail.html')
+
+def test(request):
+    return render(request, 'NodeApp/test.html')
