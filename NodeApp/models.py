@@ -9,7 +9,5 @@ class Nodes(models.Model):
     ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)#이 노드가 속해 있는 프로젝트
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)#이 노드를 만든 회원
     
-    
-    #def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
-    #    return ''.join(random.choice(chars) for _ in range(size))
-    #
+class TestNode(models.Model):
+    file = models.FileField(upload_to="test")
