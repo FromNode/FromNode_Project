@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a id="login-form-btn" href="javascript:loginFormWithKakao()">
+        <img
+          src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg"
+          width="222"
+        />
+      </a>
+      <p id="login-form-result"></p>
+      
+    <div id="map" style="width:500px;height:400px;"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d24b30da2ee0d286973edd65d6809206"></script>
+    <script>
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3 //지도의 레벨(확대, 축소 정도)
+        };
+        
+        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴</script>
+        <script type="text/javascript">
+            function loginFormWithKakao() {
+              Kakao.Auth.loginForm({
+                success: function(authObj) {
+                  showResult(JSON.stringify(authObj))
+                },
+                fail: function(err) {
+                  showResult(JSON.stringify(err))
+                },
+              })
+            }
+            function showResult(result) {
+              document.getElementById('login-form-result').innerText = result
+            }
+          </script>
+</body>
+</html>
