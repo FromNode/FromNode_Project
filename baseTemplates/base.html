@@ -1,20 +1,74 @@
 {% load sass_tags %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FromNode</title>
+    <!-- nav -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="./style.css">
     <!-- scss를 선언할 영역 -->
     {% block scss %}
     {% endblock %}
 </head>
+
 <body>
-    <!-- 페이지 컨텐츠가 들어갈 영역 -->
-    {% block body %}
-    {% endblock %}
-    
-    {% block JS %}
-    {% endblock %}
+    <!--상단부-->
+    <div class="container">
+        <div class="top">
+            <div class="top_nav">
+                <!-- 로고 -->
+                <div class="box-left">
+                    <div class="logo_img">
+                        <a href="{% url 'project:project_list' %}">
+                            <img src="./image/logo_wild.JPG" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- 서치바 -->
+                <form class="box-center" action="#" method='GET'>
+                    <input class="input_box" type="text" name="query" placeholder="Search">
+                    <div class="input_button">
+                        <input class="find_img" type="image" src="image/find.png" alt="Submit">
+                    </div>
+
+                </form>
+
+
+                <!-- 유저 도구 -->
+                <div class='box-right'>
+                    <!-- 알림, 더보기 버튼 추가 필요 -->
+                    <li class="li">
+                        <a href="#">
+                            프로필
+                            <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서
+                            그 view에 유저 프로필 사진을 {~}로 담아서 보내야겠다. -->
+
+                            <!-- <img class="profile_img" src="{%static 'image/profile.png'%}" width="40" height="40"></a> -->
+                    </li>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="bottom">
+            <!-- 왼쪽 메뉴 -->
+            <div class="left-menu">
+                냥냥냥
+            </div>
+
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+                <!-- </div> -->
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>
