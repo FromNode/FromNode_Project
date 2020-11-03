@@ -19,3 +19,7 @@ def create_project(request):
     proj_obj.whoIsOwner = User.objects.get(username = 'sea')
     proj_obj.save()
     return redirect('project_list')
+
+# def logout(request):
+#     auth.logout(request)
+#     return redirect('/')
