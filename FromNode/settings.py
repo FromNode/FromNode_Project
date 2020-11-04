@@ -117,7 +117,7 @@ STATIC_DIR = (
     '/NodeApp/static/',
     '/ProjectApp/static/',
     '/UserApp/static/',
-    'baseTemplates/static/',
+    '/baseTemplates/static/',
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_FINDERS = [

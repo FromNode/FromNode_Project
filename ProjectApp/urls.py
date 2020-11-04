@@ -9,5 +9,4 @@ urlpatterns = [
 
     # path('form_create_project/', views.form_create_project, name="form_create_project"),
     # path('create_project/', views.create_project, name="create_project"),
-
 ]
