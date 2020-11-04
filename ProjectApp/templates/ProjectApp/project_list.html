@@ -2,11 +2,12 @@
 {% load sass_tags %}
 {% block content %}
 <h1>프로젝트 리스트 - 페이지번호 : 04</h1>
+
     {% for project in proj_obj %}
-    <button><a href="{% url 'project:project_detail' %}">{{project.name}}</a></button><br>
+    <button><a href="{% url 'file:file_list' %}">{{project.name}}</a></button><br>
     {% endfor %}
 
-    <!-- <button><a href="{% url 'form_create_project' %}">프로젝트 만들기</a></button> -->
+    <!-- <button><a href="{ url 'form_create_project' }">프로젝트 만들기</a></button> -->
     <div>
         <p>다른 프로젝트 참여하기</p>
         <input type="text">
