@@ -3,7 +3,7 @@
 {% block scss %}
     <link href="{% sass_src 'MainApp/CSS/test.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
-{% block body %}
+{% block content %}
     <a href="#">FromNode</a>
     <h1>소개페이지 - 페이지번호 : 01</h1>
     {%if user.is_authenticated %} 

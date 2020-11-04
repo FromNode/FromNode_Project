@@ -5,10 +5,8 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 def version_all(request):
-    # node_obj = Nodes.objects.all()
-    node_obj = TestNode.objects.all()
-    # Nodes.fileObj = request.FILES['fileObj']
-    return render(request, 'NodeApp/version_all.html', {'node_obj':node_obj})
+    node_objs = Nodes.objects.all()
+    return render(request, 'NodeApp/version_all.html', {'node_objs':node_objs})
 
 
 def node_detail(request):

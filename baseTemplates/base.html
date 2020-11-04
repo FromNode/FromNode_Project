@@ -1,20 +1,234 @@
 {% load sass_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FromNode</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        }
+
+        a { color: #000; }
+        a:link { color: black; }
+        a:visited { color: black; }
+
+        /* 전체 구조 */
+        body{
+        background: white;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        }
+
+        .container{
+        display: flex;
+        flex-direction: column;
+
+        }
+
+        /* 상단 바 */
+        .top{
+        /* position:absolute;
+        top:50%;
+        left:50%;
+        background: white;
+        transform:translate(-50%, -50%); */
+        width: 100%;
+        height: auto;
+        }
+
+        .content{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 25px 0;
+
+        }
+
+        /* 끝 */
+
+        /* 상단 네브바 */
+        .top_nav{
+        height: 120px;
+        display: flex;
+        background-color: white;
+        border-bottom: solid 1px black;
+        position: relative;
+        }
+
+        .box-left { 
+        /* flex: 0.5; */
+        width: 300px;
+        padding: 25px 0;
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .logo_img{
+        width: auto;
+        background-color: aquamarine;
+        }
+
+
+
+        .box-center {
+        flex: 1.4;
+        text-align: left;
+        padding: 30px 0;
+        display: flex;
+        align-items: center;
+        }
+
+        input:focus{
+        outline:none;
+        }
+        .input_box{
+        padding: 20px;
+        border: 1.8px solid #004077;
+        border-radius : 30px; 
+        width:680px;
+        height:15px;            
+        font-size: 17px;
+        }
+
+        .input_button{
+        /* padding: 20px; */
+        width: 60px;
+        height: 43px;
+        border: 1px solid black;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        }
+        .find_img {
+        height: 30px;
+        width: auto;
+
+        /* width:32px;
+        height:32px; */
+        cursor: pointer;
+        }
+
+
+        .box-right {
+        margin: 0 auto;
+        padding: 35px 0;
+        padding-right: 40px;
+        }
+
+        .li{
+            list-style-type: none;
+            display: inline-block;
+            text-align: center;
+            outline : lpx dotted blue;
+            margin-right: 20px;
+            font-size: 30px;
+        }
+
+        /* .profile_img{
+            width: 35px;
+            height: 35px;
+        } */
+
+
+        /* a태그 속성 추가 */
+        #box-right a{
+        text-decoration:none;
+        color: black;
+        }
+
+        #box-right ul li a{
+        color: #2b2929;
+
+        }
+
+        /* 왼쪽 메뉴 */
+        .bottom{
+        /* width: 100%; */
+        display: flex;
+        flex-direction: row;
+        }
+        .left-menu{
+        width: 300px; 
+        /* .box_left랑 같은 width */
+        height: 100vh;
+        background-color: #118aa8; 
+        }
+
+        .content{
+        height: 100vh;
+        width : auto;
+        }
+    </style>
+
     <!-- scss를 선언할 영역 -->
     {% block scss %}
     {% endblock %}
 </head>
+
 <body>
-    <!-- 페이지 컨텐츠가 들어갈 영역 -->
-    {% block body %}
-    {% endblock %}
-    
-    {% block JS %}
-    {% endblock %}
+    <!--상단부-->
+    <div class="container">
+        <div class="top">
+            <div class="top_nav">
+                <!-- 로고 -->
+                <div class="box-left">
+                    <div class="logo_img">
+                        <a href="{% url 'project:project_list' %}">
+                            <img src="{% static 'baseTemplates/image/logo_image_text.png'%}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- 서치바 -->
+                <form class="box-center" action="#" method='GET'>
+                    <input class="input_box" type="text" name="query" placeholder="Search">
+                    <div class="input_button">
+                        <input class="find_img" type="image" src="image/find.png" alt="Submit">
+                    </div>
+
+                </form>
+
+
+                <!-- 유저 도구 -->
+                <div class='box-right'>
+                    <!-- 알림, 더보기 버튼 추가 필요 -->
+                    <li class="li">
+                        <a href="#">
+                            프로필
+                            <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서
+                            그 view에 유저 프로필 사진을 {~}로 담아서 보내야겠다. -->
+
+                            <!-- <img class="profile_img" width="40" height="40"></a> -->
+                    </li>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="bottom">
+            <!-- 왼쪽 메뉴 -->
+            <div class="left-menu">
+                냥냥냥
+            </div>
+
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+                <!-- </div> -->
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>

@@ -1,8 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from . import views 
+from . import views
+
+app_name = 'project'
 urlpatterns = [
     path('project_list/', views.show_project_list, name="project_list"),
-    path('form_create_project/', views.form_create_project, name="form_create_project"),
-    path('create_project/', views.create_project, name="create_project"),
+    path('project_detail/', views.show_project_detail, name="project_detail"),
+
+    # path('form_create_project/', views.form_create_project, name="form_create_project"),
+    # path('create_project/', views.create_project, name="create_project"),
 ]
