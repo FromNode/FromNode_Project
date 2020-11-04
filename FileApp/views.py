@@ -15,7 +15,7 @@ import random
 #         proj_obj += Projects.objects.filter(name=i)
 #     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
-def show_project_detail(request,project_id):
+def show_file_list(request,project_id):
     project = Projects.objects.get(id = project_id)
     pro_name = project.name
     # detail pro name 뽑아오는 과정
@@ -29,10 +29,7 @@ def show_project_detail(request,project_id):
             proj_user.append(x.user)
     # for문 지나서 project 가진 user 정보들이 list로 뽑힙니다
     file_obj = Files.objects.filter(ownerPCode=project_id)
-    return render(request, 'FileApp/project_detail.html', {'file_obj':file_obj,'proj_user':proj_user,})
-def show_file_list(request):
-    file_obj = Files.objects.all()
-    return render(request, 'FileApp/file_list.html', {'file_obj':file_obj})
+    return render(request, 'FileApp/file_list.html', {'file_obj':file_obj,'proj_user':proj_user,})
 
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')
