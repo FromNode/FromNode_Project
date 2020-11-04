@@ -8,8 +8,8 @@ def show_project_list(request):
     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
 
-def form_create_project(request):
-    return render(request,'ProjectApp/form_create_project.html')
+# def form_create_project(request):
+#     return render(request,'ProjectApp/form_create_project.html')
 
 
 def create_project(request):
