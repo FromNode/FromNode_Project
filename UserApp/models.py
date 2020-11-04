@@ -1,7 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from random import choice
+import string
+
+def user_path(instance,filename):
+    arr = [choice(string.ascii_letters) for _ in range(8)]
+    pid = ''.join(arr)
+    extension = filename.split('.')[-1]
+    return 'profiles/%s.%s' % (pid, extension)
+    
 
 class Profile(models.Model):
     objects = models.Manager()
@@ -9,8 +20,12 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    projects = models.TextField(blank = True)
+    projects = models.TextField(blank = True) #속한 프로젝트 관리 ','로 나눕니다!
+    profile_image = models.ImageField(upload_to = user_path,blank=True)
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
+
+
+
     
 @receiver(post_save,sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
