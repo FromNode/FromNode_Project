@@ -5,6 +5,9 @@
     {% for file in file_obj %}
         <a href="{% url 'version_all' %}">{{file.fileName}}</a><br>
     {% endfor %}
+    {% for users in proj_user %}
+    <h2>{{users.username}}</h2>
+    {% endfor %}
     <button><a href="{% url 'form_create_new_file' %}">새 파일 추적하기</a></button>
     <button><a href="{% url 'project_list' %}">프로젝트 리스트로 가기</a></button>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block body %}
 <h1>프로젝트 리스트 - 페이지번호 : 04</h1>
     {% for project in proj_obj %}
-    <button><a href="{% url 'project_detail' %}">{{project.name}}</a></button><br>
+    <button><a href="{% url 'project_detail' project.id %}">{{project.name}}</a></button><br>
     {% endfor %}
 
     <button><a href="{% url 'form_create_project' %}">프로젝트 만들기</a></button>
