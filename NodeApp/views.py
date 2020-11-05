@@ -1,18 +1,23 @@
 from django.shortcuts import render, redirect
 from .models import Nodes, TestNode
+from FileApp.models import Files
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
 
-def version_all(request):
-    node_objs = Nodes.objects.all()
-    return render(request, 'NodeApp/version_all.html', {'node_objs':node_objs})
+def version_all(request,file_Code):
+    The_File = Files.objects.get(Code=file_Code)
+    A = Nodes.objects.all()
+    node_objs =[]
+    for x in A:
+        if x.ownerFCode.Code == The_File.Code:
+            node_objs.append(x)
+    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs})
 
 
-def node_detail(request):
-    # node_obj = Nodes.objects.all()
-    node_obj = TestNode.objects.all()
-    return render(request, 'NodeApp/node_detail.html', {'node_obj':node_obj})
+def node_detail(request,node_Code):
+    node_obj = Nodes.objects.filter(Code = node_Code)
+    return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj})
 
 def Upload(request):
     '''

@@ -21,6 +21,7 @@ def show_file_list(request,project_id):
     # detail pro name 뽑아오는 과정
     proj_obj = []
     proj_user = []
+    empty = ''
     # for문 위한 초기 선언
     for x in Profile.objects.all():
         a = x.projects.split(',')
@@ -29,7 +30,9 @@ def show_file_list(request,project_id):
             proj_user.append(x.user)
     # for문 지나서 project 가진 user 정보들이 list로 뽑힙니다
     file_obj = Files.objects.filter(ownerPCode=project_id)
-    return render(request, 'FileApp/file_list.html', {'file_obj':file_obj,'proj_user':proj_user,})
+    if len(file_obj) == 0:
+        empty = '추적한 파일이 없습니다'
+    return render(request, 'FileApp/file_list.html', {'file_obj':file_obj,'proj_user':proj_user,'empty':empty})
 
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')

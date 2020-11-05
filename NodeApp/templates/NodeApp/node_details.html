@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% load static %}
+
 {% block scss %}
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-<form method='POST' action = '{% url "user:login" %}'>
-    안뇽 난 로그인 폼이야
-    {% csrf_token %}
-    {{login_form.as_p}}
-<input type='submit' value='로그인하기'>
+<h1>노드 상세내용 - 페이지번호 : 08</h1>
+
+
+{% for x in node_obj %}
+{{x.Code}}<br>
+{{x.fileObj}}<br>
+{{x.whoIsOwner}}<br>
+{{x.createdDate}}
+{% endfor %}
 
 {% endblock %}
 {% block JS %}
