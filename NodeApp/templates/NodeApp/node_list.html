@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
 {% load static %}
+
 {% block scss %}
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-<form method='POST' action = '{% url "user:login" %}'>
-    안뇽 난 로그인 폼이야
-    {% csrf_token %}
-    {{login_form.as_p}}
-<input type='submit' value='로그인하기'>
+<h1>파일 상세내용 - 페이지번호 : 07</h1>
+<h1>여기가 바로 '그 트리' 가 등장해야 할 곳</h1>
 
+{% for node in node_objs%}
+<a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
+
+
+{% endfor %}
+{{empty}}
 {% endblock %}
 {% block JS %}
 {% endblock %}

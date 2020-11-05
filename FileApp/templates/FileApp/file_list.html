@@ -3,7 +3,7 @@
 {% block content %}
 <h1>프로젝트 상세내용 - 페이지번호 : 06</h1>
     {% for file in file_obj %}
-        <a href="{% url 'version_all' %}">{{file.fileName}}</a><br>
+        <a href="{% url 'node:version_all' file.Code %}">{{file.fileName}}</a><br>
     {% endfor %}
     {% for users in proj_user %}
     <h2>{{users.username}}</h2>
