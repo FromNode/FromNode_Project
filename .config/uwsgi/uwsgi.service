@@ -3,7 +3,7 @@ Description=uWSGI service
 After=syslog.target
 
 [Service]
-ExecStart=/home/ubuntu/fnvenv/bin/uwsgi -i /srv/deploy/.config/uwsgi/FromNode.ini
+ExecStart=/home/ubuntu/fnvenv/bin/uwsgi -i /srv/FromNode_Project/.config/uwsgi/FromNode.ini
 
 Restart=always
 KillSignal=SIGQUIT
