@@ -67,7 +67,8 @@ align-items: center;
 
 .box-center {
 position: fixed;
-flex: 1.4;
+width: 700px;
+/* flex: 1.4; */
 text-align: left;
 padding-left: 300px;
 display: flex;
@@ -104,19 +105,38 @@ input:focus{
 }
 
 
-.box-right {
-  justify-content: right;
+.box-right {  
+  justify-content: flex-end;
+  padding-left: 1600px;
 }
 
-.li{
+.nav-item{
     list-style-type: none;
     display: inline-block;
     text-align: center;
-    outline : lpx dotted blue;
     margin-right: 20px;
     font-size: 30px;
+   
+}
+.nav-item a {
+  display: block;
 }
 
+.icon{
+  width: 35px;
+  height: 35px;
+  margin-top: 6px;
+  margin-right: 10px;
+}
+
+.icon-profile{
+  width: 35px;
+  height: 35px;
+  margin-top: 6px;
+  margin-right: 10px;
+  border-radius: 100%;
+  border: 1px black solid;
+}
 /* .profile_img{
       width: 35px;
       height: 35px;
@@ -136,7 +156,7 @@ input:focus{
 
 /* 왼쪽 메뉴 */
 .bottom{
-  padding-top: 90px;
+  padding-top: 80px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -144,15 +164,36 @@ input:focus{
 
 .left-menu{
   width: 300px; 
-  /* .box_left랑 같은 width */
-  height: 100%;
+  height: 100vh;
+  padding-top : 50px;
+  position: fixed;
   background-color: #118aa8; 
+  display: flex;
+  flex-direction: column;
+}
+
+.side-box{
+  padding: 0 30px 30px 30px;
+}
+
+.side-content{
+  padding-left: 20px;
+}
+
+.side-title{
+  font-size: 20px;
 }
 
 .content{
-
-  height: 100vh;
+  padding-left: 310px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   width : auto;
+}
+
+li{
+  list-style: none;
+  text-decoration: none;
 }
 
 
