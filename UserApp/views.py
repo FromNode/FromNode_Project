@@ -36,8 +36,6 @@ def signup(request):
     else:
         return render(request,'ProjectApp/project_list.html')
 
-
-
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
