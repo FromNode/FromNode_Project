@@ -1,27 +1,154 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load sass_tags %}
 {% block content %}
-{% if user.is_authenticated %}
-<h1>프로젝트 리스트 - 페이지번호 : 04</h1>
-    {% for project in proj_obj %}
-    <button><a href="{% url 'file:file_list' project.id %}">{{project.name}}</a></button><br>
+
+<style>
+    @font-face {
+    font-family: 'MapoFlowerIsland';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+    .large{
+        font-size:20px;
+    }
+    .middle{
+        font-size:17px;
+    }
+    .small{
+        font-size:10px;
+    }
+    .all{
+        text-decoration: none;
+        align-items: center;
+        height: 100%;
+        line-height: 100%;
+        text-align: center;
+        margin-top: 10%;
+        font-size: 20px;
+    }
+    a:link{
+        text-decoration: none;
+        color: #0F69E4;
+    }
+    a:visited{
+        text-decoration: none;
+        color: #0F69E4;
+    }
     
-    {% endfor %}
-    {{empty}}
-    <!-- <button><a href="{ url 'form_create_project' }">프로젝트 만들기</a></button> -->
-    <form action="{% url 'project:project_checkcode' %}" method='POST'>
-        {% csrf_token %}
-        <p>다른 프로젝트 참여하기</p>
-        <input type="text" name = 'Code'>
-        <button type="submit">시작하기</button>
-    </form>
-    {% for message in message%}
-        {{message}}
-    {% endfor %}
-<button><a href = "{% url 'user:logout' %}">로그아웃</a></button>
+    .invite_link{
+        width:100%;
+        border-radius: 30px;
+        border: 4px solid  #0F69E4;
+        padding:10px;
+        box-shadow: 1px 1px 4px 3px gray ;
+        align-items: center;
+
+    }
+    .invite_top{
+        border-bottom: 2px solid rgb(177, 173, 173);
+        padding-bottom: 10px;
+    }
+    .invite_bottom{
+        padding-top :10px;
+    }
+
+    .invite_search{
+        align-items: center;
+
+    }
+    .invite_bar{
+        border-radius: 30px;
+        height: 20px;
+        padding:2px;
+        border: 1px solid rgb(177, 173, 173);
+    }
+    .invite_button{
+        border-radius: 30px;
+        height:30px;
+        width: 50px;
+        margin-left:0px;
+        background-color:#0F69E4 ;
+        color:white;
+    }
+    .project_box{
+        display:flex;
+        flex-direction: column;
+        width:100%;
+        border-radius: 30px;
+        border: 4px solid  rgb(228, 228, 228);
+        padding:10px;
+    }
+    .project_top{
+        display: flex;
+        flex-direction: row;
+    }
+    .project_top_right{
+        align-items: right;
+        margin-left:200px;
+    }
+    .projects{
+        display:flex;
+        flex-direction: row;
+    }
+</style>
+
+{% if user.is_authenticated %}
+    <p class = 'font large'>새 프로젝트 만들기</p><br>
+    <div class = 'invite_link'>
+        <div class = 'invite_top'>
+            <p class = 'font middle'>초대링크 입력하기</p>
+        
+            <form action="{% url 'project:project_checkcode' %}" method='POST'>
+            {% csrf_token %}
+            <div class = 'invite_search'>
+                <input class = 'invite_bar' type="text" name = 'Code'>
+                <button class = 'invite_button' type="submit">OK</button>
+            
+            </div>
+            </form>
+        </div>
+        <div class='invite_bottom'>
+            <li class = 'font middle'>
+                <ul><img src="{% static 'Projectapp/image/empty_project.png' %}" style ="width:17px;height:17px;"><a href='#'>빈 프로젝트 생성하기</a></ul>
+                <ul><img src="{% static 'Projectapp/image/file_upload.png' %}"style ="width:17px;height:17px;">파일 업로드</ul>
+                <ul><img src="{% static 'Projectapp/image/folder_upload.png' %}"style ="width:17px;height:17px;">폴더 업로드</ul>
+            </li>
+        </div>
+        <p>{{message}}</p>
+    </div>
+    <br>
+    <p>{{empty}}</p>
+    <div class = 'projects'>
+        {% for project in proj_obj %}
+        <div class = 'project_box'>
+            <div class = 'project_top'>
+                <div class = 'project_top_left'>
+                    <br>
+                    <p class = 'font middle'>프로젝트{{project.id}}</p>
+                    <a href="{% url 'file:file_list' project.id %}"><p class = 'font large'>{{project.name}}</p></a>
+                    <p class = 'font small'>2020.09.11~2020.10.11</p>    
+                </div>
+                <div class = 'project_top_right'>
+                    <a href='#'><img src="{% static 'Projectapp/image/project_info.png' %}" style='width: 30px; height: 25px;'></a>
+                </div>
+           </div>
+            <br>
+            <div class = 'project_join_members'>
+                <img src="{% static 'image/logo_character.png' %}" style='width:40px;height:40px;border-radius: 50%;'>
+                <img src="{% static 'image/logo_character.png' %}" style='width:40px;height:40px;border-radius: 50%;'>
+                <img src="{% static 'image/logo_character.png' %}" style='width:40px;height:40px;border-radius: 50%;'>
+                <img src="{% static 'image/logo_character.png' %}" style='width:40px;height:40px;border-radius: 50%;'>
+                <img src="{% static 'image/logo_character.png' %}" style='width:40px;height:40px;border-radius: 50%;'>
+            </div>
+        </div>
+        {% endfor %}
+    </div>  
+        
 {% else %}
-<h1>회원가입 페이지 - 페이지번호는 몰라</h1>
-<button><a href = "{% url 'user:signup' %}">회원가입하기</a></button>
-<button><a href = "{% url 'user:login' %}">로그인하기</a></button>
+    <p class='error'>올바르지 않은 접근입니다!</p>
+    <img src ="{% static 'image/logo_character.png' %}"alt="">
 {% endif %}
 {% endblock %}
+
