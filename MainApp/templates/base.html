@@ -52,7 +52,7 @@
                 <div class='box-right'>
                     <ul>
                         <li class="nav-item"><a href="#"><img class="icon" src="{% static 'image/grid.png'%}" alt=""></a></li>
-                        <li class="nav-item"><a href="#"><img class="icon" src="{% static 'image/bell.png'%}" alt=""></a></li>
+                        <li class="nav-item"><a href="{% url 'user:mypage' %}"><img class="icon" src="{% static 'image/bell.png'%}" alt=""></a></li>
                         <li class="icon-dropdown nav-item"><a href="#"><img class="icon-profile" src="{% static 'image/logo_character.png' %}" alt=""></a></li>
                     </ul>
                 </div>
@@ -68,9 +68,9 @@
             
             <div class="left-menu">
                 <div class="side-box">
-                    <p class="side-title">내 프로젝트</p>
+                    <p class="side-title">{{request.user.username}}님의 프로젝트</p>
                     <ul class="side-content">
-                        <li><p>프로젝트1</p></li>
+                        <li><p>프로젝트1 {{request.user.Profile}}</p></li>
                         <li><p>프로젝트2</p></li>
                     </ul>
                 </div>

@@ -6,3 +6,10 @@ def index(request):
     if User.is_authenticated:
         return redirect('project:project_list')
     return render(request, 'MainApp/index.html')
+
+def base(request):
+    if User.is_authenticated:
+        user = request.user
+        projects = user.project.split(',')
+        test = 'jo'
+    return render(request,'MainApp/base.html',{'user':user,'projects':projects,'test':test})
