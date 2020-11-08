@@ -5,12 +5,19 @@
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-<form method='POST' action = '{% url "user:login" %}'>
-    안뇽 난 로그인 폼이야
-    {% csrf_token %}
-    {{login_form.as_p}}
-<input type='submit' value='로그인하기'>
-
+<div class="all">
+    <form method="POST" action="{% url 'user:login' %}">
+        {% csrf_token %}
+        <p>username</p>
+        <input class="loginbox" type="text" name="username">
+        <br>
+        <p>password</p>
+        <input class="loginbox" type="text" name="password">
+        <br>
+        <input class="loginbtn" type="submit" value="로그인">
+        
+    </form>        
+</div>
 {% endblock %}
 {% block JS %}
 {% endblock %}
