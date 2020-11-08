@@ -42,7 +42,12 @@ def project_checkcode(request):
         Project_Codes.append(i.Code)
     if request.POST['Code'] in Project_Codes:
         Join_Project = Projects.objects.get(Code=request.POST['Code'])
+        Owner = Join_Project.whoIsOwner
+        recipients = User.objects.get(username = Owner)
+        notify.send(request.user,recipient = recipients,verb = Join_Project.name )
+        
         #이후는 알림 기능 배우고! Owner_User = User.objects.get(Username=Join_Project.whoIsOwner)
+        # 코드를 보내면서, 동시에 해당 코드를 가진 프로젝트의 오너한테 알림을 보낼것!
         message = Join_Project.name,"프로젝트에 대한 참가 요청이 전송되었습니다!"
     else:
         message = "해당 코드를 지닌 프로젝트가 존재하지 않습니다"

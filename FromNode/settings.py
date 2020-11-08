@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'UserApp',
     'FileApp',
     'sass_processor',
+    'notifications',
 ]
 
 MIDDLEWARE = [
