@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FromNode</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <style>
         * {
         margin: 0;
@@ -185,7 +185,7 @@
                 <div class="box-left">
                     <div class="logo_img">
                         <a href="{% url 'project:project_list' %}">
-                            <img src="{% static 'baseTemplates/image/logo_image_text.png'%}" alt="">
+                            <img src="{% static 'image/logo_image_text.png'%}" alt="">
                         </a>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                 <form class="box-center" action="#" method='GET'>
                     <input class="input_box" type="text" name="query" placeholder="Search">
                     <div class="input_button">
-                        <input class="find_img" type="image" src="image/find.png" alt="Submit">
+                        <input class="find_img" type="image" src="{% static 'image/find.png' %}" alt="Submit">
                     </div>
 
                 </form>
