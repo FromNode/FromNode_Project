@@ -23,7 +23,7 @@ body { background: white; margin: 0; display: flex; justify-content: center; }
 
 .box-left { position: fixed; width: 300px; font-size: 1.3rem; display: flex; justify-content: center; align-items: center; }
 
-.box-center { position: fixed; flex: 1.4; text-align: left; padding-left: 300px; display: flex; align-items: center; }
+.box-center { position: fixed; width: 700px; /* flex: 1.4; */ text-align: left; padding-left: 300px; display: flex; align-items: center; }
 
 input:focus { outline: none; }
 
@@ -33,9 +33,15 @@ input:focus { outline: none; }
 
 .find_img { height: 30px; width: auto; cursor: pointer; }
 
-.box-right { justify-content: right; }
+.box-right { justify-content: flex-end; padding-left: 1600px; }
 
-.li { list-style-type: none; display: inline-block; text-align: center; outline: lpx dotted blue; margin-right: 20px; font-size: 30px; }
+.nav-item { list-style-type: none; display: inline-block; text-align: center; margin-right: 20px; font-size: 30px; }
+
+.nav-item a { display: block; }
+
+.icon { width: 35px; height: 35px; margin-top: 6px; margin-right: 10px; }
+
+.icon-profile { width: 35px; height: 35px; margin-top: 6px; margin-right: 10px; border-radius: 100%; border: 1px black solid; }
 
 /* .profile_img{ width: 35px; height: 35px; } */
 /* a태그 속성 추가 */
@@ -44,10 +50,18 @@ input:focus { outline: none; }
 #box-right ul li a { color: #2b2929; }
 
 /* 왼쪽 메뉴 */
-.bottom { padding-top: 90px; width: 100%; display: flex; flex-direction: row; }
+.bottom { padding-top: 80px; width: 100%; display: flex; flex-direction: row; }
 
-.left-menu { width: 300px; /* .box_left랑 같은 width */ height: 100%; background-color: #118aa8; }
+.left-menu { width: 300px; height: 100vh; padding-top: 50px; position: fixed; background-color: #118aa8; display: flex; flex-direction: column; }
 
-.content { height: 100vh; width: auto; }
+.side-box { padding: 0 30px 30px 30px; }
+
+.side-content { padding-left: 20px; }
+
+.side-title { font-size: 20px; }
+
+.content { padding-left: 310px; padding-top: 10px; padding-bottom: 10px; width: auto; }
+
+li { list-style: none; text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */
