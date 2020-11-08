@@ -1,0 +1,83 @@
+html { scroll-behavior: smooth; }
+
+body { margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-width: 1920px; }
+
+.container { height: 300em; min-width: 80%; display: flex; flex-direction: column; margin: 1em 5em 0 5em; align-content: space-around; }
+
+.main_Contents { flex: 19; height: 95%; width: 100%; display: flex; flex-direction: column; }
+
+.section1 { flex: 1; display: flex; /* min-height: 20%; */ margin-bottom: 5em; z-index: 1; }
+
+.section1_Left { flex: 1; background-color: white; display: flex; flex-direction: column; justify-content: center; margin-left: 3em; }
+
+.logo_Text { width: 40%; margin-bottom: 5em; }
+
+.title { font-size: 3em; display: block; color: #747474; font-weight: 700; }
+
+.subTitle { display: block; font-size: 1.5em; color: #747474; margin: 1em 0 2em 0; }
+
+.login_A { text-decoration: none; }
+
+.login_Button { all: unset; display: block; cursor: pointer; /* font-size: 3em; */ padding: 0.5em 3em 1em 3em; margin: 1em 2em 0 2em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
+
+.login_Text { font-size: 3em; }
+
+.section1_Right { flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+
+.section1_Right_Box { width: 100%; }
+
+.section1_Right_Box img { min-width: 80%; max-width: 100%; height: auto; display: block; margin-top: 2em; }
+
+.section2 { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; }
+
+.section3 { flex: 1; position: relative; }
+
+.section4 { flex: 0.3; position: relative; display: flex; justify-content: center; align-items: center; }
+
+.section4Btn { background-color: #0F75EF; color: white; margin-bottom: 1em; border: 1px solid #0F75EF; border-radius: 10em; padding: 5em 30em 5em 30em; }
+
+.section4Btn:active { border: 3px solid #0F75EF; outline: none; }
+
+.section4Btn_Text { font-size: 3em; }
+
+.goToTop_A { margin-left: 10em; padding: 3em; }
+
+.goToTop_A:focus { color: #0F75EF; }
+
+.main_Footer { flex: 1; width: 100%; background-color: #0F75EF; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+
+.main_Footer_Left { margin-left: 5em; color: white; font-size: 2em; }
+
+.main_Footer_Right { margin-right: 5em; color: white; font-size: 2em; }
+
+.main_Footer_Text { margin-left: 2em; }
+
+/* modal */
+.login_Form { display: flex; flex-direction: column; align-items: center; }
+
+.loginModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+
+.modal_Overlay { background-color: rgba(0, 0, 0, 0.6); width: 100%; height: 100%; position: absolute; }
+
+.modal_Contents { background-color: white; padding: 50px 100px; text-align: center; position: relative; border-radius: 10px; width: 15%; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+
+.hidden { display: none; }
+
+.loginbox { display: block; margin-bottom: 1em; }
+
+.login_logo { width: 50%; }
+
+.loginInput { border: 2px solid #747474; border-radius: 10em; padding: 1em 2em 1em 2em; }
+
+.loginbtn { background-color: #0F75EF; color: white; margin-bottom: 1em; border: 1px solid #0F75EF; border-radius: 10em; padding: 1em 2em 1em 2em; }
+
+.ToGoSignup { margin-top: 1em; }
+
+.ToGoSignup_A { text-decoration: none; color: #0F75EF; display: block; }
+
+.loginInput:focus { border: 3px solid #0F75EF; outline: none; }
+
+/* section */
+.sectionImg { display: block; min-width: 100%; max-width: 100%; margin: 0px auto; margin-bottom: 1em; }
+
+/*# sourceMappingURL=index.css.map */

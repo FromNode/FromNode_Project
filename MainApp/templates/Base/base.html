@@ -7,9 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FromNode</title>
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
-    <link rel="stylesheet" href="{% static 'css/leftbar.scss'%}">
-        
+    <link rel="stylesheet" href="{% static 'CSS/Base/leftbar.css'%}" type="text/css">
+    <link href="{% sass_src 'MainApp/CSS/Base/style.scss' %}" rel="stylesheet" type="text/css">
 
     <!-- scss를 선언할 영역 -->
     {% block scss %}
@@ -24,7 +23,7 @@
                 <!-- 로고 -->
                 <div class="box-left">
                     <a href="{% url 'project:project_list' %}">
-                        <img src="{% static 'image/logo_image_text.png'%}" alt="">
+                        <img src="{% static 'MainApp/image/logo_image_text.png'%}" alt="">
                     </a>
                     <!-- 
                     <div class="logo_img">
@@ -34,7 +33,7 @@
                 <form class="box-center" action="#" method='GET'>
                     <input class="input_box" type="text" name="query" placeholder="Search">
                     <div class="input_button">
-                        <input class="find_img" type="image" src="{% static 'image/find.png' %}" alt="Submit">
+                        <input class="find_img" type="image" src="{% static 'MainApp/image/find.png' %}" alt="Submit">
                     </div>
 
                 </form>

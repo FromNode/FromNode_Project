@@ -48,7 +48,7 @@ ROOT_URLCONF = 'FromNode.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'baseTemplates')],
+        'DIRS': [os.path.join(BASE_DIR, 'MainApp/templates/Base')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

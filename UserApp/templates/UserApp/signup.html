@@ -1,26 +1,26 @@
-{% extends 'base.html' %}
-{% load sass_tags %}
-{% load static %}
-{% block scss %}
-    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
-{% endblock %}
-{% block content %}
-<div class="all">
-    <form method="POST" action="{% url 'user:signup' %}">
-        {% csrf_token %}
-        <p>username</p>
-        <input class="loginbox" type="text" name="username">
-        <br>
-        <p>password</p>
-        <input class="loginbox" type="text" name="password">
-        <br>
-        <p>confirm</p>
-        <input class="loginbox" type="text" name="confirm">
-        <br>
-        {{profile_form.as_p}}
-        <input class="loginbtn" type="submit" value="회원가입">
-    </form>        
-</div>
-{% endblock %}
-{% block JS %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="all">
+        <form method="POST" action="{% url 'user:signup' %}">
+            {% csrf_token %}
+            <p>아이디</p>
+            <input class="loginbox" type="text" name="username">
+            <br>
+            <p>비밀번호</p>
+            <input class="loginbox" type="text" name="password">
+            <br>
+            <p>비밀번호 확인</p>
+            <input class="loginbox" type="text" name="confirm">
+            <br>
+            {{profile_form.as_p}}
+            <input class="loginbtn" type="submit" value="회원가입">
+        </form>        
+    </div>
+</body>
+</html>
