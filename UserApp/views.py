@@ -3,22 +3,26 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import Profile
 from .forms import UserForm, ProfileForm, LoginForm
-
 # Create your views here.
 
 def signup(request):
     
     if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = ProfileForm(request.POST)
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-            user.set_password('request["password"]')
-            user.save()
-            user.profile.bio = profile_form.cleaned_data.get('bio')
-            user.profile.location = profile_form.cleaned_data.get('location')
-            user.profile.save()
-            print('생성굳')
+        if request.POST['password'] == request.POST['confirm']:
+            user = User.objects.create_user(username=request.POST['username'], password=request.POST['password'])
+            # user_form = UserForm(request.POST)
+            profile_form = ProfileForm(request.POST)
+            # user_form_password = request.POST['password']
+            # user = user_form.save()
+            # user.set_password(user_form_password)
+            # user.save()
+            if profile_form.is_valid():
+                user.profile.bio = profile_form.cleaned_data.get('bio')
+                user.profile.location = profile_form.cleaned_data.get('location')
+                user.profile.save()
+                auth.login(request, user)
+            else:
+                return render(request,'UserApp/signup.html')
         return render(request,'ProjectApp/project_list.html')
 
     elif request.method == 'GET':
@@ -32,16 +36,15 @@ def signup(request):
 
 def login(request):
     if request.method == 'POST':
-        login_form = LoginForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
-        user = auth.authenticate(request,username=username,password=password)
+        user = auth.authenticate(username=username,password=password)
+        print(user)
         if user is not None:
             auth.login(request, user)
-            print('로그인굳',username,password,user)
             return redirect('project:project_list')
-        print(username,password,user)
-        return redirect('project:project_list')
+        else:
+            return redirect('user:login')
     else:
         login_form = LoginForm()
         return render(request,'UserApp/login.html',{'login_form':login_form})

@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from UserApp.models import Profile
 import random
+from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from notifications.signals import notify
 
 # User 모델 불러오기
 # 불러온 User 모델의 Projects 불러오기
