@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Files
+from NodeApp.models import Nodes
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from UserApp.models import Profile
@@ -46,5 +47,12 @@ def create_new_file(request):
     file_obj.whoIsOwner = request.user
     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
     file_obj.save()
+    # first node
+    node_obj = Nodes()
+    node_obj.fileObj = request.FILES['myFile']
+    node_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
+    node_obj.ownerFCode = file_obj
+    node_obj.whoIsOwner = request.user
+    node_obj.save()
     return render(request,'ProjectApp/project_list.html')
     
