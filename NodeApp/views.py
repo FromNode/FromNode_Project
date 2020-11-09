@@ -20,16 +20,6 @@ def node_detail(request,node_Code):
     return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj})
 
 def Upload(request):
-    '''
-    nodes = TestNode()
-    if (request.method == 'POST'):
-        for files in request.FILES.getlist('myFile'):
-            nodes.file = files
-            nodes.save()
-    else :
-        pass
-    '''
-
     nodeobj = Nodes()
     nodeobj.Code = "001000"
     nodeobj.createdDate = datetime.now

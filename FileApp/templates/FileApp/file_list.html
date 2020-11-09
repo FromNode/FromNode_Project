@@ -1,14 +1,54 @@
 {% extends 'base.html' %}
 {% load sass_tags %}
-{% block content %}
-<h1>프로젝트 상세내용 - 페이지번호 : 06</h1>
-    {% for file in file_obj %}
-        <a href="{% url 'node:version_all' file.Code %}">{{file.fileName}}</a><br>
-    {% endfor %}
-    {% for users in proj_user %}
-    <h2>{{users.username}}</h2>
-    {% endfor %}
-    <button><a href="#"></a>새 파일 추적하기</a></button>
-    <button><a href="{% url 'project:project_list' %}">프로젝트 리스트로 가기</a></button>
-    
+{% load static %}
+{% block scss %}
+    <link href="{% sass_src 'FileApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'FileApp/CSS/file_List.scss'%}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="fileList_Header">
+        <span class="fileListTitle">00프로젝트 상세내용</span>
+        {% for users in proj_user %}
+            <span>{{users.username}}님 안녕하세요</span>
+        {% endfor %}
+    </div>
+    <div class="fileList_Contents">
+        <div class="fileList_List">
+            {% for file in file_obj %}
+                <a href="{% url 'node:version_all' file.Code %}">{{file.fileName}}</a><br>
+            {% endfor %}
+        </div>
+        <Div class="fileList_upload">
+            
+            <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><Br>버전을 추적할 <Br>새 파일을 추가해보세요</button>
+        </Div>
+    </div>
+</div>
+    
+<div class="uploadModal hidden">
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+        <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="upload_logo loginimgbox">
+        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form">
+            {% csrf_token %}
+            <div class="info-zone">
+                <input type="text" class="upload_input" id="name_input" placeholder="파일 이름">
+                <textarea class="upload_input" placeholder="메모"></textarea>
+            </div>
+            <div class="drop-zone">
+                <span class="drop-zone__prompt">영역을 클릭하거나 <br> 파일을 여기로 끌어 놓아 업로드 하세요.</span>
+                <input type="file" name="myFile" class="drop-zone__input" multiple>
+            </div>
+            <input class="uploadBtn" type="submit" value="업로드하기">
+        </form>   
+    </div>
+</div>
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'FileApp/JS/Upload.js' %}"></script>
+    <script src="{% static 'FileApp/JS/file_List.js' %}"></script>
+{% endblock %}
+    
