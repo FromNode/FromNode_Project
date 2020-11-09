@@ -18,7 +18,11 @@
                     <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text">
                     <span class="title">세상에서 사장 간단한 <Br>버전 관리 서비스</span>
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
-                    <button class="login_Button"><span class="login_Text">Login</span></button>
+                    {% if user.is_authenticated %}    
+                        <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">내 프로젝트 가기</a></button>
+                    {% else %}
+                        <button class="login_Button"><span class="login_Text">Login</span></button>
+                    {% endif %}
                     <div class="loginModal hidden">
                         <div class="modal_Overlay"></div>
                         <div class="modal_Contents">

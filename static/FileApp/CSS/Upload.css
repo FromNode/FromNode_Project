@@ -1,0 +1,13 @@
+.drop-zone { width: 100%; max-width: 200px; height: 200px; padding: 5em 9em 5em 9em; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 1em; font-weight: 500; cursor: pointer; color: black; border: 4px dashed #0F75EF; border-radius: 10px; margin-bottom: 1em; }
+
+.drop-zone__over { border-style: solid; }
+
+.drop-zone__prompt { width: 100%; text-align: center; }
+
+.drop-zone__input { display: none; }
+
+.drop-zone__thumb { width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background-color: #cccccc; background-size: cover; position: relative; }
+
+.drop-zone__thumb::after { content: attr(data-label); position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px 0; color: #ffffff; background: rgba(0, 0, 0, 0.75); font-size: 14px; text-align: center; }
+
+/*# sourceMappingURL=Upload.css.map */
