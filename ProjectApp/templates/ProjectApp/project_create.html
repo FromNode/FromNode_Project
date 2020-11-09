@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sass_tags %}
+{% block content %}
+<p>프로젝트 이름을 정해주세요!</p>
+<form action = "{% url 'project:project_create'%}" method = 'POST'>
+    {% csrf_token %}
+    <p>프로젝트 이름:</p><input type='text' name='name'>
+    <input type='submit' value='생성'>
+</form>
+{% endblock %}
