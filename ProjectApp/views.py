@@ -84,3 +84,17 @@ def create_project(request):
 # def logout(request):
 #     auth.logout(request)s
 #     return redirect('/')
+
+def project_create(request):
+    if request.method == 'POST':
+        proj_obj = Projects()
+        proj_obj.name = request.POST['name']
+        proj_obj.whoIsOwner = request.user
+        proj_obj.save()
+        User_Profile = Profile.objects.get(user=request.user)
+        User_Profile.projects += ','+proj_obj.name
+        User_Profile.save()
+        return redirect('project:project_list')
+    else:
+        return render(request,'ProjectApp/project_create.html')
+    
