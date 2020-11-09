@@ -71,8 +71,23 @@ body{
     color: white;
     text-align: center;
 }
+.project_Button{
+    all: unset;
+    display: block;
+    cursor: pointer;
+    /* font-size: 3em; */
+    padding: 0.5em 3em 1em 3em;
+    margin: 1em 2em 0 2em;
+    /* border-top: 10px solid RED; */
+    border-radius: 10em;
+    background-color: #0F75EF;
+    color: white;
+    text-align: center;
+}
 .login_Text{
     font-size: 3em;
+    text-decoration: none;
+    color : white;
 }
 .section1_Right{
     flex: 1;
