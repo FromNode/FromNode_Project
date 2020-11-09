@@ -12,12 +12,16 @@ def version_all(request,file_Code):
     for x in A:
         if x.ownerFCode.Code == The_File.Code:
             node_objs.append(x)
-    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs})
+            The_file = x.ownerFCode
+    print(The_file,'hi')
+    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_file':The_file})
 
 
 def node_detail(request,node_Code):
     node_obj = Nodes.objects.filter(Code = node_Code)
-    return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj})
+    The_file = node_obj.ownerFCode
+    print(The_file,'hi')
+    return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj,'The_file':The_file})
 
 def Upload(request):
     '''

@@ -1,8 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from random import choice
+import string
+
+def random_code():
+    _LENGTH = 8
+    string_pool = string.digits
+    result = ''
+    for i in range(_LENGTH):
+        result += choice(string_pool)
+    return result
 
 class Nodes(models.Model):
-    Code = models.CharField(primary_key = True, max_length=255, default=0, unique=True) #노드별 고유 코드
+    Code = models.CharField(primary_key = True, max_length=255, default=random_code, unique=True) #노드별 고유 코드
     createdDate = models.DateTimeField(auto_now=True)
     fileObj = models.FileField(upload_to="media", blank=False) #이 노드에 저장되어 있는 파일
     previousCode = models.ForeignKey('self',on_delete=models.SET_NULL, null=True, blank=True) #이전 노드
