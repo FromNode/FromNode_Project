@@ -49,7 +49,7 @@
                     <ul>
                         <li class="nav-item"><a href="#"><img class="icon" src="{% static 'Mainapp/image/grid.png'%}" alt=""></a></li>
                         <li class="nav-item"><a href="{% url 'user:mypage' %}"><img class="icon" src="{% static 'Mainapp/image/bell.png'%}" alt=""></a></li>
-                        <li class="icon-dropdown nav-item"><a href="#"><img class="icon-profile" src="{% static 'Mainapp/image/logo_character.png' %}" alt=""></a></li>
+                        <li class="icon-dropdown nav-item"><a href="{% url 'user:logout' %}"><img class="icon-profile" src="{% static 'Mainapp/image/logo_character.png' %}" alt=""></a></li>
                     </ul>
                 </div>
                         <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서

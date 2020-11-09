@@ -5,7 +5,25 @@
     <link href="{% sass_src 'UserApp/CSS/LoginForm.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-<div class="all">
+
+<div class="loginModal">
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+        <form method="POST" action="{% url 'user:login' %}" class="login_Form">
+            {% csrf_token %}
+            <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="login_logo loginbox">
+            <input class="loginbox loginInput" type="text" name="username" placeholder="아이디">
+            
+            <input class="loginbox loginInput" type="text" name="password" placeholder="비밀번호">
+            
+            <input class="loginbtn" type="submit" value="로그인">
+        </form>   
+        <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+    </div>
+</div>
+
+
+<!-- <div class="all">
     <form method="POST" action="{% url 'user:login' %}">
         {% csrf_token %}
         <p>username</p>
@@ -17,7 +35,7 @@
         <input class="loginbtn" type="submit" value="로그인">
         
     </form>        
-</div>
+</div> -->
 {% endblock %}
 {% block JS %}
 {% endblock %}

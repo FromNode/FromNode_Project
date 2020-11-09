@@ -25,7 +25,7 @@
                             <form method="POST" action="{% url 'user:login' %}" class="login_Form">
                                 {% csrf_token %}
                                 <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="login_logo loginbox">
-                                <input class="loginbox loginInput" type="text" name="username" placeholder="이메일"">
+                                <input class="loginbox loginInput" type="text" name="username" placeholder="아이디">
                                 
                                 <input class="loginbox loginInput" type="text" name="password" placeholder="비밀번호">
                                 
