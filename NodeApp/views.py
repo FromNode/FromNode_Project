@@ -19,28 +19,28 @@ def version_all(request,file_Code):
 
 def node_detail(request,node_Code):
     node_obj = Nodes.objects.filter(Code = node_Code)
-    The_file = node_obj.ownerFCode
+    The_file = Nodes.objects.get(Code=node_Code).ownerFCode
     print(The_file,'hi')
     return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj,'The_file':The_file})
 
 def create_node(request, node_Code):
     PNode = Nodes.objects.get(Code=node_Code)
+    FNode = Nodes.objects.filter(Code=node_Code)
     The_file = PNode.ownerFCode
-    A = Nodes.objects.all()
     node_objs =Nodes.objects.filter(ownerFCode = The_file)
 
     if request.method == 'POST':
         node_obj = Nodes()
-        node_obj.fileObj = request.FILES['File']
-        node_obj.previousCode = PNode.Code
+        node_obj.fileObj = request.FILES['myFile']
+        node_obj.previousCode = PNode
         node_obj.ownerFCode = PNode.ownerFCode
         node_obj.ownerPCode = PNode.ownerPCode
-        node_obj.whoIsOwner = reuqest.user
+        node_obj.whoIsOwner = request.user
         node_obj.save()
 
-        return render(request,'NodeApp/node_list.html',{'node_objs':node_objs,'The_file':The_file})
+        return render(request,'NodeApp/node_list.html',{'node_objs':node_objs,'The_file':The_file,'message':node_obj.Code+'번 node 생성'})
     else:
-        return render(request,'NodeApp/create_node.html',{})
+        return render(request,'NodeApp/create_node.html',{'FNode':FNode})
 
 def Upload(request):
     nodeobj = Nodes()
