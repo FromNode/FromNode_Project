@@ -25,8 +25,9 @@ def signup(request):
                 user.profile.location = profile_form.cleaned_data.get('location')
                 user.profile.save()
                 auth.login(request, user)
+                redirect('project:project_list')
             else:
-                return render(request,'UserApp/signup.html')
+                return redirect('user:login')
         return render(request,'ProjectApp/project_list.html')
 
     elif request.method == 'GET':
@@ -52,7 +53,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('project:project_list')
+    return redirect('index')
 
 def mypage(request):
     recipients = User.objects.all()
