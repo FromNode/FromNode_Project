@@ -9,9 +9,10 @@
 <h1>{{The_file.fileName}}의 노드 페이지입니다</h1>
 
 {% for node in node_objs%}
-<a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
-
-
+<div class='node'>
+    <a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
+    <a href="{% url 'node:create_node' node.Code%}">파일 추가</a>
+</div>
 {% endfor %}
 {{empty}}
 {% endblock %}
