@@ -21,3 +21,4 @@ class Files(models.Model):
     Code = models.CharField(primary_key = True, max_length=255, default=random_code, unique=True)
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)
     ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)
+    image = models.CharField(max_length=255, default='etc')
