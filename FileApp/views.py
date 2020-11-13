@@ -4,6 +4,7 @@ from NodeApp.models import Nodes
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from UserApp.models import Profile
+import os
 import random
 
 # def show_project_list(request):
@@ -22,6 +23,7 @@ def show_file_list(request,project_id):
     # detail pro name 뽑아오는 과정
     proj_obj = []
     proj_user = []
+    first_file = []
     empty = ''
     # for문 위한 초기 선언
     for x in Profile.objects.all():
@@ -31,9 +33,11 @@ def show_file_list(request,project_id):
             proj_user.append(x.user)
     # for문 지나서 project 가진 user 정보들이 list로 뽑힙니다
     file_obj = Files.objects.filter(ownerPCode=project_id)
+    
+    
     if len(file_obj) == 0:
         empty = '추적한 파일이 없습니다'
-    return render(request, 'FileApp/file_list.html', {'project':project.id, 'file_obj':file_obj,'proj_user':proj_user,'empty':empty})
+    return render(request, 'FileApp/file_list.html', {'pro_name':pro_name,'project':project.id, 'file_obj':file_obj,'proj_user':proj_user,'empty':empty})
 
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')
@@ -42,10 +46,19 @@ def show_file_list(request,project_id):
 #     return render(request, 'FileApp/upload.html')
 
 def create_new_file(request):
+    filename, fileExtension = request.FILES['myFile']
     file_obj = Files()
     file_obj.fileName = request.POST['fileName']
     file_obj.whoIsOwner = request.user
     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
+    if(fileExtension == '.pptx'):
+        file_obj.image = 'ppt'
+    elif(fileExtension =='.doc' or fileExtension == '.docx'):
+        file_obj.image = 'word'
+    elif(fileExtension=='.pdf'):
+        file_obj.image = 'pdf'
+    else:
+        file_obj.image = 'etc'
     file_obj.save()
     # first node
     node_obj = Nodes()

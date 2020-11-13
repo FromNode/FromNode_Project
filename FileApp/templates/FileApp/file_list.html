@@ -2,17 +2,64 @@
 {% load static %}
 {% load sass_tags %}
 {% block content %}
+<style>
+    @font-face {
+    font-family: 'MapoFlowerIsland';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    }
+    .large{
+        font-size:20px;
+    }
+    .middle{
+        font-size:17px;
+    }
+    .small{
+        font-size:10px;
+    }
+
+    .container{
+        display: flex;
+
+    }
+
+    .fileList_Header{
+        flex-direction: row;
+    }
+
+    .fileListTitle{
+        margin-top:30px;
+        margin-left:20px;
+    }
+
+    .Title_discription{
+        border-radius: 30px;
+        border: 2px solid  gray;
+        margin-left:100px;
+        padding:10px;
+
+    }
+</style>
+
 <div class="container">
     <div class="fileList_Header">
-        <span class="fileListTitle">00프로젝트 상세내용</span>
+        <span class="fileListTitle large">{{pro_name}}</span>
+        <span class ='Title_discription small'>원하는 파일을 클릭하여 전체 버젼을 확인해보세요</span>
+        <!-- <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
-            <span>{{users.username}}님 안녕하세요</span>
-        {% endfor %}
+            <span>{{users.username}}</span>
+        {% endfor %} -->
     </div>
     <div class="fileList_Contents">
         <div class="fileList_List">
             {% for file in file_obj %}
-                <a href="{% url 'node:version_all' file.Code %}">{{file.fileName}}</a><br>
+                <a href="{% url 'node:version_all' file.Code %}">
+                    {% if file.image.equals('pdf') %}
+                    <h1>피디에프</h1>
+                    {% else %}
+                    <h1> 피피티 </h1>
+                    <!-- <img src='{{file.image.url}}'></img></a><br> -->
             {% endfor %}
         </div>
         <Div class="fileList_upload">
@@ -41,5 +88,3 @@
 </div>
 
 {% endblock %}
-
-    
