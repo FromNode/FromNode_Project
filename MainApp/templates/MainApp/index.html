@@ -16,7 +16,7 @@
             <div class="section1">
                 <div class="section1_Left">
                     <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text">
-                    <span class="title">세상에서 사장 간단한 <Br>버전 관리 서비스</span>
+                    <span class="title">세상에서 가장 간단한<Br>파일 작업 관리 서비스</span>
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">내 프로젝트 가기</a></button>
@@ -47,7 +47,15 @@
             </div>
             <div class="section2">
                 <img src="{% static 'MainApp/image/section2.png' %}" alt="로고" class="sectionImg">
-                <img src="{% static 'MainApp/image/section3.png' %}" alt="로고" class="sectionImg">
+ 
+                <video name='demo' controls width='100%' height='100%' style="align-items:center">
+                    <source src="{% static 'MainApp/Video/introduction.mp4' %}" type="video/mp4"></source>
+                  </video>
+                <!-- <div  class="video"><video name='demo' controls autoplay width='100%' height='100%'></video>
+                    <source src="../../static/MainApp/Video/introduction.mp4" type="video/mp4"></source>
+                  </video>
+                </div> -->
+                <!-- <img src="{% static 'MainApp/image/section3.png' %}" alt="로고" class="sectionImg"> -->
             </div>
             <div class="section3">
                 <img src="{% static 'MainApp/image/section4.png' %}" alt="로고" class="sectionImg">

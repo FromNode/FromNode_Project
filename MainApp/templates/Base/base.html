@@ -47,8 +47,8 @@
 
                 <div class='box-right'>
                     <ul>
-                        <li class="nav-item"><a href="#"><img class="icon" src="{% static 'Mainapp/image/grid.png'%}" alt=""></a></li>
-                        <li class="nav-item"><a href="{% url 'user:mypage' %}"><img class="icon" src="{% static 'Mainapp/image/bell.png'%}" alt=""></a></li>
+                        <li class="nav-item"><a href="#"><img class="icon" src="{% static 'Mainapp/image/grid.png' %}" alt=""></a></li>
+                        <li class="nav-item"><a href="{% url 'user:mypage' %}"><img class="icon" src="{% static 'Mainapp/image/bell.png' %}" alt=""></a></li>
                         <li class="icon-dropdown nav-item"><a href="{% url 'user:logout' %}"><img class="icon-profile" src="{% static 'Mainapp/image/logo_character.png' %}" alt=""></a></li>
                     </ul>
                 </div>
@@ -63,17 +63,8 @@
             <!-- 왼쪽 메뉴 -->
             
             <div class="left-menu">
-                <div class="side-box">
-                    <p class="side-title">{{request.user.username}}님의 프로젝트</p>
-                    <ul class="side-content">
-                        <li><p>프로젝트1</p></li>
-                        <li><p>프로젝트2</p></li>
-                    </ul>
-                </div>
-
-                <div class="side-box">
-                    <p class="side-title ">최종 파일 모음</p>
-                </div>
+                {% block leftbar %}
+                {% endblock %}
             </div>
         
             <div class="content">

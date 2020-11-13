@@ -30,7 +30,7 @@ body { margin: 0; padding: 0; display: flex; justify-content: center; width: 100
 
 .section1_Right_Box img { min-width: 80%; max-width: 100%; height: auto; display: block; margin-top: 2em; }
 
-.section2 { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; }
+.section2 { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; align-items: middle; }
 
 .section3 { flex: 1; position: relative; }
 
