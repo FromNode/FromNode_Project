@@ -221,10 +221,10 @@
             <div class = 'file'>
                 <input class = 'image' type ='hidden' value = '{{file.image}}'></input>
                 <div class = 'file_image'>
-                    <a href="{% url 'node:version_all' file.Code %}"><img class='file_img' style='width:120px;height:120px;'></a>
+                    <a href="{% url 'node:node_list' file.Code %}"><img class='file_img' style='width:120px;height:120px;'></a>
                 </div>
                 <div class='file_name'>
-                    <a href="{% url 'node:version_all' file.Code %}">{{file.fileName}}</a>
+                    <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
                 </div>
                 
                 

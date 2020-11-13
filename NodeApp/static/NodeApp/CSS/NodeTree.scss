@@ -6,14 +6,14 @@ body {
   $border-width: 1px;
   $reverse: true;
   
-  .tree {
+  .Nodetree {
     @if $reverse {
       transform: rotate(360deg);
       transform-origin: 50%;
     }
   }
   
-  .tree ul {
+  .Nodetree ul {
     position: relative;
       padding: 1em 0; 
     white-space: nowrap;
@@ -26,7 +26,7 @@ body {
     }
   }
   
-  .tree li {
+  .Nodetree li {
     display: inline-block; // need white-space fix
     vertical-align: top;
     text-align: center;
@@ -68,7 +68,7 @@ body {
     }
   }
   
-  .tree ul ul::before{
+  .Nodetree ul ul::before{
       content: '';
       position: absolute; 
     top: 0; 
@@ -78,7 +78,7 @@ body {
     height: 1em;
   }
   
-  .tree li a {
+  .Nodetree li a {
       border: $border-width solid #ccc;
       padding: .5em .75em;
       text-decoration: none;
@@ -92,16 +92,16 @@ body {
     }
   }
   
-  .tree li a:hover,
-  .tree li a:hover+ul li a {
+  .Nodetree li a:hover,
+  .Nodetree li a:hover+ul li a {
       background: #e9453f;
     color: #fff;
     border: $border-width solid #e9453f;
   }
   
-  .tree li a:hover + ul li::after, 
-  .tree li a:hover + ul li::before, 
-  .tree li a:hover + ul::before, 
-  .tree li a:hover + ul ul::before{
+  .Nodetree li a:hover + ul li::after, 
+  .Nodetree li a:hover + ul li::before, 
+  .Nodetree li a:hover + ul::before, 
+  .Nodetree li a:hover + ul ul::before{
       border-color:  #e9453f;
   }

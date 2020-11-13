@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
 <h1>{{The_File.fileName}}의 노드 페이지입니다</h1>
-
+<a href="{% url 'node:create_node' %}">업로드</a>
 
 <div class="Nodetree">
 </div>
@@ -31,9 +31,10 @@
     await otherBranch(data);
   }
   const createFirstBranch = async () => {
-    const Nodetree = document.querySelector('.Nodetree');
-    Nodetree.appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag).appendChild(document.createTextNode("시작 노드"));
+    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
+    Nodetree.appendChild(document.createTextNode("시작 노드"));
     createUlTag.classList.add(`branch${ulCreateCount}`);
+    createATag.setAttribute("class", "firstNode Node");
     ulCreateCount ++;
   }
   const getNodeData = async () => {

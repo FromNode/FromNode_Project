@@ -5,7 +5,7 @@ from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
 
-def version_all(request,file_Code):
+def node_list(request,file_Code):
     The_file = Files.objects.get(Code=file_Code)
     A = Nodes.objects.all()
     node_objs =[]
