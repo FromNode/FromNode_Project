@@ -4,18 +4,83 @@
 
 {% block scss %}
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
 <h1>{{The_File.fileName}}의 노드 페이지입니다</h1>
 
-{% for node in node_objs%}
-<div class='node'>
-    <a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
-    <a href="{% url 'node:create_node' node.Code%}">파일 추가</a>
+
+<div class="Nodetree">
 </div>
-{% endfor %}
+
 {{empty}}
 {{message}}
 {% endblock %}
 {% block JS %}
+<script>
+  let ulCreateCount = 0;
+  let pkArray = [];
+  let createUlTag = document.createElement("ul");
+  let createLiTag = document.createElement("li");
+  let createATag = document.createElement("a");
+
+  const startNodeBranch = async() => {
+    await createFirstBranch()
+    let data = await getNodeData()
+    await secondBranch(data);
+    await otherBranch(data);
+  }
+  const createFirstBranch = async () => {
+    const Nodetree = document.querySelector('.Nodetree');
+    Nodetree.appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag).appendChild(document.createTextNode("시작 노드"));
+    createUlTag.classList.add(`branch${ulCreateCount}`);
+    ulCreateCount ++;
+  }
+  const getNodeData = async () => {
+        let data = '{{json}}'.replaceAll("&quot;", "\"");
+        let json_data = JSON.parse(data);
+        return await json_data
+  }
+  const secondBranch = async (data) => {
+      createATag.setAttribute("class", `${data[0].pk}`);
+      const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
+      const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
+      secondUl.classList.add(`branch${ulCreateCount}`);
+      pkArray[0] = data[0].pk;
+      for(let i = 1; i < data.length; i++){
+        pkArray[i] = data[i].fields.previousCode;
+        if (data[i].fields.previousCode == data[0].pk){
+          let secondCreateText = document.createTextNode(`${data[i].pk}`);
+          let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+          secondBranchNode.appendChild(secondCreateText);
+          secondBranchNode.setAttribute("class", `${data[i].pk}`);
+          pkArray[i] = 1;
+        }
+      }
+      ulCreateCount++;
+  }
+  const otherBranch = async (data) => {
+    for(let i = 1; i<data.length; i++){
+      // 숫자 1 1 숫자 숫자 
+        if(pkArray[i] == 1 ){
+          const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
+          const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
+          otherUl.classList.add(`branch${ulCreateCount}`);
+          for(let k = 1; k < data.length; k++){
+            if(k != i && pkArray[k] != 1){
+              if(data[k].fields.previousCode == data[i].pk){
+                let otherCreateText = document.createTextNode(`${data[k].pk}`);
+                let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+                otherBranchNode.appendChild(otherCreateText);
+                otherBranchNode.setAttribute("class", `${data[k].pk}`);
+                pkArray[k] = 1;
+              }
+            }
+          }
+        }
+      }
+    ulCreateCount++;
+  }
+  startNodeBranch();
+</script>
 {% endblock %}

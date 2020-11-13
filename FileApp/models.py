@@ -16,6 +16,7 @@ def random_code():
     return result
 
 class Files(models.Model):
+    objects = models.Manager()
     fileName = models.CharField(max_length=1023)
     createdDate = models.DateTimeField(auto_now=True)
     Code = models.CharField(primary_key = True, max_length=255, default=random_code, unique=True)
