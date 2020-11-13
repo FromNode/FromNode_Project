@@ -106,6 +106,7 @@ input:focus{
 
 
 .box-right {  
+  position: fixed;
   justify-content: flex-end;
   padding-left: 1600px;
 }
@@ -173,9 +174,9 @@ input:focus{
 }
 
 .content{
-  padding-left: 310px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-left: 350px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   width : auto;
 }
 
