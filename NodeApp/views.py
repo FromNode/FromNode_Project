@@ -4,7 +4,7 @@ from FileApp.models import Files
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
-
+from django.core import serializers
 def node_list(request,file_Code):
     The_file = Files.objects.get(Code=file_Code)
     A = Nodes.objects.all()
@@ -13,7 +13,8 @@ def node_list(request,file_Code):
         if x.ownerFCode.Code == The_file.Code:
             node_objs.append(x)
             The_File = x.ownerFCode
-    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File})
+    json_data = serializers.serialize("json", A.filter(The_file.Code))
+    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File, "json":json_data})
 
 
 def node_detail(request,node_Code):
