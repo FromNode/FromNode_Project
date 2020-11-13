@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import Nodes, TestNode
+from .models import Nodes
 from FileApp.models import Files
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
 
 def version_all(request,file_Code):
-    The_File = Files.objects.get(Code=file_Code)
+    The_file = Files.objects.get(Code=file_Code)
     A = Nodes.objects.all()
     node_objs =[]
     for x in A:
-        if x.ownerFCode.Code == The_File.Code:
+        if x.ownerFCode.Code == The_file.Code:
             node_objs.append(x)
             The_file = x.ownerFCode
     print(The_file,'hi')

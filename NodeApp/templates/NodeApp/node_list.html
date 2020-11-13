@@ -4,18 +4,71 @@
 
 {% block scss %}
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
 <h1>{{The_file.fileName}}의 노드 페이지입니다</h1>
 
-{% for node in node_objs%}
-<div class='node'>
-    <a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
-    <a href="{% url 'node:create_node' node.Code%}">파일 추가</a>
-</div>
-{% endfor %}
+<div class="tree">
+    <ul>
+  <li>
+    <a href="#">Parent</a>
+    <ul>
+      <li>
+        <a href="#">Child</a>
+        <ul>
+          <li>
+            <a href="#">Grand Child</a>
+          </li><li>
+            <a href="#">Grand Child</a>
+            <ul>
+              <li>
+                <a href="#">Grand Child</a>
+              </li><li>
+                <a href="#">Grand Child</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li><li>
+        <a href="#">Child</a>
+        <ul>
+          <li>
+            <a href="#">Grand Child</a>
+            <ul>
+              <li>
+                <a href="#">Grand Grand Child</a>
+              </li>
+            </ul>
+          </li><li>
+            <a href="#">Grand Child</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
 {{empty}}
 {{message}}
 {% endblock %}
+<script>
+    let startNodeList = async () => {
+        const getNodeDate = async () => {
+            let data = '{{json}}'.replaceAll("&quot;", "\"");
+            let json_data = JSON.parse(data)
+            return await json_data
+        }
+        let nodeData = await getNodeDate()
+        .then((data) => {
+            for(let i = 0; i<data.length; i++){
+                const previousCodeNum = [];
+                previousCodeNum.push(data[i].fields.previousCode);
+                console.log(previousCodeNum);
+            }
+        })
+    }   
+    startNodeList();
+</script>
 {% block JS %}
 {% endblock %}
