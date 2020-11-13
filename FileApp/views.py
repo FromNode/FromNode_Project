@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import Files
 from NodeApp.models import Nodes
 from ProjectApp.models import Projects
@@ -61,6 +61,8 @@ def show_file_list(request,project_id):
 #     return render(request, 'FileApp/upload.html')
 
 def create_new_file(request):
+    pk = request.POST['pk']
+    next_url = '/file/file_list/'+str(pk)
     filename = request.FILES['myFile']
     fileExtension = str(filename).split('.')[1]
     file_obj = Files()
@@ -83,5 +85,6 @@ def create_new_file(request):
     node_obj.ownerFCode = file_obj
     node_obj.whoIsOwner = request.user
     node_obj.save()
-    return render(request,'ProjectApp/project_list.html')
+
+    return redirect(next_url)
     
