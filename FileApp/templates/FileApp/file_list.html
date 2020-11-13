@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load sass_tags %}
+
+{% block leftbar %}
+    <div class="side-box">
+        <p class="side-title">내 프로젝트</p>
+        {% for project in proj_obj %}
+        <ul class="side-content">
+            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li>
+        </ul>
+        {% endfor %}
+    </div>
+
+    <div class="side-box">
+        <p class="side-title ">최종 파일 모음</p>
+    </div>
+{% endblock %}
+
 {% block content %}
 <style>
     @font-face {
@@ -8,6 +24,24 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    }
+
+    .side-box{
+        padding: 0 30px 30px 30px;
+    }
+    
+    .side-title{
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .side-content{
+        padding-left: 20px;
+    }
+    .side-project-name{
+        padding: 10px 0;
+        font-size: 15px;
+        font-weight: 500;
     }
     .large{
         font-size:20px;
@@ -181,7 +215,6 @@
                 
             </div>
             <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-            <p>파일 이름:</p><input type='text' name='fileName'>
             <input class="uploadBtn" type="submit" value="업로드하기">
         </form>   
     </div>
