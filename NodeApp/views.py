@@ -12,9 +12,8 @@ def version_all(request,file_Code):
     for x in A:
         if x.ownerFCode.Code == The_File.Code:
             node_objs.append(x)
-            The_file = x.ownerFCode
-    print(The_file,'hi')
-    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_file':The_file})
+            The_File = x.ownerFCode
+    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File})
 
 
 def node_detail(request,node_Code):
