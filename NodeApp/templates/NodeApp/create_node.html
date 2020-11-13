@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% load static %}
+
+{% block scss %}
+{% endblock %}
+
+{% block content %}
+{%for node in FNode%}
+<form method="POST" action="{% url 'node:create_node' node.Code %}" class="upload_Form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="drop-zone">
+        <span class="drop-zone__prompt">영역을 클릭하거나 <br> 파일을 여기로 끌어 놓아 업로드 하세요.</span>
+        <input type="file" name="myFile" class="drop-zone__input" multiple>
+        
+    </div>
+    <input class="uploadBtn" type="submit" value="업로드하기">
+</form>
+{% endfor %}
+{% endblock %}
+
+{% block JS %}
+{% endblock %}
