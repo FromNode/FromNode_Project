@@ -69,6 +69,7 @@ def create_new_file(request):
     file_obj.fileName = str(filename).split('.')[0]
     file_obj.whoIsOwner = request.user
     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
+    file_obj.Memo = request.POST['fileMemo']
     if(fileExtension == 'pptx'):
         file_obj.image = 'ppt'
     elif(fileExtension =='doc' or fileExtension == 'docx'):

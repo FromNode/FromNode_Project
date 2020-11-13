@@ -22,3 +22,4 @@ class Files(models.Model):
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)
     ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)
     image = models.CharField(max_length=255, default='etc')
+    Memo = models.CharField(max_length=1023, blank = True)
