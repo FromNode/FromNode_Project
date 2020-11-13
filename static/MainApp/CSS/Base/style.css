@@ -33,7 +33,7 @@ input:focus { outline: none; }
 
 .find_img { height: 30px; width: auto; cursor: pointer; }
 
-.box-right { justify-content: flex-end; padding-left: 1600px; }
+.box-right { position: fixed; justify-content: flex-end; padding-left: 1600px; }
 
 .nav-item { list-style-type: none; display: inline-block; text-align: center; margin-right: 20px; font-size: 30px; }
 
@@ -54,7 +54,7 @@ input:focus { outline: none; }
 
 .left-menu { width: 300px; height: 100vh; padding-top: 50px; position: fixed; display: flex; flex-direction: column; border-right: 1px solid black; }
 
-.content { padding-left: 310px; padding-top: 10px; padding-bottom: 10px; width: auto; }
+.content { padding-left: 350px; padding-top: 50px; padding-bottom: 50px; width: auto; }
 
 li { list-style: none; text-decoration: none; }
 

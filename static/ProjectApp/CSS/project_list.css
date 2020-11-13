@@ -2,6 +2,8 @@ a { text-decoration: none; }
 
 @font-face { font-family: 'MapoFlowerIsland'; src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff") format("woff"); font-weight: normal; font-style: normal; }
 
+.title { font-size: 20px; font-weight: 600; padding-bottom: 20px; }
+
 .large { font-size: 20px; }
 
 .middle { font-size: 17px; }
@@ -36,10 +38,12 @@ a:visited { text-decoration: none; color: #0F69E4; }
 
 .side-box { padding: 0 30px 30px 30px; }
 
-.side-title { font-size: 20px; font-weight: 600; }
+.side-title { font-size: 20px; font-weight: 600; padding-bottom: 20px; }
 
 .side-content { padding-left: 20px; }
 
 .side-project-name { padding: 10px 0; font-size: 15px; font-weight: 500; }
+
+.box { margin-bottom: 80px; }
 
 /*# sourceMappingURL=project_list.css.map */

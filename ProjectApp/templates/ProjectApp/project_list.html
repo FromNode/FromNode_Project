@@ -25,7 +25,8 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <p class = 'font large'>새 프로젝트 만들기</p><br>
+<div class="box">
+    <p class = 'font title'>새 프로젝트 만들기</p>
     <div class = 'invite_link'>
         <div class = 'invite_top'>
             <p class = 'font middle'>초대링크 입력하기</p>
@@ -48,8 +49,14 @@
         </div>
         <p>{{message}}</p>
     </div>
-    <br>
+</div>
+
+
+<div class="box">
+
+    <p class = 'font title'>참여중인 프로젝트</p>
     <p>{{empty}}</p>
+
     <div class = 'projects'>
         {% for project in proj_obj %}
         <div class = 'project_box'>
@@ -80,6 +87,6 @@
     <p class='error'>올바르지 않은 접근입니다!</p>
     <img src ="{% static 'image/logo_character.png' %}"alt="">
 {% endif %}
-
+</div>
 {% endblock %}
 
