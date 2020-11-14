@@ -29,9 +29,6 @@
 <script>
   let ulCreateCount = 0;
   let pkArray = [];
-  let createUlTag = document.createElement("ul");
-  let createLiTag = document.createElement("li");
-  let createATag = document.createElement("a");
 
   const startNodeBranch = async() => {
     await createFirstBranch()
@@ -40,6 +37,9 @@
     await otherBranch(data);
   }
   const createFirstBranch = async () => {
+    let createUlTag = document.createElement("ul");
+    let createLiTag = document.createElement("li");
+    let createATag = document.createElement("a");
     const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
     Nodetree.appendChild(document.createTextNode("시작 노드"));
     createUlTag.classList.add(`branch${ulCreateCount}`);

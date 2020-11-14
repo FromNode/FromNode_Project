@@ -256,7 +256,7 @@
 </div>
 
 {% endblock %}
-{% block js %}
+{% block JS %}
 <script>
     var img;
     var x = document.getElementsByClassName('image')
@@ -282,7 +282,6 @@
     }
 
     const openButton = document.querySelector(".openModal");
-
     const modal = document.querySelector(".uploadModal");
     const overlay = modal.querySelector(".modal_Overlay");
     const toggleModal = () => {
@@ -290,6 +289,5 @@
     }
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
-
 </script>
 {% endblock %}
