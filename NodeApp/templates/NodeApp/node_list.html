@@ -6,6 +6,22 @@
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
     <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
+
+{% block leftbar %}
+    <div class="side-box">
+        <p class="side-title">내 프로젝트</p>
+        {% for project in proj_obj %}
+        <ul class="side-content">
+            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li>
+        </ul>
+        {% endfor %}
+    </div>
+
+    <div class="side-box">
+        <p class="side-title ">최종 파일 모음</p>
+    </div>
+{% endblock %}
+
 {% block content %}
 <style>
   @font-face {
@@ -132,6 +148,7 @@
 
   .container{
       display: flex;
+      flex-direction: column;
 
   }
 
@@ -240,7 +257,7 @@
   }
   const secondBranch = async (data) => {
     console.log(data);
-      createATag.setAttribute("class", `${data[0].pk} Node`);
+      createATag.setAttribute("class", `${data[0].pk} `);
       const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
       const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
       secondUl.classList.add(`branch${ulCreateCount}`);
@@ -252,7 +269,7 @@
           let secondCreateText = document.createTextNode(`${data[i].pk}`);
           let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
           secondBranchNode.appendChild(secondCreateText);
-          secondBranchNode.setAttribute("class", `${data[i].pk}`);
+          secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
           secondBranchNode.setAttribute("href",url)
           
           pkArray[i] = 1;

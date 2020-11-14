@@ -5,7 +5,23 @@ from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.core import serializers
+from UserApp.models import Profile
+
 def node_list(request,file_Code):
+    proj_obj = []
+    User_Profile = []
+    User_Projects = []
+    if request.user.is_authenticated:
+        User_Profile = Profile.objects.get(user=request.user)
+        # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
+        User_Projects = User_Profile.projects.split(',')
+    else:
+        pass
+
+
+    for i in User_Projects:
+        proj_obj += Projects.objects.filter(name=i)
+
     The_file = Files.objects.get(Code=file_Code)
     A = Nodes.objects.all()
     node_objs =[]
@@ -18,7 +34,7 @@ def node_list(request,file_Code):
             The_File = x.ownerFCode
             Project = x.ownerPCode #나중에 진짜로 연결. 지금은 가라 쳐두기
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-    return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File, "json":json_data})
+    return render(request, 'NodeApp/node_list.html',{'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data})
 
 
 def node_detail(request,node_Code):
