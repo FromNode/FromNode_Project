@@ -12,7 +12,8 @@
         <p class="side-title">내 프로젝트</p>
         {% for project in proj_obj %}
         <ul class="side-content">
-            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li>
+            <!-- <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li> -->
+            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>{{project.name}}</p></a></li>
         </ul>
         {% endfor %}
     </div>
