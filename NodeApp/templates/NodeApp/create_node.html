@@ -12,6 +12,7 @@
     <div class="drop-zone">
         <span class="drop-zone__prompt">영역을 클릭하거나 <br> 파일을 여기로 끌어 놓아 업로드 하세요.</span>
         <input type="file" name="myFile" class="drop-zone__input" multiple>
+        <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
         
     </div>
     <input class="uploadBtn" type="submit" value="업로드하기">

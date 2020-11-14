@@ -28,8 +28,11 @@ def create_node(request, node_Code):
     FNode = Nodes.objects.filter(Code=node_Code)
     The_file = PNode.ownerFCode
     node_objs =Nodes.objects.filter(ownerFCode = The_file)
+    
 
     if request.method == 'POST':
+        pk = request.POST['pk']
+        next_url = '/node/node_list/'+str(pk)
         node_obj = Nodes()
         node_obj.fileObj = request.FILES['myFile']
         node_obj.previousCode = PNode
@@ -38,9 +41,9 @@ def create_node(request, node_Code):
         node_obj.whoIsOwner = request.user
         node_obj.save()
 
-        return render(request,'NodeApp/node_list.html',{'node_objs':node_objs,'The_file':The_file,'message':node_obj.Code+'번 node 생성'})
+        return redirect(next_url)
     else:
-        return render(request,'NodeApp/create_node.html',{'FNode':FNode})
+        return render(request,'NodeApp/create_node.html',{'FNode':FNode,'The_file':The_file})
 
 def Upload(request):
     nodeobj = Nodes()

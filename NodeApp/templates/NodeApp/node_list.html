@@ -9,6 +9,7 @@
 {% block content %}
 <h1>{{The_File.fileName}}의 노드 페이지입니다</h1>
 
+
 {% for node in node_objs %}
 <div class='node'>
     <a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
@@ -22,6 +23,7 @@
 
 {{empty}}
 {{message}}
+
 {% endblock %}
 {% block JS %}
 <script>
