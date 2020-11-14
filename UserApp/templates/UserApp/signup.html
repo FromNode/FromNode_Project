@@ -1,24 +1,27 @@
+{% load sass_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="{% sass_src 'UserApp/CSS/signup.scss' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="all">
+        <img src="{% static 'MainApp/image/logo_image_text.png'%}" alt="">
         <form method="POST" action="{% url 'user:signup' %}">
             {% csrf_token %}
-            <p>아이디</p>
-            <input class="loginbox" type="text" name="username">
-            <br>
-            <p>비밀번호</p>
-            <input class="loginbox" type="text" name="password">
-            <br>
-            <p>비밀번호 확인</p>
-            <input class="loginbox" type="text" name="confirm">
-            <br>
-            {{profile_form.as_p}}
+            <span class="signup_text">아이디</span>
+            <input class="loginbox" type="text" name="username" required>
+            
+            <span class="signup_text">비밀번호</span>
+            <input class="loginbox" type="password" name="password" required>
+            
+            <span class="signup_text">비밀번호 확인</span>
+            <input class="loginbox" type="password" name="confirm" required>
+            
             <input class="loginbtn" type="submit" value="회원가입">
         </form>        
     </div>
