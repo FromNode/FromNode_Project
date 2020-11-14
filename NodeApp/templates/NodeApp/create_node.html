@@ -7,6 +7,13 @@
 
 {% block content %}
 {%for node in FNode%}
+<div class = 'node_detail'>
+    <p class = 'detail_texts'>고유 코드:{{node.Code}}<br></p>
+    <p class = 'detail_texts'>파일 : {{node.fileObj}}<br></p>
+    <p class = 'detail_texts'>생성 유저: {{node.whoIsOwner}}<br></p>
+    <p class = 'detail_texts'>생성 일자: {{node.createdDate}}</p>
+</div>
+
 <form method="POST" action="{% url 'node:create_node' node.Code %}" class="upload_Form" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="drop-zone">

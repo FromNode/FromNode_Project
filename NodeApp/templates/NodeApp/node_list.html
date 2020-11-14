@@ -9,14 +9,6 @@
 {% block content %}
 <h1>{{The_File.fileName}}의 노드 페이지입니다</h1>
 
-
-{% for node in node_objs %}
-<div class='node'>
-    
-    <a href="{% url 'node:create_node' node.Code %}">파일 추가</a>
-</div>
-{% endfor %}
-
 <div class="Nodetree">
 </div>
 
@@ -60,11 +52,15 @@
       for(let i = 1; i < data.length; i++){
         pkArray[i] = data[i].fields.previousCode;
         if (data[i].fields.previousCode == data[0].pk){
+          let url = "/node/create_node/" + data[i].pk 
           let secondCreateText = document.createTextNode(`${data[i].pk}`);
           let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
           secondBranchNode.appendChild(secondCreateText);
           secondBranchNode.setAttribute("class", `${data[i].pk}`);
+          secondBranchNode.setAttribute("href",url)
+          
           pkArray[i] = 1;
+          
         }
       }
       ulCreateCount++;
@@ -79,10 +75,12 @@
           for(let k = 1; k < data.length; k++){
             if(k != i && pkArray[k] != 1){
               if(data[k].fields.previousCode == data[i].pk){
+                let url = "/node/create_node/" + data[k].pk 
                 let otherCreateText = document.createTextNode(`${data[k].pk}`);
                 let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
                 otherBranchNode.appendChild(otherCreateText);
                 otherBranchNode.setAttribute("class", `${data[k].pk}`);
+                otherBranchNode.setAttribute("href",url)
                 pkArray[k] = 1;
               }
             }
