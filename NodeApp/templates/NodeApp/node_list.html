@@ -12,7 +12,7 @@
 
 {% for node in node_objs %}
 <div class='node'>
-    <a href="{% url 'node:node_detail' node.Code %}">{{node.Code}}</a><br>
+    
     <a href="{% url 'node:create_node' node.Code %}">파일 추가</a>
 </div>
 {% endfor %}
@@ -29,7 +29,9 @@
 <script>
   let ulCreateCount = 0;
   let pkArray = [];
-
+  let createUlTag = document.createElement("ul");
+  let createLiTag = document.createElement("li");
+  let createATag = document.createElement("a");
   const startNodeBranch = async() => {
     await createFirstBranch()
     let data = await getNodeData()
@@ -37,9 +39,6 @@
     await otherBranch(data);
   }
   const createFirstBranch = async () => {
-    let createUlTag = document.createElement("ul");
-    let createLiTag = document.createElement("li");
-    let createATag = document.createElement("a");
     const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
     Nodetree.appendChild(document.createTextNode("시작 노드"));
     createUlTag.classList.add(`branch${ulCreateCount}`);
@@ -52,6 +51,7 @@
         return await json_data
   }
   const secondBranch = async (data) => {
+    console.log(data);
       createATag.setAttribute("class", `${data[0].pk}`);
       const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
       const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
