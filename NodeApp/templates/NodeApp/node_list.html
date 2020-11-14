@@ -219,16 +219,18 @@
   let createLiTag = document.createElement("li");
   let createATag = document.createElement("a");
   const startNodeBranch = async() => {
-    await createFirstBranch()
     let data = await getNodeData()
+    await createFirstBranch(data);
     await secondBranch(data);
     await otherBranch(data);
   }
-  const createFirstBranch = async () => {
+  const createFirstBranch = async (data) => {
     const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
     Nodetree.appendChild(document.createTextNode("시작 노드"));
     createUlTag.classList.add(`branch${ulCreateCount}`);
     createATag.setAttribute("class", "firstNode Node");
+    let url = "/node/create_node/" + data[0].pk 
+    createATag.setAttribute("href", url)
     ulCreateCount ++;
   }
   const getNodeData = async () => {
