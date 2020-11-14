@@ -13,7 +13,7 @@ def node_list(request,file_Code):
         if x.ownerFCode.Code == The_file.Code:
             node_objs.append(x)
             The_File = x.ownerFCode
-    json_data = serializers.serialize("json", A.filter(The_file.Code))
+    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
     return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File, "json":json_data})
 
 
