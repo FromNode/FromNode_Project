@@ -9,10 +9,14 @@ def node_list(request,file_Code):
     The_file = Files.objects.get(Code=file_Code)
     A = Nodes.objects.all()
     node_objs =[]
+    Project = []
+    proj_user = []
+
     for x in A:
         if x.ownerFCode.Code == The_file.Code:
             node_objs.append(x)
             The_File = x.ownerFCode
+            Project = x.ownerPCode #나중에 진짜로 연결. 지금은 가라 쳐두기
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
     return render(request, 'NodeApp/node_list.html',{'node_objs':node_objs,'The_File':The_File, "json":json_data})
 
