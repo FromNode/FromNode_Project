@@ -63,9 +63,8 @@
             <div class = 'project_top'>
                 <div class = 'project_top_left'>
                     <br>
-                    <p class = 'font middle'>프로젝트{{project.id}}</p>
                     <a href="{% url 'file:file_list' project.id %}"><p class = 'font large'>{{project.name}}</p></a>
-                    <p class = 'font small'>2020.09.11~2020.10.11</p>    
+                    <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
                     <a href='#'><img src="{% static 'Projectapp/image/project_info.png' %}" style='width: 30px; height: 25px;'></a>

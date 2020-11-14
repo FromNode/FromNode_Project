@@ -13,9 +13,7 @@
             {% csrf_token %}
             <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="login_logo loginbox">
             <input class="loginbox loginInput" type="text" name="username" placeholder="아이디">
-            
             <input class="loginbox loginInput" type="password" name="password" placeholder="비밀번호">
-            <i class="fa fa-eye fa-lg"></i>
             <input class="loginbtn" type="submit" value="로그인">
         </form>   
         <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>

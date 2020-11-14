@@ -7,6 +7,7 @@ import random
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from notifications.signals import notify
+from datetime import datetime
 
 # User 모델 불러오기
 # 불러온 User 모델의 Projects 불러오기
@@ -29,7 +30,9 @@ def show_project_list(request):
         proj_obj += Projects.objects.filter(name=i)
     if len(proj_obj) == 0:
         empty = '참여중인 프로젝트가 없습니다'
-    return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'empty':empty})
+    
+    today = datetime.today()
+    return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'empty':empty, 'today':today})
 
 def show_project_detail(request):
     # project에 소속된 file들이 보여지는 detail화면으로 슝 !
