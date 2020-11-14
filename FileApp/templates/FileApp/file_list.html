@@ -233,7 +233,7 @@
         </div>
     </div>
     <Div class="fileList_upload">
-        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;' src ="{% static 'FileApp/picture/pluslogo.png' %}"><br><Br><p class='small'>버전을 추적할</p><p class='small'>새 파일을 추가해보세요</p></button>
+        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;' src ="{% static 'MainApp/picture/pluslogo.png' %}"><br><Br><p class='small'>버전을 추적할</p><p class='small'>새 파일을 추가해보세요</p></button>
     </Div>
 </div>
     <br>
@@ -262,19 +262,19 @@
     var x = document.getElementsByClassName('image')
     for(var i=0; i<x.length; i++){
         if(x[i].value == 'pdf'){
-            img = "{% static 'FileApp/picture/wordicon.png' %}";
+            img = "{% static 'MainApp/picture/wordicon.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src',img);
         }
         else if(x[i].value == 'word'){
-            img = "{% static 'FileApp/picture/word.png' %}";
+            img = "{% static 'MainApp/picture/word.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src',img);
         }
         else if(x[i].value =='ppt'){
-            img = "{% static 'FileApp/picture/powerpoint.png' %}";
+            img = "{% static 'MainApp/picture/powerpoint.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src',img);
         }
         else{
-            img = "{% static 'FileApp/picture/powerpoint.png' %}";
+            img = "{% static 'MainApp/picture/powerpoint.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src',img);
         }
 
