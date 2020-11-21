@@ -1,21 +1,16 @@
-body {
-    font-family: sans-serif;
-    font-size: 15px;
+$border-width: 1px;
+$reverse: true;
+$mainColor : #2C3CFF;
+.Nodetree {
+  @if $reverse {
+    transform: rotate(270deg);
+    transform-origin: 50%;
   }
-  
-  $border-width: 1px;
-  $reverse: true;
-  
-  .Nodetree {
-    @if $reverse {
-      transform: rotate(360deg);
-      transform-origin: 50%;
-    }
-  }
+}
   
   .Nodetree ul {
     position: relative;
-      padding: 1em 0; 
+    padding: 1em 0; 
     white-space: nowrap;
     margin: 0 auto;
     text-align: center;
@@ -30,23 +25,23 @@ body {
     display: inline-block; // need white-space fix
     vertical-align: top;
     text-align: center;
-      list-style-type: none;
-      position: relative;
-      padding: 1em .5em 0 .5em;
+    list-style-type: none;
+    position: relative;
+    padding: 1em;
     &::before,
     &::after {
       content: '';
       position: absolute; 
       top: 0; 
       right: 50%;
-      border-top: $border-width solid #ccc;
+      border-top: $border-width solid $mainColor;
       width: 50%; 
       height: 1em;
     }
     &::after {
       right: auto; 
       left: 50%;
-        border-left: $border-width solid #ccc;
+        border-left: $border-width solid $mainColor;
     }
     &:only-child::after,
     &:only-child::before {
@@ -60,7 +55,7 @@ body {
       border: 0 none;
     }
     &:last-child::before{
-      border-right: $border-width solid #ccc;
+      border-right: $border-width solid $mainColor;
       border-radius: 0 5px 0 0;
     }
     &:first-child::after{
@@ -69,39 +64,39 @@ body {
   }
   
   .Nodetree ul ul::before{
-      content: '';
-      position: absolute; 
+    content: '';
+    position: absolute; 
     top: 0; 
     left: 50%;
-      border-left: $border-width solid #ccc;
-      width: 0; 
+    border-left: $border-width solid $mainColor;
+    width: 0; 
     height: 1em;
   }
   
   .Nodetree li a {
-      border: $border-width solid #ccc;
-      padding: .5em .75em;
-      text-decoration: none;
-      display: inline-block;
-      border-radius: 5px;
+    border: $border-width solid $mainColor;
+    padding: 3em .75em;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 25%;
     color: #333;
     position: relative;
     top: $border-width;
     @if $reverse {
-      transform: rotate(360deg);
+      transform: rotate(90deg);
     }
   }
   
   .Nodetree li a:hover,
   .Nodetree li a:hover+ul li a {
-      background: #e9453f;
+    background: $mainColor;
     color: #fff;
-    border: $border-width solid #e9453f;
+    border: $border-width solid $mainColor;
   }
   
   .Nodetree li a:hover + ul li::after, 
   .Nodetree li a:hover + ul li::before, 
   .Nodetree li a:hover + ul::before, 
   .Nodetree li a:hover + ul ul::before{
-      border-color:  #e9453f;
+      border-color:  $mainColor;
   }
