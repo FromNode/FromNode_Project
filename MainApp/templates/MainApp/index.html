@@ -15,7 +15,7 @@
         <div class="main_Contents">
             <div class="section1">
                 <div class="section1_Left">
-                    <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text">
+                    <img src="{% static 'MainApp/image/fn_logo_originC.png' %}" alt="로고" class="logo_Text">
                     <span class="title">세상에서 가장 간단한<Br>파일 작업 관리 서비스</span>
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
@@ -26,16 +26,18 @@
                     <div class="loginModal hidden">
                         <div class="modal_Overlay"></div>
                         <div class="modal_Contents">
-                            <form method="POST" action="{% url 'user:login' %}" class="login_Form">
+                            <form method="POST" action="{% url 'user:login' %}" class="login">
                                 {% csrf_token %}
                                 <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="login_logo loginbox">
-                                <input class="loginbox loginInput" type="text" name="username" placeholder="아이디">
+                                <input class="loginbox" type="text" name="username" placeholder="아이디">
                                 
-                                <input class="loginbox loginInput" type="password" name="password" placeholder="비밀번호">
-                                
-                                <input class="loginbtn" type="submit" value="로그인">
+                                <input class="loginbox" type="password" name="password" placeholder="비밀번호">
+
+                                <button class="loginbox" type="submit">Log in</button>
+                            
+                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+<br>
                             </form>   
-                            <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
                         </div>
                     </div>
                 </div>
