@@ -5,6 +5,10 @@
   font-weight: normal;
   font-style: normal;
   }
+  body{
+      overflow-x: hidden;
+      overflow-y: hidden;
+  }
 
   .login_Form{
   display: flex;
@@ -121,15 +125,17 @@
       color:white;
   }
 
-  .container{
+  .NodeContainer{
       display: flex;
       flex-direction: column;
-
+      width: 100%;
+    height: 100%;
+    overflow: auto;
   }
 
   .nodeList_Header{
-      margin-top: 10px;
-      margin-left:25px;
+      margin-top: 1em;
+      margin-left:1.5em;
       flex-direction: row;
   }
 
@@ -148,9 +154,10 @@
   .nodeList_Contents{
       margin-left:25px;
       display: flex;
-      flex-direction: column;
-      height: 500px;
-      width:70vw;
+      height: 100%;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
   }
 
   .project_join_members{

@@ -20,3 +20,7 @@ class Nodes(models.Model):
     ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)#이 노드가 속해 있는 프로젝트
     ownerFCode = models.ForeignKey('FileApp.Files', on_delete=models.CASCADE)#이 노드가 속해 있는 프로젝트
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)#이 노드를 만든 회원
+    class Meta:
+        ordering = ['ownerPCode', 'createdDate']
+    def __str__(self):
+        return str(self.ownerPCode)
