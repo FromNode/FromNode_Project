@@ -10,19 +10,19 @@
 </head>
 <body>
     <div class="all">
-        <img src="{% static 'MainApp/image/logo_image_text.png'%}" alt="">
-        <form method="POST" action="{% url 'user:signup' %}">
+        <img class="logo" src="{% static 'MainApp/image/fn_logo.png'%}" alt="">
+        <form method="POST" action="{% url 'user:signup' %}" class="login">
             {% csrf_token %}
             <span class="signup_text">아이디</span>
-            <input class="loginbox" type="text" name="username" required>
+            <input class="loginbox" type="text" name="username" required autofocus/>
             
             <span class="signup_text">비밀번호</span>
-            <input class="loginbox" type="password" name="password" required>
+            <input class="loginbox" type="Password" name="password" required>
             
             <span class="signup_text">비밀번호 확인</span>
-            <input class="loginbox" type="password" name="confirm" required>
+            <input class="loginbox" type="Password" name="confirm" required>
             
-            <input class="loginbtn" type="submit" value="회원가입">
+            <button class="spinner" type="submit">Sign up</button>
         </form>        
     </div>
 </body>
