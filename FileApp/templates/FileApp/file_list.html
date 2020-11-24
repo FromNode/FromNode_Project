@@ -2,6 +2,12 @@
 {% load static %}
 {% load sass_tags %}
 
+<!-- scss를 선언할 영역 -->
+{% block scss %}
+<link href="{% sass_src 'FileApp/CSS/file_list.scss' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
 {% block leftbar %}
     <div class="side-box">
         <p class="side-title">내 프로젝트</p>
@@ -18,194 +24,6 @@
 {% endblock %}
 
 {% block content %}
-<style>
-    @font-face {
-    font-family: 'MapoFlowerIsland';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    }
-
-    .login_Form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    }
-    .uploadModal{
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .modal_Overlay{
-        background-color: rgba(0, 0, 0, 0.6);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
-    .modal_Contents{
-        background-color: white;
-        padding: 50px 100px;
-        text-align: center;
-        position: relative;
-        border-radius: 10px;
-        width: 15%;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0,0,0,0.23 );
-    }
-    .hidden{
-        display: none;
-    }       
-
-    .side-box{
-        padding: 0 30px 30px 30px;
-    }
-    
-    .side-title{
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    .side-content{
-        padding-left: 20px;
-    }
-    .side-project-name{
-        padding: 10px 0;
-        font-size: 15px;
-        font-weight: 500;
-    }
-    .large{
-        font-size:20px;
-    }
-    .middle{
-        font-size:17px;
-    }
-    .small{
-        font-size:12px;
-    }
-    .all{
-        text-decoration: none;
-        align-items: center;
-        height: 100%;
-        line-height: 100%;
-        text-align: center;
-        margin-top: 10%;
-        font-size: 20px;
-    }
-    a:link{
-        text-decoration: none;
-        color: #0F69E4;
-    }
-    a:visited{
-        text-decoration: none;
-        color: #0F69E4;
-    }
-    
-    .invite_link{
-        width:300px;
-        border-radius: 30px;
-        border: 4px solid  #0F69E4;
-        padding:10px;
-        box-shadow: 1px 1px 4px 3px gray ;
-        align-items: center;
-
-    }
-    .invite_top{
-        border-bottom: 2px solid rgb(177, 173, 173);
-        padding-bottom: 10px;
-        
-    }
-    .invite_bottom{
-        padding-top :10px;
-    }
-
-    .invite_search{
-        align-items: center;
-
-    }
-    .invite_bar{
-        border-radius: 30px;
-        height: 20px;
-        padding:2px;
-        border: 1px solid rgb(177, 173, 173);
-    }
-    .invite_button{
-        border-radius: 30px;
-        height:30px;
-        width: 50px;
-        margin-left:0px;
-        background-color:#0F69E4 ;
-        color:white;
-    }
-
-    .container{
-        display: flex;
-
-    }
-
-    .fileList_Header{
-        margin-top: 10px;
-        margin-left:25px;
-        flex-direction: row;
-    }
-
-    .fileListTitle{
-        margin-top:30px;
-        margin-left:20px;
-    }
-
-    .Title_discription{
-        border-radius: 30px;
-        border: 2px solid  gray;
-        margin-left:100px;
-        padding:10px;
-
-    }
-    .fileList_Contents{
-        margin-left:25px;
-        display: flex;
-        flex-direction: column;
-        height: 500px;
-        width:70vw;
-    }
-    .fileList_List{
-        display: flex;
-        margin-top:30px;
-        flex-direction: row;
-    }
-
-    .file{
-        display: flex;
-        width:200px;
-        height: 200px;
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-
-    }
-
-    .file_name{
-        text-align: center;
-    }
-    
-    .fileList_upload{
-        align-items: right;
-        text-align: right;
-    }
-
-    .openModal{
-        border-radius: 30px;
-        border: 3px solid  #0F69E4;
-        background-color: white;
-        padding:30px;
-        align-items: right;
-        text-align: center;
-    }
-</style>
-
 <div class="container">
     <div class="fileList_Header">
         <span class="fileListTitle large">{{pro_name}}</span>
@@ -240,11 +58,33 @@
 <div class="uploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <img src="{% static 'MainApp/image/logo.png' %}" alt="로고" class="upload_logo loginimgbox">
+        <!-- <div class="logo_box">
+            <img class="logo" src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="upload_logo loginimgbox">
+        </div> -->
         <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
-            <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
-            <p class='middle'>파일 업로드</p>
+            <div class="box">
+                <div class="title">파일 이름 : </div>
+                <div class="write">
+                    <input type='text' name='fileName' class='fileName' value=''>
+                </div>
+    
+            </div>
+            <div class="box">
+                <div class="title">메모 : </div>
+                <div class="write">
+                    <input type='text' name='fileMemo' class='fileMemo' value=''>
+                </div>    
+            </div>
+            <div class="box">
+                <div class="title">파일 업로드</div>
+                <div class="drag_place">    
+            </div>
+            <!-- <p class='title'>파일 이름 : </p>
+            <div class="input_box"><input type='text' name='fileName' class='fileName' value=''></div>
+            <p class='title'>메모 : <input type='text' name='fileMemo' class='fileMemo' value=''></p>
+            
+            <p class='title'>파일 업로드</p> -->
             <div class="drop-zone">
                 <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
                 <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
