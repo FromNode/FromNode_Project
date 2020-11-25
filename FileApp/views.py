@@ -65,11 +65,12 @@ def create_new_file(request):
     next_url = '/file/file_list/'+str(pk)
     filename = request.FILES['myFile']
     fileExtension = str(filename).split('.')[1]
+    #str(filename).split('.')[0] 디폴트 파일 명
     file_obj = Files()
-    file_obj.fileName = str(filename).split('.')[0]
+    file_obj.fileName = request.POST['fileName']
     file_obj.whoIsOwner = request.user
     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
-    file_obj.Memo = request.POST['fileMemo']
+    file_obj.description = request.POST['fileMemo']
     if(fileExtension == 'pptx'):
         file_obj.image = 'ppt'
     elif(fileExtension =='doc' or fileExtension == 'docx'):
