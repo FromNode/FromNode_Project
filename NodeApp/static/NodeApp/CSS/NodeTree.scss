@@ -9,18 +9,18 @@ $mainColor : #2C3CFF;
   }
 }
   
-  .Nodetree ul {
-    position: relative;
-    padding: 1em 0; 
-    white-space: nowrap;
-    margin: 0 auto;
-    text-align: center;
-    &::after {
-      content: '';
-      display: table;
-      clear: both;
-    }
+.Nodetree ul {
+  position: relative;
+  padding: 1em 0; 
+  white-space: nowrap;
+  margin: 0 auto;
+  text-align: center;
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
   }
+}
   
   .Nodetree li {
     display: inline-block; // need white-space fix
