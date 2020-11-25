@@ -240,10 +240,11 @@
     // width: $box-width;
     // width: 100%;
     // max-width: 200px;
-    height: 50px;
-    padding: 20px;
+    // height: 50px;
+    padding: 30px 20px;
     // padding: 5em 9em;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -264,9 +265,22 @@
 .drop-zone__prompt{
     width: 100%;
     text-align: center;
+    margin-top: 20px;
+}
+.self-select{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
 .drop-zone__input{
-    display: none;
+    text-align: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // padding: 0
+    // text-align: center;
 }
 
 .drop-zone__thumb{

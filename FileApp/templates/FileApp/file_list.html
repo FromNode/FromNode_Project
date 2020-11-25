@@ -62,7 +62,7 @@
     </Div>
 </div>
 <br>
-<div class="uploadModal hidden">
+<div class="uploadModal">
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
@@ -88,29 +88,40 @@
                 <div class="upload_title">파일 업로드</div>
                 <div class="drop-zone">
                     <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
-
-                    <div>
+                    <div class="self-select">
+                        <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
+                        </div>
+                    <div class="drop-zone__prompt">
+                        <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
+                    </div>
+                    <!-- <span class="drop-zone__prompt"></span> -->
+    
+                    <!-- <div>
                         <span class="drop-zone__prompt">
                             <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
                         </span>
-                    </div>
+                    </div> -->
                     <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-
                 </div>
             </div>
+
             <div class="file_submit">
                 <input class="uploadBtn" type="submit" value="OK">
-            
             </div>
-            <!-- 
-                <p class='title'>파일 이름 : </p>
-            <div class="input_box"><input type='text' name='fileName' class='fileName' value=''></div>
-            <p class='title'>메모 : <input type='text' name='fileMemo' class='fileMemo' value=''></p> -->
 
-            <!-- <p class='title'>파일 업로드</p>
-                <div >
-                <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
-                </div> -->
+
+
+            <!-- <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
+                <p class='middle'>파일 업로드</p>
+                <div class="drop-zone">
+                    <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
+                    <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
+                </div>
+                <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
+                <input class="uploadBtn" type="submit" value="OK">
+            </form> -->
 
 
         </form>
