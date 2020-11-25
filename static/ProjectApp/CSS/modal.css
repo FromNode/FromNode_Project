@@ -8,19 +8,23 @@
 
 .container { display: flex; }
 
-.input_sec { border: none; padding-bottom: 5px; border-bottom: 1px solid #6e6e6e; width: 310px; }
+.modal-title { font-size: 20px; font-weight: 600; }
+
+.input_sec { border: none; padding-bottom: 5px; border-bottom: 1px solid #6e6e6e; width: 320px; }
 
 .input_sec:focus { outline: none; }
 
-.box { display: flex; flex-direction: row; width: 400px; margin: 10px 0; }
+.m-boxes { padding: 40px 0 30px 0; }
 
-.title { width: 90px; font-size: 16px; font-weight: 500; }
+.m-box { display: flex; flex-direction: row; width: 400px; margin: 0 0 20px 0; }
+
+.input-title { width: 80px; font-size: 16px; font-weight: 500; }
 
 .write { margin-left: 10px; }
 
 .upload_box { display: flex; flex-direction: column; width: 400px; margin: 10px 0 20px 0; }
 
-.upload_title { width: 90px; font-size: 16px; margin: 20px 0 10px 0; font-weight: 500; }
+.upload_title { width: 80px; font-size: 16px; margin: 20px 0 10px 0; font-weight: 500; }
 
 .drop-zone { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 1em; font-weight: 500; cursor: pointer; color: black; background-color: #2771fb; border-radius: 20px; }
 
@@ -38,8 +42,8 @@
 
 .drop-zone__thumb::after { content: attr(data-label); position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px 0; color: #ffffff; background: rgba(0, 0, 0, 0.75); font-size: 14px; text-align: center; }
 
-.submit { display: flex; justify-content: center; align-items: center; width: 50px; margin: 0 auto; }
+.submit { display: flex; justify-content: center; align-items: center; width: 70px; margin: 0 auto; }
 
-.uploadBtn { width: 70px; background-color: #1163f8; color: white; margin-bottom: 1em; border: 1px solid #1163f8; border-radius: 30px; padding: 10px; text-align: center; }
+.uploadBtn { margin: 0; width: 70px; background-color: #1163f8; color: white; margin-bottom: 1em; border: 1px solid #1163f8; border-radius: 30px; padding: 10px; text-align: center; }
 
 /*# sourceMappingURL=modal.css.map */

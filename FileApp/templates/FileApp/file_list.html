@@ -68,9 +68,6 @@
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <!-- <div class="logo_box">
-            <img class="logo" src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="upload_logo loginimgbox">
-        </div> -->
         <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="box">
@@ -107,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="file_submit">
+            <div class="submit">
                 <input class="uploadBtn" type="submit" value="OK">
             </div>
 

@@ -1,7 +1,7 @@
 
     $box-width: 400px;
     $box-height: 300px;
-    $input-width: 310px;
+    $input-width: 320px;
 
 
 .uploadModal{
@@ -24,7 +24,7 @@
     width: $box-width;
     height: $box-height;
     background-color: white;
-    // border: 3px solid #1163f8;
+    // border: 3px solid #ffffff;
     padding: 50px 100px;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,11 @@
 }
 
 //modal
-
+.modal-title{
+    font-size: 20px;
+    font-weight: 600;
+    // margin-bottom: 40px;
+}
 .input_sec{
     border:none;
     padding-bottom: 5px;
@@ -56,13 +60,17 @@
 .input_sec:focus{
     outline:none;
 }
-.box{
+
+.m-boxes{
+    padding: 40px 0 30px 0;
+}
+.m-box{
     display: flex;
     flex-direction: row;
     width: $box-width;
-    margin: 10px 0;
+    margin: 0 0 20px 0;
 }
-.title{
+.input-title{
     width: $box-width - $input-width;
     font-size: 16px;
     font-weight: 500;
@@ -159,11 +167,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 70px;
     margin: 0 auto;
+    // padding: 20px auto;
 }
 
 .uploadBtn{
+    margin: 0;
     width: 70px;
     background-color:#1163f8;
     color: white;
