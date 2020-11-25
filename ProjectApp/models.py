@@ -14,6 +14,6 @@ class Projects(models.Model):
     Code = models.CharField(max_length=255,default=random_code, unique=True)
     name = models.CharField(max_length=255)
     whoIsOwner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    start_date = models.DateTimeField(default = datetime.now(), blank = True)
-    due_date = models.DateTimeField(blank = True)
+    start_date = models.DateTimeField(default = datetime.now(), blank = True, null=True)
+    due_date = models.DateTimeField(blank = True, null=True)
     description = models.TextField(max_length= 20000, blank = True)
