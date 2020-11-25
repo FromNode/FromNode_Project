@@ -80,13 +80,16 @@
         color:white;
     }
 
-
+    $box-width: 400px;
+    $box-height: 300px;
+    $input-width: 310px;
+    
 @font-face {
     font-family: 'MapoFlowerIsland';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-    }
+}
 
    
     .login_Form{
@@ -105,14 +108,14 @@
         align-items: center;
     }
     .modal_Overlay{
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: rgba(0, 0, 0, 0.4);
         width: 100%;
         height: 100%;
         position: absolute;
     }
     .modal_Contents{
-        width: 400px;
-        height: 300px;
+        width: $box-width;
+        height: $box-height;
         background-color: white;
         border: 3px solid #1163f8;
         padding: 50px 100px;
@@ -120,7 +123,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        text-align: center;
+        // text-align: center;
         position: relative;
         border-radius: 20px;
         // width: 15%;
@@ -128,18 +131,7 @@
     }
     .hidden{
         display: none;
-    }       
-    // .logo_box{
-    //     display: flex;
-    //     justify-content: center;
-    //     align-items: center;
-    // }
-    // .logo{
-    //     width: 80px;
-    //     height: auto;
-    // }
-
-
+    }     
     .container{
         display: flex;
 
@@ -197,7 +189,7 @@
 
     .openModal{
         border-radius: 30px;
-        border: 3px solid  #0F69E4;
+        border: 3px solid  #1163f8;
         background-color: white;
         padding:30px;
         align-items: right;
@@ -205,14 +197,122 @@
     }
 
 //modal
+
+.input_sec{
+    border:none;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(110, 110, 110);
+    width: $input-width;
+    
+}
+.input_sec:focus{
+    outline:none;
+}
 .box{
     display: flex;
     flex-direction: row;
+    width: $box-width;
+    margin: 10px 0;
+}
+.title{
+    width: $box-width - $input-width;
+    font-size: 16px;
+    font-weight: 500;
+    // width: 20px;
+}
+.write{
+    margin-left: 10px;
+}
+.upload_box{
+    display: flex;
+    flex-direction: column;
+    width: $box-width;
+    margin: 10px 0 20px 0;
+}
+.upload_title{
+    width: $box-width - $input-width;
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    font-weight: 500;
+}
+//dropzone
+.drop-zone{
+    // width: $box-width;
+    // width: 100%;
+    // max-width: 200px;
+    height: 50px;
+    padding: 20px;
+    // padding: 5em 9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    color: black;
+    background-color: #2771fb;
+    // border: 4px dashed #0F75EF;
+    border-radius: 20px;
+}
+.inner_text{
+    color: white;
+}
+.drop-zone__over{
+    border-style: solid;
+}
+.drop-zone__prompt{
+    width: 100%;
+    text-align: center;
+}
+.drop-zone__input{
+    display: none;
 }
 
-.write{
-    border-bottom: 1px solid black; 
+.drop-zone__thumb{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #cccccc;
+    background-size: cover;
+    position: relative;
 }
+.drop-zone__thumb::after{
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.75);
+    font-size: 14px;
+    text-align: center;
+}
+
+
+//제출버튼
+.file_submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    margin: 0 auto;
+}
+
+.uploadBtn{
+    width: 70px;
+    background-color:#1163f8;
+    color: white;
+    margin-bottom: 1em;
+    border: 1px solid #1163f8;
+    border-radius: 30px;
+    padding: 10px;
+    // padding: 1em 2em 1em 2em;
+    text-align: center;
+}
+
 
 
 // .container{
@@ -305,14 +405,6 @@
 // }
 // .upload_logo{
 //     width: 50%;
-// }
-// .uploadBtn{
-//     background-color:#0F75EF;
-//     color: white;
-//     margin-bottom: 1em;
-//     border: 1px solid #0F75EF;
-//     border-radius: 10em;
-//     padding: 1em 2em 1em 2em;
 // }
 // .upload_input{
 //     height: auto;

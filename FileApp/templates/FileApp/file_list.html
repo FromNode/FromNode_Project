@@ -9,25 +9,27 @@
 
 
 {% block leftbar %}
-    <div class="side-box">
-        <p class="side-title">내 프로젝트</p>
-        {% for project in proj_obj %}
-        <ul class="side-content">
-            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li>
-        </ul>
-        {% endfor %}
-    </div>
+<div class="side-box">
+    <p class="side-title">내 프로젝트</p>
+    {% for project in proj_obj %}
+    <ul class="side-content">
+        <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" style="color: black">
+                <p>프로젝트{{project.id}} : {{project.name}}</p>
+            </a></li>
+    </ul>
+    {% endfor %}
+</div>
 
-    <div class="side-box">
-        <p class="side-title ">최종 파일 모음</p>
-    </div>
+<div class="side-box">
+    <p class="side-title ">최종 파일 모음</p>
+</div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="fileList_Header">
         <span class="fileListTitle large">{{pro_name}}</span>
-        <span class ='Title_discription small'>원하는 파일을 클릭하여 전체 버젼을 확인해보세요</span>
+        <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버젼을 확인해보세요</span>
         <!-- <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
             <span>{{users.username}}</span>
@@ -36,26 +38,32 @@
     <div class="fileList_Contents">
         <div class="fileList_List">
             {% for file in file_obj %}
-            <div class = 'file'>
-                <input class = 'image' type ='hidden' value = '{{file.image}}'></input>
-                <div class = 'file_image'>
-                    <a href="{% url 'node:node_list' file.Code %}"><img class='file_img' style='width:120px;height:120px;'></a>
+            <div class='file'>
+                <input class='image' type='hidden' value='{{file.image}}'></input>
+                <div class='file_image'>
+                    <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
+                            style='width:120px;height:120px;'></a>
                 </div>
                 <div class='file_name'>
                     <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
                 </div>
-                
-                
+
+
             </div>
             {% endfor %}
         </div>
     </div>
     <Div class="fileList_upload">
-        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;' src ="{% static 'MainApp/picture/pluslogo.png' %}"><br><Br><p class='small'>버전을 추적할</p><p class='small'>새 파일을 추가해보세요</p></button>
+        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;'
+                src="{% static 'MainApp/picture/pluslogo.png' %}"><br><Br>
+            <p class='small'>버전을 추적할</p>
+            <p class='small'>새 파일을 추가해보세요</p>
+        </button>
     </Div>
 </div>
-    <br>
+<br>
 <div class="uploadModal hidden">
+    <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
         <!-- <div class="logo_box">
@@ -64,34 +72,48 @@
         <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="box">
-                <div class="title">파일 이름 : </div>
+                <div class="title">파일명 : </div>
                 <div class="write">
-                    <input type='text' name='fileName' class='fileName' value=''>
+                    <input type='text' name='fileName' class='input_sec' value=''>
                 </div>
-    
+
             </div>
             <div class="box">
                 <div class="title">메모 : </div>
                 <div class="write">
-                    <input type='text' name='fileMemo' class='fileMemo' value=''>
-                </div>    
+                    <input type='text' name='fileMemo' class='input_sec' value=''>
+                </div>
             </div>
-            <div class="box">
-                <div class="title">파일 업로드</div>
-                <div class="drag_place">    
+            <div class="upload_box">
+                <div class="upload_title">파일 업로드</div>
+                <div class="drop-zone">
+                    <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
+
+                    <div>
+                        <span class="drop-zone__prompt">
+                            <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
+                        </span>
+                    </div>
+                    <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
+
+                </div>
             </div>
-            <!-- <p class='title'>파일 이름 : </p>
-            <div class="input_box"><input type='text' name='fileName' class='fileName' value=''></div>
-            <p class='title'>메모 : <input type='text' name='fileMemo' class='fileMemo' value=''></p>
+            <div class="file_submit">
+                <input class="uploadBtn" type="submit" value="OK">
             
-            <p class='title'>파일 업로드</p> -->
-            <div class="drop-zone">
-                <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
-                <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
             </div>
-            <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-            <input class="uploadBtn" type="submit" value="OK">
-        </form>   
+            <!-- 
+                <p class='title'>파일 이름 : </p>
+            <div class="input_box"><input type='text' name='fileName' class='fileName' value=''></div>
+            <p class='title'>메모 : <input type='text' name='fileMemo' class='fileMemo' value=''></p> -->
+
+            <!-- <p class='title'>파일 업로드</p>
+                <div >
+                <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
+                </div> -->
+
+
+        </form>
     </div>
 </div>
 
@@ -100,22 +122,22 @@
 <script>
     var img;
     var x = document.getElementsByClassName('image')
-    for(var i=0; i<x.length; i++){
-        if(x[i].value == 'pdf'){
+    for (var i = 0; i < x.length; i++) {
+        if (x[i].value == 'pdf') {
             img = "{% static 'MainApp/picture/wordicon.png' %}";
-            document.getElementsByClassName('file_img')[i].setAttribute('src',img);
+            document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
-        else if(x[i].value == 'word'){
+        else if (x[i].value == 'word') {
             img = "{% static 'MainApp/picture/word.png' %}";
-            document.getElementsByClassName('file_img')[i].setAttribute('src',img);
+            document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
-        else if(x[i].value =='ppt'){
+        else if (x[i].value == 'ppt') {
             img = "{% static 'MainApp/picture/powerpoint.png' %}";
-            document.getElementsByClassName('file_img')[i].setAttribute('src',img);
+            document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
-        else{
+        else {
             img = "{% static 'MainApp/picture/powerpoint.png' %}";
-            document.getElementsByClassName('file_img')[i].setAttribute('src',img);
+            document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
 
 
