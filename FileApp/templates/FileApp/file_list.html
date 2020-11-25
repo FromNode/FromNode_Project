@@ -64,7 +64,7 @@
     </div>
 </div>
 <br>
-<div class="uploadModal hidden">
+<div class="uploadModal">
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
@@ -87,12 +87,14 @@
                 <div class="upload_title">파일 업로드</div>
                 <div class="drop-zone">
                     <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
-                    <div class="self-select">
+                    <div>
+                        <label  class="self-select">
                         <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
-                        </div>
-                    <div class="drop-zone__prompt">
-                        <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
+                        <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p></label>    
                     </div>
+                    <!-- <div class="drop-zone__prompt">
+                        <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
+                    </div> -->
                     <!-- <span class="drop-zone__prompt"></span> -->
     
                     <!-- <div>
