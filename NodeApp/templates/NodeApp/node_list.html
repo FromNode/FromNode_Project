@@ -37,10 +37,9 @@
       <span class="nodeListTitle middle">{{The_File.fileName}}</span>
       <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
       <div class = 'project_join_members'>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+        {% for i in proj_user %}
+        <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%;'></div>
+        {% endfor %}
       </div>
       <!-- <p class='Large'>프로젝트 참여 명단</p>
       {% for users in proj_user %}
