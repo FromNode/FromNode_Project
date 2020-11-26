@@ -77,4 +77,3 @@ def Upload(request):
     nodeobj.save()
     
     return render(request, 'NodeApp/version_all.html')
-        
