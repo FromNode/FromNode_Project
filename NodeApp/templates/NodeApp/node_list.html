@@ -82,7 +82,7 @@
 
         </div>
         <div class='Download_Contents'>
-          <img src = '{% static "MainApp/picture/Download.png" %}'>
+          <img src = '{% static "MainApp/picture/Download.png" %}'><a class = 'download_a' ></a></img>
         </div>
       </div>
       
@@ -104,6 +104,7 @@
   let createLiTag = document.createElement("li");
   let createBtnTag = document.createElement("button");
   let createPTag = document.createElement('P');
+  let createATag = document.createElement('a');
   
   const startNodeBranch = async() => {
     let data = await getNodeData()
@@ -229,6 +230,7 @@
     const Node_Name = document.querySelector('.Node_Name');
     const Node_Discriptions = document.querySelector('.Node_Discriptions');
     const Node_Create_Time = document.querySelector('.Node_Create_Time');
+    const Download_a = document.querySelector('.download_a')
 
     let data = await getNodeData()   
     let u_data = await getUserData()
@@ -254,6 +256,7 @@
     third_input.value = node_Data.fields.fileObj;
     fourth_input.value = node_Data.pk;
     fifth_input.value = node_Data.fields.ownerFCode;
+    Download_a.setAttribute("href", `{% url 'user:notice_download' ${node_Data.pk} %}`);
   }
   startNodeBranch();
 </script>
