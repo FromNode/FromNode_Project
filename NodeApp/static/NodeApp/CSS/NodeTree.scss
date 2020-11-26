@@ -11,7 +11,7 @@ $mainColor : #2C3CFF;
   
 .Nodetree ul {
   position: relative;
-  padding: 1em 0; 
+  padding: 1em 0em; 
   white-space: nowrap;
   margin: 0 auto;
   text-align: center;
@@ -35,14 +35,14 @@ $mainColor : #2C3CFF;
       position: absolute; 
       top: 0; 
       right: 50%;
-      border-top: $border-width solid black; // 트리연결 세로 줄
+      border-top: $border-width solid#cccccc; // 트리연결 세로 줄
       width: 50%; 
       height: 1em;
     }
     &::after {
       right: auto; 
       left: 50%;
-        border-left: $border-width solid black; // 연결받는 노드 좌측 선 일부
+        border-left: $border-width solid #cccccc; // 연결받는 노드 좌측 선 일부
     }
     &:only-child::after,
     &:only-child::before {
@@ -56,36 +56,37 @@ $mainColor : #2C3CFF;
       border: 0 none;
     }
     &:last-child::before{
-      border-right: $border-width solid black; // 연결받는 노드 좌측 선 일부
-      border-radius: 0 5px 0 0;
+      border-right: $border-width solid#cccccc; // 연결받는 노드 좌측 선 일부
+      border-radius: 0 50px 0 0;
     }
     &:first-child::after{
-      border-radius: 5px 0 0 0;
+      border-radius: 50px 0 0 0;
     }
   }
 
-  // 빈 공간으로 이어주는 선
-  // .Nodetree ul ul::before{
-  //   content: '';
-  //   position: absolute; 
-  //   top: 0; 
-  //   left: 50%;
-  //   border-left: $border-width solid black;
-  //   width: 0; 
-  //   height: 1em;
-  // }
+  빈 공간으로 이어주는 선
+  .Nodetree ul ul::before{
+    content: '';
+    position: absolute; 
+    top: 0; 
+    left: 50%;
+    border-left: $border-width solid #cccccc;
+    width: 0; 
+    height: 1em;
+  }
   
   //노드 속성
   .Nodetree li button {
     border: $border-width solid $mainColor;
-    padding: 1em .75em;
+    padding: 2em 3.75em;
     margin: 2em 1.5em;
     text-decoration: none;
     display: inline-block;
-    border-radius: 25%;
+    border-radius: 20%;
     color: #333;
     position: relative;
     top: $border-width;
+    background-color: white;
     @if $reverse {
       transform: rotate(90deg);
     }
@@ -95,7 +96,7 @@ $mainColor : #2C3CFF;
   .Nodetree li button:hover,
   .Nodetree li button:hover+ul li button {
     background: $mainColor;
-    color: #fff;
+    color: white;
     border: $border-width solid $mainColor;
   }
   //이건 알아보자

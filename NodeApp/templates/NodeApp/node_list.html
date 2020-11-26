@@ -97,7 +97,7 @@
   }
   const createFirstBranch = async (data) => {
     const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createBtnTag);
-    Nodetree.appendChild(document.createTextNode("시작 노드"));
+    Nodetree.appendChild(document.createTextNode("  노드  "));
     createUlTag.classList.add(`branch${ulCreateCount}`,);
     let url = "/node/create_node/" + data[0].pk 
     createBtnTag.setAttribute("onclick", "sendCreatedOrder(this);")
@@ -166,11 +166,11 @@
     }
     setTeamArray = new Set(teamArray);
     team = [...setTeamArray];
-    let colorArray = [];
-    for(let k = 0; k<team.length; k++){
-      let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
-      colorArray.push(randomColor);
-    }
+    let colorArray = ["1163f8", "#ffe800"];
+    // for(let k = 0; k<team.length; k++){
+    //   let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
+    //   colorArray.push(randomColor);
+    // }
     for(let i = 0; i<data.length; i++){
         for(let k=0; k<team.length; k++){
           if(team[k] == AllNodeForColor[i].classList[2]){

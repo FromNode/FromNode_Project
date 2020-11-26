@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% load static %}
+
+{% block scss %}
+    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block leftbar %}
+    <div class="side-box">
+        <p class="side-title">내 프로젝트</p>
+        {% for project in proj_obj %}
+        <ul class="side-content">
+            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li>
+        </ul>
+        {% endfor %}
+    </div>
+
+    <div class="side-box">
+        <p class="side-title ">최종 파일 모음</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="nodeList_Header">
+      <span class="nodeListTitle middle">{{The_File.fileName}}</span>
+      <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
+      <br>
+      <!-- <p class='Large'>프로젝트 참여 명단</p>
+      {% for users in proj_user %}
+          <span>{{users.username}}</span>
+      {% endfor %} -->
+  </div>
+  <div class="nodeList_Contents">
+    <div class = 'project_join_members'>
+      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+    </div>
+    <div class="Nodetree">
+    </div>
+  </div>
+</div>
+  <br>
+
+
+
+
+
+{{empty}}
+{{message}}
+
+{% endblock %}
+{% block JS %}
+<script>
+  let ulCreateCount = 0;
+  let pkArray = [];
+  let createUlTag = document.createElement("ul");
+  let createLiTag = document.createElement("li");
+  let createATag = document.createElement("a");
+  const startNodeBranch = async() => {
+    let data = await getNodeData()
+    await createFirstBranch(data);
+    await secondBranch(data);
+    await otherBranch(data);
+  }
+  const createFirstBranch = async (data) => {
+    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
+    Nodetree.appendChild(document.createTextNode("시작 노드"));
+    createUlTag.classList.add(`branch${ulCreateCount}`);
+    createATag.setAttribute("class", "firstNode Node");
+    let url = "/node/create_node/" + data[0].pk 
+    createATag.setAttribute("href", url)
+    ulCreateCount ++;
+  }
+  const getNodeData = async () => {
+        let data = '{{json}}'.replaceAll("&quot;", "\"");
+        let json_data = JSON.parse(data);
+        return await json_data
+  }
+  const secondBranch = async (data) => {
+    console.log(data);
+      createATag.setAttribute("class", `${data[0].pk} `);
+      const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
+      const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
+      secondUl.classList.add(`branch${ulCreateCount}`);
+      pkArray[0] = data[0].pk;
+      for(let i = 1; i < data.length; i++){
+        pkArray[i] = data[i].fields.previousCode;
+        if (data[i].fields.previousCode == data[0].pk){
+          let url = "/node/create_node/" + data[i].pk 
+          let secondCreateText = document.createTextNode(`${data[i].pk}`);
+          let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+          secondBranchNode.appendChild(secondCreateText);
+          secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
+          secondBranchNode.setAttribute("href",url)
+          
+          pkArray[i] = 1;
+          
+        }
+      }
+      ulCreateCount++;
+  }
+  const otherBranch = async (data) => {
+    for(let i = 1; i<data.length; i++){
+      // 숫자 1 1 숫자 숫자 
+        if(pkArray[i] == 1 ){
+          const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
+          const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
+          otherUl.classList.add(`branch${ulCreateCount}`);
+          for(let k = 1; k < data.length; k++){
+            if(k != i && pkArray[k] != 1){
+              if(data[k].fields.previousCode == data[i].pk){
+                let url = "/node/create_node/" + data[k].pk 
+                let otherCreateText = document.createTextNode(`${data[k].pk}`);
+                let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+                otherBranchNode.appendChild(otherCreateText);
+                otherBranchNode.setAttribute("class", `${data[k].pk} Node`);
+                otherBranchNode.setAttribute("href",url)
+                pkArray[k] = 1;
+              }
+            }
+          }
+        }
+      }
+    ulCreateCount++;
+  }
+  startNodeBranch();
+</script>
+{% endblock %}
