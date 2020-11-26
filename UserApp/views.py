@@ -73,7 +73,7 @@ def join_project(request):
     if request.method == 'POST':
         for i in proj_request:
             if actor == i.actor:
-                notify.send(request.user,recipient = i.actor,verb = request.user+'님이'+Join_Project.name+"참가를 허용하셨습니다!" )
+                # notify.send(request.user,recipient = i.actor,verb = request.user+'님이'+Join_Project.name+"참가를 허용하셨습니다!" )
                 i.mark_as_read()
             # if proj_request.actor == actor.username:
             #     i.mark_as_read()
