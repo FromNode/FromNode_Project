@@ -16,7 +16,7 @@
     {% for project in proj_obj %}
     <ul class="side-content">
         <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" style="color: black">
-                <p>프로젝트{{project.id}} : {{project.name}}</p>
+                <p>{{project.name}}</p>
             </a></li>
     </ul>
     {% endfor %}
@@ -64,7 +64,7 @@
     </div>
 </div>
 <br>
-<div class="uploadModal">
+<div class="uploadModal hidden">
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
