@@ -60,9 +60,11 @@ def mypage(request):
     user = request.user
     if user in recipients:
         unread_messages = user.notifications.unread()
+        unread_messages_invite = unread_messages.filter(description = 1)
+        unread_messages_invite_return = unread_messages.filter(description = 2)
         for i in user.notifications.all():
             print(i.actor)
-        return render(request,'UserApp/mypage.html',{'unread_messages':unread_messages})
+        return render(request,'UserApp/mypage.html',{'unread_messages':unread_messages,'unread_messages_invite':unread_messages_invite,'unread_messages_invite_return':unread_messages_invite_return})
     return render(request,'UserApp/mypage.html',{})
 
 def join_project(request):
@@ -73,17 +75,31 @@ def join_project(request):
     if request.method == 'POST':
         for i in proj_request:
             if actor == i.actor:
-                # notify.send(request.user,recipient = i.actor,verb = request.user+'님이'+Join_Project.name+"참가를 허용하셨습니다!" )
+                notify.send(request.user,recipient = i.actor,verb = request.user.username+'님이'+project+"참가를 허용하셨습니다!", description = 2 )
                 i.mark_as_read()
             # if proj_request.actor == actor.username:
             #     i.mark_as_read()
         User_Profile = Profile.objects.get(user=actor)
         User_Profile.projects += ','+project
         User_Profile.save()
-        return render(request,'ProjectApp/project_list.html',{})
+        return redirect('user:mypage')
     else:
         for i in proj_request:
             if actor == i.actor:
                 i.mark_as_read()
-        return render(request,'ProjectApp/project_list.html',{})
+        return redirect('user:mypage')
     
+
+def cofirm_alarm(request):
+    recipient = request.user
+    actor = User.objects.get(username=request.POST['actor'])
+    project = request.POST['project']
+    proj_request = recipient.notifications.filter(verb=project)
+    if request.method == 'POST':
+        for i in proj_request:
+            if actor == i.actor:
+                i.mark_as_read()
+        return redirect('user:mypage')
+        
+    return redirect('user:mypage')
+

@@ -8,4 +8,5 @@ urlpatterns = [
     path('mypage/',views.mypage,name='mypage'),
     path('logout/',views.logout,name='logout'),
     path('accept_project/',views.join_project,name='join_project'),
+    path('cofirm_alarm/',views.cofirm_alarm,name='cofirm_alarm'),
 ]

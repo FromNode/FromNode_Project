@@ -15,8 +15,8 @@
         <h3>새 알림이 없네요!</h3>
         {% endif %}
 
-        {% if unread_messages %}
-            {% for unread_messages in unread_messages.all %}
+        {% if unread_messages_invite %}
+            {% for unread_messages in unread_messages_invite.all %}
             <div>
                 <p>{{unread_messages.actor}}님 께서{{unread_messages.verb}}참가를 원하십니다!</p>
                 <form action = "{% url 'user:join_project' %}" method='POST'>
@@ -24,10 +24,27 @@
                     <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
                     <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
                     <input type = 'submit' value='수락'>
-                    <button>거절</button>
+                </form>
+                <form action = "{% url 'user:cofirm_alarm' %}" method='POST'>
+                    {% csrf_token %}
+                    <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
+                    <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
+                    <input type = 'submit' value='거절'>
                 </form>
                 
             </div>
+            {% endfor %}
+        {% endif %}
+        {% if unread_messages_invite_return %}
+            {% for unread_messages in unread_messages_invite_return.all %}
+            <form action = "{% url 'user:cofirm_alarm' %}" method='POST'>
+                {% csrf_token %}
+                <p>{{unread_messages.verb}}</p>   
+                <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
+                <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
+                <input type = 'submit' value='확인'>
+            </form>
+                 
             {% endfor %}
         {% endif %}
         <h1> 알림</h1>
