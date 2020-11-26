@@ -82,7 +82,7 @@
 
         </div>
         <div class='Download_Contents'>
-          <img src = '{% static "MainApp/picture/Download.png" %}'><a class = 'download_a' ></a></img>
+          <img src = '{% static "MainApp/picture/Download.png" %}'><a class = 'download_a' >다운로드하기</a></img>
         </div>
       </div>
       
@@ -256,7 +256,8 @@
     third_input.value = node_Data.fields.fileObj;
     fourth_input.value = node_Data.pk;
     fifth_input.value = node_Data.fields.ownerFCode;
-    Download_a.setAttribute("href", `{% url 'user:notice_download' ${node_Data.pk} %}`);
+    let pk = node_Data.pk
+    Download_a.setAttribute("href", `{% url 'node:download_view' 12280365 %}`);
   }
   startNodeBranch();
 </script>
