@@ -10,40 +10,6 @@
 //       overflow-y: hidden;
 //   }
 
-  .login_Form{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  }
-  .uploadModal{
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-  .modal_Overlay{
-      background-color: rgba(0, 0, 0, 0.6);
-      width: 100%;
-      height: 100%;
-      position: absolute;
-  }
-  .modal_Contents{
-      background-color: white;
-      padding: 50px 100px;
-      text-align: center;
-      position: relative;
-      border-radius: 10px;
-      width: 15%;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0,0,0,0.23 );
-  }
-  .hidden{
-      display: none;
-  }       
-
   .side-box{
       padding: 0 30px 30px 30px;
   }
@@ -79,11 +45,11 @@
       margin-top: 10%;
       font-size: 20px;
   }
-  a:link{
+  button:link{
       text-decoration: none;
       color: #0F69E4;
   }
-  a:visited{
+  button:visited{
       text-decoration: none;
       color: #0F69E4;
   }
@@ -177,7 +143,6 @@
       padding:10px;
       margin-right:15px;
   }
-
   .Nodetree{
     padding-top : 150px;
   }

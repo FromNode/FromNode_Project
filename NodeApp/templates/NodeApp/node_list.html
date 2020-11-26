@@ -6,6 +6,7 @@
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
     <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
     <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block inlineCss %}
@@ -50,8 +51,23 @@
     <div class="Nodetree">
     </div>
   </div>
+  <!-- 업로드 모달 -->
+  <div class="nodeUploadModal hidden">
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+        <form method="POST" action="{% url 'node:changeNodeInfo' %}" class="#">
+            {% csrf_token %}
+          <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
+          <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
+          <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
+          <input class="nodeUploadInput" type="text" id="something4" value="4번벨류">
+          <input class="nodeUploadInput" type="submit" value="수정하기">
+            
+        </form>
+    </div>
+  </div>
 </div>
-  <br>
+  
 
 {{empty}}
 {{message}}
@@ -63,7 +79,7 @@
   let pkArray = [];
   let createUlTag = document.createElement("ul");
   let createLiTag = document.createElement("li");
-  let createATag = document.createElement("a");
+  let createBtnTag = document.createElement("button");
   const startNodeBranch = async() => {
     let data = await getNodeData()
     console.log(data);
@@ -71,13 +87,14 @@
     await secondBranch(data);
     await otherBranch(data);
     await branchColor(data);
+    await showUpModal(data);
   }
   const createFirstBranch = async (data) => {
-    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
+    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createBtnTag);
     Nodetree.appendChild(document.createTextNode("시작 노드"));
     createUlTag.classList.add(`branch${ulCreateCount}`,);
     let url = "/node/create_node/" + data[0].pk 
-    createATag.setAttribute("href", url)
+    createBtnTag.setAttribute("onclick", "sendCreatedOrder(this);")
     ulCreateCount ++;
   }
   const getNodeData = async () => {
@@ -86,7 +103,7 @@
     return await json_data
   }
   const secondBranch = async (data) => {
-    createATag.classList.add(`${data[0].pk}`, "Node");
+    createBtnTag.classList.add(`${data[0].pk}`, "Node");
     // createATag.setAttribute("class", `${data[0].pk}`);
     const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
     const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
@@ -96,15 +113,13 @@
       pkArray[i] = data[i].fields.previousCode;
       if (data[i].fields.previousCode == data[0].pk){
         let url = "/node/create_node/" + data[i].pk 
-        let secondCreateText = document.createTextNode(`${data[i].pk}`);
-        let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+        let secondCreateText = document.createTextNode("노드");
+        let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
         secondBranchNode.appendChild(secondCreateText);
         secondBranchNode.classList.add(`${data[i].pk}`, "Node")
         // secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
-        secondBranchNode.setAttribute("href",url)
-        
+        secondBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
         pkArray[i] = 1;
-        
       }
     }
     ulCreateCount++;
@@ -120,11 +135,11 @@
           if(k != i && pkArray[k] != 1){
             if(data[k].fields.previousCode == data[i].pk){
               let url = "/node/create_node/" + data[k].pk 
-              let otherCreateText = document.createTextNode(`${data[k].pk}`);
-              let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
+              let otherCreateText = document.createTextNode("노드");
+              let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
               otherBranchNode.appendChild(otherCreateText);
               otherBranchNode.setAttribute("class", `${data[k].pk} Node`);
-              otherBranchNode.setAttribute("href",url)
+              otherBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
               pkArray[k] = 1;
             }
           }
@@ -138,7 +153,10 @@
     let teamArray = [];
     for(let i = 0 ; i<data.length; i++){
       teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
-      AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`);
+      AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
+      //1: 유저별 색상 수정을 위한 class추가 
+      //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
+      
     }
     setTeamArray = new Set(teamArray);
     team = [...setTeamArray];
@@ -147,7 +165,6 @@
       let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
       colorArray.push(randomColor);
     }
-    console.log(colorArray);
     for(let i = 0; i<data.length; i++){
         for(let k=0; k<team.length; k++){
           if(team[k] == AllNodeForColor[i].classList[2]){
@@ -155,6 +172,33 @@
           }
         }
     }
+  }
+  const showUpModal = async (data) => {
+      const modalButton = document.querySelectorAll(".Node");
+      const modal = document.querySelector(".nodeUploadModal");
+      const overlay = modal.querySelector(".modal_Overlay");
+      const toggleModal = () => {
+        modal.classList.toggle("hidden");
+      }
+
+      overlay.addEventListener("click", toggleModal);
+      for(let i = 0; i<modalButton.length; i++){
+        modalButton[i].addEventListener("click", toggleModal);
+      }
+  }
+  const sendCreatedOrder = async (clickedValue) => {
+    let data = await getNodeData()   
+    console.log(data)
+    console.log(clickedValue.classList[3].split(":")[1]);
+    node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
+    const first_input = document.querySelector("#something1");
+    const second_input = document.querySelector("#something2");
+    const third_input = document.querySelector("#something3");
+    const fourth_input = document.querySelector("#something4");
+    first_input.value = node_Data.fields.createdDate;
+    second_input.value = node_Data.fields.whoIsOwner;
+    third_input.value = node_Data.fields.fileObj;
+    fourth_input.value = node_Data.pk;
   }
   startNodeBranch();
 </script>

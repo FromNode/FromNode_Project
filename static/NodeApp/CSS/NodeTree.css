@@ -20,10 +20,10 @@
 
 .Nodetree li:first-child::after { border-radius: 5px 0 0 0; }
 
-.Nodetree li a { border: 3px solid #2C3CFF; padding: 1em .75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 25%; color: #333; position: relative; top: 3px; transform: rotate(90deg); }
+.Nodetree li button { border: 3px solid #2C3CFF; padding: 1em .75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 25%; color: #333; position: relative; top: 3px; transform: rotate(90deg); }
 
-.Nodetree li a:hover, .Nodetree li a:hover + ul li a { background: #2C3CFF; color: #fff; border: 3px solid #2C3CFF; }
+.Nodetree li button:hover, .Nodetree li button:hover + ul li button { background: #2C3CFF; color: #fff; border: 3px solid #2C3CFF; }
 
-.Nodetree li a:hover + ul li::after, .Nodetree li a:hover + ul li::before, .Nodetree li a:hover + ul::before, .Nodetree li a:hover + ul ul::before { border-color: #2C3CFF; }
+.Nodetree li button:hover + ul li::after, .Nodetree li button:hover + ul li::before, .Nodetree li button:hover + ul::before, .Nodetree li button:hover + ul ul::before { border-color: #2C3CFF; }
 
 /*# sourceMappingURL=NodeTree.css.map */

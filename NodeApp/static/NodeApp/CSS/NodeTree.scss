@@ -76,7 +76,7 @@ $mainColor : #2C3CFF;
   // }
   
   //노드 속성
-  .Nodetree li a {
+  .Nodetree li button {
     border: $border-width solid $mainColor;
     padding: 1em .75em;
     margin: 2em 1.5em;
@@ -92,16 +92,16 @@ $mainColor : #2C3CFF;
   }
   
   //노드 hover됐을때 글자색 테두리색 배경색
-  .Nodetree li a:hover,
-  .Nodetree li a:hover+ul li a {
+  .Nodetree li button:hover,
+  .Nodetree li button:hover+ul li button {
     background: $mainColor;
     color: #fff;
     border: $border-width solid $mainColor;
   }
   //이건 알아보자
-  .Nodetree li a:hover + ul li::after, 
-  .Nodetree li a:hover + ul li::before, 
-  .Nodetree li a:hover + ul::before, 
-  .Nodetree li a:hover + ul ul::before{
+  .Nodetree li button:hover + ul li::after, 
+  .Nodetree li button:hover + ul li::before, 
+  .Nodetree li button:hover + ul::before, 
+  .Nodetree li button:hover + ul ul::before{
       border-color:  $mainColor;
   }

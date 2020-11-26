@@ -77,4 +77,7 @@ def Upload(request):
     nodeobj.save()
     
     return render(request, 'NodeApp/version_all.html')
+
+def changeNodeInfo(request):
+    return render(request, 'NodeApp/node_list.html')
         
