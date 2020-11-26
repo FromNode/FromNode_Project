@@ -20,7 +20,9 @@
 
 .Nodetree li:first-child::after { border-radius: 5px 0 0 0; }
 
-.Nodetree li button { border: 3px solid #2C3CFF; padding: 1em .75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 25%; color: #333; position: relative; top: 3px; transform: rotate(90deg); }
+.Nodetree li button { border: 3px solid #2C3CFF; padding: 2em 4em; margin: 4em 1em; text-decoration: none; display: inline-block; border-radius: 30%; color: #333; background-color: white; position: relative; top: 3px; transform: rotate(90deg); }
+
+.Node { background-color: white; }
 
 .Nodetree li button:hover, .Nodetree li button:hover + ul li button { background: #2C3CFF; color: #fff; border: 3px solid #2C3CFF; }
 

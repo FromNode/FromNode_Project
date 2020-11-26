@@ -39,7 +39,7 @@ def node_list(request,file_Code):
             The_File = x.ownerFCode
             Project = x.ownerPCode #나중에 진짜로 연결. 지금은 가라 쳐두기
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-
+    user_data = serializers.serialize("json", User.objects.all())
     for x in Profile.objects.all():
         a = x.projects.split(',')
         proj_objs = a
@@ -51,7 +51,7 @@ def node_list(request,file_Code):
         profile = Profile.objects.get(user=user)
         profiles.append(profile)
 
-    return render(request, 'NodeApp/node_list.html',{'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"proj_user":profiles})
+    return render(request, 'NodeApp/node_list.html',{'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"profiles":profiles,'user_data':user_data})
 
 
 def node_detail(request,node_Code):
