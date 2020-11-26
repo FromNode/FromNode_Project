@@ -1,0 +1,204 @@
+    // 왼쪽 nav 바
+    .side-box{
+        padding: 0 30px 30px 30px;
+    }
+    
+    .side-title{
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .side-content{
+        padding-left: 20px;
+    }
+    .side-project-name{
+        padding: 10px 0;
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .large{
+        font-size:20px;
+    }
+    .middle{
+        font-size:17px;
+    }
+    .small{
+        font-size:12px;
+    }
+    .all{
+        text-decoration: none;
+        align-items: center;
+        height: 100%;
+        line-height: 100%;
+        text-align: center;
+        margin-top: 10%;
+        font-size: 20px;
+    }
+    a:link{
+        text-decoration: none;
+        color: #0F69E4;
+    }
+    a:visited{
+        text-decoration: none;
+        color: #0F69E4;
+    }
+    
+    .invite_link{
+        width:300px;
+        border-radius: 30px;
+        border: 4px solid  #0F69E4;
+        padding:10px;
+        box-shadow: 1px 1px 4px 3px gray ;
+        align-items: center;
+
+    }
+    .invite_top{
+        border-bottom: 2px solid rgb(177, 173, 173);
+        padding-bottom: 10px;
+        
+    }
+    .invite_bottom{
+        padding-top :10px;
+    }
+
+    .invite_search{
+        align-items: center;
+
+    }
+    .invite_bar{
+        border-radius: 30px;
+        height: 20px;
+        padding:2px;
+        border: 1px solid rgb(177, 173, 173);
+    }
+    .invite_button{
+        border-radius: 30px;
+        height:30px;
+        width: 50px;
+        margin-left:0px;
+        background-color:#0F69E4 ;
+        color:white;
+    }
+
+
+    
+    $box-width: 400px;
+    $box-height: 300px;
+    $input-width: 310px;
+
+
+// .modal_Overlay{
+//     background-color: rgba(0, 0, 0, 0.4);
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+// }
+.big-box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.modal_Contents{
+    width: $box-width;
+    height: $box-height;
+    background-color: white;
+    // border: 3px solid #1163f8;
+    padding: 50px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // text-align: center;
+    position: relative;
+    border-radius: 20px;
+    // width: 15%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0,0,0,0.23 );
+}
+.container{
+    display: flex;
+
+}
+
+//modal
+
+.input_sec{
+    border:none;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(110, 110, 110);
+    width: $input-width;
+    
+}
+.input_sec:focus{
+    outline:none;
+}
+.noti{
+    display: flex;
+    flex-direction: row;
+    width: $box-width;
+    margin-bottom :20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.box{
+    display: flex;
+    flex-direction: row;
+    width: $box-width;
+    margin: 10px 0;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+.noti-title{
+    width: $box-width;
+    font-size: 20px;
+    font-weight: 800;
+}
+.title{
+    width: $box-width;
+    font-size: 16px;
+    font-weight: 500;
+    // width: 20px;
+}
+.write{
+    margin-left: 10px;
+}
+.upload_box{
+    display: flex;
+    flex-direction: column;
+    width: $box-width;
+    margin: 10px 0 20px 0;
+}
+.upload_title{
+    width: $box-width - $input-width;
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    font-weight: 500;
+}
+
+
+//제출버튼
+.submit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    margin: 0 3px;
+    // margin: 0 auto;
+}
+
+.uploadBtn{
+    width: 70px;
+    background-color:#1163f8;
+    color: white;
+    margin-bottom: 1em;
+    border: 1px solid #1163f8;
+    border-radius: 30px;
+    padding: 10px;
+    // padding: 1em 2em 1em 2em;
+    text-align: center;
+    margin-top: 10px;
+}

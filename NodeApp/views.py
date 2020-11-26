@@ -22,10 +22,15 @@ def node_list(request,file_Code):
     for i in User_Projects:
         proj_obj += Projects.objects.filter(name=i)
 
+    
+
     The_file = Files.objects.get(Code=file_Code)
+    project = The_file.ownerPCode
+    pro_name = project.name
     A = Nodes.objects.all()
     node_objs =[]
     Project = []
+    proj_objs = []
     proj_user = []
 
     for x in A:
@@ -34,7 +39,19 @@ def node_list(request,file_Code):
             The_File = x.ownerFCode
             Project = x.ownerPCode #나중에 진짜로 연결. 지금은 가라 쳐두기
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-    return render(request, 'NodeApp/node_list.html',{'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data})
+
+    for x in Profile.objects.all():
+        a = x.projects.split(',')
+        proj_objs = a
+        if pro_name in proj_objs:
+            proj_user.append(x.user)
+    profiles = []
+    for username in proj_user:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+        profiles.append(profile)
+
+    return render(request, 'NodeApp/node_list.html',{'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"proj_user":profiles})
 
 
 def node_detail(request,node_Code):
