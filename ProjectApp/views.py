@@ -17,14 +17,11 @@ def show_project_list(request):
     proj_obj = []
     User_Profile = []
     User_Projects = []
-    User_Projects_set = []
     empty = ''
     if request.user.is_authenticated:
         User_Profile = Profile.objects.get(user=request.user)
         # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
         User_Projects = User_Profile.projects.split(',')
-        User_Projects_set = set(User_Projects)
-        User_Projects = list(User_Projects)
 
     else:
         pass
@@ -45,13 +42,15 @@ def show_project_detail(request):
 def project_checkcode(request):
     Project = Projects.objects.all()
     Project_Codes = []
+    User_Profile = Profile.objects.get(user=request.user)
+    User_Projects = User_Profile.projects.split(',')
     for i in Project:
         Project_Codes.append(i.Code)
     if request.POST['Code'] in Project_Codes:
         Join_Project = Projects.objects.get(Code=request.POST['Code'])
         Owner = Join_Project.whoIsOwner
         recipients = User.objects.get(username = Owner)
-        notify.send(request.user,recipient = recipients,verb = Join_Project.name )
+        notify.send(request.user,recipient = recipients,verb = Join_Project.name, description = 1 )
         
         #이후는 알림 기능 배우고! Owner_User = User.objects.get(Username=Join_Project.whoIsOwner)
         # 코드를 보내면서, 동시에 해당 코드를 가진 프로젝트의 오너한테 알림을 보낼것!
@@ -104,3 +103,5 @@ def project_create(request):
         return redirect('project:project_list')
     else:
         return render(request,'ProjectApp/project_create.html')
+
+    
