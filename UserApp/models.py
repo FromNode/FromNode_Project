@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from random import choice
 import string
 
+media_path = settings.MEDIA_ROOT
+
 def user_path(instance,filename):
     arr = [choice(string.ascii_letters) for _ in range(8)]
     pid = ''.join(arr)
@@ -23,8 +25,6 @@ class Profile(models.Model):
     projects = models.TextField(blank = True) #속한 프로젝트 관리 ','로 나눕니다!
     profile_image = models.ImageField(upload_to = user_path,blank=True)
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
-
-
 
     
 @receiver(post_save,sender=User)
