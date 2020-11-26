@@ -5,7 +5,14 @@
 {% block scss %}
     <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
     <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
-    <link href="{% sass_src 'NodeApp/CSS/node_list.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block inlineCss %}
+<style>
+
+</style>
 {% endblock %}
 
 {% block leftbar %}
@@ -25,98 +32,42 @@
 
 {% block content %}
 
-<div class="container">
+<div class="NodeContainer">
   <div class="nodeList_Header">
       <span class="nodeListTitle middle">{{The_File.fileName}}</span>
       <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
-      <br>
+      <div class = 'project_join_members'>
+        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
+      </div>
       <!-- <p class='Large'>프로젝트 참여 명단</p>
       {% for users in proj_user %}
           <span>{{users.username}}</span>
       {% endfor %} -->
   </div>
   <div class="nodeList_Contents">
-    <div class = 'project_join_members'>
-      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-      <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-    </div>
     <div class="Nodetree">
     </div>
   </div>
-</div>
-
-<div class="uploadModal hidden">
-  <!--hidden-->
-  <div class="modal_Overlay"></div>
-  <div class="modal_Contents">
-      <!-- <div class="logo_box">
-          <img class="logo" src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="upload_logo loginimgbox">
-      </div> -->
-      {% csrf_token %}
-      <form method="POST" action="#" class="upload_Form" enctype="multipart/form-data">
-          <div class="box">
-              <div class="title">파일명 : </div>
-              <div class="write">
-                  <input type='text' name='fileName' class='input_sec' value=''>
-              </div>
-
-          </div>
-          <div class="box">
-              <div class="title">메모 : </div>
-              <div class="write">
-                  <input type='text' name='fileMemo' class='input_sec' value=''>
-              </div>
-          </div>
-          <div class="upload_box">
-              <div class="upload_title">파일 업로드</div>
-              <div class="drop-zone">
-                  <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
-                  <div class="self-select">
-                      <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
-                      </div>
-                  <div class="drop-zone__prompt">
-                      <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                  </div>
-                  <!-- <span class="drop-zone__prompt"></span> -->
-  
-                  <!-- <div>
-                      <span class="drop-zone__prompt">
-                          <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                      </span>
-                  </div> -->
-                  <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-              </div>
-          </div>
-
-          <div class="file_submit">
-              <input class="uploadBtn" type="submit" value="OK">
-          </div>
-
-
-
-          <!-- <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
-              {% csrf_token %}
-              <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
-              <p class='middle'>파일 업로드</p>
-              <div class="drop-zone">
-                  <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
-                  <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
-              </div>
-              <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-              <input class="uploadBtn" type="submit" value="OK">
-          </form> -->
-
-
-      </form>
+  <!-- 업로드 모달 -->
+  <div class="nodeUploadModal hidden">
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+        <form method="POST" action="{% url 'node:changeNodeInfo' %}" class="#">
+            {% csrf_token %}
+          <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
+          <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
+          <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
+          <input class="nodeUploadInput" type="text" id="something4" value="4번벨류">
+          <input class="nodeUploadInput" type="submit" value="수정하기">
+            
+        </form>
+    </div>
   </div>
 </div>
-  <br>
-
-
-
-
+  
 
 {{empty}}
 {{message}}
@@ -128,73 +79,127 @@
   let pkArray = [];
   let createUlTag = document.createElement("ul");
   let createLiTag = document.createElement("li");
-  let createATag = document.createElement("a");
+  let createBtnTag = document.createElement("button");
   const startNodeBranch = async() => {
     let data = await getNodeData()
+    console.log(data);
     await createFirstBranch(data);
     await secondBranch(data);
     await otherBranch(data);
+    await branchColor(data);
+    await showUpModal(data);
   }
   const createFirstBranch = async (data) => {
-    console.log(data)
-    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createATag);
+    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createBtnTag);
     Nodetree.appendChild(document.createTextNode("시작 노드"));
-    createUlTag.classList.add(`branch${ulCreateCount}`);
-    // createATag.setAttribute("class", "firstNode Node ");
+    createUlTag.classList.add(`branch${ulCreateCount}`,);
     let url = "/node/create_node/" + data[0].pk 
+    createBtnTag.setAttribute("onclick", "sendCreatedOrder(this);")
     ulCreateCount ++;
   }
   const getNodeData = async () => {
-        let data = '{{json}}'.replaceAll("&quot;", "\"");
-        let json_data = JSON.parse(data);
-        return await json_data
+    let data = '{{json}}'.replaceAll("&quot;", "\"");
+    let json_data = JSON.parse(data);
+    return await json_data
   }
   const secondBranch = async (data) => {
-      createATag.setAttribute("class", `${data[0].pk} openModal`);
-      createATag.setAttribute("onclick", "openModal()")
-      const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
-      const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
-      secondUl.classList.add(`branch${ulCreateCount}`);
-      pkArray[0] = data[0].pk;
-      for(let i = 1; i < data.length; i++){
-        pkArray[i] = data[i].fields.previousCode;
-        if (data[i].fields.previousCode == data[0].pk){
-          let url = "/node/create_node/" + data[i].pk 
-          let secondCreateText = document.createTextNode(`${data[i].pk}`);
-          let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
-          secondBranchNode.appendChild(secondCreateText);
-          secondBranchNode.setAttribute("class", `${data[i].pk} Node openModal`);
-          
-          pkArray[i] = 1;
-          
-        }
+    createBtnTag.classList.add(`${data[0].pk}`, "Node");
+    // createATag.setAttribute("class", `${data[0].pk}`);
+    const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
+    const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
+    secondUl.classList.add(`branch${ulCreateCount}`);
+    pkArray[0] = data[0].pk;
+    for(let i = 1; i < data.length; i++){
+      pkArray[i] = data[i].fields.previousCode;
+      if (data[i].fields.previousCode == data[0].pk){
+        let url = "/node/create_node/" + data[i].pk 
+        let secondCreateText = document.createTextNode("노드");
+        let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
+        secondBranchNode.appendChild(secondCreateText);
+        secondBranchNode.classList.add(`${data[i].pk}`, "Node")
+        // secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
+        secondBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
+        pkArray[i] = 1;
       }
-      ulCreateCount++;
+    }
+    ulCreateCount++;
   }
   const otherBranch = async (data) => {
     for(let i = 1; i<data.length; i++){
       // 숫자 1 1 숫자 숫자 
-        if(pkArray[i] == 1 ){
-          const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
-          const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
-          otherUl.classList.add(`branch${ulCreateCount}`);
-          for(let k = 1; k < data.length; k++){
-            if(k != i && pkArray[k] != 1){
-              if(data[k].fields.previousCode == data[i].pk){
-                let url = "/node/create_node/" + data[k].pk 
-                let otherCreateText = document.createTextNode(`${data[k].pk}`);
-                let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("a"));
-                otherBranchNode.appendChild(otherCreateText);
-                otherBranchNode.setAttribute("class", `${data[k].pk} Node openModal`);
-                pkArray[k] = 1;
-              }
+      if(pkArray[i] == 1 ){
+        const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
+        const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
+        otherUl.classList.add(`branch${ulCreateCount}`);
+        for(let k = 1; k < data.length; k++){
+          if(k != i && pkArray[k] != 1){
+            if(data[k].fields.previousCode == data[i].pk){
+              let url = "/node/create_node/" + data[k].pk 
+              let otherCreateText = document.createTextNode("노드");
+              let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
+              otherBranchNode.appendChild(otherCreateText);
+              otherBranchNode.setAttribute("class", `${data[k].pk} Node`);
+              otherBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
+              pkArray[k] = 1;
             }
           }
         }
       }
-    ulCreateCount++;  
+    }
+    ulCreateCount++;
+  }
+  const branchColor = async (data) => {
+    let AllNodeForColor = document.querySelectorAll(".Node");
+    let teamArray = [];
+    for(let i = 0 ; i<data.length; i++){
+      teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
+      AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
+      //1: 유저별 색상 수정을 위한 class추가 
+      //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
+      
+    }
+    setTeamArray = new Set(teamArray);
+    team = [...setTeamArray];
+    let colorArray = [];
+    for(let k = 0; k<team.length; k++){
+      let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
+      colorArray.push(randomColor);
+    }
+    for(let i = 0; i<data.length; i++){
+        for(let k=0; k<team.length; k++){
+          if(team[k] == AllNodeForColor[i].classList[2]){
+            AllNodeForColor[i].style.borderColor = colorArray[k];
+          }
+        }
+    }
+  }
+  const showUpModal = async (data) => {
+      const modalButton = document.querySelectorAll(".Node");
+      const modal = document.querySelector(".nodeUploadModal");
+      const overlay = modal.querySelector(".modal_Overlay");
+      const toggleModal = () => {
+        modal.classList.toggle("hidden");
+      }
+
+      overlay.addEventListener("click", toggleModal);
+      for(let i = 0; i<modalButton.length; i++){
+        modalButton[i].addEventListener("click", toggleModal);
+      }
+  }
+  const sendCreatedOrder = async (clickedValue) => {
+    let data = await getNodeData()   
+    console.log(data)
+    console.log(clickedValue.classList[3].split(":")[1]);
+    node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
+    const first_input = document.querySelector("#something1");
+    const second_input = document.querySelector("#something2");
+    const third_input = document.querySelector("#something3");
+    const fourth_input = document.querySelector("#something4");
+    first_input.value = node_Data.fields.createdDate;
+    second_input.value = node_Data.fields.whoIsOwner;
+    third_input.value = node_Data.fields.fileObj;
+    fourth_input.value = node_Data.pk;
   }
   startNodeBranch();
-  
 </script>
 {% endblock %}

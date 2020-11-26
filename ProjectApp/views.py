@@ -17,11 +17,15 @@ def show_project_list(request):
     proj_obj = []
     User_Profile = []
     User_Projects = []
+    User_Projects_set = []
     empty = ''
     if request.user.is_authenticated:
         User_Profile = Profile.objects.get(user=request.user)
         # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
         User_Projects = User_Profile.projects.split(',')
+        User_Projects_set = set(User_Projects)
+        User_Projects = list(User_Projects)
+
     else:
         pass
 
@@ -100,4 +104,3 @@ def project_create(request):
         return redirect('project:project_list')
     else:
         return render(request,'ProjectApp/project_create.html')
-    
