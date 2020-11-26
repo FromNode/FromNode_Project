@@ -5,6 +5,8 @@
 <!-- scss를 선언할 영역 -->
 {% block scss %}
 <link href="{% sass_src 'ProjectApp/CSS/project_list.scss' %}" rel="stylesheet" type="text/css">
+<link href="{% sass_src 'ProjectApp/CSS/modal.scss' %}" rel="stylesheet" type="text/css">
+
 {% endblock %}
 
 {% block leftbar %}
@@ -89,27 +91,27 @@
         <!--hidden-->
         <div class="modal_Overlay"></div>
         <div class="modal_Contents">
-            <!-- <div class="logo_box">
-                <img class="logo" src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="upload_logo loginimgbox">
-            </div> -->
-            <p>프로젝트 이름을 정해주세요!</p>
+            <p class="modal-title">프로젝트 이름을 정해주세요 :-)</p>
             <form action = "{% url 'project:project_create'%}" method = 'POST'>
                 {% csrf_token %}
-                <div class="box">
-                    <div class="title">이름 : </div>
-                    <div class="write">
-                        <input type='text' name='name' class='input_sec' value=''>
+                <div class="m-boxes">
+                    <div class="m-box">
+                        <div class="input-title">이름 : </div>
+                        <div class="write">
+                            <input type='text' name='name' class='input_sec' value=''>
+                        </div>
+        
                     </div>
-    
-                </div>
-                <div class="box">
-                    <div class="title">설명 : </div>
-                    <div class="write">
-                        <input type='text' name='description' class='input_sec' value=''>
+                    <div class="m-box">
+                        <div class="input-title">설명 : </div>
+                        <div class="write">
+                            <input type='text' name='description' class='input_sec' value=''>
+                        </div>
                     </div>
                 </div>
-
-                <input type='submit' value='생성'>
+                <div class="submit">
+                <input class="uploadBtn" type='submit' value='생성'>
+            </div>
             </form>
 
         </div>

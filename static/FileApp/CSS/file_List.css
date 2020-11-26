@@ -32,18 +32,6 @@ a:visited { text-decoration: none; color: #0F69E4; }
 
 @font-face { font-family: 'MapoFlowerIsland'; src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff") format("woff"); font-weight: normal; font-style: normal; }
 
-.login_Form { display: flex; flex-direction: column; align-items: center; }
-
-.uploadModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-
-.modal_Overlay { background-color: rgba(0, 0, 0, 0.4); width: 100%; height: 100%; position: absolute; }
-
-.modal_Contents { width: 400px; height: 300px; background-color: white; border: 3px solid #1163f8; padding: 50px 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; border-radius: 20px; }
-
-.hidden { display: none; }
-
-.container { display: flex; }
-
 .fileList_Header { margin-top: 10px; margin-left: 25px; flex-direction: row; }
 
 .fileListTitle { margin-top: 30px; margin-left: 20px; }
@@ -61,39 +49,5 @@ a:visited { text-decoration: none; color: #0F69E4; }
 .fileList_upload { align-items: right; text-align: right; }
 
 .openModal { border-radius: 30px; border: 3px solid  #1163f8; background-color: white; padding: 30px; align-items: right; text-align: center; }
-
-.input_sec { border: none; padding-bottom: 5px; border-bottom: 1px solid #6e6e6e; width: 310px; }
-
-.input_sec:focus { outline: none; }
-
-.box { display: flex; flex-direction: row; width: 400px; margin: 10px 0; }
-
-.title { width: 90px; font-size: 16px; font-weight: 500; }
-
-.write { margin-left: 10px; }
-
-.upload_box { display: flex; flex-direction: column; width: 400px; margin: 10px 0 20px 0; }
-
-.upload_title { width: 90px; font-size: 16px; margin: 20px 0 10px 0; font-weight: 500; }
-
-.drop-zone { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 1em; font-weight: 500; cursor: pointer; color: black; background-color: #2771fb; border-radius: 20px; }
-
-.inner_text { color: white; }
-
-.drop-zone__over { border-style: solid; }
-
-.drop-zone__prompt { width: 100%; text-align: center; margin-top: 20px; }
-
-.self-select { display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-.drop-zone__input { text-align: center; }
-
-.drop-zone__thumb { width: 100%; height: 100%; border-radius: 10px; overflow: hidden; background-color: #cccccc; background-size: cover; position: relative; }
-
-.drop-zone__thumb::after { content: attr(data-label); position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px 0; color: #ffffff; background: rgba(0, 0, 0, 0.75); font-size: 14px; text-align: center; }
-
-.file_submit { display: flex; justify-content: center; align-items: center; width: 50px; margin: 0 auto; }
-
-.uploadBtn { width: 70px; background-color: #1163f8; color: white; margin-bottom: 1em; border: 1px solid #1163f8; border-radius: 30px; padding: 10px; text-align: center; }
 
 /*# sourceMappingURL=file_list.css.map */
