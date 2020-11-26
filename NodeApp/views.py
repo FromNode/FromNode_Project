@@ -60,27 +60,44 @@ def node_detail(request,node_Code):
     print(The_file,'hi')
     return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj,'The_file':The_file})
 
-def create_node(request, node_Code):
-    PNode = Nodes.objects.get(Code=node_Code)
-    FNode = Nodes.objects.filter(Code=node_Code)
-    The_file = PNode.ownerFCode
-    node_objs =Nodes.objects.filter(ownerFCode = The_file)
+def create_node(request):
+    IAmNodePk = request.POST['something4']
+    NodeParentsFileCode = request.POST['something5']
+    redirectURL = '/node/node_list/'+str(NodeParentsFileCode)
+    clickedNode = Nodes.objects.get(Code=int(IAmNodePk)) #-->PNODE 
+    # nodesInProject = Nodes.objects.filter(Code=int(IAmNodePk)) #--> FNODE
+    node_object = Nodes()
+    node_object.fileObj = request.FILES['myFile']
+    node_object.previousCode = clickedNode
+    node_object.ownerFCode = clickedNode.ownerFCode
+    node_object.ownerPCode = clickedNode.ownerPCode
+    node_object.whoIsOwner = request.user
+    node_object.save()
+
+    # PNode = Nodes.objects.get(Code=int(pkCode))
+    # # 내가누른노드
+    # FNode = Nodes.objects.filter(Code=int(pkCode))
+    # # 타겟노드
+    # The_file = PNode.ownerFCode
     
 
-    if request.method == 'POST':
-        pk = request.POST['pk']
-        next_url = '/node/node_list/'+str(pk)
-        node_obj = Nodes()
-        node_obj.fileObj = request.FILES['myFile']
-        node_obj.previousCode = PNode
-        node_obj.ownerFCode = PNode.ownerFCode
-        node_obj.ownerPCode = PNode.ownerPCode
-        node_obj.whoIsOwner = request.user
-        node_obj.save()
+    # if request.method == 'POST':
+    #     pk = request.POST['pk']
+    #     next_url = '/node/node_list/'+str(pk)
+    #     node_obj = Nodes()
+    #     # 새로생긴node_obj
+    #     node_obj.fileObj = request.FILES['myFile']
+    #     node_obj.previousCode = PNode
+    #     node_obj.ownerFCode = PNode.ownerFCode
+    #     node_obj.ownerPCode = PNode.ownerPCode
+    #     node_obj.whoIsOwner = request.user
+    #     node_obj.save()
 
-        return redirect(next_url)
-    else:
-        return render(request,'NodeApp/create_node.html',{'FNode':FNode,'The_file':The_file})
+    #     return redirect(next_url)
+    # else:
+    return redirect(redirectURL)
+    # return render(request,'NodeApp/node_list.html')
+    # {'FNode':FNode,'The_file':The_file}
 
 def Upload(request):
     nodeobj = Nodes()

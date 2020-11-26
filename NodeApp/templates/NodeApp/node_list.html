@@ -54,14 +54,21 @@
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <form method="POST" action="{% url 'node:changeNodeInfo' %}" class="#">
+        <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
-          <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
-          <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
-          <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
-          <input class="nodeUploadInput" type="text" id="something4" value="4번벨류">
-          <input class="nodeUploadInput" type="submit" value="수정하기">
-            
+          <div>
+            <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
+            <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
+            <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
+            <input class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류">
+            <input class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류">
+          </div>
+          <div class="drop-zone">
+            <span class="drop-zone__prompt">파일을 드롭하세요</span>
+            <input type="file" name="myFile" class="drop-zone__input" multiple>
+            <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
+          </div>
+          <input class="uploadBtn" type="submit" value="업로드하기">
         </form>
     </div>
   </div>
@@ -194,11 +201,14 @@
     const second_input = document.querySelector("#something2");
     const third_input = document.querySelector("#something3");
     const fourth_input = document.querySelector("#something4");
+    const fifth_input = document.querySelector("#something5");
     first_input.value = node_Data.fields.createdDate;
     second_input.value = node_Data.fields.whoIsOwner;
     third_input.value = node_Data.fields.fileObj;
     fourth_input.value = node_Data.pk;
+    fifth_input.value = node_Data.fields.ownerFCode;
   }
   startNodeBranch();
 </script>
+<script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
 {% endblock %}
