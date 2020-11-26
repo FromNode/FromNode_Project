@@ -127,12 +127,18 @@ input:focus{
     justify-content: center;
     align-items: center;
 }
+.nav-box{
+  display: flex;
+  flex-direction: row;
+}
 
 .nav-item{
     list-style-type: none;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     font-size: 30px;
+    justify-content: center;
    
 }
 .nav-item a {
@@ -192,10 +198,10 @@ input:focus{
 }
 
 .content{
-  padding-left: 350px;
+  padding-left: $nav-left-width + 50px;
   padding-top: $bottom-blank;
   padding-bottom: 50px;
-  width : auto;
+  width : 100vw;
 }
 
 li{

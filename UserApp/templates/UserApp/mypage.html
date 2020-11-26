@@ -3,51 +3,93 @@
 {% load notifications_tags %}
 {% load static %}
 {% block scss %}
-    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+<!-- <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css"> -->
+<link href="{% sass_src 'UserApp/CSS/mypage.scss' %}" rel="stylesheet" type="text/css">
+
 {% endblock %}
+
+{% block leftbar %}
+<div class="side-box">
+    <p class="side-title">내 프로젝트</p>
+    {% for project in proj_obj %}
+    <ul class="side-content">
+        <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" style="color: black">
+                <p>프로젝트{{project.id}} : {{project.name}}</p>
+            </a></li>
+    </ul>
+    {% endfor %}
+</div>
+
+<div class="side-box">
+    <p class="side-title ">최종 파일 모음</p>
+</div>
+{% endblock %}
+
+
 {% block content %}
-    {% notifications_unread as unread_count %}
-    <button>구독 신청하기(과금)</button>
-
-        {% if unread_count %}
-        <h3>{{unread_count}}개의 새 알림이 있습니다.</h3>
-        {% else %}
-        <h3>새 알림이 없네요!</h3>
-        {% endif %}
-
-        {% if unread_messages_invite %}
-            {% for unread_messages in unread_messages_invite.all %}
-            <div>
-                <p>{{unread_messages.actor}}님 께서{{unread_messages.verb}}참가를 원하십니다!</p>
-                <form action = "{% url 'user:join_project' %}" method='POST'>
-                    {% csrf_token %}
-                    <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
-                    <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
-                    <input type = 'submit' value='수락'>
-                </form>
-                <form action = "{% url 'user:cofirm_alarm' %}" method='POST'>
-                    {% csrf_token %}
-                    <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
-                    <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
-                    <input type = 'submit' value='거절'>
-                </form>
-                
+{% notifications_unread as unread_count %}
+<!-- <button>구독 신청하기(과금)</button> -->
+<div class="big-box">
+    <!--hidden-->
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+        <div class="upload_Form">
+            <div class="noti">
+                <div class="noti-title">
+                    {% if unread_count %}
+                    {{unread_count}}개의 새 알림이 있습니다.
+                    {% else %}
+                    새 알림이 없네요!
+                    {% endif %}
+                </div>
             </div>
-            {% endfor %}
-        {% endif %}
-        {% if unread_messages_invite_return %}
-            {% for unread_messages in unread_messages_invite_return.all %}
-            <form action = "{% url 'user:cofirm_alarm' %}" method='POST'>
-                {% csrf_token %}
-                <p>{{unread_messages.verb}}</p>   
-                <input type='hidden' name='actor' value= '{{unread_messages.actor}}'>
-                <input type='hidden' name='project' value= '{{unread_messages.verb}}'>
-                <input type = 'submit' value='확인'>
-            </form>
-                 
-            {% endfor %}
-        {% endif %}
-        <h1> 알림</h1>
+
+            {% if unread_messages_invite %}
+            <div class="box">
+                {% for unread_messages in unread_messages_invite.all %}
+                <div class="title">
+                    {{unread_messages.actor}}님 께서<br>"{{unread_messages.verb}}" 참가를 원하십니다!
+                </div>
+                <form class="submit" action="{% url 'user:join_project' %}" method='POST'>
+                    {% csrf_token %}
+                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                    <input class="uploadBtn" type='submit' value='수락'>
+                </form>
+                <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
+                    {% csrf_token %}
+                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                    <input class="uploadBtn" type='submit' value='거절'>
+                </form>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if unread_messages_invite_return %}
+            <div class="box">
+                {% for unread_messages in unread_messages_invite_return.all %}
+                <div class="title">
+                    {{unread_messages.verb}}
+                </div>
+                <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
+                    {% csrf_token %}
+                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                    <input class="uploadBtn" type='submit' value='확인'>
+                </form>
+
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+
+
+
+
+    </div>
+</div>
 
 {% endblock %}
 {% block JS %}
