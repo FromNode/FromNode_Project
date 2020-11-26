@@ -29,6 +29,7 @@ body{
   position: fixed;
   width: 100%;
   height: auto;
+  flex: 1;
 }
 
 .content{
@@ -36,7 +37,6 @@ body{
   flex-direction: column;
   width: 100%;
   /* padding: 25px 0; */
-
 }
 
 /* 끝 */
@@ -177,6 +177,7 @@ input:focus{
   width: 100%;
   display: flex;
   flex-direction: row;
+  flex: 9;
 }
 
 .left-menu{

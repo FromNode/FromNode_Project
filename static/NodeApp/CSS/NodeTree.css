@@ -1,16 +1,14 @@
-body { font-family: sans-serif; font-size: 15px; }
-
-.Nodetree { transform: rotate(360deg); transform-origin: 50%; }
+.Nodetree { transform: rotate(270deg); transform-origin: 50%; }
 
 .Nodetree ul { position: relative; padding: 1em 0; white-space: nowrap; margin: 0 auto; text-align: center; }
 
 .Nodetree ul::after { content: ''; display: table; clear: both; }
 
-.Nodetree li { display: inline-block; vertical-align: top; text-align: center; list-style-type: none; position: relative; padding: 1em .5em 0 .5em; }
+.Nodetree li { display: inline-block; vertical-align: top; text-align: center; list-style-type: none; position: relative; padding: 1em; }
 
-.Nodetree li::before, .Nodetree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 1px solid #ccc; width: 50%; height: 1em; }
+.Nodetree li::before, .Nodetree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 3px solid black; width: 50%; height: 1em; }
 
-.Nodetree li::after { right: auto; left: 50%; border-left: 1px solid #ccc; }
+.Nodetree li::after { right: auto; left: 50%; border-left: 3px solid black; }
 
 .Nodetree li:only-child::after, .Nodetree li:only-child::before { display: none; }
 
@@ -18,16 +16,14 @@ body { font-family: sans-serif; font-size: 15px; }
 
 .Nodetree li:first-child::before, .Nodetree li:last-child::after { border: 0 none; }
 
-.Nodetree li:last-child::before { border-right: 1px solid #ccc; border-radius: 0 5px 0 0; }
+.Nodetree li:last-child::before { border-right: 3px solid black; border-radius: 0 5px 0 0; }
 
 .Nodetree li:first-child::after { border-radius: 5px 0 0 0; }
 
-.Nodetree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 1px solid #ccc; width: 0; height: 1em; }
+.Nodetree li button { border: 3px solid #2C3CFF; padding: 1em .75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 25%; color: #333; position: relative; top: 3px; transform: rotate(90deg); }
 
-.Nodetree li a { border: 1px solid #ccc; padding: .5em .75em; text-decoration: none; display: inline-block; border-radius: 5px; color: #333; position: relative; top: 1px; transform: rotate(360deg); }
+.Nodetree li button:hover, .Nodetree li button:hover + ul li button { background: #2C3CFF; color: #fff; border: 3px solid #2C3CFF; }
 
-.Nodetree li a:hover, .Nodetree li a:hover + ul li a { background: #e9453f; color: #fff; border: 1px solid #e9453f; }
-
-.Nodetree li a:hover + ul li::after, .Nodetree li a:hover + ul li::before, .Nodetree li a:hover + ul::before, .Nodetree li a:hover + ul ul::before { border-color: #e9453f; }
+.Nodetree li button:hover + ul li::after, .Nodetree li button:hover + ul li::before, .Nodetree li button:hover + ul::before, .Nodetree li button:hover + ul ul::before { border-color: #2C3CFF; }
 
 /*# sourceMappingURL=NodeTree.css.map */

@@ -1,52 +1,48 @@
-body {
-    font-family: sans-serif;
-    font-size: 15px;
+$border-width: 3px;
+$reverse: true;
+$mainColor : #2C3CFF;
+//전체 트리 div 회전
+.Nodetree {
+  @if $reverse {
+    transform: rotate(270deg);
+    transform-origin: 50%;
   }
+}
   
-  $border-width: 1px;
-  $reverse: true;
-  
-  .Nodetree {
-    @if $reverse {
-      transform: rotate(360deg);
-      transform-origin: 50%;
-    }
+.Nodetree ul {
+  position: relative;
+  padding: 1em 0; 
+  white-space: nowrap;
+  margin: 0 auto;
+  text-align: center;
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
   }
-  
-  .Nodetree ul {
-    position: relative;
-      padding: 1em 0; 
-    white-space: nowrap;
-    margin: 0 auto;
-    text-align: center;
-    &::after {
-      content: '';
-      display: table;
-      clear: both;
-    }
-  }
+}
   
   .Nodetree li {
     display: inline-block; // need white-space fix
     vertical-align: top;
     text-align: center;
-      list-style-type: none;
-      position: relative;
-      padding: 1em .5em 0 .5em;
+    list-style-type: none;
+    position: relative;
+    padding: 1em;
     &::before,
     &::after {
       content: '';
       position: absolute; 
       top: 0; 
       right: 50%;
-      border-top: $border-width solid #ccc;
+      border-top: $border-width solid black; // 트리연결 세로 줄
       width: 50%; 
       height: 1em;
     }
     &::after {
       right: auto; 
       left: 50%;
-        border-left: $border-width solid #ccc;
+        border-left: $border-width solid black; // 연결받는 노드 좌측 선 일부
     }
     &:only-child::after,
     &:only-child::before {
@@ -60,48 +56,52 @@ body {
       border: 0 none;
     }
     &:last-child::before{
-      border-right: $border-width solid #ccc;
+      border-right: $border-width solid black; // 연결받는 노드 좌측 선 일부
       border-radius: 0 5px 0 0;
     }
     &:first-child::after{
       border-radius: 5px 0 0 0;
     }
   }
+
+  // 빈 공간으로 이어주는 선
+  // .Nodetree ul ul::before{
+  //   content: '';
+  //   position: absolute; 
+  //   top: 0; 
+  //   left: 50%;
+  //   border-left: $border-width solid black;
+  //   width: 0; 
+  //   height: 1em;
+  // }
   
-  .Nodetree ul ul::before{
-      content: '';
-      position: absolute; 
-    top: 0; 
-    left: 50%;
-      border-left: $border-width solid #ccc;
-      width: 0; 
-    height: 1em;
-  }
-  
-  .Nodetree li a {
-      border: $border-width solid #ccc;
-      padding: .5em .75em;
-      text-decoration: none;
-      display: inline-block;
-      border-radius: 5px;
+  //노드 속성
+  .Nodetree li button {
+    border: $border-width solid $mainColor;
+    padding: 1em .75em;
+    margin: 2em 1.5em;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 25%;
     color: #333;
     position: relative;
     top: $border-width;
     @if $reverse {
-      transform: rotate(360deg);
+      transform: rotate(90deg);
     }
   }
   
-  .Nodetree li a:hover,
-  .Nodetree li a:hover+ul li a {
-      background: #e9453f;
+  //노드 hover됐을때 글자색 테두리색 배경색
+  .Nodetree li button:hover,
+  .Nodetree li button:hover+ul li button {
+    background: $mainColor;
     color: #fff;
-    border: $border-width solid #e9453f;
+    border: $border-width solid $mainColor;
   }
-  
-  .Nodetree li a:hover + ul li::after, 
-  .Nodetree li a:hover + ul li::before, 
-  .Nodetree li a:hover + ul::before, 
-  .Nodetree li a:hover + ul ul::before{
-      border-color:  #e9453f;
+  //이건 알아보자
+  .Nodetree li button:hover + ul li::after, 
+  .Nodetree li button:hover + ul li::before, 
+  .Nodetree li button:hover + ul::before, 
+  .Nodetree li button:hover + ul ul::before{
+      border-color:  $mainColor;
   }

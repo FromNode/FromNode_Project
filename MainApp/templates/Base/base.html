@@ -13,6 +13,8 @@
     <!-- scss를 선언할 영역 -->
     {% block scss %}
     {% endblock %}
+    {% block inlineCss %}
+    {% endblock %}
 </head>
 
 <body>
@@ -44,7 +46,6 @@
                         <li class="icon-dropdown nav-item"><a href="#"><img class="icon-profile" src="{% static 'image/logo_character.png' %}" alt=""></a></li>
                     </ul>
                 </div> -->
-
                 <div class='box-right'>
                     <ul>
                         <!-- <li class="nav-item"><a href="#"><img class="icon" src="{% static 'Mainapp/image/grid.png' %}" alt=""></a></li>
@@ -60,14 +61,10 @@
                 </div>
                         <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서
                             그 view에 유저 프로필 사진을 ~로 담아서 보내야겠다. -->
-
             </div>
         </div>
-
-
         <div class="bottom">
             <!-- 왼쪽 메뉴 -->
-            
             <div class="left-menu">
                 {% block leftbar %}
                 {% endblock %}
