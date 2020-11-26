@@ -21,7 +21,13 @@
 
 .Nodetree li:first-child::after { border-radius: 50px 0 0 0; }
 
+<<<<<<< HEAD
 빈 공간으로 이어주는 선 .Nodetree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 3px solid #cccccc; width: 0; height: 1em; }
+=======
+.Nodetree li button { border: 3px solid #2C3CFF; padding: 2em 4em; margin: 4em 1em; text-decoration: none; display: inline-block; border-radius: 30%; color: #333; background-color: white; position: relative; top: 3px; transform: rotate(90deg); }
+
+.Node { background-color: white; }
+>>>>>>> new_master
 
 .Nodetree li button { border: 3px solid #2C3CFF; padding: 2em 3.75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 20%; color: #333; position: relative; top: 3px; background-color: white; transform: rotate(90deg); }
 

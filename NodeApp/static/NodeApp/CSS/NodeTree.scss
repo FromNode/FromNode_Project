@@ -2,6 +2,7 @@ $border-width: 3px;
 $reverse: true;
 $mainColor : #2C3CFF;
 //전체 트리 div 회전
+
 .Nodetree {
   @if $reverse {
     transform: rotate(270deg);
@@ -84,6 +85,7 @@ $mainColor : #2C3CFF;
     display: inline-block;
     border-radius: 20%;
     color: #333;
+    background-color: white;
     position: relative;
     top: $border-width;
     background-color: white;
@@ -92,6 +94,9 @@ $mainColor : #2C3CFF;
     }
   }
   
+  .Node{
+    background-color: white;
+  }
   //노드 hover됐을때 글자색 테두리색 배경색
   .Nodetree li button:hover,
   .Nodetree li button:hover+ul li button {
@@ -106,3 +111,5 @@ $mainColor : #2C3CFF;
   .Nodetree li button:hover + ul ul::before{
       border-color:  $mainColor;
   }
+
+  //FirstNode

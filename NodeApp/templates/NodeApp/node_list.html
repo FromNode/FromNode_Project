@@ -32,13 +32,14 @@
 
 {% block content %}
 
+
 <div class="NodeContainer">
   <div class="nodeList_Header">
       <span class="nodeListTitle middle">{{The_File.fileName}}</span>
       <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
       <div class = 'project_join_members'>
-        {% for i in proj_user %}
-        <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%;'></div>
+        {% for i in profiles %}
+        <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%; border: 1px solid gray;'></div>
         {% endfor %}
       </div>
       <!-- <p class='Large'>프로젝트 참여 명단</p>
@@ -54,22 +55,38 @@
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
+      <div class='Explain_Contents'>
+        <p class='Node_Owner'></p>
+        <p class='Node_Name'></p>
+        <p class = 'Node_Discriptions'></p>
+        <p class = 'Node_Create_Time'></p>
+      </div>
+      <div class='Low_Contents'>
+        <div class='Upload_Contents'>
+          <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
           <div>
-            <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
-            <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
-            <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
-            <input class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류">
-            <input class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류">
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something1" value="1번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something2" value="2번벨류" type = 'hidden'>
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something3" value="3번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류" >
           </div>
           <div class="drop-zone">
-            <span class="drop-zone__prompt">파일을 드롭하세요</span>
+            <img class = 'upload' src = '{% static "MainApp/picture/Upload.png" %}'><span class="drop-zone__prompt">파일을 드롭하세요</span></img>
             <input type="file" name="myFile" class="drop-zone__input" multiple>
             <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
           </div>
           <input class="uploadBtn" type="submit" value="업로드하기">
-        </form>
+          </form>
+
+        </div>
+        <div class='Download_Contents'>
+          <img src = '{% static "MainApp/picture/Download.png" %}'>
+        </div>
+      </div>
+      
+        
     </div>
   </div>
 </div>
@@ -86,8 +103,11 @@
   let createUlTag = document.createElement("ul");
   let createLiTag = document.createElement("li");
   let createBtnTag = document.createElement("button");
+  let createPTag = document.createElement('P');
+  
   const startNodeBranch = async() => {
     let data = await getNodeData()
+    let u_data = await getUserData()
     console.log(data);
     await createFirstBranch(data);
     await secondBranch(data);
@@ -105,9 +125,20 @@
   }
   const getNodeData = async () => {
     let data = '{{json}}'.replaceAll("&quot;", "\"");
+    
     let json_data = JSON.parse(data);
-    return await json_data
+    
+    
+    return await json_data 
   }
+  
+  const getUserData = async () => {
+    let u_data = '{{user_data}}'.replaceAll("&quot;", "\"");
+    let user_data = JSON.parse(u_data);
+
+    return await  user_data
+  }
+
   const secondBranch = async (data) => {
     createBtnTag.classList.add(`${data[0].pk}`, "Node");
     // createATag.setAttribute("class", `${data[0].pk}`);
@@ -192,9 +223,18 @@
         modalButton[i].addEventListener("click", toggleModal);
       }
   }
+  let a = 0;
   const sendCreatedOrder = async (clickedValue) => {
+    
+    const Node_Owner = document.querySelector('.Node_Owner');
+    const Node_Name = document.querySelector('.Node_Name');
+    const Node_Discriptions = document.querySelector('.Node_Discriptions');
+    const Node_Create_Time = document.querySelector('.Node_Create_Time');
+
     let data = await getNodeData()   
-    console.log(data)
+    let u_data = await getUserData()
+    console.log(data);
+    console.log(clickedValue.classList)
     console.log(clickedValue.classList[3].split(":")[1]);
     node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
     const first_input = document.querySelector("#something1");
@@ -202,8 +242,26 @@
     const third_input = document.querySelector("#something3");
     const fourth_input = document.querySelector("#something4");
     const fifth_input = document.querySelector("#something5");
+    if (a == 0){
+      Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
+      Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
+      Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
+      Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
+      a = 1;
+    }
+      Node_Owner.removeChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
+      Node_Name.removeChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
+      Node_Discriptions.removeChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
+      Node_Create_Time.removeChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
+
+      Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
+      Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
+      Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
+      Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
+ 
+    
     first_input.value = node_Data.fields.createdDate;
-    second_input.value = node_Data.fields.whoIsOwner;
+    second_input.value = u_data[node_Data.fields.whoIsOwner-1].fields.username
     third_input.value = node_Data.fields.fileObj;
     fourth_input.value = node_Data.pk;
     fifth_input.value = node_Data.fields.ownerFCode;
