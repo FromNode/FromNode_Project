@@ -67,7 +67,7 @@
             {% csrf_token %}
           <div>
             <input type = 'hidden' class="nodeUploadInput" type="text" id="something1" value="1번벨류" >
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something2" value="2번벨류" type = 'hidden'>
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something2" value="2번벨류" >
             <input type = 'hidden' class="nodeUploadInput" type="text" id="something3" value="3번벨류" >
             <input type = 'hidden' class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류" >
             <input type = 'hidden' class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류" >
@@ -223,7 +223,6 @@
         modalButton[i].addEventListener("click", toggleModal);
       }
   }
-  let a = 0;
   const sendCreatedOrder = async (clickedValue) => {
     
     const Node_Owner = document.querySelector('.Node_Owner');
@@ -233,33 +232,23 @@
 
     let data = await getNodeData()   
     let u_data = await getUserData()
-    console.log(data);
     console.log(clickedValue.classList)
     console.log(clickedValue.classList[3].split(":")[1]);
-    node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
+    
+    let node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
+    console.log(node_Data)
+    console.log(node_Data.fields)
     const first_input = document.querySelector("#something1");
     const second_input = document.querySelector("#something2");
     const third_input = document.querySelector("#something3");
     const fourth_input = document.querySelector("#something4");
     const fifth_input = document.querySelector("#something5");
-    if (a == 0){
-      Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
-      Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
-      Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
-      Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
-      a = 1;
-    }
-      Node_Owner.removeChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
-      Node_Name.removeChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
-      Node_Discriptions.removeChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
-      Node_Create_Time.removeChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
 
-      Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
-      Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
-      Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
-      Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
- 
-    
+    Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
+    Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
+    Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
+    Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
+
     first_input.value = node_Data.fields.createdDate;
     second_input.value = u_data[node_Data.fields.whoIsOwner-1].fields.username
     third_input.value = node_Data.fields.fileObj;
