@@ -99,19 +99,29 @@ def create_node(request):
     # return render(request,'NodeApp/node_list.html')
     # {'FNode':FNode,'The_file':The_file}
 
-def Upload(request):
-    nodeobj = Nodes()
-    nodeobj.Code = "001000"
-    nodeobj.createdDate = datetime.now
-    for files in request.FILES.getlist('myFile'):
-         nodeobj.fileObj = files
-    nodeobj.previousCode =Nodes.objects.get(Code="000001") 
-    nodeobj.ownerPCode = Projects.objects.get(Code="000001")
-    nodeobj.whoIsOwner = User.objects.get(username = 'sea')
-    nodeobj.save()
+# def Upload(request):
+#     nodeobj = Nodes()
+#     nodeobj.Code = "001000"
+#     nodeobj.createdDate = datetime.now
+#     for files in request.FILES.getlist('myFile'):
+#          nodeobj.fileObj = files
+#     nodeobj.previousCode =Nodes.objects.get(Code="000001") 
+#     nodeobj.ownerPCode = Projects.objects.get(Code="000001")
+#     nodeobj.whoIsOwner = User.objects.get(username = 'sea')
+#     nodeobj.save()
     
-    return render(request, 'NodeApp/version_all.html')
+#     return render(request, 'NodeApp/version_all.html')
 
-    
-def changeNodeInfo(request):
-    return render(request,'NodeApp/node_list.html')
+def CreateTree(request):
+    # temp = []
+    gridRowWidth = "100px "
+    gridColumnHeight = "100px "
+    gridRowNum = gridRowWidth * 5
+    gridColumnNum = gridColumnHeight * 5
+    objects = {
+        'gridRowNum':gridRowNum, 
+        'gridColumnNum':gridColumnNum,
+        'rows' : 5,
+        'columns' : 5,
+    }
+    return render(request, 'NodeApp/test.html' , objects)
