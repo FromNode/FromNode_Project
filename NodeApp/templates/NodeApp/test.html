@@ -7,14 +7,38 @@
   <style>
     .NodeContainer {
       display: grid;
+      gap: 5px;
+      place-items: center center;
+    }
+    .Nodes button{
+      all: unset;
+      cursor: pointer;
     }
     
     
   </style>
 </head>
 <body>
+  <div id="myDiagramDiv" style="width:400px; height:150px; background-color: #DAE4E4;">
+  </div>
   <div class="NodeContainer">
   </div>
+  <script src="https://unpkg.com/gojs/release/go-debug.js"></script>
+  <script>
+    let Go = go.GraphObject.make;
+    let myDiagram = Go(go.Diagram, "myDiagramDiv", 
+      {
+        "undoManager.isEnabled":true
+      }
+    );
+    let myModel = Go(go.Model);
+    myModel.nodeDataArray = [
+      {key : "Alpha"},
+      {key : "Beta"},
+      {key : "Gamma"}
+    ];
+    myDiagram.model = myModel;
+  </script>
   <script>
     const NodeContainer = document.querySelector(".NodeContainer");
     const pageOnload = async () =>{
