@@ -8,6 +8,8 @@
     .NodeContainer {
       display: grid;
     }
+    
+    
   </style>
 </head>
 <body>
@@ -16,43 +18,63 @@
   <script>
     const NodeContainer = document.querySelector(".NodeContainer");
     const pageOnload = async () =>{
-      await createGrid();
-      let data = await getNodeData();
+      await createGrid(); // 그리드 만들기
+      let data = await getNodeData();  
       await createNodeBtn(data);
       await settingNodeDiv();
     }
     const createGrid = async() => {
-      let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", "");
-      let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", "");
-      NodeContainer.style.gridTemplateRows = String(gridRowWidth);
-      NodeContainer.style.gridTemplateColumns = String(gridColumnHeight);
+      //최대 row, columns 숫자 넣기 grid 생성
+      let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
+      let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
+      NodeContainer.style.setProperty('grid', `${gridRowWidth} / ${gridColumnHeight}`); // grid 선언
+
+      //grid-template-areas 선언
+      let rowNum = '{{rows}}'; // view에서 받은 행 최대값
+      let columnNum = '{{columns}}'; // view에서 받은 열 최대값
+      let gridTemplateAreas = []; // 가공 이전 배열
+      let gridTemplateAreasArray = []; // 가공 후 문자열
+      for(let i = 0; i<rowNum; i++){
+        gridTemplateAreas.push(new Array());
+        gridTemplateAreas[i].push('"'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 앞 " 을 담당
+        for(let k = 0; k<columnNum; k++) {
+          gridTemplateAreas[i].push(`R${i+1}C${k+1}`);
+        } 
+        gridTemplateAreasArray.push(gridTemplateAreas[i].join(" ")); // css 형식 맞추기 위한 변환
+      }
+      let gridNodeAreas = gridTemplateAreasArray.join(' " ').concat(' "'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 뒷부분 " 을 담당 및 변환
+      NodeContainer.style.setProperty('grid-template-areas', `${gridNodeAreas}`)
     }
+      
     const getNodeData = async => {
+      //view에서 node object 받아올것
       console.log("노드데이ta");
     }
-    const createNodeBtn = async() => {
-      let gridRowWidth = '{{rows}}';
-      let gridColumnHeight = '{{columns}}';
-      for(let i = 0; i<gridRowWidth; i++){
-        for(let k = 0; k<gridColumnHeight; k++){
-          let btnDiv = document.createElement("div");
-          let btn = document.createElement("button");
-          let btnText = document.createTextNode(`${i}행 ${k}열`);
-          btn.appendChild(btnText);
-          btnDiv.appendChild(btn.appendChild(btnText));
-          NodeContainer.appendChild(btnDiv).setAttribute("class", `${i}-${k}`);
-        }
+    const createNodeBtn = async(data) => {
+      //node data 받아올 것 
+      let exArray = [[1,1,000001, null], [1,2,000002, 000001], [2,2,000003,000001], [1,3,000002], [1,4,000005,000003], [2,4,000006,000003]];
+      for(let i = 0; i<exArray.length; i++){ // 노드 수 만큼
+        let btnDiv = document.createElement("div");
+        let btn = document.createElement("button");
+        let row = exArray[i][0];
+        let column = exArray[i][1];
+        let btnText = document.createTextNode(`${row}행 ${column}열`);
+        btn.appendChild(btnText);
+        btnDiv.appendChild(btn);
+        btnDiv.setAttribute("class", `R${row}C${column} Nodes`);// R1C1 
+        NodeContainer.appendChild(btnDiv);
       }
     }
     // 해당클래스 찾아서 grid-area 선언해야한다이말이야
     const settingNodeDiv = async() => {
-      let gridRowWidth = '{{rows}}';
-      let gridColumnHeight = '{{columns}}';
-      NodeContainer.style.gridTemplateAreas = '"2-1 2-2 2-3" "1-1 1-2 1-3"';
+      const Nodes = document.querySelectorAll(".Nodes");
+      console.log(Nodes);
+      for(let i = 0; i<Nodes.length; i++){
+        let nodeLocation = Nodes[i].classList[0];
+        Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
+      }
     }
     pageOnload();
-    
-    // gridColumnHeight = "100px "
   </script>
 </body>
 </html>
