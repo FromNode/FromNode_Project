@@ -19,35 +19,40 @@
   </style>
 </head>
 <body>
-  <div id="myDiagramDiv" style="width:400px; height:150px; background-color: #DAE4E4;">
-  </div>
   <div class="NodeContainer">
   </div>
-  <script src="https://unpkg.com/gojs/release/go-debug.js"></script>
-  <script>
-    let Go = go.GraphObject.make;
-    let myDiagram = Go(go.Diagram, "myDiagramDiv", 
-      {
-        "undoManager.isEnabled":true
-      }
-    );
-    let myModel = Go(go.Model);
-    myModel.nodeDataArray = [
-      {key : "Alpha"},
-      {key : "Beta"},
-      {key : "Gamma"}
-    ];
-    myDiagram.model = myModel;
-  </script>
   <script>
     const NodeContainer = document.querySelector(".NodeContainer");
-    const pageOnload = async () =>{
-      await createGrid(); // 그리드 만들기
-      let data = await getNodeData();  
+    const init = async () =>{
+      let data = await getNodeData();
+      console.log(data);
+      await createGrid(data); // 그리드 만들기
       await createNodeBtn(data);
       await settingNodeDiv();
     }
-    const createGrid = async() => {
+    const getNodeData = async () => {
+      let json_data = '{{json_data}}'.replaceAll("&quot;", "\"");
+      let json = JSON.parse(json_data);
+      return await json
+    }
+    const createGrid = async(data) => {
+      let mentionedPriviousCode = [];
+      let priviousCodeNum = 0;
+      for(let i = 1; i<data.length; i++){
+        mentionedPriviousCode.push(data[i].fields.previousCode);
+        for(let j = 1; j<mentionedPriviousCode.length; j++){
+          if(data[i].fields.previousCode == mentionedPriviousCode[j] && priviousCodeNum == 0){
+            priviousCodeNum ++;
+          } else if (data[i].fields.previousCode == mentionedPriviousCode[j] && priviousCodeNum == 1 ){
+            priviousCodeNum = 0;
+            delete mentionedPriviousCode[j];
+          }
+        }
+      }
+      // let setMentionedPriviousCode = ...(new Set(mentionedPriviousCode));
+      // console.log()
+      // console.log(mentionedPriviousCode.length)
+      // console.log(...new Set(mentionedPriviousCode))
       //최대 row, columns 숫자 넣기 grid 생성
       let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
       let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
@@ -68,11 +73,6 @@
       }
       let gridNodeAreas = gridTemplateAreasArray.join(' " ').concat(' "'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 뒷부분 " 을 담당 및 변환
       NodeContainer.style.setProperty('grid-template-areas', `${gridNodeAreas}`)
-    }
-      
-    const getNodeData = async => {
-      //view에서 node object 받아올것
-      console.log("노드데이ta");
     }
     const createNodeBtn = async(data) => {
       //node data 받아올 것 
@@ -98,7 +98,7 @@
         Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
       }
     }
-    pageOnload();
+    init();
   </script>
 </body>
 </html>

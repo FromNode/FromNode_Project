@@ -17,8 +17,6 @@ def node_list(request,file_Code):
         User_Projects = User_Profile.projects.split(',')
     else:
         pass
-
-
     for i in User_Projects:
         proj_obj += Projects.objects.filter(name=i)
 
@@ -112,7 +110,9 @@ def create_node(request):
     
 #     return render(request, 'NodeApp/version_all.html')
 
-def CreateTree(request):
+def CreateTree(request, file_Code):
+    The_file = Files.objects.get(Code=file_Code)
+    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
     # temp = []
     gridRowWidth = "100px "
     gridColumnHeight = "100px "
@@ -123,5 +123,6 @@ def CreateTree(request):
         'gridColumnNum':gridColumnNum,
         'rows' : 5,
         'columns' : 5,
+        'json_data' : json_data,
     }
-    return render(request, 'NodeApp/test.html' , objects)
+    return render(request, 'NodeApp/test.html', objects)
