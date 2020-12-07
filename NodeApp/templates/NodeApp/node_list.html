@@ -24,14 +24,12 @@
         </ul>
         {% endfor %}
     </div>
-
     <div class="side-box">
         <p class="side-title ">최종 파일 모음</p>
     </div>
 {% endblock %}
 
 {% block content %}
-
 <div class="NodeContainer">
   <div class="nodeList_Header">
       <span class="nodeListTitle middle">{{The_File.fileName}}</span>
@@ -51,6 +49,16 @@
     </div>
   </div>
   <!-- 업로드 모달 -->
+  <div class='test'>
+    {% for i in li_numMentioned %}
+      {{i}}<br>
+    {% endfor %}
+
+  그리구 끝놈 리스트야
+  <h1>{% for i in num_of_branch %}</h1>
+      {{i}}<br>
+      {% endfor%}
+  </div>
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
