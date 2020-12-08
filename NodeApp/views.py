@@ -7,10 +7,25 @@ from datetime import datetime
 from django.core import serializers
 from UserApp.models import Profile
 
+
+def get_previousBranchNum(li_location,previous_node):
+    for i in li_location:
+        if i[2] == previous_node:
+            return i[2]
+
+def findEndNodeAtList(list):
+    endNode = 0
+    endNodePrevious = 0
+    for i in reversed(list):
+        if i[3] == False:
+            endNode = i[0]
+            endNodePrevious = i[2]
+            return endNode , endNodePrevious
+
 def get_2D_list(dbData):
     li_numMentioned =[]
     num_mentioned = 0
-    is_have_BranchNo = False
+    is_separated = False
     xLoc = 0
     yLoc = 0
     
@@ -18,10 +33,11 @@ def get_2D_list(dbData):
     #str타입 리스트 만들기
     for obj in dbData:
         if obj.previousCode == None:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, is_have_BranchNo])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, is_separated])
         else:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, is_have_BranchNo])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, is_separated])
     
+
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -31,6 +47,7 @@ def get_2D_list(dbData):
                 searched_men_num += 1
                 li_numMentioned[i][1] = searched_men_num
     
+
     #행 수, 노드 수 구하기
     num_of_branch = 1
     num_of_node = 0
@@ -39,81 +56,62 @@ def get_2D_list(dbData):
             num_of_branch += row[1]-1
             num_of_node = n
 
-    li_last = [0 for i in range(num_of_branch)] # 0 0 0
+    li_separated = [] #브랜치별로 그룹지어서 보관
+    for i in range(0,num_of_branch):
+        separated_part = []
+        tail_of_list = findEndNodeAtList(li_numMentioned)
+        end_node = tail_of_list[0]
+        previous_node = tail_of_list[1] # 0열은 당사자 코드, 1열은 걔가 가리키는 직전애의 코드
+        count = 0
+        while True:
+            if count == 0:
+                separated_part.append(end_node)
+                for i in li_numMentioned:
+                    if i[0] == end_node:
+                        i[3] = True
+                count += 1
+
+            for i in li_numMentioned:
+                if i[0] == previous_node:
+                    separated_part.append(i[0])
+                    previous_node = i[2]
+                    i[3] = True
+            if previous_node == None: 
+                break
+        li_separated.append(separated_part)       
+
+    li_last = []
+    li_temp = []
     li_location = []
+    is_started = False
 
-    
-    node_count = 0
     for n, node in enumerate(li_numMentioned):
-
-        check = 0
-        for i in range(num_of_branch):
-            if li_last[i] == 0:
-                check += 1
-
-        #지금 이게 첫 번째 노드인지 확인해서 맞으면 1,1 배정하고 젤끝놈으로 저장
-        if check == num_of_branch: #아직 끝놈으로 저장된 게 없으면
-            print("나 지금 1번노드 찾았어" + node[0] + "배치중이야")
-            node_count += 1
-            li_location.append([node_count,1,node[0]])
-            li_last[0] = node[0]
-            
-        #두 번째 노드부터 배치 어떻게 할 건지 시작
+        print("지금 배치할것이 머냐면 " + node[0])
+        print("누구 뒤냐면 " + str(node[2]))
+        if is_started == False: #첫 노드
+            print("첫 노드 찾았다")
+            li_temp.append([node[0]])
+            li_last.append(node[0])
+            is_started = True
         else:
-            if node[2] in li_last: #앞놈이 지금 배치된 놈들 중 끝놈이면
-                print("나 끝놈들중에 내 previous가 기다리는거 알고있엉 " + node[0] + "배치중이야")
-                arranged_branch_YLoc = 0 # 걍 저장용 변수
-                for arrangedNode in li_location: #저장된 놈들 중 앞놈의 y정보를 찾자
-                    if arrangedNode[2] == node[2]: # 내 앞놈 찾으면
-                        node_count += 1
-                        li_location.append([node_count,arrangedNode[1],node[0]]) #그대로 가져와서 배치정보로 저장
-                        arranged_branch_YLoc = arrangedNode[1] #끝놈저장용 변수에 위치만 저장
-                        break
-                li_last[arranged_branch_YLoc -1] = node[0]
-                print("끝놈리스트의 " + str(arranged_branch_YLoc-1) + " 번 인덱스에다가 " + node[0] + " 로 업데이트합니다")
-                print(li_last)
-
-            else: # 앞놈이 끝놈이 아니면
-                mentioned_count = 0 #몇 번째 행에 배치할 건지 파악하기 위해서 앞놈의 브랜치개수를 파악
-                sum_mentioned_count = 0
-                for i in range(0,n):
-                    if li_numMentioned[i][1] >= 2:
-                        mentioned_count += 1
-                        sum_mentioned_count += li_numMentioned[i][1]
-                node_count += 1
-                li_location.append([node_count, sum_mentioned_count, node[0]])
-                li_last[sum_mentioned_count-2] = node[0]
-        #브랜치가 복잡해졌을 때의 알고리즘 보완 필요
-
-
-
-    li_branch_group = []
-
-    '''
-    for i in range(1, num_of_branch): #브랜치별로 그룹을 짤건데 일단 하나씩 파악해볼거야
-        li_temp = []
-        pointer_temp = 0
-        for j in range(len(li_numMentioned),0,-1): #맨 마지막놈부터 보자
-            if li_numMentioned[j-1][3] == False: #브랜치 배정이 아직 안된애면
-                li_temp.append(li_numMentioned[j-1][0]) #지금 파악중인 그룹에 넣고
-                li_numMentioned[j-1][3] = True
-                for n, row in enumerate(li_numMentioned): #쟈 이제 걔의 previous를 파보자
-                    if row[0] == li_numMentioned[j-1][2]:
-                        pointer_temp = n
-                while li_numMentioned[pointer_temp][2] == None: #첫노드까지 이 짓을 반복할 거야 이 와일문을 돌면서 브랜치묶음이 완성돼
-                    if li_numMentioned[pointer_temp][3] == False:
-                        li_temp.append(li_numMentioned[pointer_temp][0])
-                        li_numMentioned[pointer_temp][3] = True
-                    for n, row in enumerate(li_numMentioned): #쟈 이제 걔의 previous를 파보자
-                        if row[0] == li_numMentioned[pointer_temp][2]:
-                            pointer_temp = n   
-                li_branch_group.append(li_temp)
+            if node[2] in li_last: #따라갈 놈이 끝놈이면
+                print("따라갈 놈이 있네")
+                for i, sublist in enumerate(li_temp):
+                    if node[2] in sublist:
+                        li_temp[i].append(node[0])
+                for k, endnode in enumerate(li_last):
+                    if endnode == node[2]:
+                        print("끝놈정보에 내껄로 업뎃할게" + node[0])
+                        li_last[k] = node[0]
+                        print(li_last)
             else:
-                continue
-    '''
+                for i, sublist in enumerate(li_temp):
+                    if node[2] in sublist:
+                        li_temp.insert(i+1, [node[0]])
+                        li_last.insert(i+1,node[0])
 
     
-    return li_location, li_last
+    return li_temp, num_of_branch
 
 
 
