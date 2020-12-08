@@ -25,7 +25,7 @@
     const NodeContainer = document.querySelector(".NodeContainer");
     const init = async () =>{
       let data = await getNodeData();
-      console.log(data);
+      // console.log(data);
       await createGrid(data); // 그리드 만들기
       await createNodeBtn(data);
       await settingNodeDiv();
@@ -36,30 +36,43 @@
       return await json
     }
     const createGrid = async(data) => {
-      let mentionedPriviousCode = [];
+      // 언급된 이전코드 수에 따라 row 수 결정 
+      let mentionedPriviousCodeForRows = [];
       let priviousCodeNum = 0;
-      for(let i = 1; i<data.length; i++){
-        mentionedPriviousCode.push(data[i].fields.previousCode);
-        for(let j = 1; j<mentionedPriviousCode.length; j++){
-          if(data[i].fields.previousCode == mentionedPriviousCode[j] && priviousCodeNum == 0){
+      for(let i = 0; i<data.length; i++){ // 하나만 업로드 되었을때도 포함하기 위해 i=0인  [null] 을 포함하였다
+        mentionedPriviousCodeForRows.push(data[i].fields.previousCode);
+        for(let j = 1; j<mentionedPriviousCodeForRows.length; j++){
+          if(data[i].fields.previousCode == mentionedPriviousCodeForRows[j] && priviousCodeNum == 0){
             priviousCodeNum ++;
-          } else if (data[i].fields.previousCode == mentionedPriviousCode[j] && priviousCodeNum == 1 ){
+          } else if (data[i].fields.previousCode == mentionedPriviousCodeForRows[j] && priviousCodeNum == 1 ){
             priviousCodeNum = 0;
-            delete mentionedPriviousCode[j];
+            delete mentionedPriviousCodeForRows[j];
           }
         }
       }
-      // let setMentionedPriviousCode = ...(new Set(mentionedPriviousCode));
-      // console.log()
-      // console.log(mentionedPriviousCode.length)
-      // console.log(...new Set(mentionedPriviousCode))
+      let setMentionedPriviousCode = Array.from(new Set(mentionedPriviousCodeForRows))
+      
+      // priviousCode 수 검증에 따른 column 숫자 결정
+      let dataArray = [];
+      let mentionedPriviousCodeForColumns = [];
+
+      for(let i = 0; i<data.length; i++){
+        dataArray.push(data[i]);
+        mentionedPriviousCodeForColumns.push(data[i].fields.previousCode); //column 사용을 위한 것
+      }
+      
+      //row column 변수
+      let rowNum = setMentionedPriviousCode.length - 1;
+
+      
       //최대 row, columns 숫자 넣기 grid 생성
       let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
       let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
       NodeContainer.style.setProperty('grid', `${gridRowWidth} / ${gridColumnHeight}`); // grid 선언
 
       //grid-template-areas 선언
-      let rowNum = '{{rows}}'; // view에서 받은 행 최대값
+      // let rowNum = '{{rows}}'; // view에서 받은 행 최대값
+
       let columnNum = '{{columns}}'; // view에서 받은 열 최대값
       let gridTemplateAreas = []; // 가공 이전 배열
       let gridTemplateAreasArray = []; // 가공 후 문자열
@@ -92,7 +105,7 @@
     // 해당클래스 찾아서 grid-area 선언해야한다이말이야
     const settingNodeDiv = async() => {
       const Nodes = document.querySelectorAll(".Nodes");
-      console.log(Nodes);
+      // console.log(Nodes);
       for(let i = 0; i<Nodes.length; i++){
         let nodeLocation = Nodes[i].classList[0];
         Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
