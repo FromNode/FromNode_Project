@@ -25,7 +25,7 @@
     const NodeContainer = document.querySelector(".NodeContainer");
     const init = async () =>{
       let data = await getNodeData();
-      // console.log(data);
+      console.log(data);
       await createGrid(data); // 그리드 만들기
       await createNodeBtn(data);
       await settingNodeDiv();
@@ -51,14 +51,31 @@
         }
       }
       let setMentionedPriviousCode = Array.from(new Set(mentionedPriviousCodeForRows))
-      
+      console.log(setMentionedPriviousCode)
       // priviousCode 수 검증에 따른 column 숫자 결정
       let dataArray = [];
       let mentionedPriviousCodeForColumns = [];
-
       for(let i = 0; i<data.length; i++){
-        dataArray.push(data[i]);
+        dataArray.unshift(data[i]);
         mentionedPriviousCodeForColumns.push(data[i].fields.previousCode); //column 사용을 위한 것
+      }
+      console.log(dataArray);
+      for(let i = 0; i<data.length; i++){
+        let testarray = [];
+        if(dataArray[i].fields.previousCode != null){
+          for(let k = 0; k<data.length; k++){
+            let test = dataArray[i].fields.previousCode;
+            if(k != i){
+              if(test == data[k].pk){
+                testarray.push(dataArray[k].fields.previousCode);
+              } else if (data[k].fields.previousCode == null) {
+                break
+              }
+            } 
+            test = dataArray[k].fields.previousCode;
+          }
+          // console.log(testarray);
+        } 
       }
       
       //row column 변수
