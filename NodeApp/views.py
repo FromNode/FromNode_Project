@@ -110,8 +110,14 @@ def get_2D_list(dbData):
                         li_temp.insert(i+1, [node[0]])
                         li_last.insert(i+1,node[0])
 
+    node_count = 0
+    for n, branch_list in enumerate(li_temp):
+        for node in branch_list:
+            node_count += 1
+            li_location.append([node_count, n+1, node])
     
-    return li_temp, num_of_branch
+
+    return li_location, num_of_branch, node_count
 
 
 
@@ -163,11 +169,11 @@ def node_list(request,file_Code):
     if True:
         dbData = Nodes.objects.filter(ownerFCode = The_file.Code)
         tuple_return = get_2D_list(dbData)
-        li_numMentioned = tuple_return[0]
-        num_of_branch = tuple_return[1]
+        li_location = tuple_return[0]
+        num_of_row = tuple_return[1]
+        num_of_column = tuple_return[2] 
         
-    return render(request, 'NodeApp/node_list.html',{'li_numMentioned':li_numMentioned,'num_of_branch':num_of_branch,'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"proj_user":profiles})
-
+    return render(request, 'NodeApp/node_list.html',{'li_location':li_location,'num_of_row':num_of_row,'num_of_column':num_of_column, 'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"proj_user":profiles})
 
 def node_detail(request,node_Code):
     node_obj = Nodes.objects.filter(Code = node_Code)
