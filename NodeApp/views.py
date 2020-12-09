@@ -26,9 +26,6 @@ def get_2D_list(dbData):
     li_numMentioned =[]
     num_mentioned = 0
     is_separated = False
-    xLoc = 0
-    yLoc = 0
-    
 
     #str타입 리스트 만들기
     for obj in dbData:
@@ -47,7 +44,7 @@ def get_2D_list(dbData):
                 searched_men_num += 1
                 li_numMentioned[i][1] = searched_men_num
     
-
+    '''
     #행 수, 노드 수 구하기
     num_of_branch = 1
     num_of_node = 0
@@ -79,7 +76,8 @@ def get_2D_list(dbData):
             if previous_node == None: 
                 break
         li_separated.append(separated_part)       
-
+    '''
+    
     li_last = []
     li_temp = []
     li_location = []
@@ -170,8 +168,23 @@ def node_list(request,file_Code):
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
-        
-    return render(request, 'NodeApp/node_list.html',{'li_location':li_location,'num_of_row':num_of_row,'num_of_column':num_of_column, 'proj_obj':proj_obj,'node_objs':node_objs,'The_File':The_File, "json":json_data,"proj_user":profiles})
+    gridRowWidth = "100px "
+    gridColumnHeight = "100px "
+    gridRowNum = gridRowWidth * num_of_row
+    gridColumnNum = gridColumnHeight * num_of_column
+
+    objects = {
+        'li_location':li_location,
+        'gridRowNum':gridRowNum,
+        'gridColumnNum':gridColumnNum,
+        'num_of_row':num_of_row, 
+        'num_of_column':num_of_column, 
+        'proj_obj':proj_obj,
+        'node_objs':node_objs,
+        'The_File':The_File, 
+        'json':json_data,
+        'proj_user':profiles}  
+    return render(request, 'NodeApp/test.html', objects)
 
 def node_detail(request,node_Code):
     node_obj = Nodes.objects.filter(Code = node_Code)
