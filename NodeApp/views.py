@@ -44,7 +44,7 @@ def get_2D_list(dbData):
                 searched_men_num += 1
                 li_numMentioned[i][1] = searched_men_num
     
-    '''
+    
     #행 수, 노드 수 구하기
     num_of_branch = 1
     num_of_node = 0
@@ -76,7 +76,7 @@ def get_2D_list(dbData):
             if previous_node == None: 
                 break
         li_separated.append(separated_part)       
-    '''
+    
     
     li_last = []
     li_temp = []
@@ -260,3 +260,4 @@ def CreateTree(request, file_Code):
         'json_data' : json_data,
     }
     return render(request, 'NodeApp/test.html', objects)
+

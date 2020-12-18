@@ -39,12 +39,12 @@
         <div class='Upload_Contents'>
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
-          <div>
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something1" value="1번벨류" >
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something2" value="2번벨류" >
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something3" value="3번벨류" >
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류" >
-            <input type = 'hidden' class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류" >
+          <div class="hiddenInput">
+            <input type = 'hidden' class="sendDataInput" type="text">
+            <input type = 'hidden' class="sendDataInput" type="text">
+            <input type = 'hidden' class="sendDataInput" type="text">
+            <input type = 'hidden' class="sendDataInput" type="text" name="something4" >
+            <input type = 'hidden' class="sendDataInput" type="text" name="something5" >
           </div>
           <div class="drop-zone">
             <!-- <img class = 'upload' src = '{% static "MainApp/picture/Upload.png" %}'><span class="drop-zone__prompt">파일을 드롭하세요</span></img> -->
@@ -65,7 +65,7 @@
   </div>
   <script>
     const NodeContainer = document.querySelector(".NodeContainer");
-    
+    const globalDataArray = [];
     const init = async () =>{
       let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
       let data = await getNodeData();
@@ -78,6 +78,9 @@
     const getNodeData = async () => {
       let json_data = '{{json}}'.replaceAll("&quot;", "\"");
       let json = JSON.parse(json_data);
+      for(let i = 0; i<json.length; i++){
+        globalDataArray.push(json[i]);
+      }
       return await json
     }
     const getLocationData = async(data, location_Data) =>{
@@ -88,7 +91,7 @@
       let splitStr = locationStr.split(",");
       for(let i = 0; i<splitStr.length/3; i++){
         locationArray.push({
-          Column : Number(locationStr.split(",")[3*i].trim()), // 넘어오는게 column , row ,previouscode 순임..
+          Column : Number(locationStr.split(",")[3*i].trim()), // 넘어오는게 column , row, pk 순임..
           Row : Number(locationStr.split(",")[3*i+1].trim()),
           Pk : locationStr.split(",")[3*i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
         })
@@ -171,7 +174,6 @@
     }
     const createNodeBtn = async(data, locationData) => {
       //node data 받아올 것 
-      console.log(locationData[0].Row);
       for(let i = 0; i<data.length; i++){ // 노드 수 만큼
         let varObj = {
           "row" : locationData[i].Row,
@@ -183,6 +185,7 @@
         let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
+        btn.setAttribute("class", `${varObj.Pk}`)
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1 
         NodeContainer.appendChild(btnDiv);
@@ -204,14 +207,42 @@
       const toggleModal = () => {
         modal.classList.toggle("hidden");
       }
-
       overlay.addEventListener("click", toggleModal);
       for(let i = 0; i<modalButton.length; i++){
         modalButton[i].addEventListener("click", toggleModal);
       }
     }
     const sendDataToModal = (clickedValue) => {
-      console.log(clickedValue)
+      let regionalDataArray = globalDataArray.slice();
+      console.log(regionalDataArray)
+      let clickedValuePk = clickedValue.classList[0];
+      let clickedNode = [];
+      for(let i = 0; i<regionalDataArray.length; i++){
+        if(clickedValuePk == regionalDataArray[i].pk){
+          let fields = regionalDataArray[i].fields;
+          let clickedNodeData = {
+            'NodeComment' : fields.comment,
+            'NodeCreatedDate' : fields.createdDate,
+            'NodeDescription' : fields.desecription,
+            'NodeFileObj' : fields.fileObj,
+            'NodeName' : fields.nodeName,
+            'NodeOwnerFileCode' : fields.ownerFCode,
+            'NodeOwnerProjectCode' : fields.ownerPCode,
+            'NodePreviousCode': fields.previousCode,
+            'NodeOwner' : fields.whoIsOwner,
+            'NodePk' : clickedValuePk,
+          }
+          clickedNode.push(clickedNodeData)
+        }
+      }
+      // console.log(clickedNodeData.length)
+      // // const sendDataInput = document.querySelector(".hiddenInput");
+      // // for(let i = 0; regionalDataArray.length; i++){
+
+      // // }
+      // // console.log(sendDataInput)
+
+
     } 
 
     init();
