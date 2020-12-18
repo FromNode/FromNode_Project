@@ -1,24 +1,24 @@
 html { scroll-behavior: smooth; }
 
-body { margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; min-width: 1920px; }
+body { margin: 0; padding: 0; display: flex; justify-content: center; background-color: #444; }
 
-.container { height: 300em; min-width: 80%; display: flex; flex-direction: column; margin: 1em 5em 0 5em; align-content: space-around; }
+.container { width: 1920px; height: auto; display: flex; flex-direction: column; align-content: space-around; }
 
-.main_Contents { flex: 19; height: 95%; width: 100%; display: flex; flex-direction: column; }
+.main_Contents { flex: 19; display: flex; flex-direction: column; width: 100%; height: auto; }
 
-.section1 { flex: 1; display: flex; /* min-height: 20%; */ margin-bottom: 5em; z-index: 1; }
+.section1 { flex: 1; display: flex; /* min-height: 20%; */ z-index: 1; }
 
 .section1_Left { flex: 1; background-color: white; display: flex; flex-direction: column; justify-content: center; margin-left: 3em; }
 
-.logo_Text { width: 70%; margin-bottom: 2em; }
+.logo_Text { width: 50%; margin: 0 0 4em 2em; }
 
-.title { font-size: 3em; display: block; color: #747474; font-weight: 700; }
+.title { font-size: 2em; display: block; color: #747474; font-weight: 700; margin-left: 2em; }
 
-.subTitle { display: block; font-size: 1.5em; color: #747474; margin: 1em 0 2em 0; }
+.subTitle { display: block; font-size: 1.5em; color: #747474; margin: 1em 0 2em 3em; }
 
 .login_A { text-decoration: none; }
 
-.login_Button { all: unset; display: block; cursor: pointer; /* font-size: 3em; */ padding: 0.5em 3em 1em 3em; margin: 1em 2em 0 2em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
+.login_Button { all: unset; display: block; width: 8em; cursor: pointer; font-size: 50%; padding: 0.5em 3em 1em 3em; margin: 1em 2em 2em 10em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
 
 .project_Button { all: unset; display: block; cursor: pointer; /* font-size: 3em; */ padding: 0.5em 3em 1em 3em; margin: 1em 2em 0 2em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
 
@@ -28,21 +28,21 @@ body { margin: 0; padding: 0; display: flex; justify-content: center; width: 100
 
 .section1_Right_Box { width: 100%; }
 
-.section1_Right_Box img { min-width: 80%; max-width: 100%; height: auto; display: block; margin-top: 2em; }
+.section1_Right_Box img { min-width: 60%; max-width: 90%; height: auto; display: block; margin-top: 2em; }
 
 .section2 { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; align-items: middle; }
 
 .section3 { flex: 1; position: relative; }
 
-.section4 { flex: 0.3; position: relative; display: flex; justify-content: center; align-items: center; }
+.section4 { flex: 0.3; position: relative; display: flex; justify-content: flex-end; }
 
-.section4Btn { background-color: #0F75EF; color: white; margin-bottom: 1em; border: 1px solid #0F75EF; border-radius: 10em; padding: 5em 30em 5em 30em; }
+.section4Btn { background-color: #0F75EF; color: white; margin: auto; border: 1px solid #0F75EF; border-radius: 10em; padding: 3em 10em 3em 10em; }
 
 .section4Btn:active { border: 3px solid #0F75EF; outline: none; }
 
-.section4Btn_Text { font-size: 3em; }
+.section4Btn_Text { font-size: 2em; }
 
-.goToTop_A { margin-left: 10em; padding: 3em; }
+.goToTop_A { padding: 3em; color: orange; font-size: smaller; }
 
 .goToTop_A:focus { color: #0F75EF; }
 
@@ -109,6 +109,6 @@ body { margin: 0; padding: 0; display: flex; justify-content: center; width: 100
 .ToGoSignup_A { text-decoration: none; color: #0F75EF; display: block; }
 
 /* section */
-.sectionImg { display: block; min-width: 100%; max-width: 100%; margin: 0px auto; margin-bottom: 1em; }
+.sectionImg { display: block; min-width: 100%; max-width: 100%; margin-top: auto; margin-bottom: 1em; }
 
 /*# sourceMappingURL=index.css.map */
