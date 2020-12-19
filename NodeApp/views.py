@@ -70,11 +70,13 @@ def get_location_list(dbData):
             for i in range(0,len(li_numMentioned)):
                 if li_numMentioned[i][0] == code:
                     xLoc = li_numMentioned[i][3]
-                    li_location.append([xLoc, y+1, code])
+                    li_location.append([xLoc, y+1, str(code)])
                     break
     
     print(li_location)
     print(li_last)
+
+    
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
@@ -107,7 +109,7 @@ def node_list(request,file_Code):
             The_File = x.ownerFCode
             Project = x.ownerPCode 
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-    # user_data = serializers.serialize("json", User.objects.all())
+    user_data = serializers.serialize("json", User.objects.all())
     for x in Profile.objects.all():
         a = x.projects.split(',')
         proj_objs = a
@@ -141,7 +143,8 @@ def node_list(request,file_Code):
         "node_objs":node_objs,
         "The_File":The_File, 
         "json":json_data,
-        "proj_user":profiles
+        "proj_user":profiles,
+        "user_data" : user_data
     }  
     return render(request, 'NodeApp/node_list.html', objects)
 
