@@ -2,11 +2,21 @@
 {% load sass_tags %}
 {% load static %}
 
-{% block css %}
+{% block scss %}
   <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
-  <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
   <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
   <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+  <style>
+    .NodeContainer {
+      display: grid;
+      gap: 5px;
+      place-items: center center;
+    }
+    .Nodes button{
+      all: unset;
+      cursor: pointer;
+    }
+  </style>
 {% endblock %}
 
 {% block leftbar %}
@@ -24,7 +34,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="nodeList_Header">
+  <!-- <div class="nodeList_Header">
     <span class="nodeListTitle middle">{{The_File.fileName}}</span>
     <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
     <div class = 'project_join_members'>
@@ -32,7 +42,7 @@
       <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%; border: 1px solid gray;'></div>
       {% endfor %}
     </div>
-  </div>
+  </div> -->
 
   <div class="NodeContainer">
   </div>
@@ -40,12 +50,12 @@
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-      <div class='Explain_Contents'>
+      <!-- <div class='Explain_Contents'>
         <p class='Node_Owner'></p>
         <p class='Node_Name'></p>
         <p class = 'Node_Discriptions'></p>
         <p class = 'Node_Create_Time'></p>
-      </div>
+      </div> -->
       <div class='Low_Contents'>
         <div class='Upload_Contents'>
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
@@ -132,51 +142,7 @@
         gridTemplateAreasArray.push(gridTemplateAreas[i].join(" ")); // css 형식 맞추기 위한 변환
       }
       let gridNodeAreas = gridTemplateAreasArray.join(' " ').concat(' "'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 뒷부분 " 을 담당 및 변환
-      NodeContainer.style.setProperty('grid-template-areas', `${gridNodeAreas}`)
-            // // 언급된 이전코드 수에 따라 row 수 결정 
-      // let mentionedPeiviousCodeForRows = [];
-      // let previousCodeNum = 0;
-      // for(let i = 0; i<data.length; i++){ // 하나만 업로드 되었을때도 포함하기 위해 i=0인  [null] 을 포함하였다
-      //   mentionedPreviousCodeForRows.push(data[i].fields.previousCode);
-      //   for(let j = 1; j<mentionedPreviousCodeForRows.length; j++){
-      //     if(data[i].fields.previousCode == mentionedPreviousCodeForRows[j] && previousCodeNum == 0){
-      //       previousCodeNum ++;
-      //     } else if (data[i].fields.previousCode == mentionedPreviousCodeForRows[j] && previousCodeNum == 1 ){
-      //       previousCodeNum = 0;
-      //       delete mentionedPreviousCodeForRows[j];
-      //     }
-      //   }
-      // }
-      // let setMentionedPreviousCode = Array.from(new Set(mentionedPreviousCodeForRows))
-      // console.log(setMentionedPreviousCode)
-      // // previousCode 수 검증에 따른 column 숫자 결정
-      // let dataArray = [];
-      // let mentionedPreviousCodeForColumns = [];
-      // for(let i = 0; i<data.length; i++){
-      //   dataArray.unshift(data[i]);
-      //   mentionedPreviousCodeForColumns.push(data[i].fields.previousCode); //column 사용을 위한 것
-      // }
-      // console.log(dataArray);
-      // for(let i = 0; i<data.length; i++){
-      //   let testarray = [];
-      //   if(dataArray[i].fields.previousCode != null){
-      //     for(let k = 0; k<data.length; k++){
-      //       let test = dataArray[i].fields.previousCode;
-      //       if(k != i){
-      //         if(test == data[k].pk){
-      //           testarray.push(dataArray[k].fields.previousCode);
-      //         } else if (data[k].fields.previousCode == null) {
-      //           break
-      //         }
-      //       } 
-      //       test = dataArray[k].fields.previousCode;
-      //     }
-      //     // console.log(testarray);
-      //   } 
-      // }
-      
-      // //row column 변수
-      // let rowNum = setMentionedPreviousCode.length - 1;
+      NodeContainer.style.setProperty('grid-template-areas', `${gridNodeAreas}`);
     }
     const createNodeBtn = async(data, locationData) => {
       //node data 받아올 것 
