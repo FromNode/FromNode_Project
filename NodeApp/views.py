@@ -117,9 +117,6 @@ def get_2D_list(dbData):
 
     return li_location, num_of_branch, node_count
 
-
-
-
 def node_list(request,file_Code):
     proj_obj = []
     User_Profile = []
@@ -148,9 +145,9 @@ def node_list(request,file_Code):
         if x.ownerFCode.Code == The_file.Code:
             node_objs.append(x)
             The_File = x.ownerFCode
-            Project = x.ownerPCode #나중에 진짜로 연결. 지금은 가라 쳐두기
+            Project = x.ownerPCode 
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-    user_data = serializers.serialize("json", User.objects.all())
+    # user_data = serializers.serialize("json", User.objects.all())
     for x in Profile.objects.all():
         a = x.projects.split(',')
         proj_objs = a
@@ -174,90 +171,50 @@ def node_list(request,file_Code):
     gridColumnNum = gridColumnHeight * num_of_column
 
     objects = {
-        'li_location':li_location,
-        'gridRowNum':gridRowNum,
-        'gridColumnNum':gridColumnNum,
-        'num_of_row':num_of_row, 
-        'num_of_column':num_of_column, 
-        'proj_obj':proj_obj,
-        'node_objs':node_objs,
-        'The_File':The_File, 
-        'json':json_data,
-        'proj_user':profiles}  
-    return render(request, 'NodeApp/test.html', objects)
+        "li_location":li_location,
+        "gridRowNum":gridRowNum,
+        "gridColumnNum":gridColumnNum,
+        "num_of_row":num_of_row, 
+        "num_of_column":num_of_column, 
+        "proj_obj":proj_obj,
+        "node_objs":node_objs,
+        "The_File":The_File, 
+        "json":json_data,
+        "proj_user":profiles
+    }  
+    return render(request, 'NodeApp/node_list.html', objects)
 
 def node_detail(request,node_Code):
     node_obj = Nodes.objects.filter(Code = node_Code)
     The_file = Nodes.objects.get(Code=node_Code).ownerFCode
-    print(The_file,'hi')
+
     return render(request, 'NodeApp/node_details.html', {'node_obj':node_obj,'The_file':The_file})
 
 def create_node(request):
-    IAmNodePk = request.POST['something4']
-    NodeParentsFileCode = request.POST['something5']
-    redirectURL = '/node/node_list/'+str(NodeParentsFileCode)
-    clickedNode = Nodes.objects.get(Code=int(IAmNodePk)) #-->PNODE 
-    # nodesInProject = Nodes.objects.filter(Code=int(IAmNodePk)) #--> FNODE
-    node_object = Nodes()
-    node_object.fileObj = request.FILES['myFile']
-    node_object.previousCode = clickedNode
-    node_object.ownerFCode = clickedNode.ownerFCode
-    node_object.ownerPCode = clickedNode.ownerPCode
-    node_object.whoIsOwner = request.user
-    node_object.save()
-
-    # PNode = Nodes.objects.get(Code=int(pkCode))
-    # # 내가누른노드
-    # FNode = Nodes.objects.filter(Code=int(pkCode))
-    # # 타겟노드
-    # The_file = PNode.ownerFCode
+    # 나중에 쓰일 수도 ? 클릭한 노드 정보 일단 담아뒀음
+    NodeComment = request.POST['NodeComment']
+    NodeCreatedDate = request.POST['NodeCreatedDate']
+    NodeDescription = request.POST['NodeDescription']
+    NodeFileObj = request.POST['NodeFileObj']
+    NodeName = request.POST['NodeName']
+    NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
+    NodeOwnerProjectCode = request.POST['NodeOwnerProjectCode']
+    NodePreviousCode = request.POST['NodePreviousCode']
+    NodeOwner = request.POST['NodeOwner']
+    NodePk = request.POST['NodePk']
+    redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
     
-
-    # if request.method == 'POST':
-    #     pk = request.POST['pk']
-    #     next_url = '/node/node_list/'+str(pk)
-    #     node_obj = Nodes()
-    #     # 새로생긴node_obj
-    #     node_obj.fileObj = request.FILES['myFile']
-    #     node_obj.previousCode = PNode
-    #     node_obj.ownerFCode = PNode.ownerFCode
-    #     node_obj.ownerPCode = PNode.ownerPCode
-    #     node_obj.whoIsOwner = request.user
-    #     node_obj.save()
-
-    #     return redirect(next_url)
-    # else:
+    clickedNode = Nodes.objects.get(Code=int(NodePk))
+    # 파일없을 때 예외 처리 해야합니다
+    if request.method == 'POST':
+        node_object = Nodes()
+        node_object.fileObj = request.FILES['uploadFile']
+        node_object.previousCode = clickedNode
+        node_object.ownerFCode = clickedNode.ownerFCode
+        node_object.ownerPCode = clickedNode.ownerPCode
+        node_object.whoIsOwner = request.user
+        node_object.save()
+        return redirect(redirectURL)
     return redirect(redirectURL)
-    # return render(request,'NodeApp/node_list.html')
-    # {'FNode':FNode,'The_file':The_file}
 
-# def Upload(request):
-#     nodeobj = Nodes()
-#     nodeobj.Code = "001000"
-#     nodeobj.createdDate = datetime.now
-#     for files in request.FILES.getlist('myFile'):
-#          nodeobj.fileObj = files
-#     nodeobj.previousCode =Nodes.objects.get(Code="000001") 
-#     nodeobj.ownerPCode = Projects.objects.get(Code="000001")
-#     nodeobj.whoIsOwner = User.objects.get(username = 'sea')
-#     nodeobj.save()
-    
-#     return render(request, 'NodeApp/version_all.html')
-
-def CreateTree(request, file_Code):
-    The_file = Files.objects.get(Code=file_Code)
-    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
-    # temp = []
-    gridRowWidth = "100px "
-    gridColumnHeight = "100px "
-    gridRowNum = gridRowWidth * 5
-    gridColumnNum = gridColumnHeight * 5
-    objects = {
-        'gridRowNum':gridRowNum, 
-        'gridColumnNum':gridColumnNum,
-        'rows' : 5,
-        'columns' : 5,
-        'json_data' : json_data,
-    }
-    return render(request, 'NodeApp/test.html', objects)
 
