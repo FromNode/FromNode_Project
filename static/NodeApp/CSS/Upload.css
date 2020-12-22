@@ -1,4 +1,4 @@
-.drop-zone { max-width: 200px; height: 200px; padding: 25px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 20px; font-weight: 500; cursor: pointer; color: #cccccc; border: 4px dashed #1163f8; border-radius: 10px; }
+.drop-zone { width: 100%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 20px; font-weight: 500; cursor: pointer; color: #cccccc; border: 4px dashed #1163f8; border-radius: 10px; }
 
 .drop-zone__over { border-style: solid; }
 

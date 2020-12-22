@@ -46,7 +46,9 @@ def login(request):
             auth.login(request, user)
             return redirect('project:project_list')
         else:
-            return redirect('user:login')
+            hidden = 0
+            message = '로그인 정보가 옳지 않아요!'
+            return render(request,'MainApp/index.html',{'hidden':hidden,'message':message})
     else:
         login_form = LoginForm()
         return render(request,'UserApp/login.html',{'login_form':login_form})

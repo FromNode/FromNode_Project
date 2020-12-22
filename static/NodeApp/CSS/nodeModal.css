@@ -2,10 +2,18 @@
 
 .modal_Overlay { background-color: rgba(0, 0, 0, 0.6); width: 100%; height: 100%; position: absolute; }
 
-.modal_Contents { background-color: white; padding: 50px 100px; text-align: center; position: relative; border-radius: 10px; width: 15%; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+.modal_Contents { background-color: white; padding: 20px 40px; text-align: center; position: relative; border-radius: 10px; display: flex; flex-direction: column; width: 25%; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
 .hidden { display: none; }
 
 .nodeUploadInput { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+.Explain_Contents { width: 100%; }
+
+.Low_Contents { display: flex; flex-direction: row; width: 100%; }
+
+.Upload_Contents { height: 100%; width: 50%; }
+
+.Download_Contents { height: 100%; width: 50%; }
 
 /*# sourceMappingURL=nodeModal.css.map */

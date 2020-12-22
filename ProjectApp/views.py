@@ -22,6 +22,8 @@ def show_project_list(request):
         User_Profile = Profile.objects.get(user=request.user)
         # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
         User_Projects = User_Profile.projects.split(',')
+        User_Projects = set(User_Projects)
+        User_Projects = list(User_Projects)
 
     else:
         pass
@@ -44,6 +46,8 @@ def project_checkcode(request):
     Project_Codes = []
     User_Profile = Profile.objects.get(user=request.user)
     User_Projects = User_Profile.projects.split(',')
+    User_Projects = set(User_Projects)
+    User_Projects = list(User_Projects)
     for i in Project:
         Project_Codes.append(i.Code)
     if request.POST['Code'] in Project_Codes:
@@ -62,6 +66,8 @@ def project_checkcode(request):
     User_Profile = Profile.objects.get(user=request.user)
     # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
     User_Projects = User_Profile.projects.split(',')
+    User_Projects = set(User_Projects)
+    User_Projects = list(User_Projects)
 
     for i in User_Projects:
         proj_obj += Projects.objects.filter(name=i)
