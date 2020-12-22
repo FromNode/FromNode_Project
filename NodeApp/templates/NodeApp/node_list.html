@@ -34,16 +34,6 @@
 {% endblock %}
 
 {% block content %}
-  <!-- <div class="nodeList_Header">
-    <span class="nodeListTitle middle">{{The_File.fileName}}</span>
-    <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
-    <div class = 'project_join_members'>
-      {% for i in profiles %}
-      <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%; border: 1px solid gray;'></div>
-      {% endfor %}
-    </div>
-  </div> -->
-
   <div class="NodeContainer">
   </div>
 
@@ -62,6 +52,9 @@
             {% csrf_token %}
           <div class="hiddenInput">
           </div>
+          <div class="uploadInput">
+            파일 설명 : <input type="text" placeholder="test" class="upload_input">
+          </div>
           <div class="drop-zone">
             <input type="file" name="uploadFile" class="drop-zone__input" multiple>
             <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
@@ -70,9 +63,6 @@
           </form>
 
         </div>
-        <!-- <div class='Download_Contents'>
-          <img src = '{% static "MainApp/picture/Download.png" %}'>
-        </div> -->
       </div>
     </div>
   </div>
