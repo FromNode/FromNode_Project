@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load sass_tags %}
+{% load static %}
+
+{% block scss %}
+    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block inlineCss %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block leftbar %}
+    <div class="side-box">
+        <p class="side-title">내 프로젝트</p>
+        {% for project in proj_obj %}
+        <ul class="side-content">
+            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>{{project.name}}</p></a></li>
+        </ul>
+        {% endfor %}
+    </div>
+    <div class="side-box">
+        <p class="side-title ">최종 파일 모음</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="NodeContainer">
+  <div class="nodeList_Header">
+      <span class="nodeListTitle middle">{{The_File.fileName}}</span>
+      <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
+      <div class = 'project_join_members'>
+        {% for i in profiles %}
+        <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%; border: 1px solid gray;'></div>
+        {% endfor %}
+      </div>
+      <!-- <p class='Large'>프로젝트 참여 명단</p>
+      {% for users in proj_user %}
+          <span>{{users.username}}</span>
+      {% endfor %} -->
+  </div>
+  <div class="nodeList_Contents">
+    <div class="Nodetree">
+    </div>
+  </div>
+  <!-- 업로드 모달 -->
+  <div class='test'>
+  </div>
+  <div class="nodeUploadModal hidden">
+    <div class="modal_Overlay"></div>
+    <div class="modal_Contents">
+      <div class='Explain_Contents'>
+        <p class='Node_Owner'></p>
+        <p class='Node_Name'></p>
+        <p class = 'Node_Discriptions'></p>
+        <p class = 'Node_Create_Time'></p>
+      </div>
+      <div class='Low_Contents'>
+        <div class='Upload_Contents'>
+          <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
+            {% csrf_token %}
+          <div>
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something1" value="1번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something2" value="2번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something3" value="3번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something4" name="something4" value="4번벨류" >
+            <input type = 'hidden' class="nodeUploadInput" type="text" id="something5" name="something5" value="5번벨류" >
+          </div>
+          <div class="drop-zone">
+            <img class = 'upload' src = '{% static "MainApp/picture/Upload.png" %}'><span class="drop-zone__prompt">파일을 드롭하세요</span></img>
+            <input type="file" name="myFile" class="drop-zone__input" multiple>
+            <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
+          </div>
+          <input class="uploadBtn" type="submit" value="업로드하기">
+          </form>
+
+        </div>
+        <div class='Download_Contents'>
+          <img src = '{% static "MainApp/picture/Download.png" %}'>
+        </div>
+      </div>
+      
+        
+    </div>
+  </div>
+</div>
+  
+
+{{empty}}
+{{message}}
+
+{% endblock %}
+{% block JS %}
+<script>
+  let ulCreateCount = 0;
+  let pkArray = [];
+  let createUlTag = document.createElement("ul");
+  let createLiTag = document.createElement("li");
+  let createBtnTag = document.createElement("button");
+  let createPTag = document.createElement('P');
+  
+  const startNodeBranch = async() => {
+    let data = await getNodeData()
+    let u_data = await getUserData()
+    console.log(data);
+    await createFirstBranch(data);
+    await secondBranch(data);
+    await otherBranch(data);
+    await branchColor(data);
+    await showUpModal(data);
+  }
+  const createFirstBranch = async (data) => {
+    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createBtnTag);
+    Nodetree.appendChild(document.createTextNode("  노드  "));
+    createUlTag.classList.add(`branch${ulCreateCount}`,);
+    let url = "/node/create_node/" + data[0].pk 
+    createBtnTag.setAttribute("onclick", "sendCreatedOrder(this);")
+    ulCreateCount ++;
+  }
+  const getNodeData = async () => {
+    let data = '{{json}}'.replaceAll("&quot;", "\"");
+    
+    let json_data = JSON.parse(data);
+    
+    
+    return await json_data 
+  }
+  
+  const getUserData = async () => {
+    let u_data = '{{user_data}}'.replaceAll("&quot;", "\"");
+    let user_data = JSON.parse(u_data);
+
+    return await  user_data
+  }
+
+  const secondBranch = async (data) => {
+    createBtnTag.classList.add(`${data[0].pk}`, "Node");
+    // createATag.setAttribute("class", `${data[0].pk}`);
+    const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
+    const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
+    secondUl.classList.add(`branch${ulCreateCount}`);
+    pkArray[0] = data[0].pk;
+    for(let i = 1; i < data.length; i++){
+      pkArray[i] = data[i].fields.previousCode;
+      if (data[i].fields.previousCode == data[0].pk){
+        let url = "/node/create_node/" + data[i].pk 
+        let secondCreateText = document.createTextNode("노드");
+        let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
+        secondBranchNode.appendChild(secondCreateText);
+        secondBranchNode.classList.add(`${data[i].pk}`, "Node")
+        // secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
+        secondBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
+        pkArray[i] = 1;
+      }
+    }
+    ulCreateCount++;
+  }
+  const otherBranch = async (data) => {
+    for(let i = 1; i<data.length; i++){
+      // 숫자 1 1 숫자 숫자 
+      if(pkArray[i] == 1 ){
+        const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
+        const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
+        otherUl.classList.add(`branch${ulCreateCount}`);
+        for(let k = 1; k < data.length; k++){
+          if(k != i && pkArray[k] != 1){
+            if(data[k].fields.previousCode == data[i].pk){
+              let url = "/node/create_node/" + data[k].pk 
+              let otherCreateText = document.createTextNode("노드");
+              let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
+              otherBranchNode.appendChild(otherCreateText);
+              otherBranchNode.setAttribute("class", `${data[k].pk} Node`);
+              otherBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
+              pkArray[k] = 1;
+            }
+          }
+        }
+      }
+    }
+    ulCreateCount++;
+  }
+  const branchColor = async (data) => {
+    let AllNodeForColor = document.querySelectorAll(".Node");
+    let teamArray = [];
+    for(let i = 0 ; i<data.length; i++){
+      teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
+      AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
+      //1: 유저별 색상 수정을 위한 class추가 
+      //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
+      
+    }
+    setTeamArray = new Set(teamArray);
+    team = [...setTeamArray];
+    let colorArray = ["1163f8", "#ffe800"];
+    // for(let k = 0; k<team.length; k++){
+    //   let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
+    //   colorArray.push(randomColor);
+    // }
+    for(let i = 0; i<data.length; i++){
+        for(let k=0; k<team.length; k++){
+          if(team[k] == AllNodeForColor[i].classList[2]){
+            AllNodeForColor[i].style.borderColor = colorArray[k];
+          }
+        }
+    }
+  }
+  const showUpModal = async (data) => {
+      const modalButton = document.querySelectorAll(".Node");
+      const modal = document.querySelector(".nodeUploadModal");
+      const overlay = modal.querySelector(".modal_Overlay");
+      const toggleModal = () => {
+        modal.classList.toggle("hidden");
+      }
+
+      overlay.addEventListener("click", toggleModal);
+      for(let i = 0; i<modalButton.length; i++){
+        modalButton[i].addEventListener("click", toggleModal);
+      }
+  }
+  const sendCreatedOrder = async (clickedValue) => {
+    
+    const Node_Owner = document.querySelector('.Node_Owner');
+    const Node_Name = document.querySelector('.Node_Name');
+    const Node_Discriptions = document.querySelector('.Node_Discriptions');
+    const Node_Create_Time = document.querySelector('.Node_Create_Time');
+
+    let data = await getNodeData()   
+    let u_data = await getUserData()
+    console.log(clickedValue.classList)
+    console.log(clickedValue.classList[3].split(":")[1]);
+    
+    let node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
+    console.log(node_Data)
+    console.log(node_Data.fields)
+    const first_input = document.querySelector("#something1");
+    const second_input = document.querySelector("#something2");
+    const third_input = document.querySelector("#something3");
+    const fourth_input = document.querySelector("#something4");
+    const fifth_input = document.querySelector("#something5");
+
+    Node_Owner.appendChild(document.createTextNode('노드 주인:' + u_data[node_Data.fields.whoIsOwner-1].fields.username));
+    Node_Name.appendChild(document.createTextNode('노드 파일:' + node_Data.fields.nodeName));
+    Node_Discriptions.appendChild(document.createTextNode("노드 요약:" + node_Data.fields.description));
+    Node_Create_Time.appendChild(document.createTextNode("생성 시간:" + node_Data.fields.createdDate));
+
+    first_input.value = node_Data.fields.createdDate;
+    second_input.value = u_data[node_Data.fields.whoIsOwner-1].fields.username
+    third_input.value = node_Data.fields.fileObj;
+    fourth_input.value = node_Data.pk;
+    fifth_input.value = node_Data.fields.ownerFCode;
+  }
+  startNodeBranch();
+</script>
+<script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
+{% endblock %}
