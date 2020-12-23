@@ -1,6 +1,7 @@
 from pathlib import Path
 import os, json
 from django.core.exceptions import ImproperlyConfigured
+import mysql_setting
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,12 +85,16 @@ WSGI_APPLICATION = 'FromNode.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''
+DATABASES = mysql_setting.DATABASES
+
 
 
 # Password validation
