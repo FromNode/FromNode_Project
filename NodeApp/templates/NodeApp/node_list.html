@@ -3,13 +3,12 @@
 {% load static %}
 
 {% block scss %}
-  <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
   <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
   <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
   <style>
     .NodeContainer {
       display: grid;
-      gap: 5px;
+      gap: 0;
       place-items: center center;
     }
     .Nodes button{
@@ -40,26 +39,22 @@
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-      <!-- <div class='Explain_Contents'>
-        <p class='Node_Owner'></p>
-        <p class='Node_Name'></p>
-        <p class = 'Node_Discriptions'></p>
-        <p class = 'Node_Create_Time'></p>
-      </div> -->
+      <div class="Top_Contents">
+        <span class="modal_title"> 노드 업로드 하기</span>
+        <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
+      </div>
       <div class='Low_Contents'>
         <div class='Upload_Contents'>
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
-          <div class="hiddenInput">
-          </div>
-          <div class="uploadInput">
-            파일 설명 : <input type="text" placeholder="test" class="upload_input">
-          </div>
-          <div class="drop-zone">
-            <input type="file" name="uploadFile" class="drop-zone__input" multiple>
-            <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
-          </div>
-          <input class="uploadBtn" type="submit" value="업로드하기">
+            <div class="hiddenInput">
+            </div>
+            <div class="drop-zone">
+              <span class="drop-zone__text">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
+              <input type="file" name="uploadFile" class="drop-zone__input" multiple>
+              <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
+            </div>
+            <input class="uploadBtn" type="submit" value="업로드하기">
           </form>
 
         </div>
@@ -75,9 +70,11 @@
     const init = async () =>{
       let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
       let data = await getNodeData();
+      console.log(data)
       let locationData = await getLocationData(data, location_Data);
       await createGrid(data); // 그리드 만들기
       await createNodeBtn(data, locationData);
+      await createGhostDiv();
       await settingNodeDiv();
       await showUpModal();
     }
@@ -147,13 +144,46 @@
         let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
-        btn.setAttribute("class", `${varObj.Pk}`)
+        btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1 
         NodeContainer.appendChild(btnDiv);
       }
     }
-    
+    const createGhostDiv = async() => {
+      const emptyArea = document.querySelectorAll(".Nodes");
+      let areaArray = [];
+      let maxNumArray1 = [];
+      let maxNumArray2 = [];
+      for(let i=0; i<emptyArea.length; i++){
+        let columnNum = emptyArea[i].classList[0].slice(1,2);
+        let rowNum = emptyArea[i].classList[0].slice(3);
+        maxNumArray1.push(Number(columnNum));
+        maxNumArray2.push(Number(rowNum));
+        areaArray.push(`${columnNum}${rowNum}`)
+      }
+      let maxColumnNum = Math.max(...maxNumArray1)
+      let maxRowNum = Math.max(...maxNumArray2)
+      let emptyAreaArray = [];
+      for(let i=1; i<maxColumnNum+1; i++){
+        for(let k=1; k<maxRowNum+1; k++){
+          if(areaArray.includes(`${i}${k}`) == false){
+            emptyAreaArray.push(`${i}${k}`);
+          }
+        }
+      }
+      for(let i=0; i<emptyAreaArray.length; i++){
+        let row = emptyAreaArray[i].slice(0,1);
+        let column = emptyAreaArray[i].slice(1,2);
+
+        let createDiv = document.createElement("div");
+        createDiv.setAttribute("class", `R${row}C${column} emptyArea`);
+        createDiv.style.setProperty('width', '100px');
+        createDiv.style.setProperty('height', '100px');
+        createDiv.style.setProperty('grid-area', `R${row}C${column}`);
+        NodeContainer.appendChild(createDiv);
+      }
+    }
     const settingNodeDiv = async() => {
       // 해당클래스 찾아서 grid-area 선언해야한다이말이야
       const Nodes = document.querySelectorAll(".Nodes");
