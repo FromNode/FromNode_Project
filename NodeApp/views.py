@@ -72,11 +72,10 @@ def get_location_list(dbData):
                     xLoc = li_numMentioned[i][3]
                     li_location.append([xLoc, y+1, str(code)])
                     break
-    
+    print(li_numMentioned)
     print(li_location)
-    print(li_last)
+    # print(li_last)
 
-    
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
@@ -85,6 +84,8 @@ def node_list(request,file_Code):
     else:
         pass
     The_File = Files.objects.get(Code=file_Code)
+    print("The file")
+    print(The_File)
     project = The_File.ownerPCode
     pro_name = project.name
     node_objs = Nodes.objects.filter(ownerFCode = The_File)
@@ -92,6 +93,7 @@ def node_list(request,file_Code):
  
 
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
+    print(json_data)
     user_data = serializers.serialize("json", User.objects.all())
     if True:
         dbData = Nodes.objects.filter(ownerFCode = The_File.Code)
@@ -144,15 +146,15 @@ def create_node(request):
     clickedNode = Nodes.objects.get(Code=int(NodePk))
     print(request.user)
     # 파일없을 때 예외 처리 해야합니다
-    # if request.method == 'POST':
-    #     node_object = Nodes()
-    #     node_object.fileObj = request.FILES['uploadFile']
-    #     node_object.previousCode = clickedNode
-    #     node_object.ownerFCode = clickedNode.ownerFCode
-    #     node_object.ownerPCode = clickedNode.ownerPCode
-    #     node_object.whoIsOwner = request.user
-    #     node_object.save()
-    #     return redirect(redirectURL)
+    if request.method == 'POST':
+        node_object = Nodes()
+        node_object.fileObj = request.FILES['uploadFile']
+        node_object.previousCode = clickedNode
+        node_object.ownerFCode = clickedNode.ownerFCode
+        node_object.ownerPCode = clickedNode.ownerPCode
+        node_object.whoIsOwner = request.user
+        node_object.save()
+        return redirect(redirectURL)
     return redirect(redirectURL)
 
 
