@@ -142,16 +142,17 @@ def create_node(request):
     redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
     
     clickedNode = Nodes.objects.get(Code=int(NodePk))
+    print(request.user)
     # 파일없을 때 예외 처리 해야합니다
-    if request.method == 'POST':
-        node_object = Nodes()
-        node_object.fileObj = request.FILES['uploadFile']
-        node_object.previousCode = clickedNode
-        node_object.ownerFCode = clickedNode.ownerFCode
-        node_object.ownerPCode = clickedNode.ownerPCode
-        node_object.whoIsOwner = request.user
-        node_object.save()
-        return redirect(redirectURL)
+    # if request.method == 'POST':
+    #     node_object = Nodes()
+    #     node_object.fileObj = request.FILES['uploadFile']
+    #     node_object.previousCode = clickedNode
+    #     node_object.ownerFCode = clickedNode.ownerFCode
+    #     node_object.ownerPCode = clickedNode.ownerPCode
+    #     node_object.whoIsOwner = request.user
+    #     node_object.save()
+    #     return redirect(redirectURL)
     return redirect(redirectURL)
 
 
