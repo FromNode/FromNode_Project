@@ -39,7 +39,7 @@ def project_checkcode(request):
         Join_Project = Projects.objects.get(Code=request.POST['Code'])
         Owner = Join_Project.members.all()[0]
         recipients = User.objects.get(username = Owner)
-        notify.send(request.user,recipient = recipients,verb = Join_Project.name, description = 1 )
+        notify.send(request.user,recipient = recipients,verb = Join_Project.Code, description = 1)
         
         #이후는 알림 기능 배우고! Owner_User = User.objects.get(Username=Join_Project.whoIsOwner)
         # 코드를 보내면서, 동시에 해당 코드를 가진 프로젝트의 오너한테 알림을 보낼것!

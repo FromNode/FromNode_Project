@@ -63,9 +63,13 @@ def mypage(request):
     if user in recipients:
         unread_messages = user.notifications.unread()
         unread_messages_invite = unread_messages.filter(description = 1)
+        # for i in unread_messages_invite:
+        #     invite_code = i.verb
+        #     project_name = Projects.objects.get(Code = invite_code)
+            # i.append({'project_name':project_name})
+            # print(i)
+        print(unread_messages_invite)
         unread_messages_invite_return = unread_messages.filter(description = 2)
-        for i in user.notifications.all():
-            print(i.actor)
         return render(request,'UserApp/mypage.html',{'unread_messages':unread_messages,'unread_messages_invite':unread_messages_invite,'unread_messages_invite_return':unread_messages_invite_return})
     return render(request,'UserApp/mypage.html',{})
 
@@ -77,13 +81,15 @@ def join_project(request):
     if request.method == 'POST':
         for i in proj_request:
             if actor == i.actor:
+                print(project)
                 notify.send(request.user,recipient = i.actor,verb = request.user.username+'님이'+project+"참가를 허용하셨습니다!", description = 2 )
                 i.mark_as_read()
-            # if proj_request.actor == actor.username:
-            #     i.mark_as_read()
-        User_Profile = Profile.objects.get(user=actor)
-        User_Profile.projects += ','+project
-        User_Profile.save()
+                join_project = Projects.objects.get(Code = project)
+                join_project.members.add(i.actor)
+                join_project.save()
+        # User_Profile = Profile.objects.get(user=actor)
+        # User_Profile.projects += ','+project
+        # User_Profile.save()
         return redirect('user:mypage')
     else:
         for i in proj_request:
