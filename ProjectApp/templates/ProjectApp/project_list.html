@@ -46,7 +46,7 @@
         <div class='invite_bottom'>
             <li class = 'font middle'>
                 <ul><img src="{% static 'Projectapp/image/empty_project.png' %}" style ="width:17px;height:17px;"><a style = 'text-decoration: none;
-                    color: #0F69E4;'class = 'openModal'>빈 프로젝트 생성하기</a></ul>
+                    color: #0F69E4; cursor:pointer;'class = 'openModal'>빈 프로젝트 생성하기</a></ul>
                 <!-- {% url 'project:project_create' %} -->
                 <ul><img src="{% static 'Projectapp/image/file_upload.png' %}"style ="width:17px;height:17px;">파일 업로드</ul>
                 <ul><img src="{% static 'Projectapp/image/folder_upload.png' %}"style ="width:17px;height:17px;">폴더 업로드</ul>
@@ -88,7 +88,7 @@
         <div class="modal_Overlay"></div>
         <div class="modal_Contents">
             <p class="modal-title">프로젝트 이름을 정해주세요 :-)</p>
-            <form action = "{% url 'project:project_create'%}" method = 'POST'>
+            <form action = "{% url 'project:project_create'%}" method = 'POST' class='create_project_form' onsubmit="return checkForm()">
                 {% csrf_token %}
                 <div class="m-boxes">
                     <div class="m-box">
@@ -105,8 +105,9 @@
                         </div>
                     </div>
                 </div>
+                <p class= 'alert_text' style='color: red;'></p>
                 <div class="submit">
-                <input class="uploadBtn" type='submit' value='생성'>
+                <input class="uploadBtn" type='submit'  value='생성'>
             </div>
             </form>
 
@@ -123,10 +124,31 @@
     const openButton = document.querySelector(".openModal");
     const modal = document.querySelector(".uploadModal");
     const overlay = modal.querySelector(".modal_Overlay");
+    const alert_text = document.querySelector('.alert_text');
     const toggleModal = () => {
         modal.classList.toggle("hidden");
     }
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
+    
+
+    function checkForm(){
+        const form = document.querySelector(".create_project_form");
+        names = form.name;
+        description = form.description;
+
+        if(names.value == ""){
+            alert_text.innerHTML ="제목란을 채워주세요"
+            form.name.focus();
+            return false;
+        }
+        else if(description.value ==""){
+            alert_text.innerHTML ="설명란을 채워주세요"
+            form.description.focus();
+            return false;
+        }
+        else return true;
+
+    }
 </script>
 {% endblock %}
