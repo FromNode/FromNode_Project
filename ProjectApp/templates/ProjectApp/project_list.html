@@ -12,7 +12,7 @@
 {% block leftbar %}
     <div class="side-box">
         <p class="side-title">내 프로젝트</p>
-        {% for project in proj_obj %}
+        {% for project in proj_obj_all %}
         <ul class="side-content">
             <!-- <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li> -->
             <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>{{project.name}}</p></a></li>
@@ -24,7 +24,6 @@
         <p class="side-title ">최종 파일 모음</p>
     </div>
 {% endblock %}
-
 
 {% block content %}
 {% if user.is_authenticated %}
@@ -56,13 +55,44 @@
     </div>
 </div>
 
+<div class="box" style='margin-bottom: 0px; padding-bottom: 0px;'>
+    <div class="box left">
+        <p class="font title">최근 조회한 프로젝트</p>
+    </div>
+    <div class="box right">
+        <p class="font title">즐겨찾기한 프로젝트</p>
+        {% for project in like_proj %}
+        <div class = 'project_box'>
+            <div class = 'project_top'>
+                <div class = 'project_top_left'>
+                    <br>
+                    <a href="{% url 'file:file_list' project.id %}"><p class = 'font large'>{{project.name}}</p></a>
+                    <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
+                </div>
+                <div class = 'project_top_right'>
+                    <a href='#'><img id ='likeornot' class='{{project.likeornot}}' style='width: 30px; height: 30px;'></a>
+                </div>
+           </div>
+            <br>
+            <div class = 'project_join_members'>
+                <p class='font middle'>{{project.Code}}</p>
+            </div>
+        </div>
+        {% endfor %}
 
+    </div>
+    
+    
+</div>
 <div class="box">
 
     <p class = 'font title'>참여중인 프로젝트</p>
+    <a name="join_projects"></a>
     <p>{{empty}}</p>
-
     <div class = 'projects'>
+        {% if proj_obj.has_previous %}
+        <a href="?page={{ proj_obj.previous_page_number }}"><img src="{%static 'Projectapp/image/arrowleft.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
+        {% endif %}
         {% for project in proj_obj %}
         <div class = 'project_box'>
             <div class = 'project_top'>
@@ -72,7 +102,7 @@
                     <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
-                    <a href='#'><img src="{% static 'Projectapp/image/project_info.png' %}" style='width: 30px; height: 25px;'></a>
+                    <a href='#'><img id ='likeornot' class='{{project.likeornot}}' style='width: 30px; height: 30px;'></a>
                 </div>
            </div>
             <br>
@@ -81,6 +111,9 @@
             </div>
         </div>
         {% endfor %}
+        {% if proj_obj.has_next %}
+        <a href="?page={{ proj_obj.next_page_number }}"><img src="{%static 'Projectapp/image/arrowright.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
+        {% endif %}
     </div>  
 
     <div class="uploadModal hidden">
@@ -130,7 +163,24 @@
     }
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
+    const likeornot = document.querySelectorAll('#likeornot');
     
+    for (var i=0; i<likeornot.length; i++){
+        if(likeornot[i].getAttribute('class') == 'False'){
+            img = "{% static 'Projectapp/image/star_off.png' %}";
+            likeornot[i].setAttribute('src', img);
+        } 
+        else if(likeornot[i].getAttribute('class') == 'True'){
+            img = "{% static 'Projectapp/image/star_on.png' %}";
+            likeornot[i].setAttribute('src', img);
+        }
+        else{
+            console.log(likeornot[i].getAttribute('class'));
+            continue;
+        }
+    }
+
+        
 
     function checkForm(){
         const form = document.querySelector(".create_project_form");

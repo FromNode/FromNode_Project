@@ -17,5 +17,6 @@ class Projects(models.Model):
     due_date = models.DateTimeField(blank = True, null=True)
     description = models.TextField(max_length= 20000, blank = True)
     members = models.ManyToManyField(User,blank = True)
+    likeornot = models.BooleanField(default=False)
     def __str__(self):
         return self.name

@@ -8,21 +8,36 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from notifications.signals import notify
 from datetime import datetime
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # User 모델 불러오기
 # 불러온 User 모델의 Projects 불러오기
 # 불러온 Projects를 슬라이싱, 이후 이걸 포함하는지 아닌지 대조!
 
 def show_project_list(request):
+    #Page 파라미터
+    page = request.GET.get('page', '1')
     # 모든 프로젝트의 모든 member를 순차 조회
-    # Project = Projects.objects.all()
+    proj_obj_all = Projects.objects.filter(members = request.user)
     if request.user.is_authenticated:
         proj_obj = Projects.objects.filter(members = request.user)
+        like_proj = Projects.objects.filter(Q(members = request.user) & Q(likeornot = True))
+        paginator = Paginator(proj_obj, 4)  # 페이지당 10개씩 보여주기
+        page_obj = paginator.get_page(page)
+        proj_obj = page_obj
     empty = ''
     if len(proj_obj) == 0:
         empty = '참여중인 프로젝트가 없습니다'
     today = datetime.today()
-    return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'empty':empty, 'today':today})
+    contents = {
+        'proj_obj' : proj_obj,
+        'empty':empty, 
+        'today':today,
+        'proj_obj_all':proj_obj_all,
+        'like_proj':like_proj
+    }
+    return render(request, 'ProjectApp/project_list.html', contents)
 
 def show_project_detail(request):
     # project에 소속된 file들이 보여지는 detail화면으로 슝 !
@@ -51,7 +66,6 @@ def project_checkcode(request):
 # def form_create_project(request):
 #     return render(request,'ProjectApp/form_create_project.html')
 
-
 # def create_project(request):
 #     proj_obj = Projects()
 #     proj_obj.Code = random.randint(0,0xffffff)
@@ -77,7 +91,6 @@ def project_create(request):
         user = request.user
         proj_obj = Projects()
         proj_obj.name = request.POST['name']
-        print(request.user)
         proj_obj.save()
         proj_obj.members.add(user)
         proj_obj.save()
@@ -87,5 +100,3 @@ def project_create(request):
         return redirect('project:project_list')
     else:
         return render(request,'ProjectApp/project_create.html')
-
-    
