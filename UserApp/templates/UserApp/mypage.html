@@ -46,9 +46,10 @@
 
             {% if unread_messages_invite %}
             <div class="box">
+                {{invite_project}}
                 {% for unread_messages in unread_messages_invite.all %}
                 <div class="title">
-                    {{unread_messages.actor}}님 께서<br>"{{unread_messages.verb}}" 참가를 원하십니다!
+                    {{unread_messages.actor}}님 께서<br>"{{unread_messages.verb}}" 프로젝트 참가를 원하십니다!
                 </div>
                 <form class="submit" action="{% url 'user:join_project' %}" method='POST'>
                     {% csrf_token %}

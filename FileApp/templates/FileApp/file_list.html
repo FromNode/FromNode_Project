@@ -68,7 +68,7 @@
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data" onsubmit="return checkForm()">
             {% csrf_token %}
             <div class="box">
                 <div class="title">파일명 : </div>
@@ -104,10 +104,11 @@
                     </div> -->
                     <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
                 </div>
+                
             </div>
-
+            <p class= 'alert_text' style='color: red;'></p>
             <div class="submit">
-                <input class="uploadBtn" type="submit" value="OK">
+                <input class="uploadBtn" type="submit"  value="OK">
             </div>
 
 
@@ -158,10 +159,36 @@
     const openButton = document.querySelector(".openModal");
     const modal = document.querySelector(".uploadModal");
     const overlay = modal.querySelector(".modal_Overlay");
+    const alert_text = document.querySelector('.alert_text');
     const toggleModal = () => {
         modal.classList.toggle("hidden");
     }
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
+
+    function checkForm(){
+        const form = document.querySelector(".upload_Form");
+        fileName = form.fileName;
+        fileMemo = form.fileMemo;
+        myFile = form.myFile;
+        if(fileName.value == ""){
+            alert_text.innerHTML ="제목란을 채워주세요"
+            form.fileName.focus();
+            return false;
+        }
+        else if(fileMemo.value ==""){
+            alert_text.innerHTML ="메모란을 채워주세요"
+            form.fileMemo.focus();
+            return false;
+        }
+        else if(myFile.value == ""){
+            alert_text.innerHTML ="파일을 추가해주세요"
+            form.myFile.focus();
+            return false;
+        }
+        else return true;
+
+    }
+
 </script>
 {% endblock %}

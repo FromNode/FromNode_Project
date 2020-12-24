@@ -80,49 +80,21 @@ def get_location_list(dbData):
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
-    proj_obj = []
-    User_Profile = []
-    User_Projects = []
     if request.user.is_authenticated:
-        User_Profile = Profile.objects.get(user=request.user)
-        # filter는 쿼리셋 메소드를 가져오니까 get으로 값을 불러오세요!!!!!!
-        User_Projects = User_Profile.projects.split(',')
+        proj_obj = Projects.objects.filter(members = request.user)
     else:
         pass
-    for i in User_Projects:
-        proj_obj += Projects.objects.filter(name=i)
-
-    
-
-    The_file = Files.objects.get(Code=file_Code)
-    project = The_file.ownerPCode
+    The_File = Files.objects.get(Code=file_Code)
+    project = The_File.ownerPCode
     pro_name = project.name
-    A = Nodes.objects.all()
-    node_objs =[]
-    Project = []
-    proj_objs = []
-    proj_user = []
+    node_objs = Nodes.objects.filter(ownerFCode = The_File)
+    proj_user = project.members.all()
+ 
 
-    for x in A:
-        if x.ownerFCode.Code == The_file.Code:
-            node_objs.append(x)
-            The_File = x.ownerFCode
-            Project = x.ownerPCode 
-    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_file.Code))
+    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
     user_data = serializers.serialize("json", User.objects.all())
-    for x in Profile.objects.all():
-        a = x.projects.split(',')
-        proj_objs = a
-        if pro_name in proj_objs:
-            proj_user.append(x.user)
-    profiles = []
-    for username in proj_user:
-        user = User.objects.get(username=username)
-        profile = Profile.objects.get(user=user)
-        profiles.append(profile)
-
     if True:
-        dbData = Nodes.objects.filter(ownerFCode = The_file.Code)
+        dbData = Nodes.objects.filter(ownerFCode = The_File.Code)
         tuple_return = get_location_list(dbData)
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
@@ -143,8 +115,9 @@ def node_list(request,file_Code):
         "node_objs":node_objs,
         "The_File":The_File, 
         "json":json_data,
-        "proj_user":profiles,
-        "user_data" : user_data
+        "proj_user":proj_user,
+        "user_data" : user_data,
+        "pro_name" : pro_name
     }  
     return render(request, 'NodeApp/node_list.html', objects)
 
