@@ -44,10 +44,7 @@ def show_file_list(request,project_id):
 def create_new_file(request):
     pk = request.POST['pk']
     next_url = '/file/file_list/'+str(pk)
-    if request.POST['myFile'] == '':
-        return redirect(next_url)
-    else:
-        filename = request.FILES['myFile']
+    filename = request.FILES['myFile']
     fileExtension = str(filename).split('.')[1]
     #str(filename).split('.')[0] 디폴트 파일 명
     file_obj = Files()
