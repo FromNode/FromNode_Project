@@ -14,13 +14,15 @@ def get_location_list(dbData):
     node_count = 1
     for obj in dbData:
         if obj.previousCode == None:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
         else:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
             node_count += 1
     
-
+    li_numMentioned.sort(key=lambda x: x[4])
+    print("여기부터 봐라")
+    print(li_numMentioned)
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -74,9 +76,8 @@ def get_location_list(dbData):
                     break
     
     print(li_location)
-    print(li_last)
+    # print(li_last)
 
-    
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
@@ -85,6 +86,8 @@ def node_list(request,file_Code):
     else:
         pass
     The_File = Files.objects.get(Code=file_Code)
+    print("The file")
+    print(The_File)
     project = The_File.ownerPCode
     pro_name = project.name
     node_objs = Nodes.objects.filter(ownerFCode = The_File)
@@ -92,6 +95,7 @@ def node_list(request,file_Code):
  
 
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
+    print(json_data)
     user_data = serializers.serialize("json", User.objects.all())
     if True:
         dbData = Nodes.objects.filter(ownerFCode = The_File.Code)
@@ -144,15 +148,15 @@ def create_node(request):
     clickedNode = Nodes.objects.get(Code=int(NodePk))
     print(request.user)
     # 파일없을 때 예외 처리 해야합니다
-    # if request.method == 'POST':
-    #     node_object = Nodes()
-    #     node_object.fileObj = request.FILES['uploadFile']
-    #     node_object.previousCode = clickedNode
-    #     node_object.ownerFCode = clickedNode.ownerFCode
-    #     node_object.ownerPCode = clickedNode.ownerPCode
-    #     node_object.whoIsOwner = request.user
-    #     node_object.save()
-    #     return redirect(redirectURL)
+    if request.method == 'POST':
+        node_object = Nodes()
+        node_object.fileObj = request.FILES['uploadFile']
+        node_object.previousCode = clickedNode
+        node_object.ownerFCode = clickedNode.ownerFCode
+        node_object.ownerPCode = clickedNode.ownerPCode
+        node_object.whoIsOwner = request.user
+        node_object.save()
+        return redirect(redirectURL)
     return redirect(redirectURL)
 
 

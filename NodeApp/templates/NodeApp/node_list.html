@@ -33,20 +33,6 @@
 {% endblock %}
 
 {% block content %}
-<<<<<<< HEAD
-=======
-  <!-- <div class="nodeList_Header">
-    <p>{{pro_name}}</p>
-    <span class="nodeListTitle middle">{{The_File.fileName}}</span>
-    <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
-    <div class = 'project_join_members'>
-      {% for i in profiles %}
-      <div  class = 'user' ><img src ='{{i.profile_image.url}}'alt = '{{i.user}}' style='width:40px;height:40px;border-radius: 50%; border: 1px solid gray;'></div>
-      {% endfor %}
-    </div>
-  </div> -->
-
->>>>>>> new_master
   <div class="NodeContainer">
   </div>
 
@@ -191,7 +177,7 @@
         let column = emptyAreaArray[i].slice(1,2);
 
         let createDiv = document.createElement("div");
-        createDiv.setAttribute("class", `R${row}C${column} emptyArea`);
+        createDiv.setAttribute("class", `R${row}C${column} emptyAreas`);
         createDiv.style.setProperty('width', '100px');
         createDiv.style.setProperty('height', '100px');
         createDiv.style.setProperty('grid-area', `R${row}C${column}`);
@@ -199,7 +185,7 @@
       }
     }
     const settingNodeDiv = async() => {
-      // 해당클래스 찾아서 grid-area 선언해야한다이말이야
+      // 해당클래스 찾아서 grid-area 선언
       const Nodes = document.querySelectorAll(".Nodes");
       for(let i = 0; i<Nodes.length; i++){
         let nodeLocation = Nodes[i].classList[0];
