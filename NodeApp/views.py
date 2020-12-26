@@ -14,13 +14,15 @@ def get_location_list(dbData):
     node_count = 1
     for obj in dbData:
         if obj.previousCode == None:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
         else:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count])
+            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
             node_count += 1
     
-
+    li_numMentioned.sort(key=lambda x: x[4])
+    print("여기부터 봐라")
+    print(li_numMentioned)
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -72,7 +74,7 @@ def get_location_list(dbData):
                     xLoc = li_numMentioned[i][3]
                     li_location.append([xLoc, y+1, str(code)])
                     break
-    print(li_numMentioned)
+    
     print(li_location)
     # print(li_last)
 
