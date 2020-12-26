@@ -54,13 +54,16 @@
         <p>{{message}}</p>
     </div>
 </div>
-
-<div class="box" style='margin-bottom: 0px; padding-bottom: 0px;'>
-    <div class="box left">
+<div class='box'>
+    <div class="projects">
         <p class="font title">최근 조회한 프로젝트</p>
     </div>
-    <div class="box right">
-        <p class="font title">즐겨찾기한 프로젝트</p>
+</div>
+
+<div class="box" style='margin-bottom: 0px; padding-bottom: 0px;'>
+    <p class="font title">즐겨찾기한 프로젝트</p>
+    <div class="projects">
+        
         {% for project in like_proj %}
         <div class = 'project_box'>
             <div class = 'project_top'>
@@ -70,7 +73,7 @@
                     <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
-                    <a href='#'><img id ='likeornot' class='{{project.likeornot}}' style='width: 30px; height: 30px;'></a>
+                    <a href='#'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;' ></a>
                 </div>
            </div>
             <br>
@@ -102,7 +105,7 @@
                     <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
-                    <a href='#'><img id ='likeornot' class='{{project.likeornot}}' style='width: 30px; height: 30px;'></a>
+                    <a href='#'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;'></a>
                 </div>
            </div>
             <br>
@@ -164,21 +167,50 @@
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
     const likeornot = document.querySelectorAll('#likeornot');
-    
+    var arr = new Array();
     for (var i=0; i<likeornot.length; i++){
-        if(likeornot[i].getAttribute('class') == 'False'){
+        arr[i] = likeornot[i].getAttribute('class');
+    }
+    var res = {};
+    arr.sort();
+    for(var value in arr){
+        var index = arr[value];
+        res[index] = res[index] == undefined ? 1:res[index]+=1;
+    }
+    console.log(res)
+    for(var value in res){
+        if(res[value]==1){
             img = "{% static 'Projectapp/image/star_off.png' %}";
-            likeornot[i].setAttribute('src', img);
-        } 
-        else if(likeornot[i].getAttribute('class') == 'True'){
-            img = "{% static 'Projectapp/image/star_on.png' %}";
-            likeornot[i].setAttribute('src', img);
+            const a = document.getElementsByClassName(value);
+            a[0].setAttribute('src', img);
         }
-        else{
-            console.log(likeornot[i].getAttribute('class'));
-            continue;
+        else if (res[value]==2){
+            img = "{% static 'Projectapp/image/star_on.png' %}";
+            const a = document.getElementsByClassName(value);
+            console.log(value,a)
+            a[0].setAttribute('src', img);
+            a[1].setAttribute('src',img);
         }
     }
+    // var comp_arr1 = new Set(arr);
+    // var comp_arr2 = new Array(comp_arr1);
+    // console.log(arr,comp_arr2)
+    // var final_arr = arr-comp_arr2;
+    // console.log(final_arr);
+    // for (var i=0; i<likeornot.length; i++){
+    //     if(likeornot[i].getAttribute('class') == 'False'){
+    //         img = "{% static 'Projectapp/image/star_off.png' %}";
+    //         likeornot[i].setAttribute('src', img);
+    //     } 
+    //     else if(likeornot[i].getAttribute('class') == 'True'){
+    //         img = "{% static 'Projectapp/image/star_on.png' %}";
+    //         likeornot[i].setAttribute('src', img);
+    //     }
+    //     else{
+    //         console.log(likeornot[i].getAttribute('class'));
+    //         continue;
+    //     }
+    // }
 
         
 

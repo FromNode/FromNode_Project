@@ -19,13 +19,15 @@ def show_project_list(request):
     #Page 파라미터
     page = request.GET.get('page', '1')
     # 모든 프로젝트의 모든 member를 순차 조회
-    proj_obj_all = Projects.objects.filter(members = request.user)
     if request.user.is_authenticated:
-        proj_obj = Projects.objects.filter(members = request.user)
-        like_proj = Projects.objects.filter(Q(members = request.user) & Q(likeornot = True))
-        paginator = Paginator(proj_obj, 4)  # 페이지당 10개씩 보여주기
-        page_obj = paginator.get_page(page)
-        proj_obj = page_obj
+        User = request.user
+        proj_obj_all = User.Joined_Unliked_Projects.all()
+        unliked_proj = User.Joined_Unliked_Projects.all()
+        liked_proj = User.Joined_Liked_Projects.all()
+        all_proj = unliked_proj | liked_proj
+        # paginator = Paginator(all_proj, 4)  # 페이지당 10개씩 보여주기
+        # page_obj = paginator.get_page(page)
+        proj_obj = all_proj
     empty = ''
     if len(proj_obj) == 0:
         empty = '참여중인 프로젝트가 없습니다'
@@ -35,7 +37,7 @@ def show_project_list(request):
         'empty':empty, 
         'today':today,
         'proj_obj_all':proj_obj_all,
-        'like_proj':like_proj
+        'like_proj':liked_proj
     }
     return render(request, 'ProjectApp/project_list.html', contents)
 
