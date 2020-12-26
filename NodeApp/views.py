@@ -162,6 +162,7 @@ def create_node(request):
 
 def delete_node(request):
     NodePk = request.POST['NodePk']
+    print("삭제" + NodePk)
     NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
 
     redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
