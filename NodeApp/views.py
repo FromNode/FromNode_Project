@@ -15,14 +15,15 @@ def get_location_list(dbData):
     for obj in dbData:
         if obj.previousCode == None:
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
-            node_count += 1
         else:
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
-            node_count += 1
-    
-    li_numMentioned.sort(key=lambda x: x[4])
-    print("여기부터 봐라")
-    print(li_numMentioned)
+            
+    #시간순으로 노드를 x축배치할겨        
+    li_numMentioned.sort(key=lambda x: x[4]) 
+    for node in li_numMentioned:
+        node[3] = node_count
+        node_count += 1
+
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -75,9 +76,6 @@ def get_location_list(dbData):
                     li_location.append([xLoc, y+1, str(code)])
                     break
     
-    print(li_location)
-    # print(li_last)
-
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
@@ -144,8 +142,8 @@ def create_node(request):
     NodeOwner = request.POST['NodeOwner']
     NodePk = request.POST['NodePk']
     redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
-    
-    clickedNode = Nodes.objects.get(Code=int(NodePk))
+
+    clickedNode = Nodes.objects.get(Code=NodePk) #nodePk에 int함수씌워뒀던거 빼봤더니 됐어요 머냐 왜되냐 ㅋ
     print(request.user)
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
