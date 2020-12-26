@@ -12,8 +12,13 @@
       place-items: center center;
     }
     .Nodes button{
-      all: unset;
+      /* all: unset; */
       cursor: pointer;
+      padding: 20px 40px;
+      border-radius: 20%;
+      color: white;
+      font-size: 2em;
+      border: none;
     }
   </style>
 {% endblock %}
@@ -68,14 +73,15 @@
     const NodeContainer = document.querySelector(".NodeContainer");
     const globalDataArray = [];
     const init = async () =>{
-      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
-      let data = await getNodeData();
+      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "") // 노드 배치를 위한 위치 정보
+      let data = await getNodeData(); // 해당 노드리스트에 담긴 모든 노드 정보
       console.log(data)
-      let locationData = await getLocationData(data, location_Data);
-      await createGrid(data); // 그리드 만들기
-      await createNodeBtn(data, locationData);
-      await createGhostDiv();
-      await makeLineInGhostDiv(data);
+      let locationData = await getLocationData(data, location_Data); // 노드 배치를 위한 위치 정보 가공
+      await createNodeBtn(data, locationData); // 내용 있는 노드 버튼 추가
+      await nodeBtnCss(data); // 노드 버튼 css 
+      let GhostDivReturnArray = await createGhostDiv(); // 공백 div array, column 최대값, row 최대값
+      await createGrid(data, GhostDivReturnArray, locationData); // 그리드 만들기
+      await makeLineInGhostDiv(data); // 
       await settingNodeDiv();
       await showUpModal();
     }
@@ -109,11 +115,14 @@
       }
       return locationArray
     }
-    const createGrid = async(data) => {
+    const createGrid = async(data, GhostDivReturnArray, locationData) => {
       //최대 row, columns 숫자 넣기 grid 생성
-      let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
-      let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
+      let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 행(가로) 값  
+      let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 열(세로) 값 
       NodeContainer.style.setProperty('grid', `${gridRowWidth} / ${gridColumnHeight}`); // grid 선언
+      console.log(GhostDivReturnArray);
+      gridArray = [];
+      
 
       //grid-template-areas 선언
       let rowNum = '{{num_of_row}}'; // view에서 받은 행 최대값
@@ -134,7 +143,6 @@
     }
     const createNodeBtn = async(data, locationData) => {
       //node data 받아올 것 
-      console.log(data);
       for(let i = 0; i<data.length; i++){ // 노드 수 만큼
         let varObj = {
           "row" : locationData[i].Row,
@@ -153,6 +161,35 @@
         NodeContainer.appendChild(btnDiv);
       }
     }
+    const nodeBtnCss = async(data) => {
+      let AllNodeBtnForColor = document.querySelectorAll(".nodeBtn");
+      let teamArray = [];
+      for(let i = 0 ; i<data.length; i++){
+        teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
+        AllNodeBtnForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`);
+        //1: 유저별 색상 수정을 위한 class추가 
+        //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
+        
+      }
+      setTeamArray = new Set(teamArray);
+      team = [...setTeamArray];
+      let colorArray = ["#a5dff9", "#ef5285", "#60c5ba", "#feee7d", "#7200da", "#cbe86b", "#0080ff"];
+      // for(let k = 0; k<team.length; k++){
+      //   let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
+      //   colorArray.push(randomColor);
+      // }
+      let shuffledColor = colorArray
+        .map(a => ([Math.random(),a]))
+        .sort((a,b) => a[0]-b[0])
+        .map(a => a[1])
+      for(let i = 0; i<data.length; i++){
+          for(let k=0; k<team.length; k++){
+            if(team[k] == AllNodeBtnForColor[i].classList[2]){
+              AllNodeBtnForColor[i].style.setProperty("background-color", `${shuffledColor[k]}`)
+            }
+          }
+      }
+    }
     const createGhostDiv = async() => {
       const emptyArea = document.querySelectorAll(".Nodes");
       let areaArray = [];
@@ -165,7 +202,7 @@
         maxNumArray2.push(Number(rowNum));
         areaArray.push(`${columnNum}${rowNum}`)
       }
-      let maxColumnNum = Math.max(...maxNumArray1)
+      let maxColumnNum = Math.max(...maxNumArray1) 
       let maxRowNum = Math.max(...maxNumArray2)
       let emptyAreaArray = [];
       for(let i=1; i<maxColumnNum+1; i++){
@@ -178,39 +215,21 @@
       for(let i=0; i<emptyAreaArray.length; i++){
         let row = emptyAreaArray[i].slice(0,1);
         let column = emptyAreaArray[i].slice(1,2);
-
         let createDiv = document.createElement("div");
         createDiv.setAttribute("class", `R${row}C${column} emptyAreas`);
-        createDiv.style.setProperty('width', '100px');
-        createDiv.style.setProperty('height', '100px');
+        createDiv.style.setProperty('width', '100%');
+        createDiv.style.setProperty('height', '100%');
         createDiv.style.setProperty('grid-area', `R${row}C${column}`);
         NodeContainer.appendChild(createDiv);
       }
+      let returnArray = []
+      returnArray.push(emptyAreaArray)
+      returnArray.push(maxColumnNum)
+      returnArray.push(maxRowNum)
+      return returnArray
     }
     const makeLineInGhostDiv = async(data) => {
-      let AllNodeForColor = document.querySelectorAll(".Node");
-      let teamArray = [];
-      for(let i = 0 ; i<data.length; i++){
-        teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
-        AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
-        //1: 유저별 색상 수정을 위한 class추가 
-        //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
-        
-      }
-      setTeamArray = new Set(teamArray);
-      team = [...setTeamArray];
-      let colorArray = ["1163f8", "#ffe800"];
-      // for(let k = 0; k<team.length; k++){
-      //   let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
-      //   colorArray.push(randomColor);
-      // }
-      for(let i = 0; i<data.length; i++){
-          for(let k=0; k<team.length; k++){
-            if(team[k] == AllNodeForColor[i].classList[2]){
-              AllNodeForColor[i].style.borderColor = colorArray[k];
-            }
-          }
-      }
+      
     }
 
     const settingNodeDiv = async() => {
@@ -263,7 +282,6 @@
       return clickedNode
     }
     const sendInputContents = async (btnData) => {
-      console.log(btnData);
         const sendDataInput = document.querySelector(".hiddenInput");
         const dataLength = Object.keys(btnData[0]).length;
         for(let i = 0; i<dataLength; i++){
