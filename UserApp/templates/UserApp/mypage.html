@@ -3,7 +3,6 @@
 {% load notifications_tags %}
 {% load static %}
 {% block scss %}
-<!-- <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css"> -->
 <link href="{% sass_src 'UserApp/CSS/mypage.scss' %}" rel="stylesheet" type="text/css">
 
 {% endblock %}
@@ -28,70 +27,121 @@
 
 {% block content %}
 {% notifications_unread as unread_count %}
-<!-- <button>구독 신청하기(과금)</button> -->
-<div class="big-box">
-    <!--hidden-->
-    <div class="modal_Overlay"></div>
-    <div class="modal_Contents">
-        <div class="upload_Form">
-            <div class="noti">
-                <div class="noti-title">
-                    {% if unread_count %}
-                    {{unread_count}}개의 새 알림이 있습니다.
-                    {% else %}
-                    새 알림이 없네요!
-                    {% endif %}
+
+<div class ='Container'>
+
+    
+
+    <div class="big-box">
+        <p class = 'noti-title'>알림 로그</p>
+        <br>
+        <!--hidden-->
+        <div class="modal_Overlay"></div>
+        <div class="modal_Contents">
+            <div class="upload_Form">
+                <div class="noti">
+                    <div class="noti-title">
+                        {% if unread_count %}
+                        {{unread_count}}개의 새 알림이 있습니다.
+                        {% else %}
+                        새 알림이 없네요!
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
 
-            {% if unread_messages_invite %}
-            <div class="box">
-                {{invite_project}}
-                {% for unread_messages in unread_messages_invite.all %}
-                <div class="title">
-                    {{unread_messages.actor}}님 께서<br>"{{unread_messages.verb}}" 프로젝트 참가를 원하십니다!
+                {% if unread_messages_invite %}
+                <div class="box">
+                    {{invite_project}}
+                    {% for unread_messages in unread_messages_invite.all %}
+                    <div class="title">
+                        {{unread_messages.actor}}님 께서<br>"{{unread_messages.verb}}" 프로젝트 참가를 원하십니다!
+                    </div>
+                    <form class="submit" action="{% url 'user:join_project' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                        <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                        <input class="uploadBtn" type='submit' value='수락'>
+                    </form>
+                    <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                        <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                        <input class="uploadBtn" type='submit' value='거절'>
+                    </form>
+                    {% endfor %}
                 </div>
-                <form class="submit" action="{% url 'user:join_project' %}" method='POST'>
-                    {% csrf_token %}
-                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
-                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
-                    <input class="uploadBtn" type='submit' value='수락'>
-                </form>
-                <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
-                    {% csrf_token %}
-                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
-                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
-                    <input class="uploadBtn" type='submit' value='거절'>
-                </form>
-                {% endfor %}
-            </div>
-            {% endif %}
+                {% endif %}
 
-            {% if unread_messages_invite_return %}
-            <div class="box">
-                {% for unread_messages in unread_messages_invite_return.all %}
-                <div class="title">
-                    {{unread_messages.verb}}
+                {% if unread_messages_invite_return %}
+                <div class="box">
+                    {% for unread_messages in unread_messages_invite_return.all %}
+                    <div class="title">
+                        {{unread_messages.verb}}
+                    </div>
+                    <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
+                        {% csrf_token %}
+                        <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
+                        <input type='hidden' name='project' value='{{unread_messages.verb}}'>
+                        <input class="uploadBtn" type='submit' value='확인'>
+                    </form>
+
+                    {% endfor %}
                 </div>
-                <form class="submit" action="{% url 'user:cofirm_alarm' %}" method='POST'>
-                    {% csrf_token %}
-                    <input type='hidden' name='actor' value='{{unread_messages.actor}}'>
-                    <input type='hidden' name='project' value='{{unread_messages.verb}}'>
-                    <input class="uploadBtn" type='submit' value='확인'>
-                </form>
+                {% endif %}
 
-                {% endfor %}
             </div>
-            {% endif %}
-
         </div>
-
-
-
-
+        <br>
+        <p class = 'noti-title'>사용자 정보 변경</p>
+        <br>
+        <div class='information'>
+            <div class='info-userpassword'>
+                <p class='middle'>유저 비밀번호 변경</p>
+                <br>
+                <form action = "#" method = 'POST' class='input_password'>
+                    <p class='small'>기존 비밀번호</p>
+                    <input type='password' name='old_password'>
+                    <p class='small'>새로운 비밀번호</p>
+                    <input type='password' name='password'>
+                    <p class='small'>새로운 비밀번호 확인</p>
+                    <input type='password' name='confirm_password'>
+                    <button type='submit'>확인</button>
+                </form>
+            </div>
+            <br>
+            <div class='info-membership'>
+                <p class='middle'>멤버십 변경</p>  
+                <br>
+                <button>구독 신청하기(과금)</button>
+            </div>
+            <br>
+            <div class='info-withdraw'>
+                <p class='middle'>회원 탈퇴</p>
+                <br>
+                <button>회원 탈퇴하기</button>
+            </div>
+            <br>
+        </div>
     </div>
+
+    
+
 </div>
 
 {% endblock %}
 {% block JS %}
+<script>
+    // const password_check = document.getElementsByName('password');
+    function check_password(){
+
+
+    }
+
+
+    function load_information(){
+
+    }
+
+</script>
+
 {% endblock %}

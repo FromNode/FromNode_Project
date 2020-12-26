@@ -16,7 +16,17 @@ class Projects(models.Model):
     start_date = models.DateTimeField(default = datetime.now, blank = True, null=True)
     due_date = models.DateTimeField(blank = True, null=True)
     description = models.TextField(max_length= 20000, blank = True)
-    members = models.ManyToManyField(User,blank = True)
+    members = models.ManyToManyField(User,blank = True ,on_delete=models.CASCADE)
+    owner = models.CharField(max_length=200, default='Admin')
     likeornot = models.BooleanField(default=False)
+    # like_members = models.ManyToManyField(
+    #     User,
+    #     through ='Likemembers',
+    #     )
     def __str__(self):
         return self.name
+
+# class Likemembers(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     projects = models.ForeignKey(Projects,on_delete=models.CASCADE)
+#     like = models.BooleanField(default=False)

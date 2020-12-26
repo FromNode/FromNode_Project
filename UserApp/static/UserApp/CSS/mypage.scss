@@ -24,6 +24,7 @@
     }
     .small{
         font-size:12px;
+        font-weight: 400;
     }
     .all{
         text-decoration: none;
@@ -96,8 +97,9 @@
 .big-box{
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    // align-items: center;
+    flex-direction: column;
 
 }
 .modal_Contents{
@@ -157,6 +159,10 @@
     font-size: 20px;
     font-weight: 800;
 }
+.middle{
+    font-weight: 800;
+
+}
 .title{
     width: $box-width;
     font-size: 16px;
@@ -201,4 +207,29 @@
     // padding: 1em 2em 1em 2em;
     text-align: center;
     margin-top: 10px;
+}
+
+// 사용자 정보
+.hidden{
+    display: none;
+}     
+
+.information{
+    width: $box-width+80px;
+    height: $box-height+100px;
+    background-color: white;
+    // border: 3px solid #1163f8;
+    padding: 50px 100px;
+    padding-left :10px;
+    padding-top :20px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    // text-align: center;
+    position: relative;
+    border-radius: 20px;
+    // width: 15%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0,0,0,0.23 );
+
 }

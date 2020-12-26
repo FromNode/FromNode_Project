@@ -23,7 +23,7 @@ def show_project_list(request):
     if request.user.is_authenticated:
         proj_obj = Projects.objects.filter(members = request.user)
         like_proj = Projects.objects.filter(Q(members = request.user) & Q(likeornot = True))
-        paginator = Paginator(proj_obj, 4)  # 페이지당 10개씩 보여주기
+        paginator = Paginator(proj_obj, 4)  # 페이지당 4개씩 보여주기
         page_obj = paginator.get_page(page)
         proj_obj = page_obj
     empty = ''
@@ -52,7 +52,7 @@ def project_checkcode(request):
         Project_Codes.append(i.Code)
     if request.POST['Code'] in Project_Codes:
         Join_Project = Projects.objects.get(Code=request.POST['Code'])
-        Owner = Join_Project.members.all()[0]
+        Owner = Join_Project.owner
         recipients = User.objects.get(username = Owner)
         notify.send(request.user,recipient = recipients,verb = Join_Project.Code, description = 1)
         
@@ -93,6 +93,7 @@ def project_create(request):
         proj_obj.name = request.POST['name']
         proj_obj.save()
         proj_obj.members.add(user)
+        proj_obj.owner = request.user.username
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
         User_Profile.projects += ','+proj_obj.name

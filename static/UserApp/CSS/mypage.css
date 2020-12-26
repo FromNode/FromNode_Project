@@ -10,7 +10,7 @@
 
 .middle { font-size: 17px; }
 
-.small { font-size: 12px; }
+.small { font-size: 12px; font-weight: 400; }
 
 .all { text-decoration: none; align-items: center; height: 100%; line-height: 100%; text-align: center; margin-top: 10%; font-size: 20px; }
 
@@ -30,7 +30,7 @@ a:visited { text-decoration: none; color: #0F69E4; }
 
 .invite_button { border-radius: 30px; height: 30px; width: 50px; margin-left: 0px; background-color: #0F69E4; color: white; }
 
-.big-box { width: 100%; display: flex; justify-content: center; align-items: center; }
+.big-box { width: 100%; display: flex; flex-direction: column; }
 
 .modal_Contents { width: 400px; height: 300px; background-color: white; padding: 50px 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
@@ -46,6 +46,8 @@ a:visited { text-decoration: none; color: #0F69E4; }
 
 .noti-title { width: 400px; font-size: 20px; font-weight: 800; }
 
+.middle { font-weight: 800; }
+
 .title { width: 400px; font-size: 16px; font-weight: 500; }
 
 .write { margin-left: 10px; }
@@ -57,5 +59,9 @@ a:visited { text-decoration: none; color: #0F69E4; }
 .submit { display: flex; justify-content: center; align-items: center; width: 50px; margin: 0 3px; }
 
 .uploadBtn { width: 70px; background-color: #1163f8; color: white; margin-bottom: 1em; border: 1px solid #1163f8; border-radius: 30px; padding: 10px; text-align: center; margin-top: 10px; }
+
+.hidden { display: none; }
+
+.information { width: 480px; height: 400px; background-color: white; padding: 50px 100px; padding-left: 10px; padding-top: 20px; display: flex; flex-direction: column; position: relative; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
 /*# sourceMappingURL=mypage.css.map */

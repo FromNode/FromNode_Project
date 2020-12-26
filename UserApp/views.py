@@ -68,12 +68,17 @@ def mypage(request):
         #     project_name = Projects.objects.get(Code = invite_code)
             # i.append({'project_name':project_name})
             # print(i)
-        print(unread_messages_invite)
         unread_messages_invite_return = unread_messages.filter(description = 2)
-        return render(request,'UserApp/mypage.html',{'unread_messages':unread_messages,'unread_messages_invite':unread_messages_invite,'unread_messages_invite_return':unread_messages_invite_return})
+        conetnts = {
+            'unread_messages':unread_messages,
+            'unread_messages_invite':unread_messages_invite,
+            'unread_messages_invite_return':unread_messages_invite_return,
+        }
+        return render(request,'UserApp/mypage.html',conetnts)
     return render(request,'UserApp/mypage.html',{})
 
 def join_project(request):
+    code_projects = Projects.objects.all()
     recipient = request.user
     actor = User.objects.get(username=request.POST['actor'])
     project = request.POST['project']
