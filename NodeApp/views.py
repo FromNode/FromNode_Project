@@ -143,6 +143,8 @@ def create_node(request):
     NodePk = request.POST['NodePk']
     redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
 
+    commentInput = request.POST['comment_input']
+
     clickedNode = Nodes.objects.get(Code=NodePk) #nodePk에 int함수씌워뒀던거 빼봤더니 됐어요 머냐 왜되냐 ㅋ
     print(request.user)
     # 파일없을 때 예외 처리 해야합니다
@@ -153,6 +155,7 @@ def create_node(request):
         node_object.ownerFCode = clickedNode.ownerFCode
         node_object.ownerPCode = clickedNode.ownerPCode
         node_object.whoIsOwner = request.user
+        node_object.comment = commentInput
         node_object.save()
         return redirect(redirectURL)
     return redirect(redirectURL)

@@ -10,6 +10,8 @@
       display: grid;
       gap: 0;
       place-items: center center;
+      overflow: auto;
+      height: 100vh;
     }
     .Nodes button{
       /* all: unset; */
@@ -46,13 +48,15 @@
     <div class="modal_Contents">
       <div class="Top_Contents">
         <span class="modal_title"> 노드 업로드 하기</span>
-        <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
       </div>
       <div class='Low_Contents'>
         <div class='Upload_Contents'>
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="hiddenInput">
+            </div>
+            <div class="VisibleInput">
+              <input type="text" placeholder="파일 설명을 남겨주세요" class="visible_input" name="comment_input" required>
             </div>
             <div class="drop-zone">
               <span class="drop-zone__text">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
@@ -152,8 +156,20 @@
         };
         let btnDiv = document.createElement("div");
         let btn = document.createElement("button");
-        let btnText = document.createTextNode(`${varObj.comment}`);
-        btn.appendChild(btnText);
+        let objComment = `${varObj.comment}`;
+        // 이름이 길어질때는 10글자까지만 표시해요
+        if (varObj.comment == null) {
+          let btnText = document.createTextNode("노드 이름이 없어요");
+          btn.appendChild(btnText);
+        } else {
+          if(varObj.comment.length > 10){
+            let btnText = document.createTextNode(objComment.substring(0,11));
+            btn.appendChild(btnText);
+          } else {
+            let btnText = document.createTextNode(objComment);
+            btn.appendChild(btnText);
+          }
+        }
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
         btnDiv.appendChild(btn);
