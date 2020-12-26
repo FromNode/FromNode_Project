@@ -75,6 +75,7 @@
       await createGrid(data); // 그리드 만들기
       await createNodeBtn(data, locationData);
       await createGhostDiv();
+      await makeLineInGhostDiv(data);
       await settingNodeDiv();
       await showUpModal();
     }
@@ -133,15 +134,17 @@
     }
     const createNodeBtn = async(data, locationData) => {
       //node data 받아올 것 
+      console.log(data);
       for(let i = 0; i<data.length; i++){ // 노드 수 만큼
         let varObj = {
           "row" : locationData[i].Row,
           "column" : locationData[i].Column,
           "Pk" : locationData[i].Pk,
+          "comment" : data[i].fields.comment,
         };
         let btnDiv = document.createElement("div");
         let btn = document.createElement("button");
-        let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
+        let btnText = document.createTextNode(`${varObj.comment}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
@@ -184,6 +187,32 @@
         NodeContainer.appendChild(createDiv);
       }
     }
+    const makeLineInGhostDiv = async(data) => {
+      let AllNodeForColor = document.querySelectorAll(".Node");
+      let teamArray = [];
+      for(let i = 0 ; i<data.length; i++){
+        teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
+        AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
+        //1: 유저별 색상 수정을 위한 class추가 
+        //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
+        
+      }
+      setTeamArray = new Set(teamArray);
+      team = [...setTeamArray];
+      let colorArray = ["1163f8", "#ffe800"];
+      // for(let k = 0; k<team.length; k++){
+      //   let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
+      //   colorArray.push(randomColor);
+      // }
+      for(let i = 0; i<data.length; i++){
+          for(let k=0; k<team.length; k++){
+            if(team[k] == AllNodeForColor[i].classList[2]){
+              AllNodeForColor[i].style.borderColor = colorArray[k];
+            }
+          }
+      }
+    }
+
     const settingNodeDiv = async() => {
       // 해당클래스 찾아서 grid-area 선언
       const Nodes = document.querySelectorAll(".Nodes");
@@ -248,7 +277,6 @@
           sendDataInput.appendChild(createInput);
       }
     } 
-
     init();
   </script>
   <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>

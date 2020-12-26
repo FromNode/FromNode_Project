@@ -104,8 +104,8 @@ def node_list(request,file_Code):
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
 
-    gridRowWidth = "100px "
-    gridColumnHeight = "100px "
+    gridRowWidth = "150px " #세로
+    gridColumnHeight = "200px " #가로
     gridRowNum = gridRowWidth * num_of_row
     gridColumnNum = gridColumnHeight * num_of_column
 
