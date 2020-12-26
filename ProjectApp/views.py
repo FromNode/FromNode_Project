@@ -65,6 +65,25 @@ def project_checkcode(request):
         message = "해당 코드를 지닌 프로젝트가 존재하지 않습니다"
         
     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'message': message})
+
+def likeornot(request):
+    code = request.POST['Code']
+    user =request.user
+    proj_obj = Projects.objects.get(Code=code)
+    unliked_proj = User.Joined_Unliked_Projects.all()
+    if  proj_obj in unliked_proj:
+        Projects.unliked_members.remove(user)
+        Projects.liked_members.add(user)
+        Projects.save()
+    else:
+        Projects.liked_members.remove(user)
+        Projects.unliked_members.add(user)
+        Projects.save()
+    return redirect('/project/project_list/')
+
+
+    
+
 # def form_create_project(request):
 #     return render(request,'ProjectApp/form_create_project.html')
 
@@ -94,7 +113,7 @@ def project_create(request):
         proj_obj = Projects()
         proj_obj.name = request.POST['name']
         proj_obj.save()
-        proj_obj.members.add(user)
+        proj_obj.unliked_members.add(user)
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
         User_Profile.projects += ','+proj_obj.name
