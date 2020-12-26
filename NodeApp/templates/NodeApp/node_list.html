@@ -307,18 +307,21 @@
       return clickedNode
     }
     const sendInputContents = async (btnData) => {
-        const sendDataInput = document.querySelector(".hiddenInput");
+        const sendDataInput = document.querySelectorAll(".hiddenInput");
+        console.log(sendDataInput)
         const dataLength = Object.keys(btnData[0]).length;
-        for(let i = 0; i<dataLength; i++){
-          let objectKeys = Object.keys(btnData[0])[i];
-          let objectValues = Object.values(btnData[0])[i];
-          let createInput = document.createElement("input");
-          createInput.setAttribute("type", "hidden");
-          createInput.setAttribute("class", "sendDataInput");
-          createInput.setAttribute("name", `${objectKeys}`);
-          createInput.setAttribute("value", `${objectValues}`);
-          sendDataInput.appendChild(createInput);
-      }
+        for(let k = 0; k<sendDataInput.length; k++){
+            for(let i = 0; i<dataLength; i++){
+            let objectKeys = Object.keys(btnData[0])[i];
+            let objectValues = Object.values(btnData[0])[i];
+            let createInput = document.createElement("input");
+            createInput.setAttribute("type", "hidden");
+            createInput.setAttribute("class", "sendDataInput");
+            createInput.setAttribute("name", `${objectKeys}`);
+            createInput.setAttribute("value", `${objectValues}`);
+            sendDataInput[k].appendChild(createInput);
+          }
+        }
     } 
     init();
   </script>
