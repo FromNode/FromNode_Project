@@ -51,6 +51,7 @@
       </div>
       <div class='Low_Contents'>
         <div class='Upload_Contents'>
+
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="hiddenInput">
@@ -64,6 +65,14 @@
               <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
             </div>
             <input class="uploadBtn" type="submit" value="업로드하기">
+          </form>
+
+          <form method="POST" action="{% url 'node:delete_node' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="hiddenInput">
+            </div>
+            <input type='hidden' name='pk' value='{{The_file.Code}}'>
+            <input class="uploadBtn" type="submit" value="이 노드 삭제하기">
           </form>
 
         </div>

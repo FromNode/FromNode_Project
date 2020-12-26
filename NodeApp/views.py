@@ -160,4 +160,15 @@ def create_node(request):
         return redirect(redirectURL)
     return redirect(redirectURL)
 
+def delete_node(request):
+    NodePk = request.POST['NodePk']
+    NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
+
+    redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
+    clickedNode = Nodes.objects.get(Code=NodePk)
+
+    if request.method == 'POST':
+        clickedNode.delete()
+        return redirect(redirectURL)
+    return redirect(redirectURL)
 
