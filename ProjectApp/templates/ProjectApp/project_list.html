@@ -73,7 +73,7 @@
                     <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
-                    <a href='#'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;' ></a>
+                    <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;' ></a>
                 </div>
            </div>
             <br>
@@ -105,7 +105,7 @@
                     <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
                 </div>
                 <div class = 'project_top_right'>
-                    <a href='#'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;'></a>
+                    <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;'></a>
                 </div>
            </div>
             <br>

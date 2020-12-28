@@ -21,7 +21,6 @@ def show_project_list(request):
     # 모든 프로젝트의 모든 member를 순차 조회
     if request.user.is_authenticated:
         User = request.user
-        proj_obj_all = User.Joined_Unliked_Projects.all()
         unliked_proj = User.Joined_Unliked_Projects.all()
         liked_proj = User.Joined_Liked_Projects.all()
         all_proj = unliked_proj | liked_proj
@@ -36,7 +35,7 @@ def show_project_list(request):
         'proj_obj' : proj_obj,
         'empty':empty, 
         'today':today,
-        'proj_obj_all':proj_obj_all,
+        'proj_obj_all':all_proj,
         'like_proj':liked_proj
     }
     return render(request, 'ProjectApp/project_list.html', contents)
@@ -66,19 +65,19 @@ def project_checkcode(request):
         
     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'message': message})
 
-def likeornot(request):
-    code = request.POST['Code']
-    user =request.user
+def likeornot(request ,project_Code):
+    code = project_Code
+    User =request.user
     proj_obj = Projects.objects.get(Code=code)
     unliked_proj = User.Joined_Unliked_Projects.all()
     if  proj_obj in unliked_proj:
-        Projects.unliked_members.remove(user)
-        Projects.liked_members.add(user)
-        Projects.save()
+        proj_obj.unliked_members.remove(User)
+        proj_obj.liked_members.add(User)
+        proj_obj.save()
     else:
-        Projects.liked_members.remove(user)
-        Projects.unliked_members.add(user)
-        Projects.save()
+        proj_obj.liked_members.remove(User)
+        proj_obj.unliked_members.add(User)
+        proj_obj.save()
     return redirect('/project/project_list/')
 
 
