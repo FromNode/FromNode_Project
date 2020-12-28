@@ -8,7 +8,9 @@ urlpatterns = [
     # path('node_list/<int:file_Code>', views.CreateTree, name="node_list"),
     path('node_list/<int:file_Code>', views.node_list, name="node_list"),
     path('node_detail/<str:node_Code>', views.node_detail, name="node_detail"),
-    path('create_node/',views.create_node, name='create_node'),
+    path('create_node/<str:node_Code>',views.create_node, name='create_node'),
+    path('upload/', views.Upload, name="upload"),
+    path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo")
 ]
 if settings.DEBUG :
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

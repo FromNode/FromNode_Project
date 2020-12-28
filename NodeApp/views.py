@@ -160,3 +160,19 @@ def create_node(request):
     return redirect(redirectURL)
 
 
+def Upload(request):
+    nodeobj = Nodes()
+    nodeobj.Code = "001000"
+    nodeobj.createdDate = datetime.now
+    for files in request.FILES.getlist('myFile'):
+         nodeobj.fileObj = files
+    nodeobj.previousCode =Nodes.objects.get(Code="000001") 
+    nodeobj.ownerPCode = Projects.objects.get(Code="000001")
+    nodeobj.whoIsOwner = User.objects.get(username = 'sea')
+    nodeobj.save()
+    
+    return render(request, 'NodeApp/version_all.html')
+
+def changeNodeInfo(request):
+    return render(request, 'NodeApp/node_list.html')
+        
