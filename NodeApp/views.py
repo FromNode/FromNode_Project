@@ -82,7 +82,11 @@ def get_location_list(dbData):
 
 def node_list(request,file_Code):
     if request.user.is_authenticated:
-        proj_obj = Projects.objects.filter(members = request.user)
+        Users = request.user
+        unliked_proj = Users.Joined_Unliked_Projects.all()
+        liked_proj = Users.Joined_Liked_Projects.all()
+        all_proj = unliked_proj | liked_proj
+        proj_obj = all_proj
     else:
         pass
     The_File = Files.objects.get(Code=file_Code)
@@ -91,7 +95,7 @@ def node_list(request,file_Code):
     project = The_File.ownerPCode
     pro_name = project.name
     node_objs = Nodes.objects.filter(ownerFCode = The_File)
-    proj_user = project.members.all()
+    proj_user = ''
  
 
     json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
