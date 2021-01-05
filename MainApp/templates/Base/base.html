@@ -73,16 +73,20 @@
         <div class="bottom">
             <!-- 왼쪽 메뉴 -->
             <div class="left-menu">
-                {% block leftbar %}
-                {% endblock %}
+                <div class="left-menu-guide">
+                    {% block leftbar %}
+                    {% endblock %}    
+                </div>
             </div>
         
             <div class="content">
                 <!-- <div class="test">
                     sleifjselifj
                 </div> -->
-                {% block content %}
-                {% endblock %}
+                <div class="content-guide">
+                    {% block content %}
+                    {% endblock %}    
+                </div>
             </div>
 
         </div>
