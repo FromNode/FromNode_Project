@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from NodeApp.models import Nodes
 from random import choice
 import string
 
@@ -24,3 +25,6 @@ class Files(models.Model):
     ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)
     image = models.CharField(max_length=255, default='etc')
     Memo = models.CharField(max_length=1023, blank = True)
+    File_Nodes = models.ManyToManyField(Nodes,blank = True, related_name ='Nodes')
+    LastFile = models.ForeignKey('NodeApp.nodes', on_delete= models.CASCADE)
+    

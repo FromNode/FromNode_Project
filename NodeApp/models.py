@@ -26,4 +26,4 @@ class Nodes(models.Model):
     class Meta:
         ordering = ['ownerPCode', 'createdDate']
     def __str__(self):
-        return str(self.ownerPCode)
+        return str(self.ownerFCode)
