@@ -3,15 +3,19 @@
 {% load static %}
 
 {% block scss %}
-    <link href="{% sass_src 'NodeApp/CSS/NodeTree.scss' %}" rel="stylesheet" type="text/css">
-    <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
-    <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-{% block inlineCss %}
-<style>
-
-</style>
+  <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+  <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+  <style>
+    .NodeContainer {
+      display: grid;
+      gap: 0;
+      place-items: center center;
+    }
+    .Nodes button{
+      all: unset;
+      cursor: pointer;
+    }
+  </style>
 {% endblock %}
 
 {% block leftbar %}
@@ -29,177 +33,223 @@
 {% endblock %}
 
 {% block content %}
+  <div class="NodeContainer">
+  </div>
 
-<div class="NodeContainer">
-  <div class="nodeList_Header">
-      <span class="nodeListTitle middle">{{The_File.fileName}}</span>
-      <span class ='Title_discription small'>원하는 파일을 클릭하여 다운로드하거나, 댓글을 남기세요</span>
-      <div class = 'project_join_members'>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-        <div class= 'user'><img src="{% static 'MainApp/image/profile_image_user.png' %}" style='width:40px;height:40px;border-radius: 50%;'></div>
-      </div>
-      <!-- <p class='Large'>프로젝트 참여 명단</p>
-      {% for users in proj_user %}
-          <span>{{users.username}}</span>
-      {% endfor %} -->
-  </div>
-  <div class="nodeList_Contents">
-    <div class="Nodetree">
-    </div>
-  </div>
-  <!-- 업로드 모달 -->
   <div class="nodeUploadModal hidden">
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <form method="POST" action="{% url 'node:changeNodeInfo' %}" class="#">
+      <div class="Top_Contents">
+        <span class="modal_title"> 노드 업로드 하기</span>
+        <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
+      </div>
+      <div class='Low_Contents'>
+        <div class='Upload_Contents'>
+          <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
-          <input class="nodeUploadInput" type="text" id="something1" value="1번벨류">
-          <input class="nodeUploadInput" type="text" id="something2" value="2번벨류">
-          <input class="nodeUploadInput" type="text" id="something3" value="3번벨류">
-          <input class="nodeUploadInput" type="text" id="something4" value="4번벨류">
-          <input class="nodeUploadInput" type="submit" value="수정하기">
-            
-        </form>
+            <div class="hiddenInput">
+            </div>
+            <div class="drop-zone">
+              <span class="drop-zone__text">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
+              <input type="file" name="uploadFile" class="drop-zone__input" multiple>
+              <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
+            </div>
+            <input class="uploadBtn" type="submit" value="업로드하기">
+          </form>
+
+        </div>
+      </div>
     </div>
   </div>
-</div>
-  
-
-{{empty}}
-{{message}}
-
 {% endblock %}
 
 {% block JS %}
-<script>
-  let ulCreateCount = 0;
-  let pkArray = [];
-  let createUlTag = document.createElement("ul");
-  let createLiTag = document.createElement("li");
-  let createBtnTag = document.createElement("button");
-  const startNodeBranch = async() => {
-    let data = await getNodeData()
-    console.log(data);
-    await createFirstBranch(data);
-    await secondBranch(data);
-    await otherBranch(data);
-    await branchColor(data);
-    await showUpModal(data);
-  }
-  const createFirstBranch = async (data) => {
-    const Nodetree = document.querySelector('.Nodetree').appendChild(createUlTag).appendChild(createLiTag).appendChild(createBtnTag);
-    Nodetree.appendChild(document.createTextNode("시작 노드"));
-    createUlTag.classList.add(`branch${ulCreateCount}`,);
-    let url = "/node/create_node/" + data[0].pk 
-    createBtnTag.setAttribute("onclick", "sendCreatedOrder(this);")
-    ulCreateCount ++;
-  }
-  const getNodeData = async () => {
-    let data = '{{json}}'.replaceAll("&quot;", "\"");
-    let json_data = JSON.parse(data);
-    return await json_data
-  }
-  const secondBranch = async (data) => {
-    createBtnTag.classList.add(`${data[0].pk}`, "Node");
-    // createATag.setAttribute("class", `${data[0].pk}`);
-    const firstTargetLocation = document.getElementsByClassName(`${data[0].pk}`)[0];
-    const secondUl = firstTargetLocation.parentNode.appendChild(document.createElement("ul"));
-    secondUl.classList.add(`branch${ulCreateCount}`);
-    pkArray[0] = data[0].pk;
-    for(let i = 1; i < data.length; i++){
-      pkArray[i] = data[i].fields.previousCode;
-      if (data[i].fields.previousCode == data[0].pk){
-        let url = "/node/create_node/" + data[i].pk 
-        let secondCreateText = document.createTextNode("노드");
-        let secondBranchNode = secondUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
-        secondBranchNode.appendChild(secondCreateText);
-        secondBranchNode.classList.add(`${data[i].pk}`, "Node")
-        // secondBranchNode.setAttribute("class", `${data[i].pk} Node`);
-        secondBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
-        pkArray[i] = 1;
+  <script>
+    const NodeContainer = document.querySelector(".NodeContainer");
+    const globalDataArray = [];
+    const init = async () =>{
+      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
+      let data = await getNodeData();
+      console.log(data)
+      let locationData = await getLocationData(data, location_Data);
+      await createGrid(data); // 그리드 만들기
+      await createNodeBtn(data, locationData);
+      await createGhostDiv();
+      await settingNodeDiv();
+      await showUpModal();
+    }
+    const getNodeData = async () => {
+      let json_data = '{{json}}'.replaceAll("&quot;", "\"");
+      let json = JSON.parse(json_data);
+      for(let i = 0; i<json.length; i++){
+        globalDataArray.push(json[i]);
       }
+      return await json
     }
-    ulCreateCount++;
-  }
-  const otherBranch = async (data) => {
-    for(let i = 1; i<data.length; i++){
-      // 숫자 1 1 숫자 숫자 
-      if(pkArray[i] == 1 ){
-        const otherTargetLocation = document.getElementsByClassName(`${data[i].pk}`)[0];
-        const otherUl = otherTargetLocation.parentNode.appendChild(document.createElement("ul"));
-        otherUl.classList.add(`branch${ulCreateCount}`);
-        for(let k = 1; k < data.length; k++){
-          if(k != i && pkArray[k] != 1){
-            if(data[k].fields.previousCode == data[i].pk){
-              let url = "/node/create_node/" + data[k].pk 
-              let otherCreateText = document.createTextNode("노드");
-              let otherBranchNode = otherUl.appendChild(document.createElement("li")).appendChild(document.createElement("button"));
-              otherBranchNode.appendChild(otherCreateText);
-              otherBranchNode.setAttribute("class", `${data[k].pk} Node`);
-              otherBranchNode.setAttribute("onclick", "sendCreatedOrder(this);")
-              pkArray[k] = 1;
-            }
-          }
-          clickedNode.push(clickedNodeData)
-        }
+    const getLocationData = async(data, location_Data) =>{
+      let locationStr = location_Data;
+      locationStr = locationStr.replaceAll("[", "");
+      locationStr = locationStr.replaceAll("]", "");
+      let locationArray = new Array;
+      let splitStr = locationStr.split(",");
+      for(let i = 0; i<splitStr.length/3; i++){
+        locationArray.push({
+          Column : Number(locationStr.split(",")[3*i].trim()), // 넘어오는게 column , row, pk 순임..
+          Row : Number(locationStr.split(",")[3*i+1].trim()),
+          Pk : locationStr.split(",")[3*i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
+        })
       }
-    }
-    ulCreateCount++;
-  }
-  const branchColor = async (data) => {
-    let AllNodeForColor = document.querySelectorAll(".Node");
-    let teamArray = [];
-    for(let i = 0 ; i<data.length; i++){
-      teamArray.push(`NodeOwner:${data[i].fields.whoIsOwner}`);
-      AllNodeForColor[i].classList.add(`NodeOwner:${data[i].fields.whoIsOwner}`, `NodeCreatedOrder:${i}`);
-      //1: 유저별 색상 수정을 위한 class추가 
-      //2: 노드 업로드 순서를 부여해서 모달에 정보를 넘겨주기 위한 class 부여 
-      
-    }
-    setTeamArray = new Set(teamArray);
-    team = [...setTeamArray];
-    let colorArray = [];
-    for(let k = 0; k<team.length; k++){
-      let randomColor = "#"+Math.round(Math.random()*0xffffff).toString(16);
-      colorArray.push(randomColor);
-    }
-    for(let i = 0; i<data.length; i++){
-        for(let k=0; k<team.length; k++){
-          if(team[k] == AllNodeForColor[i].classList[2]){
-            AllNodeForColor[i].style.borderColor = colorArray[k];
+      for(let i = 0; i<data.length; i++){
+        for(let k = 0; k<data.length; k++){
+          if(locationArray[i].Pk == data[k].pk){
+            locationArray[i].priviousCode = data[k].fields.previousCode
           }
         }
+      }
+      return locationArray
     }
-  }
-  const showUpModal = async (data) => {
-      const modalButton = document.querySelectorAll(".Node");
+    const createGrid = async(data) => {
+      //최대 row, columns 숫자 넣기 grid 생성
+      let gridRowWidth = '{{gridRowNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
+      let gridColumnHeight = '{{gridColumnNum}}'.replaceAll("&#x27;", ""); // views에서 받은 값 
+      NodeContainer.style.setProperty('grid', `${gridRowWidth} / ${gridColumnHeight}`); // grid 선언
+
+      //grid-template-areas 선언
+      let rowNum = '{{num_of_row}}'; // view에서 받은 행 최대값
+      let columnNum = '{{num_of_column}}'; // view에서 받은 열 최대값
+
+      let gridTemplateAreas = []; // 가공 이전 배열
+      let gridTemplateAreasArray = []; // 가공 후 문자열
+      for(let i = 0; i<rowNum; i++){
+        gridTemplateAreas.push(new Array());
+        gridTemplateAreas[i].push('"'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 앞 " 을 담당
+        for(let k = 0; k<columnNum; k++) {
+          gridTemplateAreas[i].push(`R${i+1}C${k+1}`);
+        } 
+        gridTemplateAreasArray.push(gridTemplateAreas[i].join(" ")); // css 형식 맞추기 위한 변환
+      }
+      let gridNodeAreas = gridTemplateAreasArray.join(' " ').concat(' "'); // css 에 " ~~ " " ~~ " 형식으로 들어가는데 뒷부분 " 을 담당 및 변환
+      NodeContainer.style.setProperty('grid-template-areas', `${gridNodeAreas}`);
+    }
+    const createNodeBtn = async(data, locationData) => {
+      //node data 받아올 것 
+      for(let i = 0; i<data.length; i++){ // 노드 수 만큼
+        let varObj = {
+          "row" : locationData[i].Row,
+          "column" : locationData[i].Column,
+          "Pk" : locationData[i].Pk,
+        };
+        let btnDiv = document.createElement("div");
+        let btn = document.createElement("button");
+        let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
+        btn.appendChild(btnText);
+        btn.setAttribute("onclick", "sendDataToModal(this);")
+        btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
+        btnDiv.appendChild(btn);
+        btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1 
+        NodeContainer.appendChild(btnDiv);
+      }
+    }
+    const createGhostDiv = async() => {
+      const emptyArea = document.querySelectorAll(".Nodes");
+      let areaArray = [];
+      let maxNumArray1 = [];
+      let maxNumArray2 = [];
+      for(let i=0; i<emptyArea.length; i++){
+        let columnNum = emptyArea[i].classList[0].slice(1,2);
+        let rowNum = emptyArea[i].classList[0].slice(3);
+        maxNumArray1.push(Number(columnNum));
+        maxNumArray2.push(Number(rowNum));
+        areaArray.push(`${columnNum}${rowNum}`)
+      }
+      let maxColumnNum = Math.max(...maxNumArray1)
+      let maxRowNum = Math.max(...maxNumArray2)
+      let emptyAreaArray = [];
+      for(let i=1; i<maxColumnNum+1; i++){
+        for(let k=1; k<maxRowNum+1; k++){
+          if(areaArray.includes(`${i}${k}`) == false){
+            emptyAreaArray.push(`${i}${k}`);
+          }
+        }
+      }
+      for(let i=0; i<emptyAreaArray.length; i++){
+        let row = emptyAreaArray[i].slice(0,1);
+        let column = emptyAreaArray[i].slice(1,2);
+
+        let createDiv = document.createElement("div");
+        createDiv.setAttribute("class", `R${row}C${column} emptyAreas`);
+        createDiv.style.setProperty('width', '100px');
+        createDiv.style.setProperty('height', '100px');
+        createDiv.style.setProperty('grid-area', `R${row}C${column}`);
+        NodeContainer.appendChild(createDiv);
+      }
+    }
+    const settingNodeDiv = async() => {
+      // 해당클래스 찾아서 grid-area 선언
+      const Nodes = document.querySelectorAll(".Nodes");
+      for(let i = 0; i<Nodes.length; i++){
+        let nodeLocation = Nodes[i].classList[0];
+        Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
+      }
+    }
+    const showUpModal = async (data) => {
+      const modalButton = document.querySelectorAll(".Nodes");
       const modal = document.querySelector(".nodeUploadModal");
       const overlay = modal.querySelector(".modal_Overlay");
       const toggleModal = () => {
         modal.classList.toggle("hidden");
       }
-
       overlay.addEventListener("click", toggleModal);
       for(let i = 0; i<modalButton.length; i++){
         modalButton[i].addEventListener("click", toggleModal);
       }
-  }
-  const sendCreatedOrder = async (clickedValue) => {
-    let data = await getNodeData()   
-    console.log(data)
-    console.log(clickedValue.classList[3].split(":")[1]);
-    node_Data = data[Number(clickedValue.classList[3].split(":")[1])];
-    const first_input = document.querySelector("#something1");
-    const second_input = document.querySelector("#something2");
-    const third_input = document.querySelector("#something3");
-    const fourth_input = document.querySelector("#something4");
-    first_input.value = node_Data.fields.createdDate;
-    second_input.value = node_Data.fields.whoIsOwner;
-    third_input.value = node_Data.fields.fileObj;
-    fourth_input.value = node_Data.pk;
-  }
-  startNodeBranch();
-</script>
-{% endblock %}
+    }
+    const sendDataToModal = async (clickedValue) => {
+      let clickedBtn = clickedValue;
+      let btnData = await searchDataSameToClickedBtnData(clickedBtn);
+      await sendInputContents(btnData);
+    }
+    const searchDataSameToClickedBtnData = async (clickedBtn) => {
+      let regionalDataArray = globalDataArray.slice();
+      let clickedValuePk = clickedBtn.classList[0];
+      let clickedNode = [];
+      for(let i = 0; i<regionalDataArray.length; i++){
+        if(clickedValuePk == regionalDataArray[i].pk){
+          let fields = regionalDataArray[i].fields;
+          let clickedNodeData = {
+            'NodeComment' : fields.comment,
+            'NodeCreatedDate' : fields.createdDate,
+            'NodeDescription' : fields.desecription,
+            'NodeFileObj' : fields.fileObj,
+            'NodeName' : fields.nodeName,
+            'NodeOwnerFileCode' : fields.ownerFCode,
+            'NodeOwnerProjectCode' : fields.ownerPCode,
+            'NodePreviousCode': fields.previousCode,
+            'NodeOwner' : fields.whoIsOwner,
+            'NodePk' : clickedValuePk,
+          }
+          clickedNode.push(clickedNodeData)
+        }
+      }
+      return clickedNode
+    }
+    const sendInputContents = async (btnData) => {
+      console.log(btnData);
+        const sendDataInput = document.querySelector(".hiddenInput");
+        const dataLength = Object.keys(btnData[0]).length;
+        for(let i = 0; i<dataLength; i++){
+          let objectKeys = Object.keys(btnData[0])[i];
+          let objectValues = Object.values(btnData[0])[i];
+          let createInput = document.createElement("input");
+          createInput.setAttribute("type", "hidden");
+          createInput.setAttribute("class", "sendDataInput");
+          createInput.setAttribute("name", `${objectKeys}`);
+          createInput.setAttribute("value", `${objectValues}`);
+          sendDataInput.appendChild(createInput);
+      }
+    } 
+
+    init();
+  </script>
+  <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
+  {% endblock %}
