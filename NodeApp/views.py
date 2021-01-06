@@ -87,32 +87,39 @@ def node_list(request,file_Code):
         liked_proj = Users.Joined_Liked_Projects.all()
         all_proj = unliked_proj | liked_proj
         proj_obj = all_proj
-    else:
-        pass
-    The_File = Files.objects.get(Code=file_Code)
-    print("The file")
-    print(The_File)
-    project = The_File.ownerPCode
-    pro_name = project.name
-    node_objs = Nodes.objects.filter(ownerFCode = The_File)
-    proj_user = ''
- 
+        # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
+        
+        The_File = Files.objects.get(Code=file_Code)
+        project = The_File.ownerPCode
+        pro_name = project.name
+        node_objs = Nodes.objects.filter(ownerFCode = The_File)
+        proj_user = ''
+        # 유저가 누른 File에 해당하는 Objects들을 The_File로 불러옵니다.
+        # project는 File이 속한 project
+        # pro_name은 그 project의 이름
+        # node_objs는 file에 속한 (file을 ownerFCode로 가지는) 노드 전체
+        # proj_user는 왜
 
-    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
-    print(json_data)
-    user_data = serializers.serialize("json", User.objects.all())
-    if True:
-        dbData = Nodes.objects.filter(ownerFCode = The_File.Code)
-        tuple_return = get_location_list(dbData)
+        json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
+        print(json_data)
+        tuple_return = get_location_list(node_objs)
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
 
-    gridRowWidth = "100px "
-    gridColumnHeight = "100px "
-    gridRowNum = gridRowWidth * num_of_row
-    gridColumnNum = gridColumnHeight * num_of_column
+        gridRowWidth = "100px "
+        gridColumnHeight = "100px "
+        gridRowNum = gridRowWidth * num_of_row
+        gridColumnNum = gridColumnHeight * num_of_column
 
+
+
+    else:
+        pass
+    
+    
+
+    
     objects = {
         "li_location":li_location,
         "gridRowNum":gridRowNum,
@@ -124,7 +131,6 @@ def node_list(request,file_Code):
         "The_File":The_File, 
         "json":json_data,
         "proj_user":proj_user,
-        "user_data" : user_data,
         "pro_name" : pro_name
     }  
     return render(request, 'NodeApp/node_list.html', objects)
@@ -162,20 +168,6 @@ def create_node(request):
         node_object.save()
         return redirect(redirectURL)
     return redirect(redirectURL)
-
-
-def Upload(request):
-    nodeobj = Nodes()
-    nodeobj.Code = "001000"
-    nodeobj.createdDate = datetime.now
-    for files in request.FILES.getlist('myFile'):
-         nodeobj.fileObj = files
-    nodeobj.previousCode =Nodes.objects.get(Code="000001") 
-    nodeobj.ownerPCode = Projects.objects.get(Code="000001")
-    nodeobj.whoIsOwner = User.objects.get(username = 'sea')
-    nodeobj.save()
-    
-    return render(request, 'NodeApp/version_all.html')
 
 def changeNodeInfo(request):
     return render(request, 'NodeApp/node_list.html')
