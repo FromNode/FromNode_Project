@@ -23,3 +23,7 @@ class Nodes(models.Model):
     comment = models.CharField(max_length=200, blank = True, null=True)
     nodeName = models.CharField(max_length=100, blank = True, null=True)
     description = models.TextField(max_length=20000, blank = True, null=True)
+    class Meta:
+        ordering = ['ownerPCode', 'createdDate']
+    def __str__(self):
+        return str(self.ownerFCode)

@@ -16,7 +16,8 @@ class Projects(models.Model):
     start_date = models.DateTimeField(default = datetime.now, blank = True, null=True)
     due_date = models.DateTimeField(blank = True, null=True)
     description = models.TextField(max_length= 20000, blank = True)
-    members = models.ManyToManyField(User,blank = True)
+    unliked_members = models.ManyToManyField(User,blank = True, related_name ='Joined_Unliked_Projects')
+    liked_members = models.ManyToManyField(User,blank = True, related_name ='Joined_Liked_Projects')
     likeornot = models.BooleanField(default=False)
     def __str__(self):
         return self.name
