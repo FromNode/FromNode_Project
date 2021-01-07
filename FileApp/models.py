@@ -26,5 +26,5 @@ class Files(models.Model):
     image = models.CharField(max_length=255, default='etc')
     Memo = models.CharField(max_length=1023, blank = True)
     File_Nodes = models.ManyToManyField(Nodes,blank = True, related_name ='Nodes')
-    LastFile = models.ForeignKey('NodeApp.nodes', on_delete= models.CASCADE)
+    LastFile = models.ForeignKey('NodeApp.nodes', on_delete= models.CASCADE, blank = True, default='')
     
