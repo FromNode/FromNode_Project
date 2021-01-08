@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'FileApp',
     'sass_processor',
     'notifications',
+    'colorfield',
 ]
 
 MIDDLEWARE = [

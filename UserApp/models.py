@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from colorfield.fields import ColorField
 
 from random import choice
 import string
@@ -24,6 +25,7 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     projects = models.TextField(blank = True) #속한 프로젝트 관리 ','로 나눕니다!
     profile_image = models.ImageField(upload_to = user_path,blank=True)
+    user_color = ColorField(default='#FF0000')
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
 
     
