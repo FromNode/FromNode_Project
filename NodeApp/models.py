@@ -17,7 +17,7 @@ class Nodes(models.Model):
     createdDate = models.DateTimeField(auto_now=True)
     fileObj = models.FileField(upload_to="media", blank=False) #이 노드에 저장되어 있는 파일
     previousCode = models.ForeignKey('self',on_delete=models.SET_NULL, null=True, blank=True) #이전 노드
-    ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE)#이 노드가 속해 있는 프로젝트
+    ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE,default='0', null=True)#이 노드가 속해 있는 프로젝트
     ownerFCode = models.ForeignKey('FileApp.Files', on_delete=models.CASCADE)#이 노드가 속해 있는 프로젝트
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)#이 노드를 만든 회원
     comment = models.CharField(max_length=200, blank = True, null=True)
