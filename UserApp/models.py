@@ -19,12 +19,12 @@ def user_path(instance,filename):
 
 class Profile(models.Model):
     objects = models.Manager()
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE, related_name='Profile')
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     projects = models.TextField(blank = True) #속한 프로젝트 관리 ','로 나눕니다!
-    profile_image = models.ImageField(upload_to = user_path,blank=True)
+    profile_image = models.ImageField(upload_to = user_path,blank=True,default='MainApp\image\default_profile.png')
     user_color = ColorField(default='#FF0000')
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
 

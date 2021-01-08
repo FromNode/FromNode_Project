@@ -68,7 +68,6 @@ def get_location_list(dbData):
                     li_location.append([xLoc, y+1, str(code)])
                     break
     
-    print(li_location)
     # print(li_last)
 
     return li_location, num_of_branch, node_count
@@ -78,19 +77,21 @@ def node_list(request,file_Code):
         Users = request.user
         unliked_proj = Users.Joined_Unliked_Projects.all()
         liked_proj = Users.Joined_Liked_Projects.all()
-        all_proj = unliked_proj | liked_proj
+        all_proj = unliked_proj.union(liked_proj) 
         proj_obj = all_proj
         # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
         The_File = Files.objects.get(Code=file_Code)
         project = The_File.ownerPCode
         pro_name = project.name
         node_objs = The_File.File_Nodes.all()
-        proj_user = ''
+        proj_user = project.unliked_members.all().union(project.liked_members.all()) 
         # 유저가 누른 File에 해당하는 Objects들을 The_File로 불러옵니다.
         # project는 File이 속한 project
         # pro_name은 그 project의 이름
         # node_objs는 file에 속한 노드 전체
-
+        for i in proj_user:
+            print(i.Profile)
+        # print(project_members.Profile)
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
 

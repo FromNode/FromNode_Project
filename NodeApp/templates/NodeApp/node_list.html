@@ -35,7 +35,10 @@
 {% block content %}
   <div class = "NodeInfo">
     <p class ="Title">{{pro_name}}</p>
-    
+    {% for user in proj_user %}
+    {{user.Profile.profile_image.url}}
+    {{user.Profile.user_color}}
+    {% endfor %}
   </div>
   <div class="NodeContainer">
   </div>
