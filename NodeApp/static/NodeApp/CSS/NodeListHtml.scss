@@ -146,3 +146,20 @@
   .Nodetree{
     padding-top : 150px;
   }
+
+// 유저 명단 관련
+.UserList{
+    display:flex;
+    flex-direction: row;
+}
+.User{
+    margin:10px;
+}
+.Proj_Title{
+    font-size:30px;
+    font-weight: 700;
+    color:gray;
+    margin-top:25px;
+    margin-bottom:25px;
+}
+

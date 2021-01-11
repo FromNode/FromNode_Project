@@ -34,11 +34,14 @@
 
 {% block content %}
   <div class = "NodeInfo">
-    <p class ="Title">{{pro_name}}</p>
+    <p class ="Proj_Title">{{pro_name}}</p>
+    <div class = 'UserList'>
     {% for user in proj_user %}
-    {{user.Profile.profile_image.url}}
-    {{user.Profile.user_color}}
+    <div class = 'User' style='width: 60px; height: 60px; border: 5px solid; border-color:{{user.Profile.user_color}}; border-radius: 50%;'>
+    <img src='{{user.Profile.profile_image.url}}' style='width: 60px; height: 60px;'></img>
+    </div>
     {% endfor %}
+    </div>
   </div>
   <div class="NodeContainer">
   </div>
@@ -153,7 +156,11 @@
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
         btnDiv.appendChild(btn);
-        btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1 
+        btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
+        btnDiv.style.setProperty('width','80%');
+        btnDiv.style.setProperty('height','50%');
+        btnDiv.style.setProperty('border',`4px solid {{user.Profile.user_color}}`);
+        btnDiv.style.setProperty('border-radius',`30% 30%`);
         NodeContainer.appendChild(btnDiv);
       }
     }
