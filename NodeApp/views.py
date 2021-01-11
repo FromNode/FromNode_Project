@@ -81,6 +81,7 @@ def node_list(request,file_Code):
         proj_obj = all_proj
         # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
         The_File = Files.objects.get(Code=file_Code)
+        Last_File = The_File.Last_File
         project = The_File.ownerPCode
         pro_name = project.name
         node_objs = The_File.File_Nodes.all()
@@ -89,8 +90,6 @@ def node_list(request,file_Code):
         # project는 File이 속한 project
         # pro_name은 그 project의 이름
         # node_objs는 file에 속한 노드 전체
-        for i in proj_user:
-            print(i.Profile)
         # print(project_members.Profile)
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
@@ -101,7 +100,7 @@ def node_list(request,file_Code):
         num_of_column = tuple_return[2] 
 
         gridRowWidth = "100px "
-        gridColumnHeight = "100px "
+        gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         #Html로 전송할 정보들
@@ -128,7 +127,8 @@ def node_list(request,file_Code):
         "The_File":The_File, 
         "json":json_data,
         "proj_user":proj_user,
-        "pro_name" : pro_name
+        "pro_name" : pro_name,
+        'Last_File':Last_File,
     }  
     return render(request, 'NodeApp/node_list.html', objects)
 
