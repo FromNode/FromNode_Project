@@ -73,14 +73,14 @@
             <div class="box">
                 <div class="title">파일명 : </div>
                 <div class="write">
-                    <input type='text' name='fileName' class='input_sec' value=''>
+                    <input type='text' name='fileName' class='input_sec file_j' value=''>
                 </div>
 
             </div>
             <div class="box">
                 <div class="title">메모 : </div>
                 <div class="write">
-                    <input type='text' name='fileMemo' class='input_sec' value=''>
+                    <input type='text' name='fileMemo' class='input_sec memo_j' value=''>
                 </div>
             </div>
             <div class="upload_box">
@@ -89,7 +89,7 @@
                     <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
                     <div>
                         <label  class="self-select">
-                        <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
+                        <input type="file" name="myFile" class="drop-zone__input myfile_j" value='파일 선택' multiple>
                         <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p></label>    
                     </div>
                     <!-- <div class="drop-zone__prompt">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="submit">
-                <input class="uploadBtn" type="submit" value="OK">
+                <input class="uploadBtn" type="submit"  value="OK">
             </div>
 
 
@@ -163,5 +163,32 @@
     }
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
+
+    // function create_file() {
+    // alert('hello')
+    // const filename = document.querySelector(".file_j");
+    // const memo = document.querySelector(".memo_j");
+    // const myfile = document.querySelector(".myfile_j");
+    // console.log(filename);
+    // console.log(memo);
+    // console.log(myfile);
+
+    // if (filename ==""){
+    //     filename.innerText = "파일 이름을 확인 해 주세요";
+    //     return false;
+    // }
+    // else if (memo ==""){
+    //     memo.innerText = "메모를 확인 해 주세요";
+    //     return false;
+    // }
+    // else if (myfile ==""){
+    //     myfile.innerText = "파일을 확인 해 주세요";
+    //     return false;
+    // }
+    // return true;
+    // }
+    
+
+
 </script>
 {% endblock %}

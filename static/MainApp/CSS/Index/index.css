@@ -65,6 +65,8 @@ body { margin: 0; padding: 0; display: flex; justify-content: center; }
 
 .hidden { display: none; }
 
+.message { color: red; }
+
 @keyframes spinner { 0% { transform: rotateZ(0deg); }
   100% { transform: rotateZ(359deg); } }
 
