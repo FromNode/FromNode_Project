@@ -17,13 +17,9 @@ def get_location_list(dbData):
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
         else:
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
-            
-    #시간순으로 노드를 x축배치할겨        
-    li_numMentioned.sort(key=lambda x: x[4]) 
-    for node in li_numMentioned:
-        node[3] = node_count
-        node_count += 1
-
+            node_count += 1
+    
+    li_numMentioned.sort(key=lambda x: x[4])
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -39,23 +35,18 @@ def get_location_list(dbData):
     li_location = [] #최종으로 넘겨줄 노드 좌표리스트. [x넘버(열번호),브랜치넘버(행번호),노드코드] 로 저장됨
     is_started = False
     for n, node in enumerate(li_numMentioned):
-        print("지금 배치할것이 머냐면 " + node[0])
-        print("누구 뒤냐면 " + str(node[2]))
         if is_started == False: #첫 노드
-            print("첫 노드 찾았다")
             li_temp.append([node[0]])
             li_last.append(node[0])
             is_started = True
         else:
             if node[2] in li_last: #따라갈 놈이 끝놈이면
-                print("따라갈 놈이 있네")
                 for i, sublist in enumerate(li_temp):
                     if node[2] in sublist: #내 앞에놈이 있는 행에 추가하자
                         li_temp[i].append(node[0])
                         break
                 for k, endnode in enumerate(li_last):
                     if endnode == node[2]:
-                        print("끝놈정보에 내껄로 업뎃할게" + node[0])
                         li_last[k] = node[0]
                         break
             else: #새 브랜치 생성해야 되면 순서 파악 후에 그 위치에 생성
@@ -76,49 +67,69 @@ def get_location_list(dbData):
                     li_location.append([xLoc, y+1, str(code)])
                     break
     
+<<<<<<< HEAD
+=======
+    # print(li_last)
+
+>>>>>>> new_master
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
     if request.user.is_authenticated:
-        proj_obj = Projects.objects.filter(members = request.user)
-    else:
-        pass
-    The_File = Files.objects.get(Code=file_Code)
-    print("The file")
-    print(The_File)
-    project = The_File.ownerPCode
-    pro_name = project.name
-    node_objs = Nodes.objects.filter(ownerFCode = The_File)
-    proj_user = project.members.all()
- 
+        Users = request.user
+        unliked_proj = Users.Joined_Unliked_Projects.all()
+        liked_proj = Users.Joined_Liked_Projects.all()
+        all_proj = unliked_proj.union(liked_proj) 
+        proj_obj = all_proj
+        # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
+        The_File = Files.objects.get(Code=file_Code)
+        project = The_File.ownerPCode
+        pro_name = project.name
+        node_objs = The_File.File_Nodes.all()
+        proj_user = project.unliked_members.all().union(project.liked_members.all()) 
+        # 유저가 누른 File에 해당하는 Objects들을 The_File로 불러옵니다.
+        # project는 File이 속한 project
+        # pro_name은 그 project의 이름
+        # node_objs는 file에 속한 노드 전체
+        for i in proj_user:
+            print(i.Profile)
+        # print(project_members.Profile)
+        json_data = serializers.serialize("json", node_objs)
+        # Node에 정보를 담기 위한 데이터를 불러옴
 
-    json_data = serializers.serialize("json", Nodes.objects.filter(ownerFCode = The_File.Code))
-    print(json_data)
-    user_data = serializers.serialize("json", User.objects.all())
-    if True:
-        dbData = Nodes.objects.filter(ownerFCode = The_File.Code)
-        tuple_return = get_location_list(dbData)
+        tuple_return = get_location_list(node_objs)
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
 
-    gridRowWidth = "100px "
-    gridColumnHeight = "100px "
-    gridRowNum = gridRowWidth * num_of_row
-    gridColumnNum = gridColumnHeight * num_of_column
+        gridRowWidth = "100px "
+        gridColumnHeight = "100px "
+        gridRowNum = gridRowWidth * num_of_row
+        gridColumnNum = gridColumnHeight * num_of_column
+        #Html로 전송할 정보들
 
+
+
+    else:
+        pass
+    
+    
+
+    
     objects = {
         "li_location":li_location,
         "gridRowNum":gridRowNum,
         "gridColumnNum":gridColumnNum,
+        # 함수 get_location_list의 결과물, li_location은 노드가 들어갈 grid의 위치
+        # RowNum과 ColumnNum은 들어가는 노드 정보 변동에 따라 Grid 크기 조절
         "num_of_row":num_of_row, 
         "num_of_column":num_of_column, 
+        # 행과 열의 개수를 넘김
         "proj_obj":proj_obj,
         "node_objs":node_objs,
         "The_File":The_File, 
         "json":json_data,
         "proj_user":proj_user,
-        "user_data" : user_data,
         "pro_name" : pro_name
     }  
     return render(request, 'NodeApp/node_list.html', objects)
@@ -142,8 +153,13 @@ def create_node(request):
     NodeOwner = request.POST['NodeOwner']
     NodePk = request.POST['NodePk']
     redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
+<<<<<<< HEAD
 
     clickedNode = Nodes.objects.get(Code=NodePk) #nodePk에 int함수씌워뒀던거 빼봤더니 됐어요 머냐 왜되냐 ㅋ
+=======
+    
+    clickedNode = Nodes.objects.get(Code=str(NodePk))
+>>>>>>> new_master
     print(request.user)
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
@@ -154,9 +170,13 @@ def create_node(request):
         node_object.ownerPCode = clickedNode.ownerPCode
         node_object.whoIsOwner = request.user
         node_object.save()
+        file_object = Files.objects.get(Code = NodeOwnerFileCode)
+        file_object.File_Nodes.add(node_object)
+        file_object.save()
         return redirect(redirectURL)
     return redirect(redirectURL)
 
+<<<<<<< HEAD
 def delete_node(request):
     NodePk = request.POST['NodePk']
     NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
@@ -169,3 +189,8 @@ def delete_node(request):
         return redirect(redirectURL)
     return redirect(redirectURL)
 
+=======
+def changeNodeInfo(request):
+    return render(request, 'NodeApp/node_list.html')
+        
+>>>>>>> new_master

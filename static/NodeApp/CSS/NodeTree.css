@@ -1,15 +1,14 @@
-@charset "UTF-8";
 .Nodetree { transform: rotate(270deg); transform-origin: 50%; }
 
-.Nodetree ul { position: relative; padding: 1em 0em; white-space: nowrap; margin: 0 auto; text-align: center; }
+.Nodetree ul { position: relative; padding: 1em 0; white-space: nowrap; margin: 0 auto; text-align: center; }
 
 .Nodetree ul::after { content: ''; display: table; clear: both; }
 
 .Nodetree li { display: inline-block; vertical-align: top; text-align: center; list-style-type: none; position: relative; padding: 1em; }
 
-.Nodetree li::before, .Nodetree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 3px solid #cccccc; width: 50%; height: 1em; }
+.Nodetree li::before, .Nodetree li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 3px solid black; width: 50%; height: 1em; }
 
-.Nodetree li::after { right: auto; left: 50%; border-left: 3px solid #cccccc; }
+.Nodetree li::after { right: auto; left: 50%; border-left: 3px solid black; }
 
 .Nodetree li:only-child::after, .Nodetree li:only-child::before { display: none; }
 
@@ -17,21 +16,16 @@
 
 .Nodetree li:first-child::before, .Nodetree li:last-child::after { border: 0 none; }
 
-.Nodetree li:last-child::before { border-right: 3px solid #cccccc; border-radius: 0 50px 0 0; }
+.Nodetree li:last-child::before { border-right: 3px solid black; border-radius: 0 5px 0 0; }
 
-.Nodetree li:first-child::after { border-radius: 50px 0 0 0; }
-
-<<<<<<< HEAD
-빈 공간으로 이어주는 선 .Nodetree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 3px solid #cccccc; width: 0; height: 1em; }
-=======
-.Nodetree li button { border: 3px solid #2C3CFF; padding: 2em 4em; margin: 4em 1em; text-decoration: none; display: inline-block; border-radius: 30%; color: #333; background-color: white; position: relative; top: 3px; transform: rotate(90deg); }
+.Nodetree ul ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 3px solid #cccccc; width: 0; height: 1em; }
 
 .Node { background-color: white; }
->>>>>>> new_master
 
-.Nodetree li button { border: 3px solid #2C3CFF; padding: 2em 3.75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 20%; color: #333; position: relative; top: 3px; background-color: white; transform: rotate(90deg); }
+.Nodetree li button { border: 3px solid #2C3CFF; padding: 1em .75em; margin: 2em 1.5em; text-decoration: none; display: inline-block; border-radius: 25%; color: #333; position: relative; top: 3px; transform: rotate(90deg); }
 
-.Nodetree li button:hover, .Nodetree li button:hover + ul li button { background: #2C3CFF; color: white; border: 3px solid #2C3CFF; }
+.Nodetree li button:hover, .Nodetree li button:hover + ul li button { background: #2C3CFF; color: #fff; border: 3px solid #2C3CFF; }
+
 
 .Nodetree li button:hover + ul li::after, .Nodetree li button:hover + ul li::before, .Nodetree li button:hover + ul::before, .Nodetree li button:hover + ul ul::before { border-color: #2C3CFF; }
 

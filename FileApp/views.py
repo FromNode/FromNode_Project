@@ -19,7 +19,11 @@ import random
 
 def show_file_list(request,project_id):
     if request.user.is_authenticated:
-        proj_obj = Projects.objects.filter(members = request.user)
+        User = request.user
+        unliked_proj = User.Joined_Unliked_Projects.all()
+        liked_proj = User.Joined_Liked_Projects.all()
+        all_proj = unliked_proj | liked_proj
+        proj_obj = all_proj
     else:
         pass
 
@@ -33,7 +37,15 @@ def show_file_list(request,project_id):
     
     if len(file_obj) == 0:
         empty = '추적한 파일이 없습니다'
-    return render(request, 'FileApp/file_list.html', {'proj_obj':proj_obj,'pro_name':pro_name,'project':project.id, 'file_obj':file_obj,'proj_user':proj_user,'empty':empty})
+    
+    contents = {
+        'proj_obj':proj_obj,
+        'pro_name':pro_name,
+        'project':project.id, 
+        'file_obj':file_obj,
+        'proj_user':proj_user,
+        'empty':empty}
+    return render(request, 'FileApp/file_list.html', contents)
 
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')

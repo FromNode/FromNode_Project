@@ -19,13 +19,14 @@ def show_project_list(request):
     #Page 파라미터
     page = request.GET.get('page', '1')
     # 모든 프로젝트의 모든 member를 순차 조회
-    proj_obj_all = Projects.objects.filter(members = request.user)
     if request.user.is_authenticated:
-        proj_obj = Projects.objects.filter(members = request.user)
-        like_proj = Projects.objects.filter(Q(members = request.user) & Q(likeornot = True))
-        paginator = Paginator(proj_obj, 4)  # 페이지당 10개씩 보여주기
-        page_obj = paginator.get_page(page)
-        proj_obj = page_obj
+        User = request.user
+        unliked_proj = User.Joined_Unliked_Projects.all()
+        liked_proj = User.Joined_Liked_Projects.all()
+        all_proj = unliked_proj | liked_proj
+        # paginator = Paginator(all_proj, 4)  # 페이지당 10개씩 보여주기
+        # page_obj = paginator.get_page(page)
+        proj_obj = all_proj
     empty = ''
     if len(proj_obj) == 0:
         empty = '참여중인 프로젝트가 없습니다'
@@ -34,8 +35,8 @@ def show_project_list(request):
         'proj_obj' : proj_obj,
         'empty':empty, 
         'today':today,
-        'proj_obj_all':proj_obj_all,
-        'like_proj':like_proj
+        'proj_obj_all':all_proj,
+        'like_proj':liked_proj
     }
     return render(request, 'ProjectApp/project_list.html', contents)
 
@@ -63,6 +64,25 @@ def project_checkcode(request):
         message = "해당 코드를 지닌 프로젝트가 존재하지 않습니다"
         
     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj,'message': message})
+
+def likeornot(request ,project_Code):
+    code = project_Code
+    User =request.user
+    proj_obj = Projects.objects.get(Code=code)
+    unliked_proj = User.Joined_Unliked_Projects.all()
+    if  proj_obj in unliked_proj:
+        proj_obj.unliked_members.remove(User)
+        proj_obj.liked_members.add(User)
+        proj_obj.save()
+    else:
+        proj_obj.liked_members.remove(User)
+        proj_obj.unliked_members.add(User)
+        proj_obj.save()
+    return redirect('/project/project_list/')
+
+
+    
+
 # def form_create_project(request):
 #     return render(request,'ProjectApp/form_create_project.html')
 
@@ -92,11 +112,10 @@ def project_create(request):
         proj_obj = Projects()
         proj_obj.name = request.POST['name']
         proj_obj.save()
-        proj_obj.members.add(user)
+        proj_obj.unliked_members.add(user)
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
-        User_Profile.projects += ','+proj_obj.name
         User_Profile.save()
         return redirect('project:project_list')
     else:
-        return render(request,'ProjectApp/project_create.html')
+        return redirect('project:project_list')

@@ -2,7 +2,7 @@ a { text-decoration: none; }
 
 @font-face { font-family: 'MapoFlowerIsland'; src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff") format("woff"); font-weight: normal; font-style: normal; }
 
-.title { font-size: 20px; font-weight: 600; padding-bottom: 20px; }
+.title { font-size: 20px; font-weight: 600; }
 
 .large { font-size: 20px; }
 

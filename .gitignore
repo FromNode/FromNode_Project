@@ -145,3 +145,8 @@ dmypy.json
 .pytype/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
+
+db.sqlite3
+
+# Collecticstatic
+.static_root/
