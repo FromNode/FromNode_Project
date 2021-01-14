@@ -6,6 +6,7 @@ from ProjectApp import views
 from FileApp import views
 from NodeApp import views
 from UserApp import views
+import explorer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('file/',include('FileApp.urls')),
     path('node/', include('NodeApp.urls')),
     path('user/', include('UserApp.urls')),
+    #path('explorer/', include('explorer.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

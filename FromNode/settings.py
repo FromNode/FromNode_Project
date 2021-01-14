@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'FileApp',
     'sass_processor',
     'notifications',
+    #'explorer',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,7 @@ SASS_OUTPUT_STYLE = 'compact'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#for django-sql-explorer
+#EXPLORER_CONNECTIONS = { 'Default': 'default' }
+#EXPLORER_DEFAULT_CONNECTION = 'default'
