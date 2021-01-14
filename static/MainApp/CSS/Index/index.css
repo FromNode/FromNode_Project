@@ -1,24 +1,24 @@
 html { scroll-behavior: smooth; }
 
-body { margin: 0; padding: 0; display: flex; justify-content: center; background-color: #444; }
+body { margin: 0; padding: 0; display: flex; justify-content: center; }
 
 .container { width: 1920px; height: auto; display: flex; flex-direction: column; align-content: space-around; }
 
 .main_Contents { flex: 19; display: flex; flex-direction: column; width: 100%; height: auto; }
 
-.section1 { flex: 1; display: flex; /* min-height: 20%; */ z-index: 1; }
+.section1 { flex: 1; display: flex; z-index: 1; /* min-height: 20%; */ padding-bottom: 3em; }
 
-.section1_Left { flex: 1; background-color: white; display: flex; flex-direction: column; justify-content: center; margin-left: 3em; }
+.section1_Left { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-left: 3rem; }
 
-.logo_Text { width: 50%; margin: 0 0 4em 2em; }
+.logo_Text { width: 50%; margin: 0 0 9em 2em; }
 
-.title { font-size: 2em; display: block; color: #747474; font-weight: 700; margin-left: 2em; }
+.title { font-size: 2vw; display: block; color: #747474; font-weight: 700; margin: 0 0 2.5em 2em; position: absolute; }
 
-.subTitle { display: block; font-size: 1.5em; color: #747474; margin: 1em 0 2em 3em; }
+.subTitle { display: block; font-size: 1.5vw; color: #747474; margin: 1em 0 2em 3em; width: auto; }
 
 .login_A { text-decoration: none; }
 
-.login_Button { all: unset; display: block; width: 8em; cursor: pointer; font-size: 50%; padding: 0.5em 3em 1em 3em; margin: 1em 2em 2em 10em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
+.login_Button { all: unset; display: block; width: 8em; cursor: pointer; font-size: 0.5vw; padding: 0.5em 3em 1em 3em; margin: 1em 2em 2em 10em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
 
 .project_Button { all: unset; display: block; cursor: pointer; /* font-size: 3em; */ padding: 0.5em 3em 1em 3em; margin: 1em 2em 0 2em; /* border-top: 10px solid RED; */ border-radius: 10em; background-color: #0F75EF; color: white; text-align: center; }
 
@@ -30,27 +30,27 @@ body { margin: 0; padding: 0; display: flex; justify-content: center; background
 
 .section1_Right_Box img { min-width: 60%; max-width: 90%; height: auto; display: block; margin-top: 2em; }
 
-.section2 { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; align-items: middle; }
+.section2 { flex: 1; display: flex; flex-direction: column; }
 
-.section3 { flex: 1; position: relative; }
+.section3 { flex: 1; position: relative; background-color: khaki; height: 3vw; }
 
-.section4 { flex: 0.3; position: relative; display: flex; justify-content: flex-end; }
+.section4 { flex: 0.3; position: relative; margin: 3em 8em 3em 8em; justify-content: flex-end; }
 
-.section4Btn { background-color: #0F75EF; color: white; margin: auto; border: 1px solid #0F75EF; border-radius: 10em; padding: 3em 10em 3em 10em; }
+.section4Btn { background-color: #0F75EF; color: white; border: 1px solid #0F75EF; border-radius: 10em; padding: 2.5em 8em 2.5em 8em; margin: auto; }
 
 .section4Btn:active { border: 3px solid #0F75EF; outline: none; }
 
-.section4Btn_Text { font-size: 2em; }
+.section4Btn_Text { font-size: 2vw; }
 
 .goToTop_A { padding: 3em; color: orange; font-size: smaller; }
 
 .goToTop_A:focus { color: #0F75EF; }
 
-.main_Footer { flex: 1; width: 100%; background-color: #0F75EF; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+.main_Footer { flex: 4em; width: 100%; background-color: #0F75EF; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
 
-.main_Footer_Left { margin-left: 5em; color: white; font-size: 2em; }
+.main_Footer_Left { margin-left: 5em; color: white; font-size: 1em; font-weight: initial; }
 
-.main_Footer_Right { margin-right: 5em; color: white; font-size: 2em; }
+.main_Footer_Right { margin-right: 5em; color: white; font-size: 1em; }
 
 .main_Footer_Text { margin-left: 2em; }
 
