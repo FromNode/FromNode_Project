@@ -115,8 +115,7 @@ def project_create(request):
         proj_obj.unliked_members.add(user)
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
-        User_Profile.projects += ','+proj_obj.name
         User_Profile.save()
         return redirect('project:project_list')
     else:
-        return render(request,'ProjectApp/project_create.html')
+        return redirect('project:project_list')
