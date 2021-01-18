@@ -64,6 +64,7 @@
               <input type="file" name="uploadFile" class="drop-zone__input" multiple>
               <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
             </div>
+            <a class ='download' >다운로드하기</a>
             <input class="uploadBtn" type="submit" value="업로드하기">
           </form>
 
@@ -77,6 +78,7 @@
   <script>
     const NodeContainer = document.querySelector(".NodeContainer");
     const globalDataArray = [];
+    
     const init = async () =>{
       let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
       let data = await getNodeData();
@@ -155,6 +157,11 @@
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
+        let downloadBtn = document.querySelector('.download');
+        let downloadurl = `{% url 'node:download'`
+        let downloadurl2 =  ` ${varObj.Pk} %}`;
+        let a = downloadurl+ downloadurl2
+        downloadBtn.setAttribute('href',`/node/download/${varObj.Pk}`);
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
         btnDiv.style.setProperty('width','80%');
@@ -227,6 +234,9 @@
       let regionalDataArray = globalDataArray.slice();
       let clickedValuePk = clickedBtn.classList[0];
       let clickedNode = [];
+      
+      
+
       for(let i = 0; i<regionalDataArray.length; i++){
         if(clickedValuePk == regionalDataArray[i].pk){
           let fields = regionalDataArray[i].fields;
@@ -241,12 +251,20 @@
             'NodePreviousCode': fields.previousCode,
             'NodeOwner' : fields.whoIsOwner,
             'NodePk' : clickedValuePk,
+            
           }
+          
+
           clickedNode.push(clickedNodeData)
         }
+        
       }
       return clickedNode
+
+      
+      
     }
+    
     const sendInputContents = async (btnData) => {
       console.log(btnData);
         const sendDataInput = document.querySelector(".hiddenInput");

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Nodes
 from FileApp.models import Files
 from ProjectApp.models import Projects
@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.core import serializers
 from UserApp.models import Profile
+
+import urllib
+import os
+from django.http import HttpResponse, Http404
+import mimetypes
 
 def get_location_list(dbData):
     #str타입 리스트 만들기
@@ -172,3 +177,21 @@ def create_node(request):
 def changeNodeInfo(request):
     return render(request, 'NodeApp/node_list.html')
         
+# notice/views.py
+
+
+
+
+def download_view(request, pk):
+    node = get_object_or_404(Nodes, Code=pk)
+    url = node.fileObj.url[1:]
+    file_url = urllib.parse.unquote(url)
+    
+    if os.path.exists(file_url):
+        with open(file_url, 'rb') as fh:
+            # quote_file_url = urllib.parse.quote(node.comment.encode('utf-8'))
+            quote_file_url ='test.txt'
+            response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
+            return response
+        raise Http404

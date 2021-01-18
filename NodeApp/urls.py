@@ -9,7 +9,8 @@ urlpatterns = [
     path('node_list/<int:file_Code>', views.node_list, name="node_list"),
     path('node_detail/<str:node_Code>', views.node_detail, name="node_detail"),
     path('create_node/',views.create_node, name='create_node'),
-    path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo")
+    path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo"),
+    path('download/<str:pk>',views.download_view,name='download'),
 ]
 if settings.DEBUG :
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
