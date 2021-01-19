@@ -224,7 +224,23 @@ input:focus{
   padding-top: $content-padding;
   padding-left: $content-padding;
 }
+.side-box{
+  padding: 0 30px 30px 30px;
+}
 
+.side-title{
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.side-content{
+  padding-left: 20px;
+}
+.side-project-name{
+  padding: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+}
 li{
   list-style: none;
   text-decoration: none;
@@ -232,7 +248,7 @@ li{
 
 a{text-decoration: none}
 
-.test{
-  height: 800px;
-  background-color: #2b2929;
-}
+// .test{
+//   height: 800px;
+//   background-color: #2b2929;
+// }
