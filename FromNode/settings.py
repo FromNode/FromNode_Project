@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'ProjectApp',
     'UserApp',
     'FileApp',
+    # 'NotificationApp',
     'sass_processor',
     'notifications',
     'colorfield',
