@@ -12,12 +12,21 @@ html,body{
   display: flex;
   flex-direction: column;
   align-content: space-around;
-  background-image: url('MainApp/image/index_section1_logo.png');
-  background-position: center;
   width: 1920px;
   height: auto;
 }
 
+.menu_Bar
+{
+width: 100%;
+height: 90px;
+}
+
+.logo_Text{
+  width: 300px;
+  height: auto; 
+  padding: 1.5em;
+}
 
 .main_Contents{
   flex: 19;
@@ -25,45 +34,39 @@ html,body{
   flex-direction: column;
   width: 100%;
   height: 100%;
+  
 }
-.section1{
+.section1{ 
   flex: 1;
   display: flex;
   z-index: 1;
-  /* min-height: 20%; */
-  // margin-top: 1em;
   padding-bottom: 3em;
-  // background-image: url('MainApp/image/index_section1_logo.png');
-  // height: auto;
-  // width: 1920px;
+  margin-left: 3em;
+
 }
 .section1_Left{
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 3rem;
+  margin-left: 4rem;
+  margin-bottom: 3rem;
 }
-.logo_Text{
-  width: 300px;
-  height: auto;
-  margin: 0 0 9em 2em;
-  // padding-bottom: 2em;  
-}
+
 .title{
   font-size: 2vw;
   display: block;
   color: #747474;
   font-weight: 700;
-  margin: 0 0 2.5em 2em;
-  position: absolute;
+  padding: 50px;
+  padding-bottom: 30px;
 }
 .subTitle{
   display: block;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: #747474;
-  margin: 1em 0 2em 3em;
   width: auto;
+  padding: 0 50px 0 50px;
 }
 .login_A{
   text-decoration: none;
@@ -83,18 +86,16 @@ html,body{
   text-align: center;
 }
 .project_Button{
-
   all: unset;
   display: block;
   cursor: pointer;
-  padding: 0.5em 3em 1em 3em;
-  margin: 1em 2em 0 2em;
+  padding: 1.4em 1em 1.4em 1em ;
+  margin: 3em;
   border-radius: 10em;
   background-color: #0F75EF;
   color: white;
   text-align: center;
   width: 200px;
-  height: 50px;
 }
 .login_Text{
   font-size: 1.5em;
@@ -107,6 +108,7 @@ html,body{
   display: flex;
   flex-direction: column;
   justify-content: center;
+
 }
 .section1_Right_Box{
   width: 100%;
