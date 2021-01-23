@@ -13,10 +13,12 @@
 <body>
     <div class="container">
         <div class="main_Contents">
+            
             <div class="section1">
+                
                 <div class="section1_Left">
-                    <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text">
-                    <span class="title">세상에서 가장 간단한<Br>파일 작업 관리 서비스</span>
+                    <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text"><Br>
+                    <span class="title">세상에서 가장 간단한<Br>파일 관리 서비스</span><Br>
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">내 프로젝트 가기</a></button>
@@ -65,21 +67,8 @@
                     
                 <div class="section1_Right">
                     <div class="section1_Right_Box">
-                        <img src="{% static 'MainApp/image/index_section1_logo.png' %}" alt="로고">
                     </div>
                 </div>
-            </div>
-            <div class="section2">
-                <img src="{% static 'MainApp/image/section3-1.png' %}" alt="로고" class="sectionImg">
- 
-            </div>
-            <div class="section3">
-                <h1>
-                공사<br>중입<br>니다<br></h1>
-            </div>
-            <div class="section4">
-                <button class="section4Btn" onclick="goToTop();"><span class="section4Btn_Text">지금 바로 시작하세요!</span></button>
-                <A href="#" onclick="goToTop();" class="goToTop_A"><i class="fas fa-angle-double-up fa-5x"></i></A>
             </div>
         </div>
         <div class="main_Footer">
