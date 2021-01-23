@@ -80,7 +80,7 @@
     const globalDataArray = [];
     
     const init = async () =>{
-      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "")
+      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "");
       let data = await getNodeData();
       console.log(data)
       let locationData = await getLocationData(data, location_Data);
@@ -110,7 +110,7 @@
           Row : Number(locationStr.split(",")[3*i+1].trim()),
           Pk : locationStr.split(",")[3*i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
         })
-      }
+      };
       for(let i = 0; i<data.length; i++){
         for(let k = 0; k<data.length; k++){
           if(locationArray[i].Pk == data[k].pk){
@@ -156,11 +156,8 @@
         let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
-        btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
+        btn.setAttribute("class", `${varObj.Pk} nodeBtn`);
         let downloadBtn = document.querySelector('.download');
-        let downloadurl = `{% url 'node:download'`
-        let downloadurl2 =  ` ${varObj.Pk} %}`;
-        let a = downloadurl+ downloadurl2
         downloadBtn.setAttribute('href',`/node/download/${varObj.Pk}`);
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
@@ -242,6 +239,7 @@
           let fields = regionalDataArray[i].fields;
           let clickedNodeData = {
             'NodeComment' : fields.comment,
+            'filename':fileds.filename,
             'NodeCreatedDate' : fields.createdDate,
             'NodeDescription' : fields.desecription,
             'NodeFileObj' : fields.fileObj,

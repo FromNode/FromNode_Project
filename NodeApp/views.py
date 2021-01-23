@@ -163,6 +163,7 @@ def create_node(request):
     if request.method == 'POST':
         node_object = Nodes()
         node_object.fileObj = request.FILES['uploadFile']
+        node_object.filename = request.FILES['uploadFile'].name
         node_object.previousCode = clickedNode
         node_object.ownerFCode = clickedNode.ownerFCode
         node_object.ownerPCode = clickedNode.ownerPCode
@@ -186,11 +187,14 @@ def download_view(request, pk):
     node = get_object_or_404(Nodes, Code=pk)
     url = node.fileObj.url[1:]
     file_url = urllib.parse.unquote(url)
-    
     if os.path.exists(file_url):
         with open(file_url, 'rb') as fh:
-            # quote_file_url = urllib.parse.quote(node.comment.encode('utf-8'))
-            quote_file_url ='test.txt'
+            print(node)
+            print(node.fileObj)
+            print(node.filename)
+            print(node.pk)
+            quote_file_url = urllib.parse.quote(node.filename.encode('utf-8'))
+            print(quote_file_url)
             response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
