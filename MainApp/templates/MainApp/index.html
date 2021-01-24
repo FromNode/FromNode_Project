@@ -14,6 +14,10 @@
     <div class="container"> 
         <div class="menu_Bar">
             <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text">
+            <a class="menu_Btn">메뉴1</a> 
+            <a class="menu_Btn">메뉴2</a>
+            <a class="menu_Btn">메뉴3</a>
+            <button class="login_Btn" href="{% url ''%}" >Login</button>
         </div>
         <div class="main_Contents">
             <div class="section1">
@@ -23,7 +27,8 @@
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
-                        <button class="login_Button"><span class="login_Text">Login</span></button>
+                        <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">My Project</a></button>
+                        <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
                     {% if hidden == 0 %}
                     <div class="loginModal">
@@ -38,7 +43,7 @@
 
                                 <button class="loginbox" type="submit">Log in</button>
                                 <p class='message'>{{message}}</p>
-                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+                                <!-- <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span> -->
 <br>
                             </form>   
                         </div>
