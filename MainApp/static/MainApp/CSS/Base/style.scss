@@ -25,6 +25,26 @@ body{
 }
 
 
+/* 상단 바 */
+.top{
+  position: fixed;
+  width: 100%;
+  height: auto;
+  flex: 1;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color:#f0f0f0;
+  /* padding: 25px 0; */
+}
+
+/* 끝 */
+$nav-height : 70px;
+
+
 /* 끝 */
 
 // ---------- 변수 선언 ------------- //
@@ -34,6 +54,9 @@ $nav-left-width : 300px;
 $nav-center-width : 500px;
 $nav-center-height: 45px;
 $nav-center-border : 1.8px;
+
+$bottom-blank : 30px;
+
 
 // left nav 바
 $left-menu-left-padding : 40px;
@@ -51,6 +74,7 @@ $blue: #1f6ce6;
   height: auto;
   flex: 1;
 }
+
 
 /* 상단 네브바 */
 .top_nav{
@@ -71,10 +95,11 @@ font-size: 1.3rem;
 display: flex;
 justify-content: center;
 align-items: center;
+background-color: white;
 }
 
 .logo{
-  width: $nav-left-width - 25px;
+  width: $nav-left-width - 50px;
 }
 
 .box-center{
@@ -86,12 +111,13 @@ align-items: center;
 }
 
 
-.search {
-width: 700px;
-text-align: left;
-display: flex;
-align-items: center;
-}
+// .search {
+// width: 700px;
+// height: 40px;
+// text-align: left;
+// display: flex;
+// align-items: center;
+// }
 
 input:focus{
   outline:none;
@@ -143,8 +169,8 @@ input:focus{
     text-align: center;
     font-size: 30px;
     justify-content: center;
-   
 }
+
 .nav-item a {
   display: block;
 }
@@ -200,6 +226,7 @@ input:focus{
 
   // border-right: 1px solid black;
   box-shadow:  0 7px 14px rgba(0, 0, 0, 0.23), 0 0 0 rgba(0, 0, 0, 0);
+  background-color: #1f6ce6;
 
 }
 .left-menu-guide{
