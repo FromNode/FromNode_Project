@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>간단한 파일 관리 Fromnode</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <link href="{% sass_src 'MainApp/CSS/Index/index.scss' %}" rel="stylesheet" type="text/css">
 
@@ -14,10 +14,9 @@
     <div class="container"> 
         <div class="menu_Bar">
             <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text">
-            <a class="menu_Btn">메뉴1</a> 
-            <a class="menu_Btn">메뉴2</a>
-            <a class="menu_Btn">메뉴3</a>
-            <button class="login_Btn" href="{% url ''%}" >Login</button>
+            <a class="menu_Btn" href="#"> 메뉴 </a>
+            <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
+            
         </div>
         <div class="main_Contents">
             <div class="section1">
@@ -27,7 +26,7 @@
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
-                        <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">My Project</a></button>
+                        <button class="project_Button"><a class="login_Text" href="{% url 'user:login'%}">My Project</a></button>
                         <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
                     {% if hidden == 0 %}
