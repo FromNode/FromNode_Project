@@ -28,6 +28,15 @@
 {{x.createdDate}}
 {% endfor %}
 
+<br><br>
+<h3> 작성된 댓글이 나오는 부분 </h3>
+{% for comment in node_comments.all %}
+    {{ comment.content }}
+{% endfor %}
+
+<br><br>
+<h3>댓글 작성창</h3>
+
 {% endblock %}
 {% block JS %}
 {% endblock %}
