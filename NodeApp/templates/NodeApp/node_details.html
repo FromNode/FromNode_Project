@@ -3,7 +3,19 @@
 {% load static %}
 
 {% block scss %}
-    <link href="{% sass_src 'NodeApp/CSS/Upload.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
+    <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+    <style>
+    .NodeContainer {
+        display: grid;
+        gap: 0;
+        place-items: center center;
+    }
+    .Nodes button{
+        all: unset;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}
 {% block content %}
 <h1>노드 상세내용 - 페이지번호 : 08</h1>
