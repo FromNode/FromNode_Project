@@ -22,10 +22,19 @@
 
 
 {% for x in node_obj %}
-{{x.Code}}<br>
-{{x.fileObj}}<br>
-{{x.whoIsOwner}}<br>
-{{x.createdDate}}
+    {{x.Code}}<br>
+    {{x.fileObj}}<br>
+    {{x.whoIsOwner}}<br>
+    {{x.createdDate}}<br>
+
+    <br><br>
+    <h3>댓글 작성</h3>
+        <a style="color: blueviolet;
+                  background-color: aliceblue;
+                  font-size: larger;
+                  font-weight: bolder;" 
+        href="{% url 'node:node_comment_create' node_Code=x.Code %}">댓글 작성하러 가는 버튼입니다.</a>
+
 {% endfor %}
 
 <br><br>
@@ -34,11 +43,6 @@
     {{ comment.content }}
 {% endfor %}
 
-<br><br>
-<h3>댓글 작성</h3>
-{% for node in node_obj %}
-
-{% endfor %}
 {% endblock %}
 {% block JS %}
 {% endblock %}

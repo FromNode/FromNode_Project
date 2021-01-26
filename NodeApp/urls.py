@@ -10,7 +10,7 @@ urlpatterns = [
     path('node_detail/<str:node_Code>', views.node_detail, name="node_detail"),
     path('create_node/', views.create_node, name='create_node'),
     path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo"),
-    path('node_comment_create/<str:node_Code>',
+    path('node_comment_create/<node_Code>',
          views.node_comment_create, name="node_comment_create"),
 ]
 if settings.DEBUG:
