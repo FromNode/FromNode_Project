@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Nodes, Node_Comment
 from FileApp.models import Files
 from ProjectApp.models import Projects
@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.core import serializers
 from UserApp.models import Profile
+from .forms import CommentForm
+from django.utils import timezone
 
 
 def get_location_list(dbData):
@@ -138,6 +140,25 @@ def node_detail(request, node_Code):
     node_comments = Node_Comment.objects.filter(node_code=node_Code)
 
     return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments})
+
+
+def node_comment_create(request, node_Code):
+    node_obj = get_object_or_404(Nodes, pk=node_Code)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author_comment = request.user
+            comment.create_date = timezone.now()
+            comment.node_Code = node_Code
+            comment.node_code_id = node_Code
+            redirectURL = '/node/node_detail/'+comment.node_Code
+            comment.save()
+            return redirect(redirectURL)
+    else:
+        form = CommentForm()
+    context = {'form': form}
+    return render(request, 'NodeApp/comment_create.html/', context)
 
 
 def create_node(request):

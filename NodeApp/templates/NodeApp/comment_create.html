@@ -18,27 +18,21 @@
 </style>
 {% endblock %}
 {% block content %}
-<h1>노드 상세내용 - 페이지번호 : 08</h1>
+<h1>댓글 작성하기</h1>
 
+<div class="container my-3">
+    <h5 class="border-bottom pb-2">댓글등록하기</h5>
+    <form method="post" class="post-form my-3">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="content">댓글내용</label>
+            <textarea class="form-control"name="content" id="content" 
+                      rows="3">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
 
-{% for x in node_obj %}
-{{x.Code}}<br>
-{{x.fileObj}}<br>
-{{x.whoIsOwner}}<br>
-{{x.createdDate}}
-{% endfor %}
-
-<br><br>
-<h3> 작성된 댓글이 나오는 부분 </h3>
-{% for comment in node_comments.all %}
-    {{ comment.content }}
-{% endfor %}
-
-<br><br>
-<h3>댓글 작성</h3>
-{% for node in node_obj %}
-
-{% endfor %}
 {% endblock %}
 {% block JS %}
 {% endblock %}
