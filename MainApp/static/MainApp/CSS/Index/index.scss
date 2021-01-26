@@ -25,12 +25,10 @@ height: auto;
 align-content: space-between;
 display: flex;
 flex-direction: row;
-background-color: lawngreen;
 
 }
 
 .logo{
-  background-color: lightcoral;
 }
 
 .logo_Text{
@@ -41,21 +39,21 @@ background-color: lawngreen;
 }
 
 .menu_Button{
-  background-color: lightseagreen;
   flex: 8;
-  justify-items: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 3em;
+  
 }
 
 .menu_Btn{
   all: unset;
   color: gray;
-  background-color: maroon;
-  align-self: center;
   padding: 2em;
-}
-
-.login_Button{
-
+  
+  
 }
 
 .login_Btn{
@@ -64,10 +62,15 @@ background-color: lawngreen;
   cursor: pointer;
   padding: 1em 3em 1em 3em;
   margin: 2.2em 5em 2em 2em;
-  border-radius: 3px;
+  border-radius: 4px;
   background-color: #0F75EF;
   text-align: center;
   float:right;
+}
+
+.login_Text{
+  all: unset;
+  color: white;
 }
 
 .project_Text{
