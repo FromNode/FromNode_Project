@@ -14,7 +14,6 @@ html,body{
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  align-content: space-around;
   width: 1920px;
   height: auto;
 }
@@ -22,36 +21,64 @@ html,body{
 .menu_Bar
 {
 width: 100%;
-height: 90px;
-display: inline;
+height: auto;
+align-content: space-between;
+display: flex;
+flex-direction: row;
+
 }
 
-.menu_Btn
-{
-  display: inline;
-  float: right;
+.logo{
 }
 
 .logo_Text{
-  width: 300px;
+  width: 320px;
   height: auto; 
   padding: 1.5em;
   margin-left: 2em;
+}
+
+.menu_Button{
+  flex: 8;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 3em;
+  
+}
+
+.menu_Btn{
+  all: unset;
+  color: gray;
+  padding: 2em;
+  
+  
 }
 
 .login_Btn{
   all: unset;
   display: inline;
   cursor: pointer;
-  font-size: auto;
   padding: 1em 3em 1em 3em;
-  margin: 2em 5em 2em 2em;
-  border-radius: 3px;
+  margin: 2.2em 5em 2em 2em;
+  border-radius: 4px;
   background-color: #0F75EF;
-  color: white;
   text-align: center;
   float:right;
 }
+
+.login_Text{
+  all: unset;
+  color: white;
+}
+
+.project_Text{
+  font-size: 1.3em;
+  text-decoration: none;
+  color : white;
+}
+
 
 .main_Contents{
   
@@ -98,20 +125,22 @@ display: inline;
 // }
 
 
-.login_Button{
-  all: unset;
-  display: block;
-  width: 8em;
-  cursor: pointer;
-  font-size: 0.5vw;
-  padding: 0.5em 3em 1em 3em;
-  margin: 1em 2em 2em 10em;
-  /* border-top: 10px solid RED; */
-  border-radius: 10em;
-  background-color: #0F75EF;
-  color: white;
-  text-align: center;
-}
+// .login_Button{
+//   all: unset;
+//   display: block;
+//   width: 8em;
+//   cursor: pointer;
+//   font-size: 0.5vw;
+//   padding: 0.5em 3em 1em 3em;
+//   margin: 1em 2em 2em 10em;
+//   /* border-top: 10px solid RED; */
+//   border-radius: 10em;
+//   background-color: #0F75EF;
+//   color: white;
+//   text-align: center;
+// }
+
+
 .project_Button{
   all: unset;
   display: block;
@@ -124,11 +153,7 @@ display: inline;
   text-align: center;
   width: 200px;
 }
-.login_Text{
-  font-size: 1.5em;
-  text-decoration: none;
-  color : white;
-}
+
 .section1_Right{
   flex: 1;
   overflow: hidden;
