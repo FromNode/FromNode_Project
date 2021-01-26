@@ -13,10 +13,13 @@
 <body>
     <div class="container"> 
         <div class="menu_Bar">
-            <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text">
-            <a class="menu_Btn" href="#"> 메뉴 </a>
-            <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
-            
+            <div class="logo"><img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text"></div>
+            <div class="menu_Button">
+                <a class="menu_Btn" href="#"> 메뉴 </a>
+                <a class="menu_Btn" href="#"> 메뉴 </a>
+                <a class="menu_Btn" href="#"> 메뉴 </a>
+            </div>
+            <div class="login_Button"><button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button></div>
         </div>
         <div class="main_Contents">
             <div class="section1">
@@ -24,9 +27,9 @@
                     <span class="title">세상에서 가장 간단한<Br>파일 관리 서비스</span> 
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
-                        <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">My Project</a></button>
+                        <button class="project_Button"><a class="project_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
-                        <button class="project_Button"><a class="login_Text" href="{% url 'user:login'%}">My Project</a></button>
+                        <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">My Project</a></button>
                         <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
                     {% if hidden == 0 %}
@@ -59,7 +62,7 @@
                                 
                                 <input class="loginbox" type="password" name="password" placeholder="비밀번호">
 
-                                <button class="loginbox" type="submit">Log in</button>
+                                <button class="loginbox" type="submit">Login</button>
                                 
                                 <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
 <br>
