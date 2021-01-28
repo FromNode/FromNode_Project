@@ -5,23 +5,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>간단한 파일 관리 Fromnode</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
     <link href="{% sass_src 'MainApp/CSS/Index/index.scss' %}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
-    <div class="container">
+    <div class="container"> 
+        <div class="menu_Bar">
+            <div class="logo"><img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text"></div>
+            <div class="menu_Button">
+                <a class="menu_Btn" href="#"> 메뉴1 </a>
+                <a class="menu_Btn" href="#"> 메뉴2 </a>
+                <a class="menu_Btn" href="#"> 메뉴3 </a>
+            </div>
+            <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
+        </div>
         <div class="main_Contents">
             <div class="section1">
                 <div class="section1_Left">
-                    <img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text">
-                    <span class="title">세상에서 가장 간단한<Br>파일 작업 관리 서비스</span>
+                    <span class="title">세상에서 가장 간단한<Br>파일 관리 서비스</span> 
                     <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
-                        <button class="project_Button"><a class="login_Text" href="{% url 'project:project_list'%}">내 프로젝트 가기</a></button>
+                        <button class="project_Button"><a class="project_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
-                        <button class="login_Button"><span class="login_Text">Login</span></button>
+                        <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">My Project</a></button>
+                        <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
                     {% if hidden == 0 %}
                     <div class="loginModal">
@@ -36,7 +45,7 @@
 
                                 <button class="loginbox" type="submit">Log in</button>
                                 <p class='message'>{{message}}</p>
-                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+                                <!-- <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span> -->
 <br>
                             </form>   
                         </div>
@@ -53,7 +62,7 @@
                                 
                                 <input class="loginbox" type="password" name="password" placeholder="비밀번호">
 
-                                <button class="loginbox" type="submit">Log in</button>
+                                <button class="loginbox" type="submit">Login</button>
                                 
                                 <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
 <br>
@@ -65,34 +74,20 @@
                     
                 <div class="section1_Right">
                     <div class="section1_Right_Box">
-                        <img src="{% static 'MainApp/image/index_section1_logo.png' %}" alt="로고">
                     </div>
                 </div>
             </div>
-            <div class="section2">
-                <img src="{% static 'MainApp/image/section3-1.png' %}" alt="로고" class="sectionImg">
- 
-            </div>
-            <div class="section3">
-                <h1>
-                공사<br>중입<br>니다<br></h1>
-            </div>
-            <div class="section4">
-                <button class="section4Btn" onclick="goToTop();"><span class="section4Btn_Text">지금 바로 시작하세요!</span></button>
-                <A href="#" onclick="goToTop();" class="goToTop_A"><i class="fas fa-angle-double-up fa-5x"></i></A>
-            </div>
         </div>
-        <div class="main_Footer">
+        <!-- <div class="main_Footer">
             <Div class="main_Footer_Left">
                 <span>FromNode</span>
-                <!-- <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text" style="border:1px solid white;"> -->
+                <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text" style="border:1px solid white;">
             </Div>
             <Div class="main_Footer_Right">
                 <span class="main_Footer_Text">팀 이름 : 옹헤야Lab</span>
                 <span class="main_Footer_Text">문의 : fromNode </span>
             </Div>
-            
-        </div>
+        </div> -->
     </div>
     <script src="{% static 'MainApp/JS/index.js' %}">
     </script>
