@@ -1,23 +1,20 @@
-html {
+html{
     margin: 0;
     padding: 0;
 }
-
-body {
+body{
     width: 100%;
     height: 100%;
     background-color: white;
 }
-
-.container_main {
+.container{
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
 }
-
 //상단바
-.top {
+.top{
     width: 100%;
     height: 100%;
     display: flex;
@@ -26,47 +23,39 @@ body {
     box-shadow: 0 4px 2px -2px gray;
     margin-bottom: 10px;
 }
-
-.top_left {
+.top_left{
     flex: 1;
 }
-
-.top_center {
+.top_center{
     flex: 1;
 }
-
-.top_center .search_form {
+.top_center .search_form{
     display: flex;
     max-height: 100%;
 }
-
-.searchInput {
+.searchInput{
     border-radius: 50%;
 }
-
-.search_img {
+.search_img{
     height: 5rem;
 }
-
-.top_right {
+.top_right{
     flex: 1;
 }
 
 //하단 영역
-.bottom {
+.bottom{
     display: flex;
     flex-direction: row;
     width: 100%;
     flex: 9;
 }
-
 //왼쪽 네브바
-.left_nav {
+.left_nav{
     flex: 1.5;
     box-shadow: 4px 0px 2px -2px gray;
 }
-
 //메인 컨텐츠
-.main_contents {
+.main_contents{
     flex: 8.5;
 }

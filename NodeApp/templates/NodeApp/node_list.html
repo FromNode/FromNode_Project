@@ -52,13 +52,6 @@
               <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
             </div>
             <input class="uploadBtn" type="submit" value="업로드하기">
-            <!-- Comment 부분 Satrt -->
-              <div>
-                {% for comment in  comments %}
-                  {{ comment.content }}
-                {% endfor %}
-              </div>
-            <!-- Comment 부분 End -->
           </form>
 
         </div>

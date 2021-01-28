@@ -3,27 +3,19 @@
   padding: 0;
 }
 
-a {
-  color: #000;
-}
-
-a:link {
-  color: black;
-}
-
-a:visited {
-  color: black;
-}
+a { color: #000; }
+a:link { color: black; }
+a:visited { color: black; }
 
 /* 전체 구조 */
-body {
+body{
   background: white;
   margin: 0;
   display: flex;
   justify-content: center;
 }
 
-.container_main {
+.container{
   width: 100%;
   height: 100%;
   display: flex;
@@ -34,18 +26,18 @@ body {
 
 
 /* 상단 바 */
-.top {
+.top{
   position: fixed;
   width: 100%;
   height: auto;
   flex: 1;
 }
 
-.content {
+.content{
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color:#f0f0f0;
   /* padding: 25px 0; */
 }
 
@@ -76,7 +68,7 @@ $blue: #1f6ce6;
 
 
 /* 상단 바 */
-.top {
+.top{
   position: fixed;
   width: 100%;
   height: auto;
@@ -85,37 +77,37 @@ $blue: #1f6ce6;
 
 
 /* 상단 네브바 */
-.top_nav {
+.top_nav{
   height: $nav-height;
   display: flex;
   flex-direction: row;
   background-color: white;
   // border-bottom: solid 1px black;
   position: relative;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 1px 14px rgba(0, 0, 0, 0.23);
-
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 1px 14px rgba(0, 0, 0, 0.23);
+  
 }
 
 .box-left {
-  width: $nav-left-width;
-  height: $nav-height;
-  font-size: 1.3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
+width: $nav-left-width;
+height: $nav-height;
+font-size: 1.3rem;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: white;
 }
 
-.logo {
+.logo{
   width: $nav-left-width - 50px;
 }
 
-.box-center {
-  margin: 0 10px;
-  width: $nav-center-width;
-  height: $nav-height;
-  display: flex;
-  align-items: center;
+.box-center{
+margin: 0 10px;
+width: $nav-center-width;
+height: $nav-height;
+display: flex;
+align-items: center;
 }
 
 
@@ -127,20 +119,19 @@ $blue: #1f6ce6;
 // align-items: center;
 // }
 
-input:focus {
-  outline: none;
+input:focus{
+  outline:none;
 }
-
-.input_box {
+.input_box{
   height: $nav-center-height;
   padding: 0 60px 0 30px;
   border: $nav-center-border solid #a7a7a7;
-  border-radius: 30px;
-  width: 350px;
+  border-radius : 30px; 
+  width:350px;
   font-size: 18px;
 }
 
-.input_button {
+.input_button{
   width: 90px;
   height: $nav-center-height+2*$nav-center-border;
   border-radius: 30px;
@@ -159,40 +150,39 @@ input:focus {
 }
 
 
-.box-right {
+.box-right {  
   margin-left: auto;
   margin-right: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-.nav-box {
+.nav-box{
   display: flex;
   flex-direction: row;
 }
 
-.nav-item {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  font-size: 30px;
-  justify-content: center;
+.nav-item{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 30px;
+    justify-content: center;
 }
 
 .nav-item a {
   display: block;
 }
 
-.icon {
+.icon{
   width: 35px;
   height: 35px;
   margin-top: 6px;
   margin-right: 10px;
 }
 
-.icon-profile {
+.icon-profile{
   width: 35px;
   height: 35px;
   margin-top: 6px;
@@ -200,7 +190,6 @@ input:focus {
   border-radius: 100%;
   border: 1px black solid;
 }
-
 /* .profile_img{
       width: 35px;
       height: 35px;
@@ -208,18 +197,18 @@ input:focus {
 
 
 /* a태그 속성 추가 */
-#box-right a {
-  text-decoration: none;
+#box-right a{
+  text-decoration:none;
   color: black;
 }
 
-#box-right ul li a {
+#box-right ul li a{
   color: #2b2929;
 
 }
 
 /* 왼쪽 메뉴바 */
-.bottom {
+.bottom{
   margin-top: $nav-height;
   width: 100%;
   display: flex;
@@ -227,8 +216,8 @@ input:focus {
   flex: 9;
 }
 
-.left-menu {
-  width: 300px;
+.left-menu{
+  width: 300px; 
   height: 100vh;
   position: fixed;
   display: flex;
@@ -236,62 +225,55 @@ input:focus {
   background-color: $blue;
 
   // border-right: 1px solid black;
-  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.23), 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow:  0 7px 14px rgba(0, 0, 0, 0.23), 0 0 0 rgba(0, 0, 0, 0);
   background-color: #1f6ce6;
 
 }
-
-.left-menu-guide {
-  padding-top: $content-padding;
+.left-menu-guide{
+  padding-top: $content-padding; 
   padding-left: $left-menu-left-padding;
   height: 100vh;
 }
 
-.content {
+.content{
   display: flex;
   flex-direction: column;
   padding-left: $nav-left-width;
 
-  width: 100%;
+  width : 100%;
   height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y:auto;
 }
-
-.content-guide {
+.content-guide{
   overflow: auto;
   height: 100vh;
   padding-top: $content-padding;
   padding-left: $content-padding;
 }
-
-.side-box {
+.side-box{
   padding: 0 30px 30px 30px;
 }
 
-.side-title {
+.side-title{
   font-size: 20px;
   font-weight: 600;
 }
 
-.side-content {
+.side-content{
   padding-left: 20px;
 }
-
-.side-project-name {
+.side-project-name{
   padding: 10px 0;
   font-size: 15px;
   font-weight: 500;
 }
-
-li {
+li{
   list-style: none;
   text-decoration: none;
 }
 
-a {
-  text-decoration: none
-}
+a{text-decoration: none}
 
 // .test{
 //   height: 800px;
