@@ -98,7 +98,8 @@
       }
       for(let i = 0; i<data.length; i++){
         for(let k = 0; k<data.length; k++){
-          if(locationArray[i].Pk == data[k].pk){
+          target = data[k].pk
+          if(locationArray[i].Pk == target){
             locationArray[i].priviousCode = data[k].fields.previousCode
           }
         }

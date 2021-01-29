@@ -8,6 +8,7 @@ from django.core import serializers
 from UserApp.models import Profile
 
 def get_location_list(dbData):
+    print("하위")
     #str타입 리스트 만들기
     li_numMentioned =[]
     num_mentioned = 0
@@ -16,9 +17,11 @@ def get_location_list(dbData):
         if obj.previousCode == None:
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
+            print("node storing started" + str(obj.Code) + " " + str(obj.previousCode)) 
         else:
             li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
             node_count += 1
+            print(str(obj.Code)+ " " + str(obj.previousCode))
     
     li_numMentioned.sort(key=lambda x: x[4])
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
@@ -69,7 +72,8 @@ def get_location_list(dbData):
                     break
     
     # print(li_last)
-
+    for i in li_location:
+        print(i)
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
