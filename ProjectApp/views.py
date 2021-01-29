@@ -134,18 +134,21 @@ def error(request):
 
 
 def project_checkin(request, project_Code):
-    user = request.user
-    project_obj = Projects.objects.get(Code=project_Code)
-    project_obj.unliked_members.add(user)
-    project_obj.save()
-    try:
-        p_w_u_obj =proj_with_user();
-        p_w_u_obj.proj_id = project_obj
-        p_w_u_obj.user_id = user
-        p_w_u_obj.save()
-        return redirect('project:project_list')
-    except:
-        project_obj.unliked_members.remove(user)
+    if request.user.is_authenticated:
+        user = request.user
+        project_obj = Projects.objects.get(Code=project_Code)
+        project_obj.unliked_members.add(user)
         project_obj.save()
-        return redirect('project:error')
+        try:
+            p_w_u_obj =proj_with_user();
+            p_w_u_obj.proj_id = project_obj
+            p_w_u_obj.user_id = user
+            p_w_u_obj.save()
+            return redirect('project:project_list')
+        except:
+            project_obj.unliked_members.remove(user)
+            project_obj.save()
+            return redirect('project:error')
+    else:
+        return redirect('user:signup')
     
