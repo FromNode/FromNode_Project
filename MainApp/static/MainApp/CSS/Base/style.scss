@@ -107,25 +107,33 @@ $blue: #1f6ce6;
 }
 
 .logo {
-  width: $nav-left-width - 50px;
+  width: inherit;
+  height: auto;
+  padding: 2em;
 }
 
+.Bell_logo{
+  width: 35px;
+  height: 35px;
+}
+
+
 .box-center {
-  margin: 0 10px;
   width: $nav-center-width;
   height: $nav-height;
   display: flex;
   align-items: center;
+  padding: 3em;
+  margin-left: 2em;
 }
 
-
-// .search {
-// width: 700px;
-// height: 40px;
-// text-align: left;
-// display: flex;
-// align-items: center;
-// }
+.search {
+width: 700px;
+height: 40px;
+text-align: left;
+display: flex;
+align-items: center;
+}
 
 input:focus {
   outline: none;
@@ -179,6 +187,7 @@ input:focus {
   text-align: center;
   font-size: 30px;
   justify-content: center;
+  padding: 0.5em;
 }
 
 .nav-item a {
@@ -266,7 +275,6 @@ input:focus {
 }
 
 .side-box {
-  padding: 0 30px 30px 30px;
 }
 
 .side-title {
