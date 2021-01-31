@@ -145,7 +145,8 @@ def node_detail(request,node_Code):
 
 def create_node(request):
     # 나중에 쓰일 수도 ? 클릭한 노드 정보 일단 담아뒀음
-    NodeComment = request.POST['NodeComment']
+    # NodeComment = request.POST['NodeComment']
+    NodeComment = 'Test'
     NodeCreatedDate = request.POST['NodeCreatedDate']
     NodeDescription = request.POST['NodeDescription']
     NodeFileObj = request.POST['NodeFileObj']
