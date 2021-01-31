@@ -151,7 +151,7 @@ def project_checkin(request):
             project_obj = Projects.objects.get(Code=project_code)
             project_member = proj_with_user.objects.filter(proj_id = project_obj.id)
             for member in project_member:
-                if member.user_id = user.id: #내가 안속해있는 프로젝트인지 확인
+                if member.user_id == user.id: #내가 안속해있는 프로젝트인지 확인
                     return redirect('project:already_exist')
                 else:
                     project_obj.unliked_members.add(user)
