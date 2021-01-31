@@ -9,22 +9,6 @@
 
 {% endblock %}
 
-{% block leftbar %}
-    <div class="side-box">
-        <p class="side-title">내 프로젝트</p>
-        {% for project in proj_obj_all %}
-        <ul class="side-content">
-            <!-- <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>프로젝트{{project.id}} : {{project.name}}</p></a></li> -->
-            <li class="side-project-name"><a  href="{% url 'file:file_list' project.id %}" style="color: black"><p>{{project.name}}</p></a></li>
-        </ul>
-        {% endfor %}
-    </div>
-
-    <div class="side-box">
-        <p class="side-title ">최종 파일 모음</p>
-    </div>
-{% endblock %}
-
 {% block content %}
 {% if user.is_authenticated %}
 <div class="box">
@@ -69,7 +53,7 @@
                 <div class = 'project_top_right'>
                     <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;' ></a>
                 </div>
-           </div>
+        </div>
             <br>
             <div class = 'project_join_members'>
                 <p class='font middle'>{{project.Code}}</p>
@@ -101,7 +85,7 @@
                 <div class = 'project_top_right'>
                     <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;'></a>
                 </div>
-           </div>
+        </div>
             <br>
             <div class = 'project_join_members'>
                 <p class='font middle'>{{project.Code}}</p>
