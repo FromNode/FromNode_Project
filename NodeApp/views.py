@@ -26,7 +26,6 @@ def get_location_list(dbData):
             node_count += 1
     
     li_numMentioned.sort(key=lambda x: x[4])
-    print(len(li_numMentioned))
     #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0,len(li_numMentioned)):
         search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
@@ -35,6 +34,7 @@ def get_location_list(dbData):
             if li_numMentioned[j][2] == search_target:
                 searched_men_num += 1
                 li_numMentioned[i][1] = searched_men_num
+    print(li_numMentioned)
     #배치시작
     li_last = []
     li_temp = []
