@@ -80,9 +80,11 @@
     const globalDataArray = [];
     
     const init = async () =>{
-      let location_Data = '{{li_location}}'.replaceAll("&#x27;", "");
+      let sorted_data = '{{li_location}}'.replaceAll("&#x27;","");
+      let location_Data = sorted_data;
       let data = await getNodeData();
-      console.log(data)
+      console.log(location_Data);
+      console.log(data);
       let locationData = await getLocationData(data, location_Data);
       await createGrid(data); // 그리드 만들기
       await createNodeBtn(data, locationData);
@@ -235,6 +237,7 @@
       
 
       for(let i = 0; i<regionalDataArray.length; i++){
+
         if(clickedValuePk == regionalDataArray[i].pk){
           let fields = regionalDataArray[i].fields;
           let clickedNodeData = {
