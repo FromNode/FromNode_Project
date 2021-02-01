@@ -38,6 +38,21 @@
         {% endfor %} -->
         <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
     </div>
+    <div class = "notice_board">
+        {% if is_there_notice == False %}
+            <h1>아직 메모를 남긴 사람이 없어요</h1>
+        {% else %}
+            {% for notice in noticeboard %}
+                {{notice.user_id.username}} {{notice.notice}} <br>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" action="{% url 'file:add_notice' %}">
+            {% csrf_token %}
+            <input type='hidden' name='proj_id' value='{{project_id}}'>
+            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
+        </form>
+
+    </div>
     <div class="fileList_Contents">
         <div class="fileList_List">
             {% for file in file_obj %}
