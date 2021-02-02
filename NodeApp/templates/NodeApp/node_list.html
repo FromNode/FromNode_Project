@@ -159,8 +159,6 @@
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`);
-        let downloadBtn = document.querySelector('.download');
-        downloadBtn.setAttribute('href',`/node/download/${varObj.Pk}`);
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
         btnDiv.style.setProperty('width','80%');
@@ -274,6 +272,8 @@
           let objectKeys = Object.keys(btnData[0])[i];
           let objectValues = Object.values(btnData[0])[i];
           let createInput = document.createElement("input");
+          let downloadBtn = document.querySelector('.download');
+          downloadBtn.setAttribute('href',`/node/download/${btnData[0].NodePk}`);
           createInput.setAttribute("type", "hidden");
           createInput.setAttribute("class", "sendDataInput");
           createInput.setAttribute("name", `${objectKeys}`);
