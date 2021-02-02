@@ -54,6 +54,14 @@
             <input class="uploadBtn" type="submit" value="업로드하기">
           </form>
 
+          <br>
+          <div>
+            댓글 부분<br><br>
+
+            <p id="nodeCodeForComment"></p>
+
+          </div>
+
         </div>
       </div>
     </div>
@@ -229,6 +237,63 @@
             'NodeOwner' : fields.whoIsOwner,
             'NodePk' : clickedValuePk,
           }
+          
+          // 현재 클릭된 Node의 Primary Key를 변수로 저장
+          var nowCommentPK = clickedNodeData['NodePk']; 
+          // views.py에서 context로 넘어온 object중 Node_Comment Model에 해당하는 comments를 불러옴
+          // 단순히 for문으로 comments를 불러오면 문법으로 인한 오류가 나므로, JS에서 사용하는 Json과 동일한
+          // 형태로 재구조화함
+          let comment_object = [
+            {% for com in comments %}
+              {
+                node_code: "{{ com.node_code }}",
+                content: "{{ com.content }}",
+                author: "{{ com.author_comment }}",
+                create_date: "{{ com.create_date }}"
+              },
+              {% endfor %}
+          ]
+
+          // nowCommentPK = String(nowCommentPK);
+          // var verbatimeA = "{% verbatim %}";
+          // var nowCommentIF_A = "{% for i in comments %}";
+          // var nowCommentIF_B = "{% if i.node_code_id == " + nowCommentPK + " %}";
+          // var nowCommentIF_C = "{{ i.content }}<br>";
+          // var nowCommentIF_D = "{% endif %}";
+          // var nowCommentIF_E = "{% endfor %}";
+          // var verbatimeB = "{% endverbatim %}";
+
+          // var nowCommentState = nowCommentIF_A + 
+          //                       nowCommentIF_B + 
+          //                       nowCommentIF_C + 
+          //                       nowCommentIF_D + 
+          //                       nowCommentIF_E;
+          // let nowCommentIF = "{% if i.node_code_id == '61102394' %} {{ i.content }}<br> {% endif %}";
+          // var nodeCommentInnerHTML = document.getElementById("nodeCodeForComment");
+          // nodeCommentInnerHTML.innerHTML = nowCommentState;
+
+          // 클릭된 Node에 해당하는 코멘트만 담기 위한 comment_array 배열 선언
+          var comment_array = [];
+          // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
+          // 가진 코멘트 정보만 comment_array 배열에 push
+          for(idx in comment_object) {
+            if(nowCommentPK == comment_object[idx]['node_code']) {
+              comment_array.push(comment_object[idx]);
+            }
+          }
+          // InnerHTML을 사용하여 comment_array 데이터를 차례로 HTML에 전달
+          var nodeCommentInnerHTML = document.getElementById("nodeCodeForComment");
+          nodeCommentInnerHTML.innerHTML = "<p>";
+          for(idx in comment_array) {
+            nodeCommentInnerHTML.innerHTML += comment_array[idx]['content'];
+            nodeCommentInnerHTML.innerHTML += "&nbsp;[ ";
+            nodeCommentInnerHTML.innerHTML += comment_array[idx]['author'];
+            nodeCommentInnerHTML.innerHTML += " ]<br>";
+            nodeCommentInnerHTML.innerHTML += comment_array[idx]['create_date'];
+            nodeCommentInnerHTML.innerHTML += "<br><br>";
+          }
+          nodeCommentInnerHTML.innerHTML += "</p>";
+
           clickedNode.push(clickedNodeData)
         }
       }
