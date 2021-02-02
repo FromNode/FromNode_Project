@@ -7,13 +7,13 @@
 <link href="{% sass_src 'ProjectApp/CSS/project_list.scss' %}" rel="stylesheet" type="text/css">
 <link href="{% sass_src 'ProjectApp/CSS/modal.scss' %}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
 {% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
+<!-- 화면에 생성되는 박스들 태그 -->
 <div class="box">
-    <p class = 'font title l'>새 프로젝트 만들기</p>
+    <p class = 'font title l'>새 프로젝트</p>
     <div class = 'invite_link'>
         <div class = 'invite_top'>
             <p class = 'font middle'>초대링크 입력하기</p>
