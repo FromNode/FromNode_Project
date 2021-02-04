@@ -12,71 +12,91 @@ import os
 from django.http import HttpResponse, Http404
 import mimetypes
 
+def filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check):
+    
+    if child_list == []:
+        if len(coordinate_node_test) == 20:
+            return 
+        else:
+            pass
+            # y_value
+    else:
+        x_value +=1
+        for child in child_list:
+            
+            coordinate_node_test.append([x_value,y_value,child])
+            child_list = i_dict.get(child)
+
+            filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
+            y_value +=1
+        
+
+
+
+
+        is_first = True
+    
+    return coordinate_node_test
+
 def get_location_list(dbData):
     #str타입 리스트 만들기
-    li_numMentioned =[]
-    num_mentioned = 0
-    node_count = 1
+    li_test = []
     for obj in dbData:
         if obj.previousCode == None:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
-            node_count += 1
+            li_test.append([obj.Code,obj.previousCode, obj.createdDate])
         else:
-            li_numMentioned.append([obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
-            node_count += 1
-    
-    li_numMentioned.sort(key=lambda x: x[4])
-    #노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
-    for i in range(0,len(li_numMentioned)):
-        search_target = li_numMentioned[i][0] #자 내 코드는 이것이다
-        searched_men_num = 0
-        for j in range(i,len(li_numMentioned)): #다른애들의 previous와 내 코드를 비교해보아라
-            if li_numMentioned[j][2] == search_target:
-                searched_men_num += 1
-                li_numMentioned[i][1] = searched_men_num
-    print(li_numMentioned)
-    #배치시작
-    li_last = []
-    li_temp = []
-    li_location = [] #최종으로 넘겨줄 노드 좌표리스트. [x넘버(열번호),브랜치넘버(행번호),노드코드] 로 저장됨
-    is_started = False
-    for n, node in enumerate(li_numMentioned):
-        if is_started == False: #첫 노드
-            li_temp.append([node[0]])
-            print(li_temp)
-            li_last.append(node[0])
-            is_started = True
-        else:
-            if node[2] in li_last: #따라갈 놈이 끝놈이면
-                for i, sublist in enumerate(li_temp):
-                    if node[2] in sublist: #내 앞에놈이 있는 행에 추가하자
-                        li_temp[i].append(node[0])
-                        print(li_temp)
-                        break
-                for k, endnode in enumerate(li_last):
-                    if endnode == node[2]:
-                        li_last[k] = node[0]
-                        print(li_last)
-                        break
-            else: #새 브랜치 생성해야 되면 순서 파악 후에 그 위치에 생성
-                for i, sublist in enumerate(li_temp):
-                    if node[2] in sublist:
-                        li_temp.insert(i+1, [node[0]])
-                        li_last.insert(i+1,node[0])
-                        print(li_temp)
-                        break
+            li_test.append([obj.Code,obj.previousCode.Code, obj.createdDate])
+    i_dict = {}
+    first_node_code = ''
 
-    num_of_branch = len(li_temp)
-    
-    for y, sublist in enumerate(li_temp):
-        for node in sublist:
-            code = node
-            for i in range(0,len(li_numMentioned)):
-                if li_numMentioned[i][0] == code:
-                    xLoc = li_numMentioned[i][3]
-                    li_location.append([xLoc, y+1, str(code)])
-                    break
+    for i in li_test:
+        if i[1] == None:
+            first_node_code = i[0]
+        i_list = []
+        target = i[0]
+        for obj in li_test:
+            if target == obj[1]:
+                # print(obj[0])
+                i_list.append(obj[0])
+        i_dict[target] = i_list
+    check =False
+    child_list = ''
+    coordinate_node_test = []
+    x_value = 1
+    y_value = 1
 
+    coordinate_node_test.append([x_value,y_value,first_node_code])
+    child_list = i_dict.get(first_node_code)
+    last = filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
+    x_save = 'first'
+    ch = 0
+    for n, i in enumerate(last):
+        x_value = i[0]
+        y_value = i[1]
+        if x_save == 'first':
+            ch =1
+            pass
+        elif x_save>x_value:
+            if ch ==1:
+                ch = 0
+                pass
+            else:
+                y_save = last[n-1][1]
+                y_value = last[n][1]
+                print(n)
+                n_save = n
+                y_gap = y_value-y_save+1
+                for n, i in enumerate(last):
+                    if n > n_save:
+                        last[n][1] = last[n][1]+y_gap
+                print(last)
+        x_save = x_value
+
+    li_location = last
+    num_of_branch = 30
+    node_count = 30
+
+    print(i_dict)
     return li_location, num_of_branch, node_count
 
 def node_list(request,file_Code):
