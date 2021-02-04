@@ -45,7 +45,8 @@ def show_file_list(request,project_id):
         'project':project.id, 
         'file_obj':file_obj,
         'proj_user':proj_user,
-        'empty':empty}
+        'empty':empty,
+        'project_id':project_id}
     return render(request, 'FileApp/file_list.html', contents)
 
 # def form_create_new_file(request):
@@ -84,3 +85,11 @@ def create_new_file(request):
 
     return redirect(next_url)
     
+
+def create_invite_url(request, project_id):
+    if request.user.is_authenticated:
+        project_code = Projects.objects.get(id = project_id).Code
+        invite_url = project_code
+        return render(request, 'FileApp/create_invite_url.html', {'invite_url':invite_url})
+    else:
+        return render(request, 'error')

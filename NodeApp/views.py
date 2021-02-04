@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.core import serializers
 from UserApp.models import Profile
-from .forms import CommentForm
+from NodeApp.forms import CommentForm
 from django.utils import timezone
 from django.http import JsonResponse
 import json
@@ -113,8 +113,14 @@ def node_list(request, file_Code):
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
 
+        comments = Node_Comment.objects.all()
+        form = CommentForm()
+
     else:
         pass
+
+    if request.method == "POST":
+        node_comment_create(request, file_Code)
 
     objects = {
         "li_location": li_location,
@@ -130,7 +136,9 @@ def node_list(request, file_Code):
         "The_File": The_File,
         "json": json_data,
         "proj_user": proj_user,
-        "pro_name": pro_name
+        "pro_name": pro_name,
+        "comments": comments,
+        'form': form
     }
     return render(request, 'NodeApp/node_list.html', objects)
 
@@ -172,8 +180,6 @@ def mentionable_member_json(request):
 
     return JsonResponse(data, safe=False)
 
-def node_comment_create(request, node_Code):
-    node_obj = get_object_or_404(Nodes, pk=node_Code)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -182,13 +188,21 @@ def node_comment_create(request, node_Code):
             comment.create_date = timezone.now()
             comment.node_Code = node_Code
             comment.node_code_id = node_Code
-            redirectURL = '/node/node_detail/'+comment.node_Code
+            redirectURL = '/node/node_list/'+file_Code
             comment.save()
             return redirect(redirectURL)
     else:
-        form = CommentForm()
-    context = {'form': form}
-    return render(request, 'NodeApp/node_details.html', context)
+        pass
+        # form = CommentForm()
+    # context = {'form': form}
+    return redirect(redirectURL)
+
+
+def node_detail(request, node_Code):
+    node_obj = Nodes.objects.filter(Code=node_Code)
+    The_file = Nodes.objects.get(Code=node_Code).ownerFCode
+
+    return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file})
 
 
 def create_node(request):

@@ -16,12 +16,15 @@ $input-width: 310px;
     }
     .large{
         font-size:20px;
+        color: red;
     }
     .middle{
         font-size:17px;
+        color: orange;
     }
     .small{
-        font-size:10px;
+        font-size:10px; 
+        color: green;
     }
     .all{
         text-decoration: none;
@@ -102,7 +105,36 @@ $input-width: 310px;
         flex-direction: row;
     }
     
-  
+
+// block leftbar
+.side-box{
+}
+
+.side-title{
+        width: 114px;
+        height: 27px;
+        font-family: NanumBarunGothic;
+        font-size: 24px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.13;
+        letter-spacing: 0.24px;
+        text-align: left;
+        color: white;
+        padding: 20px;
+
+}
+
+.side-content{
+    padding-left: 20px;
+}
+.side-project-name{
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 .box{
     margin-bottom: 80px;
 }
