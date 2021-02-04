@@ -23,15 +23,6 @@ body {
   justify-content: center;
 }
 
-.container_main {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-
-}
-
 
 /* 상단 바 */
 .top {
@@ -96,6 +87,7 @@ $blue: #1f6ce6;
 
 }
 
+// 로고 뒤 배경색
 .box-left {
   width: $nav-left-width;
   height: $nav-height;
@@ -139,6 +131,7 @@ input:focus {
   outline: none;
 }
 
+// 서치바 텍스트 넣는 부분
 .input_box {
   height: $nav-center-height;
   padding: 0 60px 0 30px;
@@ -242,12 +235,9 @@ input:focus {
   position: fixed;
   display: flex;
   flex-direction: column;
-  background-color: $blue;
-
-  // border-right: 1px solid black;
   box-shadow: 0 7px 14px rgba(0, 0, 0, 0.23), 0 0 0 rgba(0, 0, 0, 0);
   background-color: #1f6ce6;
-
+  // border-right: 1px solid black;
 }
 
 .left-menu-guide {
@@ -260,7 +250,6 @@ input:focus {
   display: flex;
   flex-direction: column;
   padding-left: $nav-left-width;
-
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
@@ -274,31 +263,30 @@ input:focus {
   padding-left: $content-padding;
 }
 
+// 왼쪽 바의 프로젝트 네임 담고있는 div
 .side-box {
+  width: 15em;
+  // align-self: center;
+  // align-items: center;
+  // align-content: center;
 }
 
 .side-title {
-  font-size: 20px;
-  font-weight: 600;
+  
 }
 
 .side-content {
-  padding-left: 20px;
-}
-
-.side-project-name {
-  padding: 10px 0;
-  font-size: 15px;
-  font-weight: 500;
+  padding-left: 20%;
 }
 
 li {
-  list-style: none;
   text-decoration: none;
+  list-style: none;
 }
 
 a {
-  text-decoration: none
+  text-decoration: none;
+  color: #f0f0f0;
 }
 
 // .test{
