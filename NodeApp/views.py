@@ -118,7 +118,7 @@ def node_list(request, file_Code):
 
     else:
         pass
-
+def node_comment_create(request, file_Code):
     if request.method == "POST":
         node_comment_create(request, file_Code)
 
