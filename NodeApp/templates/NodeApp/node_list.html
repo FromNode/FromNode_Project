@@ -37,7 +37,7 @@
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
       <div class="Top_Contents">
-        <span class="modal_title"> 노드 업로드 하기</span>
+        <label class="modal_title form-label">Upload Node</label>
         <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
       </div>
       <div class='Low_Contents'>
@@ -47,18 +47,26 @@
             <div class="hiddenInput">
             </div>
             <div class="drop-zone">
-              <span class="drop-zone__text">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
+              <span class="drop-zone__text ">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
+              <br><br>
               <input type="file" name="uploadFile" class="drop-zone__input" multiple>
               <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
             </div>
-            <input class="uploadBtn" type="submit" value="업로드하기">
+            <br>
+            <input class="uploadBtn btn btn-primary" type="submit" value="업로드하기">
           </form>
 
           <br>
           <div>
-            댓글 부분<br><br>
+            <form>
+              <div class="mb-3">
+                <label for="comment" class="form-label">Write Comment</label>
+                <input type="text" class="form-control" id="commentInput" >
+              </div><br>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
 
-            <p id="nodeCodeForComment"></p>
+            <br>
 
           </div>
 
