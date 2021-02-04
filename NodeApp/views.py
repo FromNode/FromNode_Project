@@ -115,9 +115,10 @@ def node_list(request, file_Code):
 
         comments = Node_Comment.objects.all()
         form = CommentForm()
-
     else:
         pass
+
+    
 def node_comment_create(request, file_Code):
     if request.method == "POST":
         node_comment_create(request, file_Code)
