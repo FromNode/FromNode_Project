@@ -1,4 +1,6 @@
+<!-- sass 불러오는 태그 -->
 {% load sass_tags %}
+<!-- end -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -20,7 +22,6 @@
 
 <body>
     <!--상단부-->
-    <div class="container_main">
         <div class="top">
             <div class="top_nav">
                 <!-- 로고 -->
@@ -43,8 +44,7 @@
                     <form class="search" action="http://www.google.com" method='GET'>
                         <input class="input_box" type="text" name="query" placeholder="Search">
                         <div class="input_button">
-                            <input class="find_img" type="image" src="{% static 'MainApp/image/search.png' %}"
-                                alt="Submit">
+                            <input class="find_img" type="image" src="{% static 'MainApp/image/search.png' %}" alt="Submit">
                         </div>
                     </form>
                 </div>
@@ -65,9 +65,7 @@
                         <li class="icon-dropdown nav-item"><a href="{% url 'user:logout' %}"><img class="icon-profile" src="{% static 'Mainapp/image/logo_character.png' %}" alt=""></a></li> -->
                         <li class="nav-item">
                             <a class="nav-item" href="{% url 'user:mypage' %}">
-                                <img class="logo"
-                                    style='width:40px; height: 40px; padding-right:30px; padding-top:10px;'
-                                    src="{% static 'MainApp/image/alarm.png'%}" alt="마이페이지">
+                                <img class="Bell_logo" src="{% static 'MainApp/image/alarm.png'%}" alt="마이페이지">
                             </a>
                         </li>
 
@@ -77,12 +75,6 @@
                             <form id="logout" method="POST" action="{% url 'logout' %}">
                                 {% csrf_token %} <input type="hidden" />
                             </form>
-                        </li>
-                        <li>
-                            아이콘
-                        </li>
-                        <li>
-                            아이콘
                         </li>
                         
 
@@ -102,7 +94,7 @@
                         {% for project in proj_obj_all %}
                         <ul class="side-content">
                             <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}"
-                                    style="color: black">
+                                    style="color: white">
                                     <p>{{project.name}}</p>
                                 </a></li>
                         </ul>
@@ -118,9 +110,6 @@
             </div>
 
             <div class="content">
-                <!-- <div class="test">
-                    sleifjselifj
-                </div> -->
                 <div class="content-guide">
                     {% block content %}
                     {% endblock %}
@@ -128,7 +117,6 @@
             </div>
 
         </div>
-    </div>
     {% block JS %}
     {% endblock %}
 </body>

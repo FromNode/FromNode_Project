@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
-from .models import Nodes
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Nodes, Node_Comment
 from FileApp.models import Files
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.core import serializers
 from UserApp.models import Profile
+from NodeApp.forms import CommentForm
+from django.utils import timezone
+
 
 
 def get_location_list(dbData):
@@ -23,6 +26,7 @@ def get_location_list(dbData):
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
             node_count += 1
+
     li_numMentioned.sort(key=lambda x: x[4])
     # 노드별 브랜치 파생 여부 구하기(언급횟수 구하기)
     for i in range(0, len(li_numMentioned)):
@@ -72,6 +76,8 @@ def get_location_list(dbData):
                     break
 
     # print(li_last)
+
+    # print(li_last)
     for i in li_location:
         print(i)
     return li_location, num_of_branch, node_count
@@ -111,8 +117,14 @@ def node_list(request, file_Code):
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
 
+        comments = Node_Comment.objects.all()
+        form = CommentForm()
+
     else:
         pass
+
+    if request.method == "POST":
+        node_comment_create(request, file_Code)
 
     objects = {
         "li_location": li_location,
@@ -128,9 +140,30 @@ def node_list(request, file_Code):
         "The_File": The_File,
         "json": json_data,
         "proj_user": proj_user,
-        "pro_name": pro_name
+        "pro_name": pro_name,
+        "comments": comments,
+        'form': form
     }
     return render(request, 'NodeApp/node_list.html', objects)
+
+
+def node_comment_create(request, file_Code):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author_comment = request.user
+            comment.create_date = timezone.now()
+            comment.node_Code = node_Code
+            comment.node_code_id = node_Code
+            redirectURL = '/node/node_list/'+file_Code
+            comment.save()
+            return redirect(redirectURL)
+    else:
+        pass
+        # form = CommentForm()
+    # context = {'form': form}
+    return redirect(redirectURL)
 
 
 def node_detail(request, node_Code):

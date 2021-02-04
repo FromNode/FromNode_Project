@@ -108,11 +108,9 @@ $input-width: 310px;
 
 // block leftbar
 .side-box{
-    padding: 0 30px 30px 30px;
 }
+
 .side-title{
-        width: 114px;
-        height: 27px;
         font-family: NanumBarunGothic;
         font-size: 24px;
         font-weight: bold;
@@ -126,17 +124,18 @@ $input-width: 310px;
 
 }
 
-.side-content{
-    padding-left: 20px;
-}
+// .side-content{
+//     padding-left: 20px;
+// }
 .side-project-name{
-    padding: 10px 0;
     font-size: 15px;
-    font-weight: 500;
+    padding: 10px 0;
 }
 
 .box{
     margin-bottom: 80px;
+    color: rgb(65, 65, 65);
+    background-color: white;
 }
 
 // //modal
