@@ -1,4 +1,6 @@
+<!-- sass 불러오는 태그 -->
 {% load sass_tags %}
+<!-- end -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -7,36 +9,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FromNode</title>
-    <link rel="stylesheet" href="{% static 'MainApp/CSS/Base/leftbar.css'%}" type="text/css">
     <link href="{% sass_src 'MainApp/CSS/Base/style.scss' %}" rel="stylesheet" type="text/css">
+    <!-- 멘션을 위한 source -->
+    <link href="{% sass_src 'MainApp/CSS/Base/tribute.scss' %}" rel="stylesheet">
+    <script src="{% static 'MainApp/JS/tribute.js' %}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
     <!-- scss를 선언할 영역 -->
     {% block scss %}
     {% endblock %}
     {% block inlineCss %}
     {% endblock %}
+    <!-- end -->
 </head>
 
 <body>
     <!--상단부-->
-    <div class="container">
         <div class="top">
             <div class="top_nav">
                 <!-- 로고 -->
                 <div class="box-left">
-                    <a class="box-left"href="{% url 'project:project_list' %}">
-                        <img  class="logo" src="{% static 'MainApp/image/fn_logo.png'%}" alt="로고">
+                    <a class="box-left" href="{% url 'project:project_list' %}">
+                        <img class="logo" src="{% static 'MainApp/image/fn_logo.png'%}" alt="로고">
                     </a>
                 </div>
-                <!-- 서치바 -->
+
                 <div class="box-center">
-                <form class="search" action="http://www.google.com" method='GET'>
-                    <input class="input_box" type="text" name="query" placeholder="Search">
-                    <div class="input_button">
-                        <input class="find_img" type="image" src="{% static 'MainApp/image/search.png' %}" alt="Submit">
-                    </div>
-                </form>
+                    <form class="search" action="http://www.google.com" method='GET'>
+                        <input class="input_box" type="text" name="query" placeholder="Search">
+                        <div class="input_button">
+                            <input class="find_img" type="image" src="{% static 'MainApp/image/search.png' %}" alt="Submit">
+                        </div>
+                    </form>
                 </div>
+
 
                 <!-- 유저 도구 -->
                 <!-- <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -51,42 +57,60 @@
                         <!-- <li class="nav-item"><a href="#"><img class="icon" src="{% static 'Mainapp/image/grid.png' %}" alt=""></a></li>
                         <li class="nav-item"><a href="{% url 'user:mypage' %}"><img class="icon" src="{% static 'Mainapp/image/bell.png' %}" alt=""></a></li>
                         <li class="icon-dropdown nav-item"><a href="{% url 'user:logout' %}"><img class="icon-profile" src="{% static 'Mainapp/image/logo_character.png' %}" alt=""></a></li> -->
-                        <li class="nav-item" >
-                            <a class="nav-item"href="{% url 'user:mypage' %}">
-                                <img  class="logo" style = 'width:40px; height: 40px; padding-right:30px; padding-top:10px;' src="{% static 'MainApp/image/alarm.png'%}" alt="마이페이지">
+                        <li class="nav-item">
+                            <a class="nav-item" href="{% url 'user:mypage' %}">
+                                <img class="Bell_logo" src="{% static 'MainApp/image/alarm.png'%}" alt="마이페이지">
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-item" href="javascript:{document.getElementById('logout').submit()}">Logout</a>
-                                <form id="logout" method="POST" action="{% url 'logout' %}">
+                            <a class="nav-item"
+                                href="javascript:{document.getElementById('logout').submit()}">Logout</a>
+                            <form id="logout" method="POST" action="{% url 'logout' %}">
                                 {% csrf_token %} <input type="hidden" />
-                                </form>
+                            </form>
                         </li>
                         
+
+
                     </ul>
                 </div>
-                        <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서
+                <!-- 사용자 모델에서 이미지를 가지고 와야하는데 말이야 .. 음 .. base.html이 연결되는 view를 만들어서
                             그 view에 유저 프로필 사진을 ~로 담아서 보내야겠다. -->
             </div>
         </div>
         <div class="bottom">
             <!-- 왼쪽 메뉴 -->
             <div class="left-menu">
-                {% block leftbar %}
-                {% endblock %}
+                <div class="left-menu-guide">
+                    <div class="side-box">
+                        <p class="side-title">내 프로젝트</p>
+                        {% for project in proj_obj_all %}
+                        <ul class="side-content">
+                            <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}"
+                                    style="color: white">
+                                    <p>{{project.name}}</p>
+                                </a></li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+
+                    <div class="side-box">
+                        <p class="side-title ">최종 파일 모음</p>
+                    </div>
+                    <!-- leftbar -->
+                    <!-- endblock -->
+                </div>
             </div>
-        
+
             <div class="content">
-                <!-- <div class="test">
-                    sleifjselifj
-                </div> -->
-                {% block content %}
-                {% endblock %}
+                <div class="content-guide">
+                    {% block content %}
+                    {% endblock %}
+                </div>
             </div>
 
         </div>
-    </div>
     {% block JS %}
     {% endblock %}
 </body>
