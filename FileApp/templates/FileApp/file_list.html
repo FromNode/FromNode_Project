@@ -6,18 +6,17 @@
 {% block scss %}
 <link href="{% sass_src 'FileApp/CSS/file_list.scss' %}" rel="stylesheet" type="text/css">
 <link href="{% sass_src 'FileApp/CSS/modal.scss' %}" rel="stylesheet" type="text/css">
-
 {% endblock %}
 
-
+<!-- leftbar -->
 {% block leftbar %}
 <div class="side-box">
-    <p class="side-title">내 프로젝트</p>
+    <p class="side-title"> 내 project </p>
     {% for project in proj_obj %}
     <ul class="side-content">
         <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" >
-                <p>{{project.name}}</p>
-            </a></li>
+                <p>{{project.name}}</p></a>
+        </li>
     </ul>
     {% endfor %}
 </div>
