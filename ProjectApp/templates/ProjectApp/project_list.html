@@ -12,6 +12,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <!-- 화면에 생성되는 박스들 태그 -->
+
 <div class="box">
     <p class = 'font title l'>새 프로젝트</p>
     <div class = 'invite_link'>
@@ -67,19 +68,17 @@
 
         {% endfor %}
 
+        </div>
     </div>
-    
-    
-</div>
+</div>    
 <div class="box">
     <p class = 'font title'>참여중인 프로젝트</p>
     <a name="join_projects"></a>
-    <p>{{empty}}</p>
     <div class = 'projects row'>
         {% if proj_obj.has_previous %}
         <a href="?page={{ proj_obj.previous_page_number }}"><img src="{%static 'Projectapp/image/arrowleft.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
         {% endif %}
-            <div>
+        <div style="width: 100%; margin-left: 10px;">
             {% for project in proj_obj %}
             <div class = 'project_box col-md-3' style="margin-bottom: 1%;">
                 <div class = 'project_top'>
@@ -104,36 +103,36 @@
         {% if proj_obj.has_next %}
         <a href="?page={{ proj_obj.next_page_number }}"><img src="{%static 'Projectapp/image/arrowright.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
         {% endif %}
-    </div>  
+        </div>  
 
-    <div class="uploadModal hidden">
-        <!--hidden-->
-        <div class="modal_Overlay"></div>
-        <div class="modal_Contents">
-            <p class="modal-title">프로젝트 이름을 정해주세요 :-)</p>
-            <form action = "{% url 'project:project_create'%}" method = 'POST' class='create_project_form' onsubmit="return checkForm()">
-                {% csrf_token %}
-                <div class="m-boxes">
-                    <div class="m-box">
-                        <div class="input-title">이름 : </div>
-                        <div class="write">
-                            <input type='text' name='name' class='input_sec' value=''>
+        <div class="uploadModal hidden">
+            <!--hidden-->
+            <div class="modal_Overlay"></div>
+                <div class="modal_Contents">
+                    <p class="modal-title">프로젝트 이름을 정해주세요 :-)</p>
+                    <form action = "{% url 'project:project_create'%}" method = 'POST' class='create_project_form' onsubmit="return checkForm()">
+                        {% csrf_token %}
+                        <div class="m-boxes">
+                            <div class="m-box">
+                                <div class="input-title">이름 :                             
+                                </div>
+                                <div class="write">
+                                    <input type='text' name='name' class='input_sec' value=''>
+                                </div>
+                            </div>
+                            <div class="m-box">
+                                <div class="input-title">설명 : </div>
+                                <div class="write">
+                                    <input type='text' name='description' class='input_sec' value=''>
+                                </div>
+                            </div>
                         </div>
-        
-                    </div>
-                    <div class="m-box">
-                        <div class="input-title">설명 : </div>
-                        <div class="write">
-                            <input type='text' name='description' class='input_sec' value=''>
+                        <p class= 'alert_text' style='color: red;'></p>
+                        <div class="submit">
+                            <input class="uploadBtn" type='submit'  value='생성'>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <p class= 'alert_text' style='color: red;'></p>
-                <div class="submit">
-                <input class="uploadBtn" type='submit'  value='생성'>
-            </div>
-            </form>
-
         </div>
     </div>
 {% else %}
