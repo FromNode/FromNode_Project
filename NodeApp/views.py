@@ -79,6 +79,45 @@ def get_location_list(dbData):
     return li_location, num_of_branch, node_count
 
 
+# def node_list(request, file_Code):
+#     if request.user.is_authenticated:
+#         Users = request.user
+#         unliked_proj = Users.Joined_Unliked_Projects.all()
+#         liked_proj = Users.Joined_Liked_Projects.all()
+#         all_proj = unliked_proj.union(liked_proj)
+#         proj_obj = all_proj
+#         # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
+#         The_File = Files.objects.get(Code=file_Code)
+#         project = The_File.ownerPCode
+#         pro_name = project.name
+#         node_objs = The_File.File_Nodes.all()
+#         proj_user = project.unliked_members.all().union(project.liked_members.all())
+#         # 유저가 누른 File에 해당하는 Objects들을 The_File로 불러옵니다.
+#         # project는 File이 속한 project
+#         # pro_name은 그 project의 이름
+#         # node_objs는 file에 속한 노드 전체
+#         for i in proj_user:
+#             print(i.Profile)
+#         # print(project_members.Profile)
+#         json_data = serializers.serialize("json", node_objs)
+#         # Node에 정보를 담기 위한 데이터를 불러옴
+
+#         tuple_return = get_location_list(node_objs)
+#         li_location = tuple_return[0]
+#         num_of_row = tuple_return[1]
+#         num_of_column = tuple_return[2]
+
+#         gridRowWidth = "100px "
+#         gridColumnHeight = "100px "
+#         gridRowNum = gridRowWidth * num_of_row
+#         gridColumnNum = gridColumnHeight * num_of_column
+#         # Html로 전송할 정보들
+
+#         comments = Node_Comment.objects.all()
+#         form = CommentForm()
+#     else:
+#         pass
+
 def node_list(request, file_Code):
     if request.user.is_authenticated:
         Users = request.user
@@ -115,9 +154,32 @@ def node_list(request, file_Code):
 
         comments = Node_Comment.objects.all()
         form = CommentForm()
+
     else:
         pass
 
+    if request.method == "POST":
+        node_comment_create(request, file_Code)
+
+    objects = {
+        "li_location": li_location,
+        "gridRowNum": gridRowNum,
+        "gridColumnNum": gridColumnNum,
+        # 함수 get_location_list의 결과물, li_location은 노드가 들어갈 grid의 위치
+        # RowNum과 ColumnNum은 들어가는 노드 정보 변동에 따라 Grid 크기 조절
+        "num_of_row": num_of_row,
+        "num_of_column": num_of_column,
+        # 행과 열의 개수를 넘김
+        "proj_obj": proj_obj,
+        "node_objs": node_objs,
+        "The_File": The_File,
+        "json": json_data,
+        "proj_user": proj_user,
+        "pro_name": pro_name,
+        "comments": comments,
+        'form': form
+    }
+    return render(request, 'NodeApp/node_list.html', objects)
     
 def node_comment_create(request, file_Code):
     if request.method == "POST":
