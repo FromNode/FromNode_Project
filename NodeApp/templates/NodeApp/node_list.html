@@ -118,10 +118,9 @@
           Pk : locationStr.split(",")[3*i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
         })
       }
-      for(let i = 0; i<splitStr.length/3; i++){
+      for(let i = 0; i<data.length; i++){
         for(let k = 0; k<data.length; k++){
-          target = data[k].pk
-          if(locationArray[i].Pk == target){
+          if(locationArray[i].Pk == data[k].pk){
             locationArray[i].priviousCode = data[k].fields.previousCode
           }
         }
@@ -153,7 +152,7 @@
     }
     const createNodeBtn = async(data, locationData) => {
       //node data 받아올 것 
-      for(let i = 0; i<locationData.length; i++){ // 노드 수 만큼
+      for(let i = 0; i<data.length; i++){ // 노드 수 만큼
         let varObj = {
           "row" : locationData[i].Row,
           "column" : locationData[i].Column,
