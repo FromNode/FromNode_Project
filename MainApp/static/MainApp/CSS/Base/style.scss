@@ -21,6 +21,7 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 
@@ -230,7 +231,7 @@ input:focus {
 }
 
 .left-menu {
-  width: 300px;
+  width: 22em;
   height: 100vh;
   position: fixed;
   display: flex;
@@ -251,16 +252,14 @@ input:focus {
   flex-direction: column;
   padding-left: $nav-left-width;
   width: 100%;
-  height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .content-guide {
-  overflow: auto;
   height: 100vh;
-  padding-top: $content-padding;
-  padding-left: $content-padding;
+  padding-top: 10%;
+  padding-left: 5%;
 }
 
 // 왼쪽 바의 프로젝트 네임 담고있는 div
@@ -276,7 +275,7 @@ input:focus {
 }
 
 .side-content {
-  padding-left: 20%;
+  padding-left: 15%;
 }
 
 li {
