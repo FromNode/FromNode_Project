@@ -58,15 +58,21 @@
 
           <br>
           <div>
-            <form>
+            <form method="post" class="post-form my-3">
               <div class="mb-3">
                 <label for="comment" class="form-label">Write Comment</label>
-                <input type="text" class="form-control" id="commentInput" >
               </div><br>
+              {% csrf_token %}
+              <div class="form-group">
+                  <label for="content">댓글내용</label>
+                  <textarea class="form-control"name="content" id="content" 
+                            rows="3">{{ form.content.value|default_if_none:'' }}</textarea>
+              </div>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-
             <br>
+
+            <p id="nodeCodeForComment"></p>
 
           </div>
 
