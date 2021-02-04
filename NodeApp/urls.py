@@ -12,6 +12,7 @@ urlpatterns = [
     path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo"),
     path('node_comment_create/<node_Code>',
          views.node_comment_create, name="node_comment_create"),
+    path('comment_mention/',views.mentionable_member_json, name='mentionable_member_json'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

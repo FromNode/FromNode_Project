@@ -26,17 +26,19 @@
         font-size: 15px;
         min-height: 32px;
         cursor: text;
-      }
-      .tribute-demo-input:focus {
+    }
+
+    .tribute-demo-input:focus {
         border-color: #d1d1d1;
         background-color: #fbfbfb;
-      }
+    }
 
     [contenteditable="true"]:empty:before {
         content: attr(placeholder);
         display: block;
         color: #ccc;
     }
+
     /* 끝 */
 
     a {
@@ -45,9 +47,9 @@
         cursor: pointer;
     }
 
-    .mentioned_name{
+    .mentioned_name {
         background-color: transparent;
-        color:#2ba6cb;
+        color: #2ba6cb;
     }
 </style>
 {% endblock %}
@@ -61,7 +63,8 @@
 {{x.whoIsOwner}}<br>
 {{x.createdDate}}<br>
 
-<br><br>
+<br>
+<br>
 <h3>댓글 작성</h3>
 <a style="color: blueviolet;
                   background-color: aliceblue;
@@ -78,11 +81,8 @@
             <br>
             <!-- <textarea id="test" name="content" class="tribute-demo-input" placeholder="Enter some text here !">{{ form.content.value|default_if_none:'' }}</textarea> -->
             <!-- <input type="text" name="content"> -->
-            <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
-            data-tribute="true"></p>
-            
-            
-    
+            <!-- <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
+                data-tribute="true"></p> -->
             <br>
             <!-- <textarea class="form-control" name="content" id="content"
                 rows="3">{{ form.content.value|default_if_none:'' }}</textarea> -->
@@ -90,8 +90,8 @@
         <!-- <input type="hidden" name="node_code" value="{{x.Code}}"> -->
         <button type="submit" class="btn btn-primary">저장하기</button>
     </form>
-    <!-- <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
-        data-tribute="true"></p> -->
+    <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
+        data-tribute="true"></p>
     {% endfor %}
     <br>
     <br>
@@ -104,18 +104,86 @@
 {% endblock %}
 
 {% block JS %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
+    // ajax csrf_token
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    // end
+
+    // mentionable member 호출을 위한 ajax
+
+    var project_members= [{}];
+
+    $(document).ready(function () {
+        console.log("{{node_code}}");
+        var node_code = "{{node_code}}";
+
+        $.ajax({
+            url: "{% url 'node:mentionable_member_json' %}",
+            dataType: "json",
+            type: 'POST',
+            data: {'code':node_code},
+            success: function (data) {
+                project_members = data;
+                console.log(project_members);
+
+                for (var i=0; i<project_members["length"]; i++){
+                console.log(project_members[i])
+            }
+
+            },
+            error: function (e) {
+                console.log('error');
+            }
+        })
+
+    });
+
     var tribute = new Tribute({
+        
         values: [
+        // for(var i=0; i<project_members["length"]; i++){
+            //     project_members[i],
+            // }
+            
             {
                 key: "Hyeseon Lee",
-                value: "HyeseonLee"
+                value: "HyeseonLeee"
             },
             {
                 key: "Sea Jung",
-                value: "SeaJung"
+                value: "SeaJungg"
             }
         ],
+
         selectTemplate: function (item) {
             if (typeof item === "undefined") return null;
             if (this.range.isContentEditable(this.current.element)) {
@@ -123,11 +191,11 @@
                     //   '<span contenteditable="false"><a href="http://zurb.com" target="_blank" title="' +
                     //   item.original.email +
                     //   '">' +
-                    '<span contenteditable="false" class="mentioned_name">' 
+                    '<span contenteditable="false" class="mentioned_name">'
                     + '@'
-                    + item.original.value 
+                    + item.original.value
                     + "</span>"
-                                    
+
                     //   "</a></span>"
                 );
             }
@@ -151,6 +219,7 @@
     var tributeAttributes = {
         autocompleteMode: true,
         noMatchTemplate: "",
+
         values: [
             { key: "Hyeseon Lee", value: "HyeseonLee" },
             { key: "Sea Jung", value: "SeaJung" }

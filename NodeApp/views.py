@@ -8,7 +8,8 @@ from django.core import serializers
 from UserApp.models import Profile
 from .forms import CommentForm
 from django.utils import timezone
-
+from django.http import JsonResponse
+import json
 
 def get_location_list(dbData):
     # str타입 리스트 만들기
@@ -138,25 +139,38 @@ def node_detail(request, node_Code):
     node_obj = Nodes.objects.filter(Code=node_Code)
     The_file = Nodes.objects.get(Code=node_Code).ownerFCode
     node_comments = Node_Comment.objects.filter(node_code=node_Code)
+    node_code = Nodes.objects.get(Code=node_Code).Code
+   
+    # 멘션 가능한 프로젝트 팀원들
+    project_code = Nodes.objects.get(Code=node_Code).ownerPCode
+    print(project_code)
+    members = project_code.unliked_members.all().union(project_code.liked_members.all())
+    print(members)
+    member_list = serializers.serialize('json', members)
+    return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments, 'node_code':node_code})
 
-    # node_obj = get_object_or_404(Nodes, pk=node_Code)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author_comment = request.user
-            comment.create_date = timezone.now()
-            comment.node_Code = node_Code
-            comment.node_code_id = node_Code
-            redirectURL = '/node/node_detail/'+comment.node_Code
-            comment.save()
-            return redirect(redirectURL)
-    else:
-        form = CommentForm()
-    # context = {'form': form}
+# json으로 멘션 가능한 멤버 data 보내기
+def mentionable_member_json(request):
+    # if request.method == 'POST':
+    #     request_data = request.POST.get('code',None)
+    #     print(request_data)
+    # # json_data = json.loads(request.body)
+    # print(json_data)
 
-    return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments, 'form':form })
+    # # node_code = request.POST['node_code']
+    # node_code = request.GET.get('code')
+    # print(node_code)
 
+
+    # if request.method == 'POST':
+    #     json_data = json.loads(request.body)
+    #     node_code = json_data['code']
+    #     print(node_code)
+
+    data = [{'key': 'Peter', 'value': 'Peter123'},
+            {'key': 'Julia', 'value': 'Julia38'}]
+
+    return JsonResponse(data, safe=False)
 
 def node_comment_create(request, node_Code):
     node_obj = get_object_or_404(Nodes, pk=node_Code)
