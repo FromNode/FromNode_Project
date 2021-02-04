@@ -69,8 +69,7 @@ def get_location_list(dbData):
                 for i, sublist in enumerate(li_temp):
                     if node[2] in sublist:
                         li_temp.insert(i+1, [node[0]])
-                        li_last.insert(i+1,node[0])
-                        print(li_temp)
+                        li_last.insert(i+1, node[0])
                         break
 
     num_of_branch = len(li_temp)
@@ -83,8 +82,6 @@ def get_location_list(dbData):
                     xLoc = li_numMentioned[i][3]
                     li_location.append([xLoc, y+1, str(code)])
                     break
-
-    # print(li_last)
 
     # print(li_last)
     for i in li_location:
