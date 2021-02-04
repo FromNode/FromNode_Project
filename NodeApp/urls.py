@@ -11,6 +11,12 @@ urlpatterns = [
     path('create_node/',views.create_node, name='create_node'),
     path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo"),
     path('download/<str:pk>',views.download_view,name='download'),
+    path('create_node/', views.create_node, name='create_node'),
+    path('changeNodeInfo/', views.changeNodeInfo, name="changeNodeInfo"),
+    path('node_comment_create/<node_Code>',
+         views.node_comment_create, name="node_comment_create"),
+    path('comment_mention/',views.mentionable_member_json, name='mentionable_member_json'),
 ]
-if settings.DEBUG :
-    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
