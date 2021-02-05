@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 import json
 
+
 def get_location_list(dbData):
     # str타입 리스트 만들기
     li_numMentioned = []
@@ -21,6 +22,7 @@ def get_location_list(dbData):
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
+            print("node storing started" + str(obj.Code) + " " + str(obj.previousCode)) 
         else:
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
@@ -76,6 +78,9 @@ def get_location_list(dbData):
 
     # print(li_last)
 
+    # print(li_last)
+    for i in li_location:
+        print(i)
     return li_location, num_of_branch, node_count
 
 

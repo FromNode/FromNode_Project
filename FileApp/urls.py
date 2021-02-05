@@ -8,4 +8,5 @@ urlpatterns = [
     # path('form_create_new_file/', views.form_create_new_file, name="form_create_new_file"),
     path('create_new_file/', views.create_new_file, name="create_new_file"),
     path('create_invite_url/<int:project_id>', views.create_invite_url, name="invite"),
+    path('add_notice/', views.add_notice, name='add_notice')
 ]
