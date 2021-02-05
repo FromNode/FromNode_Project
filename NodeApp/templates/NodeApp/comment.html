@@ -1,0 +1,73 @@
+
+            <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
+            data-tribute="true"></p>
+
+            <script> // 멘션
+                //test
+                let project_users = [
+                {% for user in proj_user %}
+                      {
+                        key : "{{user.username}}",
+                        value : "{{user.Profile.nickname}}"
+                      },
+                {% endfor %}
+                ]
+                // 멘션기능 start
+                var tribute = new Tribute({
+                values: project_users,
+        
+                selectTemplate: function (item) {
+                    if (typeof item === "undefined") return null;
+                    if (this.range.isContentEditable(this.current.element)) {
+                        return (
+                            //   '<span contenteditable="false"><a href="http://zurb.com" target="_blank" title="' +
+                            //   item.original.email +
+                            //   '">' +
+                            '<span contenteditable="false" class="mentioned_name">'
+                            + '@'
+                            + item.original.value
+                            + "</span>"
+        
+                            //   "</a></span>"
+                        );
+                    }
+        
+                    return "@" + item.original.value;
+                },
+                requireLeadingSpace: false
+            });
+            tribute.attach(document.getElementById("test")); // attach : tribute 라이브러리 사용가능하게 하기
+        
+            // when 대치되는 항목이 있어서 replace가 일어날 때 !
+            document
+                .getElementById("test")
+                .addEventListener("tribute-replaced", function (e) {
+                    console.log("Original Event:", e.detail.event);
+                    console.log("Matched item:", e.detail.item);
+                });
+        
+            // example of Tribute in autocomplete mode
+        
+            var tributeAttributes = {
+                autocompleteMode: true,
+                noMatchTemplate: "",
+                values: project_users,
+                selectTemplate: function (item) {
+                    if (typeof item === "undefined") return null;
+                    if (this.range.isContentEditable(this.current.element)) {
+                        return (
+                            '<span contenteditable="false" class="mentioned_name">' +
+                            item.original.key +
+                            "</span>"
+                        );
+                    }
+        
+                    return item.original.value;
+                },
+                menuItemTemplate: function (item) { //지금 멘션 list에 뜨는건 item.string 뿐이다. 원한다면 li의 innerHTML를 바꾸기 (return '<img src="'+item.original.avatar_url + '">' + item.string;)
+                    return item.string;
+                }
+            };
+        
+          </script>
+        
