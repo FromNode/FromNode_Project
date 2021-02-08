@@ -18,20 +18,18 @@
     <div class = 'invite_link'>
         <div class = 'invite_top'>
             <p class = 'font middle'>초대링크 입력하기</p>
-        
             <form action="{% url 'project:project_checkcode' %}" method='POST'>
             {% csrf_token %}
-            <div class = 'invite_search'>
-                <input class = 'invite_bar' type="text" name = 'Code'>
-                <button class = 'invite_button' type="submit">OK</button>
-            
-            </div>
+                <div class = 'invite_search'>
+                    <input class = 'invite_bar' type="text" name = 'Code'>
+                    <button class = 'invite_button' type="submit">OK</button>
+                </div>
             </form>
         </div>
         <div class='invite_bottom'>
             <li class = 'font middle'>
                 <ul><img src="{% static 'Projectapp/image/empty_project.png' %}" style ="width:17px;height:17px;"><a style = 'text-decoration: none;
-                    color: #0F69E4; cursor:pointer;'class = 'openModal'>빈 프로젝트 생성하기</a></ul>
+                    color: #0F69E4; cursor:pointer;'class = 'openModal'> 빈 프로젝트 생성하기</a></ul>
                 <!-- {% url 'project:project_create' %} -->
                 <ul><img src="{% static 'Projectapp/image/file_upload.png' %}"style ="width:17px;height:17px;">파일 업로드</ul>
                 <ul><img src="{% static 'Projectapp/image/folder_upload.png' %}"style ="width:17px;height:17px;">폴더 업로드</ul>
