@@ -258,7 +258,7 @@ input:focus {
 
 .content-guide {
   height: 100vh;
-  padding-top: 10%;
+  padding-top: 5%;
   padding-left: 5%;
 }
 
@@ -270,17 +270,17 @@ input:focus {
   // align-content: center;
 }
 
-.side-title {
-  
-}
 
 .side-content {
-  padding-left: 15%;
+  padding-left: 3em;
+  padding-bottom: 0.5em;
+  
 }
 
 li {
   text-decoration: none;
-  list-style: none;
+  list-style: disc; 
+  color: white;
 }
 
 a {
