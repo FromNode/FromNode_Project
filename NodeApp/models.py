@@ -45,5 +45,8 @@ class Node_Comment(models.Model):
         Nodes, on_delete=models.CASCADE)  # 댓글이 작성된 노드
     author_comment = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True)  # 댓글 작성자
+    mentioned_member = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
+    )
     content = models.TextField()  # 댓글 내용
     create_date = models.DateTimeField(auto_now=True)  # 작성 일자와 시간
