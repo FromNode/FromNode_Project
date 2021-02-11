@@ -77,10 +77,7 @@ WSGI_APPLICATION = 'FromNode.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-
-DATABASES = {
-        'default':env.db(),
-    }
+DATABASES = {'default': env.db('DATABASE_URL')}
 
 CACHES = {
     # read os.environ['CACHE_URL'] and raises ImproperlyConfigured exception if not found
