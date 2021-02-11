@@ -175,7 +175,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
   justify-content: center;
   padding: 0.5em;
 }
@@ -252,6 +252,9 @@ input:focus {
   height: 100vh;
   padding: $left-menu-padding;
 }
+.side-project-name:hover{
+  background-color: brown;
+}
 
 .content {
   display: flex;
@@ -263,9 +266,7 @@ input:focus {
 }
 
 .content-guide {
-  height: 100vh;
-  padding-top: 5%;
-  padding-left: 5%;
+  padding: 5%;
 }
 
 // 왼쪽 바의 프로젝트 네임 담고있는 div
@@ -276,17 +277,15 @@ input:focus {
   // align-content: center;
 }
 
-
 .side-content {
-  padding-left: 3em;
+  padding-left: 1.5em;
   padding-bottom: 0.5em;
   
 }
 
 li {
   text-decoration: none;
-  list-style: disc; 
-  color: white;
+  list-style: none;
 }
 
 a {
