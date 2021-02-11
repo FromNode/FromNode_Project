@@ -81,7 +81,6 @@
             </form> -->
             <!-- end -->
             <br>
-            <p id="nodeCodeForComment"></p>
 
           </div>
 
@@ -93,6 +92,8 @@
 
 {% block JS %}
   <script>
+
+
     const NodeContainer = document.querySelector(".NodeContainer");
     const globalDataArray = [];
     const init = async () =>{
@@ -174,6 +175,7 @@
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
+        btn.setAttribute("id", `${varObj.Pk}`)
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
         btnDiv.style.setProperty('width','80%');
@@ -268,21 +270,27 @@
           //from 재훈재훈
 
           // 현재 클릭된 Node의 Primary Key를 변수로 저장
-          var nowCommentPK = clickedNodeData['NodePk']; 
+          nowCommentPK = clickedNodeData['NodePk']; 
           // views.py에서 context로 넘어온 object중 Node_Comment Model에 해당하는 comments를 불러옴
           // 단순히 for문으로 comments를 불러오면 문법으로 인한 오류가 나므로, JS에서 사용하는 Json과 동일한
           // 형태로 재구조화함
-          let comment_object = [
-            {% for com in comments %}
-              {
-                node_code: "{{ com.node_code }}",
-                content: "{{ com.content }}",
-                author: "{{ com.author_comment }}",
-                create_date: "{{ com.create_date }}"
-              },
-              {% endfor %}
-          ]
+          // let comment_object = []
+          //   {% for com in comments %}
+          //     {
+          //       node_code: "{{ com.node_code }}",
+          //       content: "{{ com.content }}",
+          //       author: "{{ com.author_comment }}",
+          //       author_img: "{{ com.author_comment.username }}",
+          //       create_date: "{{ com.create_date }}"
+          //     },
+          //     {% endfor %}
+          // ]
+          // 위에 코드를 아래처럼 바꾼거에요 !
+          let c_obj = "{{test_comments}}".replace(/&quot;/g, "\"");
+          var comment_object = JSON.parse(c_obj);
 
+
+          // console.log("comment_object들은?? \n" + comment_object)
           // nowCommentPK = String(nowCommentPK);
           // var verbatimeA = "{% verbatim %}";
           // var nowCommentIF_A = "{% for i in comments %}";
@@ -318,7 +326,11 @@
             nodeCommentInnerHTML.innerHTML += "&nbsp;[ ";
             nodeCommentInnerHTML.innerHTML += comment_array[idx]['author'];
             nodeCommentInnerHTML.innerHTML += " ]<br>";
-            nodeCommentInnerHTML.innerHTML += comment_array[idx]['create_date'];
+            nodeCommentInnerHTML.innerHTML += comment_array[idx]['created_date'];
+            nodeCommentInnerHTML.innerHTML += comment_array[idx]['author_img_url'];
+
+            // console.log("i want to see !!\n" + comment_array[idx]['author_img']);
+            // nodeCommentInnerHTML.innerHTML += comment_array[idx]['author_img'];
             nodeCommentInnerHTML.innerHTML += "<br><br>";
           }
           nodeCommentInnerHTML.innerHTML += "</p>";
@@ -345,6 +357,8 @@
     } 
 
     init();
+
+    
   </script>
 
   <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>

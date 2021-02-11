@@ -156,10 +156,33 @@ def node_list(request, file_Code):
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
-
+        json_set=[]
+        comment_data = []
         comments = Node_Comment.objects.all()
-        form = CommentForm()
+        for i in range(0, len(comments)):
+            comment_data.append(
+                # [str(comments[i].node_code),
+                # str(comments[i].content),
+                # str(comments[i].author_comment),
+                # str(comments[i].author_comment.Profile.profile_image.url),
+                # str(comments[i].create_date)
+                # ]
+                {'node_code' : str(comments[i].node_code),
+                'content' : str(comments[i].content),
+                'author' : str(comments[i].author_comment),
+                'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
+                'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M")
+                }
+            )
+        comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
+            # json_set.append(comment_data_to_json)
 
+        print("냐아", comment_data_to_json)
+        # print(comments[0].author_comment.Profile.filter(user_id=comments[0].author_comment.id)[0].name)
+        # print(comments[0].author_comment.Profile.profile_image.url)
+        # print(comments[0].create_date.strftime("%Y-%m-%d %H:%M"))
+        
+        print("comment_data는??\n",comment_data)
     else:
         pass
 
@@ -181,8 +204,9 @@ def node_list(request, file_Code):
         "json": json_data,
         "proj_user": proj_user,
         "pro_name": pro_name,
-        "comments": comments,
-        'form': form
+        "comments" : comments,
+        "test_comments": comment_data_to_json,
+
     }
     return render(request, 'NodeApp/node_list.html', objects)
     
@@ -264,6 +288,39 @@ def mentionable_member_json(request):
         # form = CommentForm()
     # context = {'form': form}
     return redirect(redirectURL)
+
+def comment_submit(request):
+    node_pk = request.POST['node_pk']
+    mentioned_name = request.POST['mentioned_name']
+    comment_text = request.POST['comment_text']
+    comment_author = request.user.username
+    print(node_pk)
+    print(mentioned_name)
+    print(comment_text)
+    print(comment_author)
+    # member=User.objects.get(username=mentioned_name)
+    # print(member)
+
+    cmt_obj = Node_Comment()
+    cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
+    cmt_obj.author_comment = request.user
+    cmt_obj.content = comment_text
+    cmt_obj.create_date = timezone.now()
+    mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
+    cmt_obj.who_is_mentioned = mentioned_member_Profile.user
+    cmt_obj.save()
+
+    print(cmt_obj.create_date)
+
+    # data = {'mentioned_name':mentioned_name,
+    #         'comment_text':comment_text}
+    
+    # data = [{'comment_text': comment_text,
+    #          'author': comment_author,
+    #          'create_date' : 
+    #         {'key': 'Julia', 'value': 'Julia38'}]
+    data = [{'key':'hello'}]
+    return JsonResponse(data, safe=False)
 
 
 def node_detail(request, node_Code):
