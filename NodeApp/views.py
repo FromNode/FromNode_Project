@@ -22,7 +22,7 @@ def get_location_list(dbData):
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
-            print("node storing started" + str(obj.Code) + " " + str(obj.previousCode)) 
+            # print("node storing started" + str(obj.Code) + " " + str(obj.previousCode)) 
         else:
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
@@ -79,8 +79,8 @@ def get_location_list(dbData):
     # print(li_last)
 
     # print(li_last)
-    for i in li_location:
-        print(i)
+    # for i in li_location:
+    #     print(i)
     return li_location, num_of_branch, node_count
 
 
@@ -140,8 +140,8 @@ def node_list(request, file_Code):
         # project는 File이 속한 project
         # pro_name은 그 project의 이름
         # node_objs는 file에 속한 노드 전체
-        for i in proj_user:
-            print(i.Profile)
+        # for i in proj_user:
+        #     print(i.Profile)
         # print(project_members.Profile)
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
@@ -177,12 +177,12 @@ def node_list(request, file_Code):
         comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
             # json_set.append(comment_data_to_json)
 
-        print("냐아", comment_data_to_json)
+        # print("냐아", comment_data_to_json)
         # print(comments[0].author_comment.Profile.filter(user_id=comments[0].author_comment.id)[0].name)
         # print(comments[0].author_comment.Profile.profile_image.url)
         # print(comments[0].create_date.strftime("%Y-%m-%d %H:%M"))
         
-        print("comment_data는??\n",comment_data)
+        # print("comment_data는??\n",comment_data)
     else:
         pass
 
@@ -206,6 +206,7 @@ def node_list(request, file_Code):
         "pro_name": pro_name,
         "comments" : comments,
         "test_comments": comment_data_to_json,
+        "comments_data" : comment_data,
 
     }
     return render(request, 'NodeApp/node_list.html', objects)
@@ -243,9 +244,10 @@ def node_detail(request, node_Code):
    
     # 멘션 가능한 프로젝트 팀원들
     project_code = Nodes.objects.get(Code=node_Code).ownerPCode
-    print(project_code)
+    # print(project_code)
     members = project_code.unliked_members.all().union(project_code.liked_members.all())
-    print(members)
+    # print(members)
+
     member_list = serializers.serialize('json', members)
     return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments, 'node_code':node_code})
 
