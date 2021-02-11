@@ -11,6 +11,11 @@ from django.utils import timezone
 from django.http import JsonResponse
 import json
 
+import urllib
+import os
+from django.http import HttpResponse, Http404
+import mimetypes
+
 def get_location_list(dbData):
     # str타입 리스트 만들기
     li_numMentioned = []
@@ -21,6 +26,7 @@ def get_location_list(dbData):
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode, node_count, obj.createdDate])
             node_count += 1
+            print("node storing started" + str(obj.Code) + " " + str(obj.previousCode)) 
         else:
             li_numMentioned.append(
                 [obj.Code, num_mentioned, obj.previousCode.Code, node_count, obj.createdDate])
@@ -44,6 +50,7 @@ def get_location_list(dbData):
     for n, node in enumerate(li_numMentioned):
         if is_started == False:  # 첫 노드
             li_temp.append([node[0]])
+            print(li_temp)
             li_last.append(node[0])
             is_started = True
         else:
@@ -51,10 +58,12 @@ def get_location_list(dbData):
                 for i, sublist in enumerate(li_temp):
                     if node[2] in sublist:  # 내 앞에놈이 있는 행에 추가하자
                         li_temp[i].append(node[0])
+                        print(li_temp)
                         break
                 for k, endnode in enumerate(li_last):
                     if endnode == node[2]:
                         li_last[k] = node[0]
+                        print(li_last)
                         break
             else:  # 새 브랜치 생성해야 되면 순서 파악 후에 그 위치에 생성
                 for i, sublist in enumerate(li_temp):
@@ -75,7 +84,8 @@ def get_location_list(dbData):
                     break
 
     # print(li_last)
-
+    for i in li_location:
+        print(i)
     return li_location, num_of_branch, node_count
 
 
@@ -135,8 +145,6 @@ def node_list(request, file_Code):
         # project는 File이 속한 project
         # pro_name은 그 project의 이름
         # node_objs는 file에 속한 노드 전체
-        for i in proj_user:
-            print(i.Profile)
         # print(project_members.Profile)
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
@@ -270,7 +278,8 @@ def node_detail(request, node_Code):
 
 def create_node(request):
     # 나중에 쓰일 수도 ? 클릭한 노드 정보 일단 담아뒀음
-    NodeComment = request.POST['NodeComment']
+    # NodeComment = request.POST['NodeComment']
+    NodeComment = 'Test'
     NodeCreatedDate = request.POST['NodeCreatedDate']
     NodeDescription = request.POST['NodeDescription']
     NodeFileObj = request.POST['NodeFileObj']
@@ -288,6 +297,7 @@ def create_node(request):
     if request.method == 'POST':
         node_object = Nodes()
         node_object.fileObj = request.FILES['uploadFile']
+        node_object.filename = request.FILES['uploadFile'].name
         node_object.previousCode = clickedNode
         node_object.ownerFCode = clickedNode.ownerFCode
         node_object.ownerPCode = clickedNode.ownerPCode
@@ -302,3 +312,18 @@ def create_node(request):
 
 def changeNodeInfo(request):
     return render(request, 'NodeApp/node_list.html')
+
+
+
+
+def download_view(request, pk):
+    node = get_object_or_404(Nodes, Code=pk)
+    url = node.fileObj.url[1:]
+    file_url = urllib.parse.unquote(url)
+    if os.path.exists(file_url):
+        with open(file_url, 'rb') as fh:
+            quote_file_url = urllib.parse.quote(node.filename.encode('utf-8'))
+            response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
+            return response
+        raise Http404
