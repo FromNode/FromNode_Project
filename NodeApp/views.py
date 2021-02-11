@@ -70,34 +70,27 @@ def get_location_list(dbData):
     last = filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
     x_save = 'first'
     ch = 0
-    for n, i in enumerate(last):
-        x_value = i[0]
-        y_value = i[1]
-        if x_save == 'first':
-            ch =1
-            pass
-        elif x_save>x_value:
-            if ch ==1:
-                ch = 0
+    max_x = max([x[0] for x in last])
+    
+    for i in range(1,max_x+1):
+        last_same_x = [x for x in last if x[0]==i]
+        
+        for n, i in enumerate(last_same_x):
+            if n==0:
                 pass
             else:
-                y_save = last[n-1][1]
-                y_value = last[n][1]
-                print(n)
-                n_save = n
-                y_gap = y_value-y_save+1
-                for n, i in enumerate(last):
-                    if n > n_save:
-                        last[n][1] = last[n][1]+y_gap
-                print(last)
-        x_save = x_value
+                y_pre = last_same_x[n-1][1]
+                y_now = last_same_x[n][1]
+                if y_now<=y_pre:
+                    last_same_x[n][1] = y_pre+1
 
+    max_y = max([x[1] for x in last])
     li_location = last
-    num_of_branch = 30
-    node_count = 30
+    num_of_row = max_x+2
+    num_of_column = max_y+2
 
     print(i_dict)
-    return li_location, num_of_branch, node_count
+    return li_location, num_of_row, num_of_column, i_dict
 
 def node_list(request,file_Code):
     if request.user.is_authenticated:
@@ -124,9 +117,10 @@ def node_list(request,file_Code):
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
+        i_dict = tuple_return[3]
 
         gridRowWidth = "100px "
-        gridColumnHeight = "100px "
+        gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         #Html로 전송할 정보들
@@ -153,7 +147,8 @@ def node_list(request,file_Code):
         "The_File":The_File, 
         "json":json_data,
         "proj_user":proj_user,
-        "pro_name" : pro_name
+        "pro_name" : pro_name,
+        "i_dict" : i_dict,
     }  
     return render(request, 'NodeApp/node_list.html', objects)
 

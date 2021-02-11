@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="NodeContainer">
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width ='1139px' height = '900px' style="position: absolute; z-index: 2; "></canvas>
   </div>
 
   <div class="nodeUploadModal hidden">
@@ -77,24 +77,6 @@
 
 {% block JS %}
   <script>
-    function draw() {
-      var canvas = document.getElementById('canvas');
-      if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-
-        // Quadratric curves example
-        ctx.beginPath();
-        ctx.moveTo(75, 25);
-        ctx.quadraticCurveTo(25, 25, 25, 62.5);
-        ctx.quadraticCurveTo(25, 100, 50, 100);
-        ctx.quadraticCurveTo(50, 120, 30, 125);
-        ctx.quadraticCurveTo(60, 120, 65, 100);
-        ctx.quadraticCurveTo(125, 100, 125, 62.5);
-        ctx.quadraticCurveTo(125, 25, 75, 25);
-        ctx.stroke();
-      }
-    }
-
     const NodeContainer = document.querySelector(".NodeContainer");
     const globalDataArray = [];
     
@@ -301,8 +283,30 @@
       }
     } 
 
+    const MakeCurveLine = async()=>{
+      let i_dict = `{{i_dict}}`.replaceAll("&#x27;","");
+      console.log(i_dict)
+      var canvas = document.getElementById('canvas');
+      if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+
+        // Quadratric curves example
+        ctx.beginPath();
+        ctx.moveTo(75, 25);
+        ctx.quadraticCurveTo(45, 45, 25, 75);
+        ctx.stroke();
+
+        var ct = canvas.getContext('2d');
+        ct.beginPath();
+        ct.moveTo(75, 50);
+        ct.lineTo(100, 75);
+        ct.lineTo(100, 25);
+        ct.stroke();
+    }
+
+    }
+    MakeCurveLine();
     init();
-    draw();
   </script>
   <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
   {% endblock %}
