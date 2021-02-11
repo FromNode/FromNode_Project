@@ -8,6 +8,7 @@ __pycache__/
 local_settings.py
 *.sqlite3
 .config
+.env
 
 media
 
