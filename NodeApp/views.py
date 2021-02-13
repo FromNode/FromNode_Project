@@ -29,11 +29,6 @@ def filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check):
 
             filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
             y_value +=1
-        
-
-
-
-
         is_first = True
     
     return coordinate_node_test
@@ -89,8 +84,19 @@ def get_location_list(dbData):
     num_of_row = max_x+2
     num_of_column = max_y+2
 
-    print(i_dict)
-    return li_location, num_of_row, num_of_column, i_dict
+    coordinates = []
+
+    for node in last:
+        start_axis = node[0], node[1]
+        child_node = i_dict.get(node[2])
+        for child in child_node:
+            for i in last:
+                if child in i:
+                    end_axis = i[0], i[1], 'x'
+                    append_axis = start_axis + end_axis
+            coordinates.append(append_axis)
+
+    return li_location, num_of_row, num_of_column, coordinates
 
 def node_list(request,file_Code):
     if request.user.is_authenticated:
@@ -117,8 +123,7 @@ def node_list(request,file_Code):
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
-        i_dict = tuple_return[3]
-
+        coordinates = tuple_return[3]
         gridRowWidth = "100px "
         gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
@@ -148,7 +153,7 @@ def node_list(request,file_Code):
         "json":json_data,
         "proj_user":proj_user,
         "pro_name" : pro_name,
-        "i_dict" : i_dict,
+        "coordinates" : coordinates,
     }  
     return render(request, 'NodeApp/node_list.html', objects)
 

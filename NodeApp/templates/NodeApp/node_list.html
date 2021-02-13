@@ -34,48 +34,6 @@
 
 {% block content %}
   <div class = "NodeInfo">
-    <?xml version="1.0" ?>
-    <svg xmlns="http://www.w3.org/2000/svg" width="300px" height="400px" version="1.1">
-        <!-- 직선 그리기 -->
-        <!-- Lx좌표,y좌표 -->
-        <path d="M50,50 L200,50 200,100Z" 
-              stroke="green" stroke-width="5" fill="none" />
-              
-        <!-- 수평선 긋기 -->
-        <!-- Hx좌표 -->
-        <path d="M50,150 H200"
-              stroke="green" stroke-width="5" />
-              
-        <!-- 수직선 긋기 -->
-        <!-- Vy좌표 -->
-        <path d="M250,50 V150"
-              stroke="green" stroke-width="5" />
- 
-        <!-- 곡선 긋기 -->
-        <!-- C조절점1x,조절점1y 조절점2x,조절점2y 끝점x,끝점y -->
-        <path d="M50,200 C100,250 150,150 200,200" 
-              stroke="green" stroke-width="5" fill="none" />
-              
-        <!-- 곡선 이어긋기 -->
-        <!-- S조절점x,조절점y 끝점x,끝점y -->
-        <!-- 시작지점은 이전 곡선의 마지막 조절점의 반태편 또는 곡선이 없을 경우 마지막 지점이다 -->
-        <path d="M50,250 C100,300 150,200 200,250 S250,200 300,250"
-              stroke="green" stroke-width="5" fill="none" />
-              
-        <!-- 2차원 베지어 곡선 그리기 -->
-        <!-- Q조절점x,조절점y 끝점x,끝점y -->
-        <path d="M50,300 Q125,350 200,300" 
-              stroke="green" stroke-width="5" fill="none" />
-            
-        <!-- 베지어 곡선 이어긋기 -->
-        <!-- T끝점x,끝점y -->
-          <!-- 시작지점은 이전 곡선의 마지막 조절점의 반태편 또는 곡선이 없을 경우 마지막 지점이다 -->
-        <path d="M50,350 Q125,400 200,350 T300,350"
-              stroke="green" stroke-width="5" fill="none" />
-    </svg>
-
-
-출처: https://ghj1001020.tistory.com/738 [혁준 블로그]
     <p class ="Proj_Title">{{pro_name}}</p>
     <div class = 'UserList'>
     {% for user in proj_user %}
@@ -86,7 +44,10 @@
     </div>
   </div>
   <div class="NodeContainer">
-    <canvas id="canvas" width ='1139px' height = '900px' style="position: absolute; z-index: 2; "></canvas>
+    <?xml version="1.1" ?>
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full" style="position: absolute; z-index: -1;">
+    </svg>
   </div>
 
   <div class="nodeUploadModal hidden">
@@ -134,6 +95,8 @@
       await createGhostDiv();
       await settingNodeDiv();
       await showUpModal();
+      await MakeCurveLine();
+      
     }
     const getNodeData = async () => {
       let json_data = '{{json}}'.replaceAll("&quot;", "\"");
@@ -198,16 +161,17 @@
         };
         let btnDiv = document.createElement("div");
         let btn = document.createElement("button");
-        let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
+        let btnText = document.createTextNode(`${varObj.column}행 ${varObj.row}열  ${varObj.Pk}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`);
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
-        btnDiv.style.setProperty('width','80%');
-        btnDiv.style.setProperty('height','50%');
+        btnDiv.style.setProperty('width','50%');
+        btnDiv.style.setProperty('height','80%');
         btnDiv.style.setProperty('border',`4px solid {{user.Profile.user_color}}`);
         btnDiv.style.setProperty('border-radius',`30% 30%`);
+        btnDiv.style.setProperty('text-align','center');
         NodeContainer.appendChild(btnDiv);
       }
     }
@@ -326,28 +290,57 @@
     } 
 
     const MakeCurveLine = async()=>{
-      let i_dict = `{{i_dict}}`.replaceAll("&#x27;","");
-      console.log(i_dict)
-      var canvas = document.getElementById('canvas');
-      if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
+      
+      let coordinates = `{{coordinates}}`.replaceAll("&#x27;","");
+      let coordinates_replace1 = coordinates.replaceAll('"',"");
+      let coordinates_replace2 = coordinates_replace1.replaceAll('[',"");
+      let coordinates_replace3 = coordinates_replace2.replaceAll('(',"");
+      let coordinates_replace4 = coordinates_replace3.replaceAll(')',"");
+      let coordinates_replace5 = coordinates_replace4.replaceAll(',',"");
+      let coordinates_replace6 = coordinates_replace5.replaceAll(']',"");
+      let coordinates_replace7 = coordinates_replace6.replaceAll(' ',"");
+      let coordinates_split = coordinates_replace7.split('x');
 
-        // Quadratric curves example
-        ctx.beginPath();
-        ctx.moveTo(75, 25);
-        ctx.quadraticCurveTo(45, 45, 25, 75);
-        ctx.stroke();
+      let set_x = 0;
+      let set_y = 0;
 
-        var ct = canvas.getContext('2d');
-        ct.beginPath();
-        ct.moveTo(75, 50);
-        ct.lineTo(100, 75);
-        ct.lineTo(100, 25);
-        ct.stroke();
+      for(let i=0; i<coordinates_split.length-1; i++){
+        x = coordinates_split[i];
+
+        console.log(x);
+        var Axis = {
+          
+          "start_x" : 150+200*(x[0]-1),
+          "start_y" : 45+100*(x[1]-1),
+          'end_x': 250+200*(x[0]-1),
+          // "end_x" : 150+100*(x[2]-1),
+          "end_y" :45+100*(x[3]-1),
+          "middle_x" :(150+200*(x[0]-1)+250+200*(x[0]-1))*0.5,
+        };
+        const pathes = document.querySelector('.pathes');
+        let pre_x = Axis.end_x;
+        let pre_y = Axis.end_y;
+        
+
+        if(set_x<pre_x){
+          set_x = pre_x;
+        }
+        if(set_y<pre_y){
+          set_y = pre_y;
+        }
+        
+        let path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        // let newElement = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        path.setAttribute("d",`M${Axis.start_x} ${Axis.start_y} C ${Axis.middle_x} ${Axis.start_y} ${Axis.middle_x} ${Axis.end_y} ${Axis.end_x} ${Axis.end_y}`);
+        path.setAttribute('stroke',`{{user.Profile.user_color}}`);
+        path.setAttribute('stroke-width','5');
+        path.setAttribute('fill','none');
+        pathes.appendChild(path);
+        pathes.setAttribute('width',set_x); 
+        pathes.setAttribute('height',set_y);
+      }
     }
-
-    }
-    MakeCurveLine();
+    
     init();
   </script>
   <script src="{% static 'NodeApp/JS/Upload.js' %}"></script>
