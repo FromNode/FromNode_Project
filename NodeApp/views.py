@@ -8,8 +8,9 @@ from django.core import serializers
 from UserApp.models import Profile
 from NodeApp.forms import CommentForm
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def get_location_list(dbData):
@@ -160,20 +161,33 @@ def node_list(request, file_Code):
         comment_data = []
         comments = Node_Comment.objects.all()
         for i in range(0, len(comments)):
-            comment_data.append(
-                # [str(comments[i].node_code),
-                # str(comments[i].content),
-                # str(comments[i].author_comment),
-                # str(comments[i].author_comment.Profile.profile_image.url),
-                # str(comments[i].create_date)
-                # ]
-                {'node_code' : str(comments[i].node_code),
-                'content' : str(comments[i].content),
-                'author' : str(comments[i].author_comment),
-                'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M")
-                }
-            )
+            if comments[i].who_is_mentioned != None:
+                comment_data.append(
+                    # [str(comments[i].node_code),
+                    # str(comments[i].content),
+                    # str(comments[i].author_comment),
+                    # str(comments[i].author_comment.Profile.profile_image.url),
+                    # str(comments[i].create_date)
+                    # ]
+                    {'node_code' : str(comments[i].node_code),
+                    'content' : str(comments[i].content),
+                    'author' : str(comments[i].author_comment.Profile.nickname),
+                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
+                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                    'who_is_mentioned' : '@'+str(comments[i].who_is_mentioned.Profile.nickname)
+                    }
+                )
+            else:
+                 comment_data.append(
+                    {'node_code' : str(comments[i].node_code),
+                    'content' : str(comments[i].content),
+                    'author' : str(comments[i].author_comment.Profile.nickname),
+                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
+                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                    'who_is_mentioned' : ""
+                    }
+                )
+        print(comment_data)
         comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
             # json_set.append(comment_data_to_json)
 
@@ -206,7 +220,7 @@ def node_list(request, file_Code):
         "pro_name": pro_name,
         "comments" : comments,
         "test_comments": comment_data_to_json,
-        "comments_data" : comment_data,
+        "comment_data" : comment_data,
 
     }
     return render(request, 'NodeApp/node_list.html', objects)
@@ -296,23 +310,47 @@ def comment_submit(request):
     mentioned_name = request.POST['mentioned_name']
     comment_text = request.POST['comment_text']
     comment_author = request.user.username
+    author_profile = request.user.Profile.profile_image.url
     print(node_pk)
     print(mentioned_name)
     print(comment_text)
     print(comment_author)
     # member=User.objects.get(username=mentioned_name)
     # print(member)
+    if mentioned_name != "":
+        # 멘션된 사람 있으면
+        cmt_obj = Node_Comment()
+        cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
+        cmt_obj.author_comment = request.user
+        cmt_obj.content = comment_text
+        cmt_obj.create_date = timezone.now()
+        mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
+        cmt_obj.who_is_mentioned = mentioned_member_Profile.user
+        cmt_obj.save()
+        data = [{'author_img' : author_profile,
+                'comment_author':comment_author,
+                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
+                'mentioned_name':comment_author,
+                'content':comment_text
+                }]
 
-    cmt_obj = Node_Comment()
-    cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
-    cmt_obj.author_comment = request.user
-    cmt_obj.content = comment_text
-    cmt_obj.create_date = timezone.now()
-    mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
-    cmt_obj.who_is_mentioned = mentioned_member_Profile.user
-    cmt_obj.save()
+    else:
+        # 멘션된 사람 없으면
+        cmt_obj = Node_Comment()
+        cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
+        cmt_obj.author_comment = request.user
+        cmt_obj.content = comment_text
+        cmt_obj.create_date = timezone.now()
+        cmt_obj.who_is_mentioned = None
+        cmt_obj.save()
+        data = {'author_img' : author_profile,
+                'comment_author':comment_author,
+                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
+                'mentioned_name':"",
+                'content':comment_text
+                }
 
-    print(cmt_obj.create_date)
+    print(data)
 
     # data = {'mentioned_name':mentioned_name,
     #         'comment_text':comment_text}
@@ -321,7 +359,30 @@ def comment_submit(request):
     #          'author': comment_author,
     #          'create_date' : 
     #         {'key': 'Julia', 'value': 'Julia38'}]
-    data = [{'key':'hello'}]
+    # data = [{'key':'hello'}]
+    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+
+def load_comment(request):
+    node_pk = request.POST['node_pk']
+    comments = Node_Comment.objects.filter(node_code=node_pk)
+    comment_data = []
+    for i in range(0, len(comments)):
+        comment_data.append(
+                # [str(comments[i].node_code),
+                # str(comments[i].content),
+                # str(comments[i].author_comment),
+                # str(comments[i].author_comment.Profile.profile_image.url),
+                # str(comments[i].create_date)
+                # ]
+            {'node_code' : str(comments[i].node_code),
+            'content' : str(comments[i].content),
+            'author' : str(comments[i].author_comment),
+            'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
+            'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M")
+            }
+        )
+        print(comment_data)
+    data = json.dumps(comment_data,ensure_ascii=False)
     return JsonResponse(data, safe=False)
 
 

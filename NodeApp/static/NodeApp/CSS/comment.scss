@@ -29,9 +29,17 @@ hr{
     padding-right: 10px;
 }
 .cmt_text{
+    float: inline-end;
     text-align: left;
 }
-
+#comment_body{
+    height: 100%;
+    overflow-y: scroll;
+}
+.cmt_text_block{
+    float: left;
+    display: inline-block;
+}
 //end
 body {
     margin-top: 20px;

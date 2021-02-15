@@ -28,7 +28,7 @@ class Profile(models.Model):
     user_color = ColorField(default='#FF0000')
     # 추가 할 오브젝트는 이 공간에 써주면 되어요
 
-    
+
 @receiver(post_save,sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

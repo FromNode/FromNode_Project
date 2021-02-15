@@ -5,6 +5,9 @@
 {% block scss %}
   <link href="{% sass_src 'NodeApp/CSS/NodeListHtml.scss' %}" rel="stylesheet" type="text/css">
   <link href="{% sass_src 'NodeApp/CSS/nodeModal.scss' %}" rel="stylesheet" type="text/css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{% sass_src 'NodeApp/CSS/comment.scss' %}" rel="stylesheet" type="text/css">
+
   <style>
     .NodeContainer {
       display: grid;
@@ -40,8 +43,6 @@
       <div class="Top_Contents">
         <label class="modal_title form-label">Upload Node</label>
         <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
-      </div>
-      <div class='Low_Contents'>
         <div class='Upload_Contents'>
           <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
             {% csrf_token %}
@@ -56,12 +57,16 @@
             <br>
             <input class="uploadBtn btn btn-primary" type="submit" value="업로드하기">
           </form>
-
-          <br>
-
-          <!-- 댓글 작성 : p 태그의 내부 html 가지고 와서 ajax 하자 -->
-          
-          <div>
+        </div>
+      </div>
+      <div class='Low_Contents'>
+        <!-- comment write p 태그 부분은 영역 push위해서 불가피하게 이렇게 작업 ! -->
+        <!-- <div id="comment_write">
+          <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true" data-tribute="true">
+          </p>
+          <button id="cmt_but">Comment</button>
+      </div> -->
+      
             {% include "NodeApp/comment.html" %}
             
             <!-- <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
@@ -80,16 +85,12 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </form> -->
             <!-- end -->
-            <br>
-
-          </div>
 
         </div>
       </div>
     </div>
   </div>
 {% endblock %}
-
 {% block JS %}
   <script>
 
@@ -264,6 +265,124 @@
             'NodePk' : clickedValuePk,
           }
           
+          nowCommentPK = clickedNodeData['NodePk']; 
+
+
+          let comment_object = [
+            {% for com in comment_data %}
+              {
+                node_code: "{{ com.node_code }}",
+                content: "{{ com.content }}",
+                author: "{{ com.author }}",
+                author_img: "{{ com.author_img_url }}",
+                who_is_mentioned: "{{ com.who_is_mentioned }}",
+                create_date: "{{ com.created_date }}"
+              },
+            {% endfor %}
+          ]
+
+          var comment_array = [];
+          // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
+          // 가진 코멘트 정보만 comment_array 배열에 push
+          for(idx in comment_object) {
+            if(nowCommentPK == comment_object[idx]['node_code']) {
+              comment_array.push(comment_object[idx]);
+            }
+          }
+          comment_array.reverse();
+          // comment data를 html로 쏴주자
+
+          const clicked_node_pk = nowCommentPK;
+          const comment_write_box = document.getElementById('test');
+          comment_write_box.innerText = "";
+          const comment_write_but = document.getElementById('cmt_but'); 
+          comment_write_but.setAttribute("class", `${clicked_node_pk}`);         
+          const comment_container = document.getElementById('comment_body');
+          comment_container.innerHTML = "";
+          // const profile_image_part = document.getElementById('profile_part');
+          // const author_name = document.getElementsById('author_name');
+          // const cmt_created_date = document.getElementsById('created_date');
+
+          for(let i=0; i<comment_array.length; i++){
+            let commentObj= {
+              "node_code": comment_array[i]['node_code'],
+              "author_img" : comment_array[i]['author_img'],
+              "author" : comment_array[i]['author'],
+              "content" : comment_array[i]['content'],
+              "created_date" : comment_array[i]['create_date'],
+              "who_is_mentioned" :  comment_array[i]['who_is_mentioned'],
+            };
+            // let author_img = comment_array[i]['author_img'];
+            // let author = comment_array[i]['author'];
+            // let content = comment_array[i]['content'];
+            // let created_date = comment_array[i]['create_date'];
+            // let who_is_mentioned = comment_array[i]['who_is_mentioned'];
+            // -- profile image
+
+            let each_comment = document.createElement("div");
+            each_comment.setAttribute("class", 'each_comment');
+            comment_container.appendChild(each_comment);
+
+            let profile_part = document.createElement("div");
+            profile_part.setAttribute("class", 'profile_part');
+            each_comment.appendChild(profile_part);
+
+            let prof_img = document.createElement("img");
+            prof_img.setAttribute("class", 'img-circle img-sm');
+            prof_img.setAttribute("alt", 'Profile picture');
+            prof_img.setAttribute("src", `${commentObj.author_img}`);
+            profile_part.appendChild(prof_img);
+
+            let comment_text_block = document.createElement("div");
+            comment_text_block.setAttribute("class", 'comment_text_block');
+            each_comment.appendChild(comment_text_block);
+
+            let cmt_top = document.createElement("div");
+            cmt_top.setAttribute("class", 'cmt_top');
+            comment_text_block.appendChild(cmt_top);
+
+            let author_name = document.createElement("p");
+            author_name.setAttribute("class", 'cmt_block author_name');
+            author_name.innerHTML = `${commentObj.author}`;
+            cmt_top.appendChild(author_name);
+
+            let created_date = document.createElement("p");
+            author_name.setAttribute("class", 'cmt_block created_date');
+            author_name.innerHTML = `${commentObj.created_date}` + "  "+ `${commentObj.node_code}`;
+            cmt_top.appendChild(created_date);
+                        
+            let cmt_bottom = document.createElement("div");
+            cmt_bottom.setAttribute("class", 'cmt_bottom');
+            comment_text_block.appendChild(cmt_bottom);
+            
+            let who_is_mentioned = document.createElement("i");
+            who_is_mentioned.setAttribute("class", 'cmt_text_block who_is_mentioned');
+            who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
+            cmt_bottom.appendChild(who_is_mentioned);
+            
+            let cmt_text = document.createElement("p");
+            cmt_text.setAttribute("class", 'cmt_text_block cmt_text');
+            cmt_text.innerHTML = `${commentObj.content}`;
+            cmt_bottom.appendChild(cmt_text);
+
+
+
+          }
+
+
+          // console.log(nowCommentPK);
+          // $.ajax({
+          //   url: "{% url 'node:load_comment' %}",
+          //   type: 'POST',
+          //   data:{'node_pk':nowCommentPK},
+          //   success: function(data){
+          //     console.log(data.keys);
+
+          //   },
+          //   error: function(e){
+          //     console.log("node comment load error");
+          //   }
+          // })
 
 
 
@@ -318,8 +437,10 @@
           //     comment_array.push(comment_object[idx]);
           //   }
           // }
-          // InnerHTML을 사용하여 comment_array 데이터를 차례로 HTML에 전달 --> 2021-02-12 12:18 기준 필요 없어짐 !!          clickedNode.push(clickedNodeData)
+          // InnerHTML을 사용하여 comment_array 데이터를 차례로 HTML에 전달 --> 2021-02-12 12:18 기준 필요 없어짐 !!          
+          clickedNode.push(clickedNodeData)
         }
+
       }
       return clickedNode
     }
@@ -337,6 +458,8 @@
           createInput.setAttribute("value", `${objectValues}`);
           sendDataInput.appendChild(createInput);
       }
+      // modal에 해당 node의 댓글 data ajax로 받아오기
+
     } 
 
     init();
