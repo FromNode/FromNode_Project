@@ -39,12 +39,14 @@ class Nodes(models.Model):
     def __str__(self):
         return str(self.Code)
 
-
+ 
 # 각 노드별 댓글 모델
 class Node_Comment(models.Model):
     node_code = models.ForeignKey(
         Nodes, on_delete=models.CASCADE)  # 댓글이 작성된 노드
     author_comment = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True)  # 댓글 작성자
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name = "comment_author")  # 댓글 작성자
+    who_is_mentioned = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True, related_name = "who_is_mentioned")
     content = models.TextField()  # 댓글 내용
     create_date = models.DateTimeField(auto_now=True)  # 작성 일자와 시간

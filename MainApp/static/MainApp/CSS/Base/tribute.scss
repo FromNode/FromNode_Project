@@ -32,3 +32,42 @@
 .tribute-container .menu-highlighted {
   font-weight: bold;
 }
+
+// node_list 멘션
+    /* 멘션 */
+    .tribute-demo-input {
+      outline: none;
+      border: 1px solid #eee;
+      padding: 3px 5px;
+      border-radius: 2px;
+      font-size: 15px;
+      min-height: 50px;
+      cursor: text;
+      overflow-y: auto;
+      text-align: left;
+
+  }
+
+  .tribute-demo-input:focus {
+      border-color: #d1d1d1;
+      background-color: #fbfbfb;
+  }
+
+  [contenteditable="true"]:empty:before {
+      content: attr(placeholder);
+      display: block;
+      color: #ccc;
+  }
+
+  /* 끝 */
+
+  a {
+      background-color: transparent;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+  .mentioned_name {
+      background-color: transparent;
+      color: #2ba6cb;
+  }
