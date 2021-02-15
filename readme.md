@@ -1,13 +1,13 @@
 # FromNode with Assistant Kim
-## Requirements
-##### put some stuff about development environment.
+# Requirements
+#### put some stuff about development environment.
 ```terminal
  pip install django
  ...
 ```
 --------------
-## Major Changes 
-#### Add summarization, textualization Module (21.02.15) from @jaehoonkimm
+# Major Changes 
+### Add summarization, textualization Module (21.02.15) from @jaehoonkimm
 - We can use new two modules, convert and summary. This modules are into NodeApp directory as folder type. 
 - They are super simple module. If you want to import this module in your code on the NodeApp, put the code like following that,
 ```terminal
@@ -22,7 +22,7 @@
     from convert import convert
     from convert import show_paragraph
 ```
- ##### Usage 
+ #### Usage 
    - **Summary Function** from summary module
        - It has two parameter, target_text and language(default for korean).
        - You must put str type argument to target_text parameter. 
