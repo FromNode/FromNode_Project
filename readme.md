@@ -16,19 +16,21 @@
     from convert import convert
     from convert import show_paragraph
 ```
-##### Usage 
-    - summary function 
-        - It has two parameter, target_text and language(default for korean).
-        - You must put str type argument to target_text parameter. 
-        - You can get a summarized text.
+ ##### Usage 
+     - __summary function from summary module__
+         - It has two parameter, target_text and language(default for korean).
+         - You must put str type argument to target_text parameter. 
+         - You can get a summarized text.
 
-    - convert function 
-        - Now this module has two function, convert and show_paragraph. 
-        - Put the document to convert function. 
-        - If the document has docx extension name, the file will converted to "docx.document.Document" object automatically.
-    - show_paragraph function 
-        - You must put two arguments to two parameter, converted_document, index.
-        - Put the object converted through convert function to first argument field. 
-        - Put the index number you want to get paragraph to second argument field. 
-        - If you want to get the all of the paragraphs, use "all".
+     - __convert function from convert module__
+         - Now this module has two function, convert and show_paragraph. 
+         - Put the document to convert function. 
+         - If the document has docx extension name, the file will converted 
+           to "docx.document.Document" object automatically.
+
+     - __show_paragraph function from convert module__
+         - You must put two arguments to two parameter, converted_document, index.
+         - Put the object converted through convert function to first argument field. 
+         - Put the index number you want to get paragraph to second argument field. 
+         - If you want to get the all of the paragraphs, use "all".
 --------------
