@@ -1,4 +1,3 @@
-from NodeApp.textualization.convert import convert
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Nodes, Node_Comment
 from FileApp.models import Files
