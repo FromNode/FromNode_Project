@@ -16,11 +16,11 @@
 ```
 ```python
     # summary module
-    from summary import summary
+    from NodeApp.summarization.summary import summary
     
     # convert module
-    from convert import convert
-    from convert import show_paragraph
+    from NodeApp.textualization.convert import convert
+    from NodeApp.textualization.convert import show_paragraph
 ```
  #### Usage 
    - **Summary Function** from summary module
