@@ -1,0 +1,73 @@
+.tribute-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: auto;
+  max-height: 300px;
+  max-width: 500px;
+  overflow: auto;
+  display: block;
+  z-index: 999999;
+}
+.tribute-container ul {
+  margin: 0;
+  margin-top: 2px;
+  padding: 0;
+  list-style: none;
+  background: #efefef;
+}
+.tribute-container li {
+  padding: 5px 5px;
+  cursor: pointer;
+}
+.tribute-container li.highlight {
+  background: #ddd;
+}
+.tribute-container li span {
+  font-weight: bold;
+}
+.tribute-container li.no-match {
+  cursor: default;
+}
+.tribute-container .menu-highlighted {
+  font-weight: bold;
+}
+
+// node_list 멘션
+    /* 멘션 */
+    .tribute-demo-input {
+      outline: none;
+      border: 1px solid #eee;
+      padding: 3px 5px;
+      border-radius: 2px;
+      font-size: 15px;
+      min-height: 50px;
+      cursor: text;
+      overflow-y: auto;
+      text-align: left;
+
+  }
+
+  .tribute-demo-input:focus {
+      border-color: #d1d1d1;
+      background-color: #fbfbfb;
+  }
+
+  [contenteditable="true"]:empty:before {
+      content: attr(placeholder);
+      display: block;
+      color: #ccc;
+  }
+
+  /* 끝 */
+
+  a {
+      background-color: transparent;
+      text-decoration: none;
+      cursor: pointer;
+  }
+
+  .mentioned_name {
+      background-color: transparent;
+      color: #2ba6cb;
+  }

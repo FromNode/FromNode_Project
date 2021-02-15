@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Files
+from .models import Files, board
 from NodeApp.models import Nodes
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
@@ -26,14 +26,20 @@ def show_file_list(request,project_id):
         proj_obj = all_proj
     else:
         pass
+    
+    is_there_notice = False
+    noticeboard = board.objects.filter(proj_id = project_id)
+    if noticeboard.count() != 0:
+        is_there_notice = True
+
 
     project = Projects.objects.get(id = project_id)
     pro_name = project.name
     # detail pro name 뽑아오는 과정
     proj_user = []
+
     empty = ''
     file_obj = Files.objects.filter(ownerPCode=project_id)
-    
     
     if len(file_obj) == 0:
         empty = '추적한 파일이 없습니다'
@@ -44,9 +50,27 @@ def show_file_list(request,project_id):
         'project':project.id, 
         'file_obj':file_obj,
         'proj_user':proj_user,
-        'empty':empty}
+        'empty':empty,
+        'project_id':project_id,
+        'is_there_notice':is_there_notice,
+        'noticeboard':noticeboard,
+        }
+    print(is_there_notice)
     return render(request, 'FileApp/file_list.html', contents)
 
+def add_notice(request):
+    notice_text = request.POST['notice_text']
+    proj_id = request.POST['proj_id']
+    proj_obj = Projects.objects.get(id = proj_id)
+    user_id = request.user
+    new_notice = board()
+    new_notice.proj_id = proj_obj
+    new_notice.user_id = user_id
+    new_notice.notice = notice_text
+    new_notice.save()
+
+    next_url = '/file/file_list/'+str(proj_id)
+    return redirect(next_url)
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')
 
@@ -83,3 +107,11 @@ def create_new_file(request):
 
     return redirect(next_url)
     
+
+def create_invite_url(request, project_id):
+    if request.user.is_authenticated:
+        project_code = Projects.objects.get(id = project_id).Code
+        invite_url = project_code
+        return render(request, 'FileApp/create_invite_url.html', {'invite_url':invite_url})
+    else:
+        return render(request, 'error')

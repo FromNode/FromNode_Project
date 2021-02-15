@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from NodeApp.models import Nodes
+from ProjectApp.models import Projects
 from random import choice
 import string
 
@@ -26,4 +27,10 @@ class Files(models.Model):
     image = models.CharField(max_length=255, default='etc')
     Memo = models.CharField(max_length=1023, blank = True)
     File_Nodes = models.ManyToManyField(Nodes,blank = True, related_name ='FileNode')
-    
+
+
+class board(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
+    proj_id = models.ForeignKey(Projects, on_delete=models.CASCADE, db_column="proj_id")
+    date = models.DateTimeField(auto_now=True)
+    notice = models.CharField(max_length=255, blank = True)
