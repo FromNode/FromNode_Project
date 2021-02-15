@@ -171,7 +171,7 @@ def node_list(request, file_Code):
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
         coordinates = tuple_return[3]
-
+        print(coordinates)
         gridRowWidth = "100px "
         gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
@@ -239,6 +239,7 @@ def node_list(request, file_Code):
         "proj_user": proj_user,
         "pro_name": pro_name,
         "comments" : comments,
+        "coordinates" : coordinates,
         "test_comments": comment_data_to_json,
         "comment_data" : comment_data,
 
@@ -264,7 +265,7 @@ def node_comment_create(request, file_Code):
         "json":json_data,
         "proj_user":proj_user,
         "pro_name" : pro_name,
-        "coordinates" : coordinates,
+        
         "comments": comments,
         'form': form,
     }  
