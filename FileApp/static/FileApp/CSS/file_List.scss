@@ -169,6 +169,23 @@
  .notice_board{
     margin-left:40px;
  }
+ .notice_content{
+     background-color: white;
+     margin-top: 1px;
+     display: flex;
+     flex-direction: row;
+     flex: 10;
+ }
+ .notice_username{
+     flex: 1;
+ }
+ .notice_comment{
+     flex: 10;
+ }
+ .notice_date{
+     float: right;
+     flex: 2;
+ }
 // .fileListTitle{
 //     display: block;
 //     font-size: 5em;
