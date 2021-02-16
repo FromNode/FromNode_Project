@@ -7,6 +7,27 @@
 ```
 --------------
 # Major Changes 
+### Add similarity Module (21.02.16) from @jaehoonkimm
+- This module is basically similar to the two modules updated yesterday.
+- To use, do the following.
+```python
+    # similarity module
+    from NodeApp.similarity.similarity import similarity_compare
+```
+ #### Usage 
+   - **Similarity_compare** from similarity module
+       - It has four parameter, before_doc, after_doc, user_name, save_list.
+       - Put the document object converted through convert function(in the convert module) 
+         to each before_doc and after_doc parameter.
+       - Put the user name you want to user_name parameter. It'll be appended in a result list.
+       - Put the empty python-list to save_list parameter. If this list are not empty, It'll be cleared automatically.
+       - Finally you can get a list with the following three lists added and two values: 
+         - same_paragraph_index_list,  
+         - moved_paragraph_index_list,  
+         - new_paragraph_index_list,  
+         - user_name,  
+         - new_paragraph_ratio(new paragraphs ratio per all paragraphs about before and after document). 
+ --------------
 ### Add summarization, textualization Module (21.02.15) from @jaehoonkimm
 - We can use new two modules, convert and summary. This modules are into NodeApp directory as folder type. 
 - They are super simple module. If you want to import this module in your code on the NodeApp, put the code like following that,
