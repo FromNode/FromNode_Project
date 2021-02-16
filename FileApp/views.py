@@ -102,8 +102,11 @@ def create_new_file(request):
     node_obj.fileObj = request.FILES['myFile']
     node_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
     node_obj.ownerFCode = file_obj
+    node_obj.filename = request.FILES['myFile'].name
     node_obj.whoIsOwner = request.user
     node_obj.save()
+    file_obj.File_Nodes.add(node_obj)
+    file_obj.save()
 
     return redirect(next_url)
     
