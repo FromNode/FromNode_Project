@@ -19,7 +19,11 @@
                 <a class="menu_Btn" href="#"> 메뉴2 </a>
                 <a class="menu_Btn" href="#"> 메뉴3 </a>
             </div>
-            <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
+            {% if user.is_authenticated %}
+                <button class="login_Btn"><a class="logout_Text" href="{% url 'user:logout'%}">Logout</a></button>
+            {% else %}
+                <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
+            {% endif %}
         </div>
         <div class="main_Contents">
             <div class="section1">
