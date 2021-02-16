@@ -179,10 +179,11 @@ def node_list(request, file_Code):
         # Html로 전송할 정보들
         json_set=[]
         comment_data = []
+        first_comments = Node_Comment.objects.filter(node_code = 61102394)
         for node in node_objs:
             node_comments = Node_Comment.objects.filter(node_code = node.Code)
-            first_comments =  node_comments
-            comments = first_comments | node_comments
+            first_comments = first_comments | node_comments
+        comments = first_comments
         # comments = Node_Comment.objects.all()
         for i in range(0, len(comments)):
             if comments[i].who_is_mentioned != None:
