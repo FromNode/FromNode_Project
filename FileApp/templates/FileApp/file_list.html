@@ -15,30 +15,21 @@
 </div>
 <div class="container">
     <div class="fileList_Header">
-        <span class="fileListTitle large">{{pro_name}}</span>
-        <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버젼을 확인해보세요</span>
+        <div>
+            <span class="fileListTitle large"><h1>{{pro_name}}</h1> </span> 
+        </div>
+        <div>
+            <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
+        </div>
         <!-- <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
             <span>{{users.username}}</span>
         {% endfor %} -->
-        <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
-    </div>
-    <div class = "notice_board">
-        {% if is_there_notice == False %}
-            <h1>아직 메모를 남긴 사람이 없어요</h1>
-        {% else %}
-            {% for notice in noticeboard %}
-                {{notice.user_id.username}} {{notice.notice}} <br>
-            {% endfor %}
-        {% endif %}
-        <form method="POST" action="{% url 'file:add_notice' %}">
-            {% csrf_token %}
-            <input type='hidden' name='proj_id' value='{{project_id}}'>
-            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
-        </form>
-
     </div>
     <div class="fileList_Contents">
+        <div calss="fileList_Contents_Header">
+            <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버전을 확인해보세요</span>
+        </div>
         <div class="fileList_List">
             {% for file in file_obj %}
             <div class='file'>
@@ -54,14 +45,39 @@
 
             </div>
             {% endfor %}
+            <div class="fileList_upload">
+                <button class="openModal"><img style='width:40px;height:40px;'
+                        src="{% static 'MainApp/picture/pluslogo.png' %}"><br>
+                </button>
+            </div>
         </div>
+        
     </div>
-    <div class="fileList_upload">
-        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;'
-                src="{% static 'MainApp/picture/pluslogo.png' %}"><br><Br>
-            <p class='small'>버전을 추적할</p>
-            <p class='small'>새 파일을 추가해보세요</p>
-        </button>
+    <div class = "notice_board">
+        {% if is_there_notice == False %}
+            <h3>아직 이야기를 남긴 사람이 없어요</h3>
+        {% else %}
+            {% for notice in noticeboard %}
+                <div class='notice_content'>
+                    <div class='notice_username'>
+                        <h4>{{notice.user_id.username}}</h4>
+                    </div>
+                    <div class='notice_comment'>
+                        {{notice.notice}}
+                    </div>
+                    <div class='notice_date'>
+                        {{notice.date | date:'Y.m.d H:i'}}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div>
+            <form method="POST" action="{% url 'file:add_notice' %}">
+                {% csrf_token %}
+                <input type='hidden' name='proj_id' value='{{project_id}}'>
+                <input type='text' name='notice_text' value=''><input type="submit" value="enter">
+            </form>
+        </div>
     </div>
 </div>
 <br>
