@@ -395,6 +395,21 @@
     <script src="{% static 'MainApp/vendor/chart.js/dist/Chart.extension.js' %}"></script>
     <!-- Argon JS -->
     <script src="{% static 'MainApp/JS/argon.js' %}"></script>
+    
+    <!-- SCRIPT LOADING START FORM HERE /////////////-->
+    <!-- label source -->
+    <!-- plugins:js -->
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/core.js' %}"></script>
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/vendor.addons.js' %}"></script>
+    <!-- endinject -->
+    <!-- Vendor Js For This Page Ends-->
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script>
+    <!-- Vendor Js For This Page Ends-->
+    <!-- build:js -->
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script>
+    <!-- endbuild -->
     <!-- etc JS -->
     {% block JS %}
     {% endblock %}

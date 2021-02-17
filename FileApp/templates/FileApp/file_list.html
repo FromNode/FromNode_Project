@@ -10,8 +10,8 @@
 
 
 {% block content %}
-<div class="header bg-primary pb-4">
-<div class="container-fluid">
+<div class="header bg-primary pb-9">
+    <div class="container-fluid">
         <div class="row align-items-center py-4 bg-primary">
             <div class="col-lg-6 col-7">
                 <h6 class="h2 text-white d-inline-block mb-0">{{pro_name}}</h6>
@@ -28,9 +28,9 @@
                 <a href="#" class="btn btn-sm btn-neutral">Filters</a>
             </div>
         </div>
+    </div>
 </div>
-</div>
-<div class="container-fluid">
+<div class="container-fluid mt--9">
     <div class="row">
         <!-- 김조교 -->
         <div class="col-xl-8">
@@ -125,61 +125,173 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Area Chart</h3>
+                                </div>
+                                <!-- <div class="col text-right">
+                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid">
+                                <div class="grid-body">
+                                    <!-- <h2 class="grid-title">Area Chart</h2> -->
+                                    <div class="item-wrapper">
+                                        <canvas id="chartjs-staked-area-chart" width="600" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Line Chart</h3>
+                                </div>
+                                <!-- <div class="col text-right">
+                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid">
+                                <div class="grid-body">
+                                    <!-- <h2 class="grid-title">Line Chart</h2> -->
+                                    <div class="item-wrapper">
+                                        <canvas id="chartjs-staked-line-chart" width="600" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Radar Chart</h3>
+                                </div>
+                                <!-- <div class="col text-right">
+                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid">
+                                <div class="grid-body">
+                                    <!-- <h2 class="grid-title">Radar Chart</h2> -->
+                                    <div class="item-wrapper">
+                                        <canvas id="chartjs-radar-chart" width="600" height="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="mb-0">Pie Chart</h3>
+                                </div>
+                                <!-- <div class="col text-right">
+                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid">
+                                <div class="grid-body">
+                                  <!-- <h2 class="grid-title">Pie Chart</h2> -->
+                                  <div class="item-wrapper">
+                                    <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- 파일리스트 & 공지사항 -->
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-header">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <h3 class="mb-0">File List</h3>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">File List</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                        </div>
                     </div>
-                    <div class="col text-right">
-                      <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                    </div>
-                  </div>
                 </div>
                 <div class="row card-body">
                     {% for file in file_obj %}
-                   <div class="media flex-column col-xl-4 align-items-center">
-                    
+                    <div class="media flex-column col-xl-4 align-items-center">
+                        <input class='image' type='hidden' value='{{file.image}}'></input>
+
                         <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
                                 style='width:5rem; height:5rem;'></a>
-                    
-                    <div class="text-center">
-                        <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
-                    </div>
-                   </div> 
-                   {% endfor %}
-                </div> 
-            </div>
-    
 
-            <div class="part">
-                {% if is_there_notice == False %}
-                <h3>아직 이야기를 남긴 사람이 없어요</h3>
-                {% else %}
-                {% for notice in noticeboard %}
-                <div class='notice_content'>
-                    <div class='notice_username'>
-                        <h4>{{notice.user_id.username}}</h4>
+                        <div class="text-center">
+                            <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
+                        </div>
                     </div>
-                    <div class='notice_comment'>
-                        {{notice.notice}}
-                    </div>
-                    <div class='notice_date'>
-                        {{notice.date | date:'Y.m.d H:i'}}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">공지사항</h3>
+                        </div>
+                        <!-- <div class="col text-right">
+                          <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
+                        </div> -->
                     </div>
                 </div>
-                {% endfor %}
-                {% endif %}
-                <div>
-                    <form method="POST" action="{% url 'file:add_notice' %}">
-                        {% csrf_token %}
-                        <input type='hidden' name='proj_id' value='{{project_id}}'>
-                        <input type='text' name='notice_text' value=''><input type="submit" value="enter">
-                    </form>
+                <div class="card-body">
+                    {% if is_there_notice == False %}
+                    <h3>아직 이야기를 남긴 사람이 없어요</h3>
+                    {% else %}
+                    {% for notice in noticeboard %}
+                    <div class='notice_content'>
+                        <div class='notice_username'>
+                            <h4>{{notice.user_id.username}}</h4>
+                        </div>
+                        <div class='notice_comment'>
+                            {{notice.notice}}
+                        </div>
+                        <div class='notice_date'>
+                            {{notice.date | date:'Y.m.d H:i'}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    <div>
+                        <form method="POST" action="{% url 'file:add_notice' %}">
+                            {% csrf_token %}
+                            <input type='hidden' name='proj_id' value='{{project_id}}'>
+                            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,8 +302,8 @@
     <!-- 자 여기에 해보자 -->
 
 </div>
-<div class="container">
-    <div class="fileList_Header">
+<!-- <div class="container"> -->
+<!-- <div class="fileList_Header">
         <div>
             <span class="fileListTitle large">
                 <h1>{{pro_name}}</h1>
@@ -200,12 +312,12 @@
         <div>
             <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
         </div>
-        <!-- <p class='Large'>프로젝트 참여 명단</p>
+        <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
             <span>{{users.username}}</span>
-        {% endfor %} -->
-    </div>
-    <div class="fileList_Contents">
+        {% endfor %}
+    </div> -->
+<!-- <div class="fileList_Contents">
         <div calss="fileList_Contents_Header">
             <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버전을 확인해보세요</span>
         </div>
@@ -231,8 +343,8 @@
             </div>
         </div>
 
-    </div>
-    <div class="notice_board">
+    </div> -->
+<!-- <div class="notice_board">
         {% if is_there_notice == False %}
         <h3>아직 이야기를 남긴 사람이 없어요</h3>
         {% else %}
@@ -257,8 +369,8 @@
                 <input type='text' name='notice_text' value=''><input type="submit" value="enter">
             </form>
         </div>
-    </div>
-</div>
+    </div> -->
+<!-- </div> -->
 <br>
 <div class="uploadModal hidden">
     <!--hidden-->
