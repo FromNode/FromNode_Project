@@ -18161,6 +18161,14 @@ a.text-darker:focus
     height: 58px;
 }
 
+.avatar-md{
+    font-size: .875rem; 
+
+    width: 43px;
+    height: 43px;
+
+}
+
 .avatar-sm
 {
     font-size: .875rem; 
