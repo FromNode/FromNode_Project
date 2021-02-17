@@ -210,7 +210,8 @@ def node_list(request, file_Code):
                     'who_is_mentioned' : ""
                     }
                 )
-        comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
+        # print(comment_data)
+        # comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
             # json_set.append(comment_data_to_json)
 
         # print("냐아", comment_data_to_json)
@@ -242,7 +243,6 @@ def node_list(request, file_Code):
         "pro_name": pro_name,
         "comments" : comments,
         "coordinates" : coordinates,
-        "test_comments": comment_data_to_json,
         "comment_data" : comment_data,
 
     }

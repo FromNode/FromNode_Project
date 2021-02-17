@@ -36,11 +36,11 @@
     }
     a:link{
         text-decoration: none;
-        color: #0F69E4;
+        // color: #0F69E4;
     }
     a:visited{
         text-decoration: none;
-        color: #0F69E4;
+        // color: #0F69E4;
     }
     
     .invite_link{
@@ -95,6 +95,7 @@
         margin-top: 10px;
         margin-left:25px;
         flex-direction: row;
+        flex:1;
     }
 
     .fileListTitle{
@@ -105,17 +106,18 @@
     .Title_discription{
         border-radius: 30px;
         border: 2px solid  gray;
-        margin-left:100px;
+        //margin-left:100px;
         padding:10px;
 
     }
     .fileList_Contents{
+        margin-top: 40px;
         margin-left:25px;
         display: flex;
         flex-direction: column;
-        height: 500px;
         width:70vw;
     }
+
     .fileList_List{
         display: flex;
         margin-top:30px;
@@ -124,7 +126,7 @@
 
     .file{
         display: flex;
-        width:200px;
+        width:180px;
         height: 200px;
         flex-direction: column;
         text-align: center;
@@ -137,11 +139,15 @@
     }
     
     .fileList_upload{
+        width:200px;
+        height: 200px;
         align-items: right;
         text-align: right;
     }
 
     .openModal{
+        width:120px;
+        height:120px;
         border-radius: 30px;
         border: 3px solid  #1163f8;
         background-color: white;
@@ -153,22 +159,45 @@
 
 
 
-// .container{
-//     display: flex;
-//     flex-direction: column;
-//     width: 100%;
-//     height: 100%;
-// }
+ .container{
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     height: 100%;
+ }
+
+ .notice_board{
+    margin-left:40px;
+ }
+ .notice_content{
+     background-color: white;
+     margin-top: 1px;
+     display: flex;
+     flex-direction: row;
+     flex: 10;
+ }
+ .notice_username{
+     flex: 1;
+ }
+ .notice_comment{
+     flex: 10;
+ }
+ .notice_date{
+     float: right;
+     flex: 2;
+ }
 // .fileListTitle{
 //     display: block;
 //     font-size: 5em;
 //     font-weight: 600;
 //     color: #747474;
 // }
-// .fileList_Header{
-//     width: 100%;
+//.fileList_Header{
+//    width: 100%;
+//     display: flex;
+//     flex-direction: row;
 //     flex: 1;
-// }
+//}
 // .fileList_Contents{
 //     flex: 8;
 //     display: flex;
