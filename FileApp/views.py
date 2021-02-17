@@ -24,6 +24,8 @@ def show_file_list(request,project_id):
         liked_proj = User.Joined_Liked_Projects.all()
         all_proj = unliked_proj | liked_proj
         proj_obj = all_proj
+        project = Projects.objects.get(pk = project_id)
+        proj_user = project.unliked_members.all().union(project.liked_members.all())
     else:
         pass
     

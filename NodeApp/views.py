@@ -170,7 +170,6 @@ def node_list(request, file_Code):
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2] 
         coordinates = tuple_return[3]
-        print(coordinates)
         gridRowWidth = "100px "
         gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
@@ -211,7 +210,6 @@ def node_list(request, file_Code):
                     'who_is_mentioned' : ""
                     }
                 )
-        print(comment_data)
         comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
             # json_set.append(comment_data_to_json)
 
