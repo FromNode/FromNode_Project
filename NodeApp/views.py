@@ -86,9 +86,8 @@ def get_location_list(dbData):
 
     max_y = max([x[1] for x in last])
     li_location = last
-    num_of_row = max_x+2
-    num_of_column = max_y+2
-
+    num_of_row = max_y+2
+    num_of_column = max_x+2
     coordinates = []
 
     for node in last:
