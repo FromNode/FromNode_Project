@@ -877,6 +877,7 @@ pre code
     margin-left: -15px; 
 
     flex-wrap: wrap;
+    /* hs padding: 0 15px; */
 }
 
 .no-gutters
