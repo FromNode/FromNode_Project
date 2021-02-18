@@ -8023,7 +8023,7 @@ a.close.disabled
 {
     display: flex;
 
-    padding: 1.25rem;
+    padding: 1.25rem 1.25rem 0 1.25rem;
 
     border-bottom: 0 solid #e9ecef;
     border-top-left-radius: .4375rem;
@@ -8031,6 +8031,7 @@ a.close.disabled
 
     align-items: flex-start;
     justify-content: space-between;
+    
 }
 .modal-header .close
 {
@@ -8049,7 +8050,7 @@ a.close.disabled
 {
     position: relative;
 
-    padding: 1.5rem; 
+    padding: 0 1.5rem; 
 
     flex: 1 1 auto;
 }
@@ -8088,7 +8089,7 @@ a.close.disabled
 {
     .modal-dialog
     {
-        max-width: 500px;
+        max-width: 650px;
         margin: 1.75rem auto;
     }
     .modal-dialog-scrollable
@@ -29844,4 +29845,19 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
 .bootstrap-datetimepicker-widget.dropdown-black table td .btn[data-action='togglePeriod']
 {
     background: transparent;
+}
+
+
+/* fromnode-edit */
+.modal-card{
+    margin-bottom: 0;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+    
+.circle-sm{
+
+    width: 30px;
+    height: 30px;
+    margin-right: .6rem;
 }

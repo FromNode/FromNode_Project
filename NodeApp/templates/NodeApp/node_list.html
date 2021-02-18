@@ -55,32 +55,9 @@
 </div>
 <div class="container-fluid">
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Launch demo modal
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end -->
+  </button> -->
 
   <!-- nodeModal -->
   <div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -88,12 +65,53 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5>
+          <!-- <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5> -->
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
+          <div class="modal-card">
+            <div class="row align-items-center">
+              <div class="col">
+                <h4 class="h2 mb-0">Total orders</h4>
+              </div>
+            </div>
+            
+            <div class="row align-items-center">
+              <div class="col">
+                <h5 class="text-uppercase text-muted ls-1 mb-1">2021.02.13 PM 06:33</h5>
+
+              </div>
+              <div class="media align-items-center">
+                <a class="circle-sm rounded-circle" style="background-color: rgb(168, 42, 42);"></a>
+                <div class="media-body">
+                  <span class="name mb-0 text-sm">Argon Design System</span>
+                </div>
+                <!-- <div class="circle avatar-sm rounded-circle" style="background-color: rgb(168, 42, 42);">
+
+                </div>
+                <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="modal-card">
+            <span>요약텍스트를 주루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루룩</span>
+          </div>
+          <div class="d-flex justify-content-center">
+              <button class="btn btn-icon btn-primary" type="button">
+                <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+                  <span class="btn-inner--text">Upload</span>
+              </button>
+              <button class="btn btn-icon btn-primary" type="button">
+                <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                  <span class="btn-inner--text">Download</span>
+              </button>
+          </div>
+          
+      
           <div class="modal_Contents">
             <div class="Top_Contents">
               <label class="modal_title form-label">Upload Node</label>
@@ -172,12 +190,12 @@
 
 
 <!-- Node 클릭시 나오는 모달 (파일 업로드, 다운로드, 댓글 가능) -->
-<div class="nodeUploadModal hidden">
+<!-- <div class="nodeUploadModal hidden">
   <div class="modal_Overlay"></div>
   <div class="modal_Contents">
     <div class="Top_Contents">
       <label class="modal_title form-label">Upload Node</label>
-      <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
+      <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input">
       <div class='Upload_Contents'>
         <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
           {% csrf_token %}
@@ -195,35 +213,10 @@
       </div>
     </div>
     <div class='Low_Contents'>
-      <!-- comment write p 태그 부분은 영역 push위해서 불가피하게 이렇게 작업 ! -->
-      <!-- <div id="comment_write">
-          <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true" data-tribute="true">
-          </p>
-          <button id="cmt_but">Comment</button>
-      </div> -->
-
-      {% include "NodeApp/comment.html" %}
-
-      <!-- <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
-            data-tribute="true"></p> -->
-
-      <!-- <form method="post" class="post-form my-3">
-              <div class="mb-3">
-                <label for="comment" class="form-label">Write Comment</label>
-              </div><br>
-              {% csrf_token %}
-              <div class="form-group">
-                  <label for="comment">댓글내용</label>
-                  <textarea class="form-control"name="content" id="content" 
-                            rows="3">{{ form.content.value|default_if_none:'' }}</textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form> -->
-      <!-- end -->
-
+      {#% include "NodeApp/comment.html" %#}
     </div>
   </div>
-</div>
+</div> -->
 </div>
 {% endblock %}
 {% block JS %}
@@ -236,15 +229,15 @@
   const init = async () => {
     let sorted_data = '{{li_location}}'.replaceAll("&#x27;", "");
     let location_Data = sorted_data;
-    let data = await getNodeData();
+    let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
     console.log(location_Data);
-    console.log(data);
+    console.log("데이타가 무엇이냐\n" + data);
     let locationData = await getLocationData(data, location_Data);
     await createGrid(data); // 그리드 만들기
     await createNodeBtn(data, locationData);
     await createGhostDiv();
     await settingNodeDiv();
-    await showUpModal();
+    // await showUpModal();
     await MakeCurveLine();
 
   }
@@ -252,8 +245,9 @@
     let json_data = '{{json}}'.replaceAll("&quot;", "\"");
     let json = JSON.parse(json_data);
     for (let i = 0; i < json.length; i++) {
-      globalDataArray.push(json[i]);
+      globalDataArray.push(json[i]); //globalDataArray : file에 속한 모든 노드
     }
+    // console.log("globalDataArray가 무엇이냐\n"+globalDataArray);
     return await json
   }
   const getLocationData = async (data, location_Data) => {
@@ -376,34 +370,43 @@
       Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
     }
   }
-  const showUpModal = async (data) => {
-    const modalButton = document.querySelectorAll(".Nodes");
-    const modal = document.querySelector(".nodeUploadModal");
-    const overlay = modal.querySelector(".modal_Overlay");
-    const toggleModal = () => {
-      modal.classList.toggle("hidden");
-    }
-    overlay.addEventListener("click", toggleModal);
-    for (let i = 0; i < modalButton.length; i++) {
-      modalButton[i].addEventListener("click", toggleModal);
-    }
-  }
+  // const showUpModal = async (data) => {
+  //   const modalButton = document.querySelectorAll(".Nodes");
+  //   const modal = document.querySelector(".nodeUploadModal");
+  //   const overlay = modal.querySelector(".modal_Overlay");
+  //   const toggleModal = () => {
+  //     modal.classList.toggle("hidden");
+  //   }
+  //   overlay.addEventListener("click", toggleModal);
+  //   for (let i = 0; i < modalButton.length; i++) {
+  //     modalButton[i].addEventListener("click", toggleModal);
+  //   }
+  // }
   const sendDataToModal = async (clickedValue) => {
     let clickedBtn = clickedValue;
     let btnData = await searchDataSameToClickedBtnData(clickedBtn);
+    // btnData란,
+    // 
     await sendInputContents(btnData);
+    await sendNodeDetailContents(btnData);
   }
+
+  const sendNodeDetailContents = async (btnData) => {
+    // node 클릭했을 때 detail한 정보 html 만들기
+  }
+
   const searchDataSameToClickedBtnData = async (clickedBtn) => {
     let regionalDataArray = globalDataArray.slice();
-    let clickedValuePk = clickedBtn.classList[0];
+    console.log("??"+ regionalDataArray[0]['createdDate']);
+    let clickedValuePk = clickedBtn.classList[0]; //선택한 Node의 Pk
     let clickedNode = [];
+    let hs_clickedNode;
 
     for (let i = 0; i < regionalDataArray.length; i++) {
-
       if (clickedValuePk == regionalDataArray[i].pk) {
         let fields = regionalDataArray[i].fields;
         let clickedNodeData = {
-          'NodeComment': fields.comment,
+          'NodeTitle': fields.comment,
           'filename': fields.filename,
           'NodeCreatedDate': fields.createdDate,
           'NodeDescription': fields.desecription,
@@ -414,9 +417,7 @@
           'NodePreviousCode': fields.previousCode,
           'NodeOwner': fields.whoIsOwner,
           'NodePk': clickedValuePk,
-
         }
-
         nowCommentPK = clickedNodeData['NodePk'];
 
 
@@ -433,9 +434,10 @@
           {% endfor %}
         ]
 
-  var comment_array = [];
+
   // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
   // 가진 코멘트 정보만 comment_array 배열에 push
+  var comment_array = [];
   for (idx in comment_object) {
     if (nowCommentPK == comment_object[idx]['node_code']) {
       comment_array.push(comment_object[idx]);
@@ -586,18 +588,18 @@
   //     comment_array.push(comment_object[idx]);
   //   }
   // }
-  // InnerHTML을 사용하여 comment_array 데이터를 차례로 HTML에 전달 --> 2021-02-12 12:18 기준 필요 없어짐 !!          
-        clickedNode.push(clickedNodeData)
+        clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
         }
 
       }
-  return clickedNode
+      return clickedNode
 
       
       
     }
 
   const sendInputContents = async (btnData) => {
+    // 클릭된 노드에 대한 data를 btnData가 가지고 있고, 그것을 hidden으로 html에 쏴줍니다.
     console.log(btnData);
     const sendDataInput = document.querySelector(".hiddenInput");
     const dataLength = Object.keys(btnData[0]).length;

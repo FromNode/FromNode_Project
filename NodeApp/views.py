@@ -159,9 +159,6 @@ def node_list(request, file_Code):
         # project는 File이 속한 project
         # pro_name은 그 project의 이름
         # node_objs는 file에 속한 노드 전체
-        # for i in proj_user:
-        #     print(i.Profile)
-        # print(project_members.Profile)
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
 
@@ -175,7 +172,7 @@ def node_list(request, file_Code):
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
-        json_set=[]
+        # json_set=[]
         comment_data = []
         first_comments = Node_Comment.objects.filter(node_code = 61102394)
         for node in node_objs:
@@ -183,15 +180,10 @@ def node_list(request, file_Code):
             first_comments = first_comments | node_comments
         comments = first_comments
         # comments = Node_Comment.objects.all()
+
         for i in range(0, len(comments)):
             if comments[i].who_is_mentioned != None:
                 comment_data.append(
-                    # [str(comments[i].node_code),
-                    # str(comments[i].content),
-                    # str(comments[i].author_comment),
-                    # str(comments[i].author_comment.Profile.profile_image.url),
-                    # str(comments[i].create_date)
-                    # ]
                     {'node_code' : str(comments[i].node_code),
                     'content' : str(comments[i].content),
                     'author' : str(comments[i].author_comment.Profile.nickname),
