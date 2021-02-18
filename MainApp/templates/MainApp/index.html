@@ -29,7 +29,7 @@
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="project_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
-                        <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">My Project</a></button>
+                        <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">Login</a></button>
                         <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
                     {% if hidden == 0 %}

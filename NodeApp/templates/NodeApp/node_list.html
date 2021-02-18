@@ -34,6 +34,9 @@
     </div>
   </div>
   <div class="NodeContainer">
+    <?xml version="1.1" ?>
+    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full" style="position: absolute; z-index: 0;">
+    </svg>
   </div>
 
 <!-- Node 클릭시 나오는 모달 (파일 업로드, 다운로드, 댓글 가능) -->
@@ -110,6 +113,8 @@
       await createGhostDiv();
       await settingNodeDiv();
       await showUpModal();
+      await MakeCurveLine();
+      
     }
     const getNodeData = async () => {
       let json_data = '{{json}}'.replaceAll("&quot;", "\"");
@@ -175,17 +180,18 @@
         };
         let btnDiv = document.createElement("div");
         let btn = document.createElement("button");
-        let btnText = document.createTextNode(`${varObj.row}행 ${varObj.column}열 ${varObj.Pk}`);
+        let btnText = document.createTextNode(`${varObj.column}행 ${varObj.row}열  ${varObj.Pk}`);
         btn.appendChild(btnText);
         btn.setAttribute("onclick", "sendDataToModal(this);")
         btn.setAttribute("class", `${varObj.Pk} nodeBtn`)
         btn.setAttribute("id", `${varObj.Pk}`)
         btnDiv.appendChild(btn);
         btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
-        btnDiv.style.setProperty('width','80%');
-        btnDiv.style.setProperty('height','50%');
+        btnDiv.style.setProperty('width','50%');
+        btnDiv.style.setProperty('height','80%');
         btnDiv.style.setProperty('border',`4px solid {{user.Profile.user_color}}`);
         btnDiv.style.setProperty('border-radius',`30% 30%`);
+        btnDiv.style.setProperty('text-align','center');
         NodeContainer.appendChild(btnDiv);
       }
     }
@@ -477,6 +483,60 @@
 
     } 
 
+    const MakeCurveLine = async()=>{
+      
+      let coordinates = `{{coordinates}}`.replaceAll("&#x27;","");
+      let coordinates_replace1 = coordinates.replaceAll('"',"");
+      let coordinates_replace2 = coordinates_replace1.replaceAll('[',"");
+      let coordinates_replace3 = coordinates_replace2.replaceAll('(',"");
+      let coordinates_replace5 = coordinates_replace3.replaceAll(')',"");
+      // let coordinates_replace5 = coordinates_replace4.replaceAll(',',"");
+      let coordinates_replace6 = coordinates_replace5.replaceAll(']',"");
+      let coordinates_replace7 = coordinates_replace6.replaceAll(' ',"");
+      let coordinates_split = coordinates_replace7.split('x');
+      let set_x = 0;
+      let set_y = 0;
+
+      for(let i=0; i<coordinates_split.length-1; i++){
+        x = coordinates_split[i];
+        let x_split = x.split(',');
+        const newArr = x_split.filter(Boolean);
+        console.log(newArr);
+        console.log('hi');
+        var Axis = {
+          
+          "start_x" : 150+200*(newArr[0]-1),
+          "start_y" : 45+100*(newArr[1]-1),
+          'end_x': 250+200*(newArr[0]-1),
+          // "end_x" : 150+100*(x[2]-1),
+          "end_y" :45+100*(newArr[3]-1),
+          "middle_x" :(150+200*(newArr[0]-1)+250+200*(newArr[0]-1))*0.5,
+        };
+
+        const pathes = document.querySelector('.pathes');
+        let pre_x = Axis.end_x;
+        let pre_y = Axis.end_y;
+        
+
+        if(set_x<pre_x){
+          set_x = pre_x;
+        }
+        if(set_y<pre_y){
+          set_y = pre_y;
+        }
+        
+        let path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        // let newElement = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        path.setAttribute("d",`M${Axis.start_x} ${Axis.start_y} C ${Axis.middle_x} ${Axis.start_y} ${Axis.middle_x} ${Axis.end_y} ${Axis.end_x} ${Axis.end_y}`);
+        path.setAttribute('stroke',`{{user.Profile.user_color}}`);
+        path.setAttribute('stroke-width','5');
+        path.setAttribute('fill','none');
+        pathes.appendChild(path);
+        pathes.setAttribute('width',set_x); 
+        pathes.setAttribute('height',set_y);
+      }
+    }
+    
     init();
 
     

@@ -24,6 +24,8 @@ def show_file_list(request,project_id):
         liked_proj = User.Joined_Liked_Projects.all()
         all_proj = unliked_proj | liked_proj
         proj_obj = all_proj
+        project = Projects.objects.get(pk = project_id)
+        proj_user = project.unliked_members.all().union(project.liked_members.all())
     else:
         pass
     
@@ -102,8 +104,11 @@ def create_new_file(request):
     node_obj.fileObj = request.FILES['myFile']
     node_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
     node_obj.ownerFCode = file_obj
+    node_obj.filename = request.FILES['myFile'].name
     node_obj.whoIsOwner = request.user
     node_obj.save()
+    file_obj.File_Nodes.add(node_obj)
+    file_obj.save()
 
     return redirect(next_url)
     
