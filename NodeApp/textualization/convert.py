@@ -4,7 +4,8 @@ import docx
 
 def convert(target_document):
     # FileName Extension
-    fn_extension = target_document.split(".")[-1]
+    # fn_extension = target_document.split(".")[-1]
+    fn_extension = "docx"
     if fn_extension == "docx":
         return docx.Document(target_document)
 
