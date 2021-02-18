@@ -16,6 +16,10 @@ import urllib
 import os
 from django.http import HttpResponse, Http404
 import mimetypes
+from NodeApp.summarization.summary import summary
+from NodeApp.textualization.convert import convert
+from NodeApp.textualization.convert import get_str
+
 
 def filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check):
     
@@ -175,7 +179,7 @@ def node_list(request, file_Code):
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
-        json_set=[]
+        json_set = []
         comment_data = []
         first_comments = Node_Comment.objects.filter(node_code = 61102394)
         for node in node_objs:
@@ -192,23 +196,23 @@ def node_list(request, file_Code):
                     # str(comments[i].author_comment.Profile.profile_image.url),
                     # str(comments[i].create_date)
                     # ]
-                    {'node_code' : str(comments[i].node_code),
-                    'content' : str(comments[i].content),
-                    'author' : str(comments[i].author_comment.Profile.nickname),
-                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
-                    'who_is_mentioned' : '@'+str(comments[i].who_is_mentioned.Profile.nickname)
-                    }
+                    {'node_code': str(comments[i].node_code),
+                     'content': str(comments[i].content),
+                     'author': str(comments[i].author_comment.Profile.nickname),
+                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                     'who_is_mentioned': '@'+str(comments[i].who_is_mentioned.Profile.nickname)
+                     }
                 )
             else:
-                 comment_data.append(
-                    {'node_code' : str(comments[i].node_code),
-                    'content' : str(comments[i].content),
-                    'author' : str(comments[i].author_comment.Profile.nickname),
-                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
-                    'who_is_mentioned' : ""
-                    }
+                comment_data.append(
+                    {'node_code': str(comments[i].node_code),
+                     'content': str(comments[i].content),
+                     'author': str(comments[i].author_comment.Profile.nickname),
+                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                     'who_is_mentioned': ""
+                     }
                 )
         comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
             # json_set.append(comment_data_to_json)
@@ -217,7 +221,7 @@ def node_list(request, file_Code):
         # print(comments[0].author_comment.Profile.filter(user_id=comments[0].author_comment.id)[0].name)
         # print(comments[0].author_comment.Profile.profile_image.url)
         # print(comments[0].create_date.strftime("%Y-%m-%d %H:%M"))
-        
+
         # print("comment_data는??\n",comment_data)
     else:
         pass
@@ -243,11 +247,12 @@ def node_list(request, file_Code):
         "comments" : comments,
         "coordinates" : coordinates,
         "test_comments": comment_data_to_json,
-        "comment_data" : comment_data,
+        "comment_data": comment_data,
 
     }
     return render(request, 'NodeApp/node_list.html', objects)
-    
+
+
 def node_comment_create(request, file_Code):
     if request.method == "POST":
         node_comment_create(request, file_Code)
@@ -280,17 +285,20 @@ def node_detail(request, node_Code):
     The_file = Nodes.objects.get(Code=node_Code).ownerFCode
     node_comments = Node_Comment.objects.filter(node_code=node_Code)
     node_code = Nodes.objects.get(Code=node_Code).Code
-   
+
     # 멘션 가능한 프로젝트 팀원들
     project_code = Nodes.objects.get(Code=node_Code).ownerPCode
     # print(project_code)
-    members = project_code.unliked_members.all().union(project_code.liked_members.all())
+    members = project_code.unliked_members.all().union(
+        project_code.liked_members.all())
     # print(members)
 
     member_list = serializers.serialize('json', members)
-    return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments, 'node_code':node_code})
+    return render(request, 'NodeApp/node_details.html', {'node_obj': node_obj, 'The_file': The_file, 'node_comments': node_comments, 'node_code': node_code})
 
 # json으로 멘션 가능한 멤버 data 보내기
+
+
 def mentionable_member_json(request):
     # if request.method == 'POST':
     #     request_data = request.POST.get('code',None)
@@ -301,7 +309,6 @@ def mentionable_member_json(request):
     # # node_code = request.POST['node_code']
     # node_code = request.GET.get('code')
     # print(node_code)
-
 
     # if request.method == 'POST':
     #     json_data = json.loads(request.body)
@@ -330,6 +337,7 @@ def mentionable_member_json(request):
     # context = {'form': form}
     return redirect(redirectURL)
 
+
 def comment_submit(request):
     node_pk = request.POST['node_pk']
     mentioned_name = request.POST['mentioned_name']
@@ -352,12 +360,12 @@ def comment_submit(request):
         mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
         cmt_obj.who_is_mentioned = mentioned_member_Profile.user
         cmt_obj.save()
-        data = [{'author_img' : author_profile,
-                'comment_author':comment_author,
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
-                'mentioned_name':comment_author,
-                'content':comment_text
-                }]
+        data = [{'author_img': author_profile,
+                 'comment_author': comment_author,
+                 'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
+                 'mentioned_name': comment_author,
+                 'content': comment_text
+                 }]
 
     else:
         # 멘션된 사람 없으면
@@ -368,24 +376,25 @@ def comment_submit(request):
         cmt_obj.create_date = timezone.now()
         cmt_obj.who_is_mentioned = None
         cmt_obj.save()
-        data = {'author_img' : author_profile,
-                'comment_author':comment_author,
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
-                'mentioned_name':"",
-                'content':comment_text
+        data = {'author_img': author_profile,
+                'comment_author': comment_author,
+                'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
+                'mentioned_name': "",
+                'content': comment_text
                 }
 
     print(data)
 
     # data = {'mentioned_name':mentioned_name,
     #         'comment_text':comment_text}
-    
+
     # data = [{'comment_text': comment_text,
     #          'author': comment_author,
-    #          'create_date' : 
+    #          'create_date' :
     #         {'key': 'Julia', 'value': 'Julia38'}]
     # data = [{'key':'hello'}]
-    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type = "application/json")
+    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
 
 def load_comment(request):
     node_pk = request.POST['node_pk']
@@ -393,21 +402,21 @@ def load_comment(request):
     comment_data = []
     for i in range(0, len(comments)):
         comment_data.append(
-                # [str(comments[i].node_code),
-                # str(comments[i].content),
-                # str(comments[i].author_comment),
-                # str(comments[i].author_comment.Profile.profile_image.url),
-                # str(comments[i].create_date)
-                # ]
-            {'node_code' : str(comments[i].node_code),
-            'content' : str(comments[i].content),
-            'author' : str(comments[i].author_comment),
-            'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-            'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M")
-            }
+            # [str(comments[i].node_code),
+            # str(comments[i].content),
+            # str(comments[i].author_comment),
+            # str(comments[i].author_comment.Profile.profile_image.url),
+            # str(comments[i].create_date)
+            # ]
+            {'node_code': str(comments[i].node_code),
+             'content': str(comments[i].content),
+             'author': str(comments[i].author_comment),
+             'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+             'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M")
+             }
         )
         print(comment_data)
-    data = json.dumps(comment_data,ensure_ascii=False)
+    data = json.dumps(comment_data, ensure_ascii=False)
     return JsonResponse(data, safe=False)
 
 
@@ -456,8 +465,6 @@ def changeNodeInfo(request):
     return render(request, 'NodeApp/node_list.html')
 
 
-
-
 def download_view(request, pk):
     node = get_object_or_404(Nodes, Code=pk)
     url = node.fileObj.url[1:]
@@ -465,7 +472,8 @@ def download_view(request, pk):
     if os.path.exists(file_url):
         with open(file_url, 'rb') as fh:
             quote_file_url = urllib.parse.quote(node.filename.encode('utf-8'))
-            response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            response = HttpResponse(
+                fh.read(), content_type=mimetypes.guess_type(file_url)[0])
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404
