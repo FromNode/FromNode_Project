@@ -21,35 +21,37 @@ from NodeApp.textualization.convert import convert
 from NodeApp.textualization.convert import get_str
 
 
-def filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check):
-    
+def filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check):
+
     if child_list == []:
         if len(coordinate_node_test) == 20:
-            return 
+            return
         else:
             pass
             # y_value
     else:
-        x_value +=1
+        x_value += 1
         for child in child_list:
-            
-            coordinate_node_test.append([x_value,y_value,child])
+
+            coordinate_node_test.append([x_value, y_value, child])
             child_list = i_dict.get(child)
 
-            filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
-            y_value +=1
+            filter_axis(child_list, x_value, y_value,
+                        coordinate_node_test, i_dict, check)
+            y_value += 1
         is_first = True
-    
+
     return coordinate_node_test
 
+
 def get_location_list(dbData):
-    #str타입 리스트 만들기
+    # str타입 리스트 만들기
     li_test = []
     for obj in dbData:
         if obj.previousCode == None:
-            li_test.append([obj.Code,obj.previousCode, obj.createdDate])
+            li_test.append([obj.Code, obj.previousCode, obj.createdDate])
         else:
-            li_test.append([obj.Code,obj.previousCode.Code, obj.createdDate])
+            li_test.append([obj.Code, obj.previousCode.Code, obj.createdDate])
     i_dict = {}
     first_node_code = ''
 
@@ -63,29 +65,30 @@ def get_location_list(dbData):
                 # print(obj[0])
                 i_list.append(obj[0])
         i_dict[target] = i_list
-    check =False
+    check = False
     child_list = ''
     coordinate_node_test = []
     x_value = 1
     y_value = 1
 
-    coordinate_node_test.append([x_value,y_value,first_node_code])
+    coordinate_node_test.append([x_value, y_value, first_node_code])
     child_list = i_dict.get(first_node_code)
-    last = filter_axis(child_list,x_value,y_value,coordinate_node_test,i_dict,check)
+    last = filter_axis(child_list, x_value, y_value,
+                       coordinate_node_test, i_dict, check)
     x_save = 'first'
     ch = 0
     max_x = max([x[0] for x in last])
-    
-    for i in range(1,max_x+1):
-        last_same_x = [x for x in last if x[0]==i]
-        
+
+    for i in range(1, max_x+1):
+        last_same_x = [x for x in last if x[0] == i]
+
         for n, i in enumerate(last_same_x):
-            if n==0:
+            if n == 0:
                 pass
             else:
                 y_pre = last_same_x[n-1][1]
                 y_now = last_same_x[n][1]
-                if y_now<=y_pre:
+                if y_now <= y_pre:
                     last_same_x[n][1] = y_pre+1
 
     max_y = max([x[1] for x in last])
@@ -172,7 +175,7 @@ def node_list(request, file_Code):
         tuple_return = get_location_list(node_objs)
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
-        num_of_column = tuple_return[2] 
+        num_of_column = tuple_return[2]
         coordinates = tuple_return[3]
         gridRowWidth = "100px "
         gridColumnHeight = "200px "
@@ -181,9 +184,9 @@ def node_list(request, file_Code):
         # Html로 전송할 정보들
         json_set = []
         comment_data = []
-        first_comments = Node_Comment.objects.filter(node_code = 61102394)
+        first_comments = Node_Comment.objects.filter(node_code=61102394)
         for node in node_objs:
-            node_comments = Node_Comment.objects.filter(node_code = node.Code)
+            node_comments = Node_Comment.objects.filter(node_code=node.Code)
             first_comments = first_comments | node_comments
         comments = first_comments
         # comments = Node_Comment.objects.all()
@@ -214,8 +217,8 @@ def node_list(request, file_Code):
                      'who_is_mentioned': ""
                      }
                 )
-        comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
-            # json_set.append(comment_data_to_json)
+        comment_data_to_json = json.dumps(comment_data, ensure_ascii=False)
+        # json_set.append(comment_data_to_json)
 
         # print("냐아", comment_data_to_json)
         # print(comments[0].author_comment.Profile.filter(user_id=comments[0].author_comment.id)[0].name)
@@ -244,8 +247,8 @@ def node_list(request, file_Code):
         "json": json_data,
         "proj_user": proj_user,
         "pro_name": pro_name,
-        "comments" : comments,
-        "coordinates" : coordinates,
+        "comments": comments,
+        "coordinates": coordinates,
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
 
@@ -266,16 +269,16 @@ def node_comment_create(request, file_Code):
         "num_of_row": num_of_row,
         "num_of_column": num_of_column,
         # 행과 열의 개수를 넘김
-        "proj_obj":proj_obj,
-        "node_objs":node_objs,
-        "The_File":The_File, 
-        "json":json_data,
-        "proj_user":proj_user,
-        "pro_name" : pro_name,
-        
+        "proj_obj": proj_obj,
+        "node_objs": node_objs,
+        "The_File": The_File,
+        "json": json_data,
+        "proj_user": proj_user,
+        "pro_name": pro_name,
+
         "comments": comments,
         'form': form,
-    }  
+    }
 
     return render(request, 'NodeApp/node_list.html', objects)
 
@@ -447,6 +450,16 @@ def create_node(request):
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
         node_object = Nodes()
+    # Start Summary part
+        # temp_summary_file 변수에 convert된 Object 담기
+        temp_summary_file = convert(request.FILES['uploadFile'])
+        # convert된 문서 object를 get_str 함수를 통해 String화
+        temp_summary_file = get_str(temp_summary_file)
+        # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
+        str_summary = summary(temp_summary_file)
+        # description 필드에 요약된 Text 삽입
+        node_object.description = str_summary
+    # End Summary part
         node_object.fileObj = request.FILES['uploadFile']
         node_object.filename = request.FILES['uploadFile'].name
         node_object.previousCode = clickedNode
