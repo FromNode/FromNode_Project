@@ -35,7 +35,7 @@
   </div>
   <div class="NodeContainer">
     <?xml version="1.1" ?>
-    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full" style="position: absolute; z-index: -1;">
+    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full" style="position: absolute; z-index: 0;">
     </svg>
   </div>
 
@@ -489,8 +489,8 @@
       let coordinates_replace1 = coordinates.replaceAll('"',"");
       let coordinates_replace2 = coordinates_replace1.replaceAll('[',"");
       let coordinates_replace3 = coordinates_replace2.replaceAll('(',"");
-      let coordinates_replace4 = coordinates_replace3.replaceAll(')',"");
-      let coordinates_replace5 = coordinates_replace4.replaceAll(',',"");
+      let coordinates_replace5 = coordinates_replace3.replaceAll(')',"");
+      // let coordinates_replace5 = coordinates_replace4.replaceAll(',',"");
       let coordinates_replace6 = coordinates_replace5.replaceAll(']',"");
       let coordinates_replace7 = coordinates_replace6.replaceAll(' ',"");
       let coordinates_split = coordinates_replace7.split('x');
@@ -499,18 +499,20 @@
 
       for(let i=0; i<coordinates_split.length-1; i++){
         x = coordinates_split[i];
-
-        console.log(x);
+        let x_split = x.split(',');
+        const newArr = x_split.filter(Boolean);
+        console.log(newArr);
         console.log('hi');
         var Axis = {
           
-          "start_x" : 150+200*(x[0]-1),
-          "start_y" : 45+100*(x[1]-1),
-          'end_x': 250+200*(x[0]-1),
+          "start_x" : 150+200*(newArr[0]-1),
+          "start_y" : 45+100*(newArr[1]-1),
+          'end_x': 250+200*(newArr[0]-1),
           // "end_x" : 150+100*(x[2]-1),
-          "end_y" :45+100*(x[3]-1),
-          "middle_x" :(150+200*(x[0]-1)+250+200*(x[0]-1))*0.5,
+          "end_y" :45+100*(newArr[3]-1),
+          "middle_x" :(150+200*(newArr[0]-1)+250+200*(newArr[0]-1))*0.5,
         };
+
         const pathes = document.querySelector('.pathes');
         let pre_x = Axis.end_x;
         let pre_y = Axis.end_y;
