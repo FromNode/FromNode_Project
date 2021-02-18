@@ -37,6 +37,7 @@
         },
         {% endfor %}
     ]
+    console.log(project_users);
     // 멘션기능 start
     var tribute = new Tribute({
         values: project_users,
@@ -95,38 +96,68 @@
             return item.string;
         }
     };
-
-    // ajax csrf_token
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+             // using jQuery
+              function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                    }
+                  }
                 }
-            }
-        }
-        return cookieValue;
-    }
+                return cookieValue;
+              }
+              function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+              }
+              $(document).ready(function() {
+                var csrftoken = getCookie('csrftoken');
+                $.ajaxSetup({
+                  beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                  }
+                });
+              });
 
-    var csrftoken = getCookie('csrftoken');
+    // // ajax csrf_token
+    // function getCookie(name) {
+    //     var cookieValue = null;
+    //     if (document.cookie && document.cookie !== '') {
+    //         var cookies = document.cookie.split(';');
+    //         for (var i = 0; i < cookies.length; i++) {
+    //             var cookie = cookies[i].trim();
+    //             // Does this cookie string begin with the name we want?
+    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return cookieValue;
+    // }
 
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-    // end
+    // var csrftoken = getCookie('csrftoken');
+
+    // function csrfSafeMethod(method) {
+    //     // these HTTP methods do not require CSRF protection
+    //     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    // }
+    // $.ajaxSetup({
+    //     beforeSend: function (xhr, settings) {
+    //         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+    //             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    //         }
+    //     }
+    // });
+    // // end
 
     // 댓글 data 보내기 (who send mention, comment data, who get mention)
     $(document).ready(function () {
@@ -177,6 +208,7 @@
                     'mentioned_name':get_mention,
                     'comment_text':comment_text},
             success: function(data){
+                console.log(data);
                  $('#comment_body').prepend(
                     '<div class="each_comment"><div class="profile_part"><img class="img-circle img-sm" alt="Profile picture" src="'
                         + data.author_img

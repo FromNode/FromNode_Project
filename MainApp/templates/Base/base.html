@@ -13,6 +13,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+{% load sass_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -35,6 +36,12 @@
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{% static 'MainApp/CSS/Base/argon.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'MainApp/CSS/Base/base.css' %}" type="text/css">
+
+    <!-- 멘션을 위한 source -->
+    <link href="{% sass_src 'MainApp/CSS/Base/tribute.scss' %}" rel="stylesheet">
+    <script src="{% static 'MainApp/JS/tribute.js' %}"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+
 
     <!-- scss를 선언할 영역 -->
     {% block scss %}
