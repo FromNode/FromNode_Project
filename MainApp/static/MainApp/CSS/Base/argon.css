@@ -8059,7 +8059,7 @@ a.close.disabled
 {
     display: flex;
 
-    padding: 1.25rem;
+    padding: 0 1.25rem 1.25rem 1.25rem;
 
     border-top: 0 solid #e9ecef;
     border-bottom-right-radius: .4375rem;
@@ -29852,7 +29852,7 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
 .modal-card{
     margin-bottom: 0;
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    /* border-bottom: 1px solid rgba(0, 0, 0, .05); */
 }
     
 .circle-sm{

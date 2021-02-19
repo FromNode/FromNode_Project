@@ -1,29 +1,68 @@
 {% load static %}
-<div id="comment_write">
-    <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true" data-tribute="true">
-    </p>
-    <button id="cmt_but">Comment</button>
-</div>
-<!-- <div id="nodeCodeForComment"></div> -->
+<div class="modal-body">
+    <div class="modal-card">
 
-<div id="comment_body">
-    <div class="each_comment">
-        <div class="profile_part">
-            <img class="img-circle img-sm" alt="Profile picture" src="https://bootdey.com/img/Content/avatar/avatar1.png" >
-        </div>
-        <div class="comment_text_block">
-            <div class="cmt_top">
-                <p class="cmt_block author_name">HyeseonLee</p>
-                <p class="cmt_block created_date">2021-02-11 21:27</p>
-            </div>
-            <div class="cmt_bottom">
-                <p class="cmt_text_block who_is_mentioned"></p>
-                <p class="cmt_text_block cmt_text">예시 댓글을 적어보려고 해요!</p>
+        <div class="input-group">
+            <p id="test" class="tribute-demo-input form-control h5" contenteditable="true" data-tribute="true"
+                aria-label="Recipient's username" aria-describedby="button-addon2">
+            </p>
+            <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
+            <div class="input-group-append">
+                <button class="btn btn-icon btn-outline-primary" type="button" id="cmt_but">
+                    <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+                </button>
             </div>
         </div>
-    </div>      
-  
+    </div>
 </div>
+
+
+<!-- <div class="row align-items-center" id="comment_write">
+    <p id="test" class="tribute-demo-input col" placeholder="Enter some text here" contenteditable="true" data-tribute="true">
+    </p>
+    <button class="col" id="cmt_but">Comment</button>
+</div> -->
+<!-- <div id="nodeCodeForComment"></div> -->
+<div class="modal-body pb-3">
+    <div class="modal-card py-0">        
+        <!-- <div class="each_comment row">
+            <div class="col-auto">
+                <img class="img-circle img-sm" alt="Profile picture"
+                    src="https://bootdey.com/img/Content/avatar/avatar1.png">
+            </div>
+            <div class="comment_text_block">
+                <div class="cmt_top">
+                    <span>HyeseonLee</span>
+                    <span>2021-02-11 21:27</span>
+                </div>
+                <div class="cmt_bottom">
+                    <p class="cmt_text_block who_is_mentioned"></p>
+                    <p class="cmt_text_block cmt_text">예시 댓글을 적어보려고 해요!</p>
+                </div>
+            </div>
+        </div> -->
+        <div id="comment_body">
+            <!-- <div class="each_comment">
+                <div class="profile_part">
+                    <img class="img-circle img-sm" alt="Profile picture"
+                        src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                </div>
+                <div class="comment_text_block">
+                    <div class="cmt_top">
+                        <p class="cmt_block author_name">HyeseonLee</p>
+                        <p class="cmt_block created_date">2021-02-11 21:27</p>
+                    </div>
+                    <div class="cmt_bottom">
+                        <p class="cmt_text_block who_is_mentioned"></p>
+                        <p class="cmt_text_block cmt_text">예시 댓글을 적어보려고 해요!</p>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script> // 멘션
@@ -31,11 +70,11 @@
     //test
     let project_users = [
         {% for user in proj_user %}
-        {
-            key: "{{user.username}}",
+    {
+        key: "{{user.username}}",
             value : "{{user.Profile.nickname}}"
-        },
-        {% endfor %}
+    },
+    {% endfor %}
     ]
     console.log(project_users);
     // 멘션기능 start
@@ -52,7 +91,7 @@
                     '<span contenteditable="false" class="mentioned_name">'
                     + '@'
                     + item.original.value
-                    +" "
+                    + " "
                     + "</span>"
                     //   "</a></span>"
                 );
@@ -84,7 +123,7 @@
                 return (
                     '<span contenteditable="false" class="mentioned_name">' +
                     item.original.key +
-                    " "+
+                    " " +
                     "</span>"
 
                 );
@@ -96,36 +135,36 @@
             return item.string;
         }
     };
-             // using jQuery
-              function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                  var cookies = document.cookie.split(';');
-                  for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
-                    }
-                  }
+    // using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
                 }
-                return cookieValue;
-              }
-              function csrfSafeMethod(method) {
-                // these HTTP methods do not require CSRF protection
-                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-              }
-              $(document).ready(function() {
-                var csrftoken = getCookie('csrftoken');
-                $.ajaxSetup({
-                  beforeSend: function(xhr, settings) {
-                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                    }
-                  }
-                });
-              });
+            }
+        }
+        return cookieValue;
+    }
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $(document).ready(function () {
+        var csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    });
 
     // // ajax csrf_token
     // function getCookie(name) {
@@ -161,81 +200,105 @@
 
     // 댓글 data 보내기 (who send mention, comment data, who get mention)
     $(document).ready(function () {
-    $('#cmt_but').click(function(){
-        // 댓글 입력하는 block 내용 초기화
-        let node_pk = document.getElementById('cmt_but').className;
-        console.log("comment.html의?? " + node_pk);
-        let comment_text; 
-        let get_mention;
-        var comment_html = $('#test').text();
-        console.log("comment_html \n" + comment_html);
+        $('#cmt_but').click(function () {
+            // 댓글 입력하는 block 내용 초기화
+            let node_pk = $('#cmt_but').attr('name');
+            console.log("comment.html의?? " + node_pk);
+            let comment_text;
+            let get_mention;
+            var comment_html = $('#test').text();
+            console.log("comment_html \n" + comment_html);
 
 
 
-        var mentioned = $(".mentioned_name").text();
-        console.log("mentioned \n"+mentioned);
-        // who get mention
-        let arr_get_mention = mentioned.split("@");
-        console.log(arr_get_mention);
-        if (arr_get_mention == ""){
-            // 언급된 사람 없으면 -> 댓글 text만 그대로 보내면 된다 !
-            console.log("언급된 사람 없습니다");
-            comment_text = comment_html;
-            get_mention = "";
-        }
-        else{
-            get_mention = arr_get_mention[1];
-            console.log(get_mention);
-            var arr_comment_html = comment_html.split(" "); // for 멘션 부분 제외한 텍스트 추출
-            // comment text
-            arr_comment_html.shift();
-            // console.log(arr_comment_html);
-            comment_text = arr_comment_html.join(" ").substr(1); // final comment text
-            
-            // console.log(comment_text);
-        }
-
-        // ready to send ajax
-        console.log("node_pk \n" + node_pk
-                    +"\n" + "mentioned_name \n" + get_mention
-                    +"\n" + "comment_text \n" + comment_text)
-
-        $.ajax({
-            url: "{% url 'node:comment_submit' %}",
-            dataType:"json",
-            type: 'POST',
-            data: {'node_pk':node_pk,
-                    'mentioned_name':get_mention,
-                    'comment_text':comment_text},
-            success: function(data){
-                console.log(data);
-                 $('#comment_body').prepend(
-                    '<div class="each_comment"><div class="profile_part"><img class="img-circle img-sm" alt="Profile picture" src="'
-                        + data.author_img
-                        + '"></img></div><div class="comment_text_block"><div class="cmt_top"><p class="cmt_block created_date">'
-                        + data.create_date
-                        + '</p></div><div class="cmt_bottom"><i class="cmt_text_block who_is_mentioned">'
-                        + data.mentioned_name
-                        + '</i><p class="cmt_text_block cmt_text">'
-                        + data.content
-                        + '</p></div></div></div>'
-                 )
-                 const comment_write_box = document.getElementById('test');
-                comment_write_box.innerText = "";
-
-
-//                 node_pk 
-// 61102394
-// mentioned_name 
-
-// comment_text 
-// 댓글을 적어봅시다
-                console.log(typeof(data));
-            },
-            error: function(e){
-                console.log("error");
+            var mentioned = $(".mentioned_name").text();
+            console.log("mentioned \n" + mentioned);
+            // who get mention
+            let arr_get_mention = mentioned.split("@");
+            console.log(arr_get_mention);
+            if (arr_get_mention == "") {
+                // 언급된 사람 없으면 -> 댓글 text만 그대로 보내면 된다 !
+                console.log("언급된 사람 없습니다");
+                comment_text = comment_html;
+                get_mention = "";
             }
+            else {
+                get_mention = arr_get_mention[1];
+                console.log(get_mention);
+                var arr_comment_html = comment_html.split(" "); // for 멘션 부분 제외한 텍스트 추출
+                // comment text
+                arr_comment_html.shift();
+                // console.log(arr_comment_html);
+                comment_text = arr_comment_html.join(" ").substr(1); // final comment text
+
+                // console.log(comment_text);
+            }
+
+            // ready to send ajax
+            console.log("node_pk \n" + node_pk
+                + "\n" + "mentioned_name \n" + get_mention
+                + "\n" + "comment_text \n" + comment_text)
+
+            $.ajax({
+                url: "{% url 'node:comment_submit' %}",
+                dataType: "json",
+                type: 'POST',
+                data: {
+                    'node_pk': node_pk,
+                    'mentioned_name': get_mention,
+                    'comment_text': comment_text
+                },
+                success: function (data) {
+                    // console.log(data);
+                    if (data['mentioned_name'] != "") {
+                        // 언급된 사람이 있을 때 !
+                        $('#comment_body').prepend(
+                            ' <div class="each_comment row"><div class="col-auto"><img class="img-circle img-sm" alt="Profile picture" src="'
+                            + data['author_img']
+                            +'"></div><div class="col px-0 comment_text_block"><div class="cmt_top"><span class="author_name text-sm">'
+                            + data['comment_author']
+                            +'</span><span class="created_date text-sm">'
+                            + data['create_date']
+                            +'</span></div><div class="cmt_bottom">'
+                            + '<p class="cmt_text_block"><span class="who_is_mentioned text-sm">'
+                            + data['mentioned_name']
+                            + '</span><span class="cmt_text_block cmt_text text-sm">'
+                            + data['content']
+                            +'</span></p></div></div></div>'
+                        )
+                    }
+                    else{
+                        // 언급된 사람이 없을 때 !
+                        $('#comment_body').prepend(
+                            ' <div class="each_comment row"><div class="col-auto"><img class="img-circle img-sm" alt="Profile picture" src="'
+                            + data['author_img']
+                            +'"></div><div class="col px-0 comment_text_block"><div class="cmt_top"><span class="author_name text-sm">'
+                            + data['comment_author']
+                            +'</span><span class="created_date text-sm">'
+                            + data['create_date']
+                            +'</span></div><div class="cmt_bottom">'
+                            + '<p class="cmt_text_block"><span class="cmt_text_block cmt_text text-sm">'
+                            + data['content']
+                            +'</span></p></div></div></div>'
+                        )
+
+                    }
+                    const comment_write_box = document.getElementById('test');
+                    comment_write_box.innerText = "";
+
+
+                    //                 node_pk 
+                    // 61102394
+                    // mentioned_name 
+
+                    // comment_text 
+                    // 댓글을 적어봅시다
+                    console.log(typeof (data));
+                },
+                error: function (e) {
+                    console.log("error");
+                }
+            })
         })
-    })
-});
+    });
 </script>

@@ -188,7 +188,7 @@ def node_list(request, file_Code):
                     'content' : str(comments[i].content),
                     'author' : str(comments[i].author_comment.Profile.nickname),
                     'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
                     'who_is_mentioned' : '@'+str(comments[i].who_is_mentioned.Profile.nickname)
                     }
                 )
@@ -198,7 +198,7 @@ def node_list(request, file_Code):
                     'content' : str(comments[i].content),
                     'author' : str(comments[i].author_comment.Profile.nickname),
                     'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
+                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
                     'who_is_mentioned' : ""
                     }
                 )
@@ -324,32 +324,32 @@ def mentionable_member_json(request):
 
 def comment_submit(request):
     node_pk = request.POST['node_pk']
-    mentioned_name = request.POST['mentioned_name']
+    mentioned_name = request.POST['mentioned_name'] # Profile.nickname
     comment_text = request.POST['comment_text']
-    comment_author = request.user.username
+    comment_author = request.user.Profile.nickname # Profile.nickname
     author_profile = request.user.Profile.profile_image.url
-    print(node_pk)
-    print(mentioned_name)
-    print(comment_text)
-    print(comment_author)
+    # print(node_pk)
+    # print(mentioned_name)
+    # print(comment_text)
+    # print(comment_author)
     # member=User.objects.get(username=mentioned_name)
     # print(member)
     if mentioned_name != "":
         # 멘션된 사람 있으면
         cmt_obj = Node_Comment()
         cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
-        cmt_obj.author_comment = request.user
+        cmt_obj.author_comment = request.user # Save as User model
         cmt_obj.content = comment_text
         cmt_obj.create_date = timezone.now()
         mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
-        cmt_obj.who_is_mentioned = mentioned_member_Profile.user
+        cmt_obj.who_is_mentioned = mentioned_member_Profile.user # Save as User model
         cmt_obj.save()
-        data = [{'author_img' : author_profile,
-                'comment_author':comment_author,
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
-                'mentioned_name':comment_author,
+        data = {'author_img' : author_profile,
+                'comment_author':comment_author, # nickname
+                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
+                'mentioned_name':'@'+mentioned_name, # nickname
                 'content':comment_text
-                }]
+                }
 
     else:
         # 멘션된 사람 없으면
@@ -361,13 +361,13 @@ def comment_submit(request):
         cmt_obj.who_is_mentioned = None
         cmt_obj.save()
         data = {'author_img' : author_profile,
-                'comment_author':comment_author,
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
+                'comment_author':comment_author, # nickname
+                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
                 'mentioned_name':"",
                 'content':comment_text
                 }
 
-    print(data)
+    # print(data)
 
     # data = {'mentioned_name':mentioned_name,
     #         'comment_text':comment_text}
@@ -395,10 +395,10 @@ def load_comment(request):
             'content' : str(comments[i].content),
             'author' : str(comments[i].author_comment),
             'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-            'created_date' : comments[i].create_date.strftime("%Y-%m-%d %H:%M")
+            'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M")
             }
         )
-        print(comment_data)
+        # print(comment_data)
     data = json.dumps(comment_data,ensure_ascii=False)
     return JsonResponse(data, safe=False)
 

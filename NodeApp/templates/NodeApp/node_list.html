@@ -59,25 +59,39 @@
     Launch demo modal
   </button> -->
 
+
+</div>
+<!-- end -->
+<div class="container-fluid">
+  <!-- 여기에 노드리스트 깔자 -->
+  <div class="NodeContainer">
+    <?xml version="1.1" ?>
+    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full"
+      style="position: absolute; z-index: -1;">
+    </svg>
+  </div>
+</div>
   <!-- nodeModal -->
   <div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
+          <div class="hiddenInput">
+          </div>
           <!-- <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5> -->
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="modal-card">
+          <div class="modal-card border-bottom pt-0">
             <div class="row align-items-center">
               <div class="col">
                 <h4 class="h2 mb-0">Total orders</h4>
               </div>
             </div>
-            
+
             <div class="row align-items-center">
               <div class="col">
                 <h5 class="text-uppercase text-muted ls-1 mb-1">2021.02.13 PM 06:33</h5>
@@ -101,86 +115,58 @@
             <span>요약텍스트를 주루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루룩</span>
           </div>
           <div class="d-flex justify-content-center">
-              <button class="btn btn-icon btn-primary" type="button">
-                <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
-                  <span class="btn-inner--text">Upload</span>
-              </button>
-              <button class="btn btn-icon btn-primary" type="button">
-                <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-                  <span class="btn-inner--text">Download</span>
-              </button>
+            <button class="btn btn-icon btn-primary" type="button">
+              <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+              <span class="btn-inner--text">Upload</span>
+            </button>
+            
+            <a class="btn btn-icon btn-primary download">
+              <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+              <span class="btn-inner--text">Download</span>
+            </a>
           </div>
-          
+        </div>
+
+        {% include "NodeApp/comment.html" %}
+        
+        <div class="modal-body">
+          <div class="modal-card">
+
+          </div>
+        </div>
+        <!-- <div class="modal-footer"> -->
+          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button> -->
+        <!-- </div> -->
+  
+        <!-- <div class="modal_Contents">
+          <div class="Top_Contents">
+            <label class="modal_title form-label">Upload Node</label>
+            <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input">
+            <div class='Upload_Contents'>
+              <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="hiddenInput">
+                </div>
+                <div class="drop-zone">
+                  <span class="drop-zone__text ">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
+                  <br><br>
+                  <input type="file" name="uploadFile" class="drop-zone__input" multiple>
+                  <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
+                </div>
+                <a class='download'>다운로드하기</a>
+                <input class="uploadBtn" type="submit" value="업로드하기">
+              </form>
+            </div>
+          </div>
+        </div> -->
+
       
-          <div class="modal_Contents">
-            <div class="Top_Contents">
-              <label class="modal_title form-label">Upload Node</label>
-              <!-- <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input"> -->
-              <div class='Upload_Contents'>
-                <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  <div class="hiddenInput">
-                  </div>
-                  <div class="drop-zone">
-                    <span class="drop-zone__text ">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
-                    <br><br>
-                    <input type="file" name="uploadFile" class="drop-zone__input" multiple>
-                    <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
-                  </div>
-                  <a class='download'>다운로드하기</a>
-                  <input class="uploadBtn" type="submit" value="업로드하기">
-                </form>
-              </div>
-            </div>
-            <div class='Low_Contents'>
-              <!-- comment write p 태그 부분은 영역 push위해서 불가피하게 이렇게 작업 ! -->
-              <!-- <div id="comment_write">
-                  <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true" data-tribute="true">
-                  </p>
-                  <button id="cmt_but">Comment</button>
-              </div> -->
-        
-              {% include "NodeApp/comment.html" %}
-        
-              <!-- <p id="test" class="tribute-demo-input" placeholder="Enter some text here" contenteditable="true"
-                    data-tribute="true"></p> -->
-        
-              <!-- <form method="post" class="post-form my-3">
-                      <div class="mb-3">
-                        <label for="comment" class="form-label">Write Comment</label>
-                      </div><br>
-                      {% csrf_token %}
-                      <div class="form-group">
-                          <label for="comment">댓글내용</label>
-                          <textarea class="form-control"name="content" id="content" 
-                                    rows="3">{{ form.content.value|default_if_none:'' }}</textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </form> -->
-              <!-- end -->
-        
-            </div>
-          </div>
-        
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+      
       </div>
     </div>
   </div>
-  <!-- end -->
-</div>
-<div class="container-fluid">
-  <!-- 여기에 노드리스트 깔자 -->
-  <div class="NodeContainer">
-    <?xml version="1.1" ?>
-    <svg xmlns="http://www.w3.org/2000/svg" class="pathes" version="1.1" baseProfile="full"
-      style="position: absolute; z-index: -1;">
-    </svg>
-  </div>
-</div>
 
 
 
@@ -230,8 +216,8 @@
     let sorted_data = '{{li_location}}'.replaceAll("&#x27;", "");
     let location_Data = sorted_data;
     let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
-    console.log(location_Data);
-    console.log("데이타가 무엇이냐\n" + data);
+    // console.log(location_Data);
+    // console.log("데이타가 무엇이냐\n" + data);
     let locationData = await getLocationData(data, location_Data);
     await createGrid(data); // 그리드 만들기
     await createNodeBtn(data, locationData);
@@ -397,7 +383,7 @@
 
   const searchDataSameToClickedBtnData = async (clickedBtn) => {
     let regionalDataArray = globalDataArray.slice();
-    console.log("??"+ regionalDataArray[0]['createdDate']);
+    // console.log("??" + regionalDataArray[0]['createdDate']);
     let clickedValuePk = clickedBtn.classList[0]; //선택한 Node의 Pk
     let clickedNode = [];
     let hs_clickedNode;
@@ -423,16 +409,17 @@
 
         let comment_object = [
           {% for com in comment_data %}
-            {
-              node_code: "{{ com.node_code }}",
-                content: "{{ com.content }}",
-                  author: "{{ com.author }}",
-                    author_img: "{{ com.author_img_url }}",
-                      who_is_mentioned: "{{ com.who_is_mentioned }}",
-                        create_date: "{{ com.created_date }}"
-            },
-          {% endfor %}
+      {
+        node_code: "{{ com.node_code }}",
+          content: "{{ com.content }}",
+            author: "{{ com.author }}", //닉네임이다
+              author_img: "{{ com.author_img_url }}",
+                who_is_mentioned: "{{ com.who_is_mentioned }}", //닉네임이다
+                  create_date: "{{ com.created_date }}"
+      },
+      {% endfor %}
         ]
+        console.log(comment_object);
 
 
   // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
@@ -450,7 +437,7 @@
   const comment_write_box = document.getElementById('test');
   comment_write_box.innerText = "";
   const comment_write_but = document.getElementById('cmt_but');
-  comment_write_but.setAttribute("class", `${clicked_node_pk}`);
+  comment_write_but.setAttribute("name", `${clicked_node_pk}`);
   const comment_container = document.getElementById('comment_body');
   comment_container.innerHTML = "";
   // const profile_image_part = document.getElementById('profile_part');
@@ -466,6 +453,7 @@
       "created_date": comment_array[i]['create_date'],
       "who_is_mentioned": comment_array[i]['who_is_mentioned'],
     };
+
     // let author_img = comment_array[i]['author_img'];
     // let author = comment_array[i]['author'];
     // let content = comment_array[i]['content'];
@@ -474,11 +462,28 @@
     // -- profile image
 
     let each_comment = document.createElement("div");
-    each_comment.setAttribute("class", 'each_comment');
+    each_comment.setAttribute("class", 'each_comment row');
     comment_container.appendChild(each_comment);
 
+    // comment_container.appendChild(
+    //   '<div class="each_comment">'
+    //   + '<div class="each_comment row"><div class="col-auto"><img class="img-circle img-sm" alt="Profile picture" src="'
+    //     + `${commentObj.author_img}`
+    //     + '"></div><div class="comment_text_block"><div class="cmt_top"><span>'
+    //     + `${commentObj.author}`
+    //     + '</span><span>'
+    //     + `${commentObj.created_date}`
+    //     + '</span></div><div class="cmt_bottom"><p class="cmt_text_block who_is_mentioned">'
+    //     + `${commentObj.who_is_mentioned}`
+    //     + '</p><p class="cmt_text_block cmt_text">'
+    //     + `${commentObj.content}`
+    //     + '</p></div></div></div>'
+    //     + '</div>'
+    // )
+
+
     let profile_part = document.createElement("div");
-    profile_part.setAttribute("class", 'profile_part');
+    profile_part.setAttribute("class", 'col-auto');
     each_comment.appendChild(profile_part);
 
     let prof_img = document.createElement("img");
@@ -488,52 +493,64 @@
     profile_part.appendChild(prof_img);
 
     let comment_text_block = document.createElement("div");
-    comment_text_block.setAttribute("class", 'comment_text_block');
+    comment_text_block.setAttribute("class", 'col px-0 comment_text_block');
     each_comment.appendChild(comment_text_block);
 
     let cmt_top = document.createElement("div");
     cmt_top.setAttribute("class", 'cmt_top');
     comment_text_block.appendChild(cmt_top);
 
-    let author_name = document.createElement("p");
-    author_name.setAttribute("class", 'cmt_block author_name');
+    let author_name = document.createElement("span");
+    author_name.setAttribute("class", 'author_name text-sm');
     author_name.innerHTML = `${commentObj.author}`;
     cmt_top.appendChild(author_name);
+    // console.log(`${commentObj.author}`);
 
-    let created_date = document.createElement("p");
-    author_name.setAttribute("class", 'cmt_block created_date');
-    author_name.innerHTML = `${commentObj.created_date}` + "  " + `${commentObj.node_code}`;
+    let created_date = document.createElement("span");
+    created_date.setAttribute("class", 'created_date text-sm');
+    created_date.innerHTML = `${commentObj.created_date}`;
     cmt_top.appendChild(created_date);
 
     let cmt_bottom = document.createElement("div");
     cmt_bottom.setAttribute("class", 'cmt_bottom');
     comment_text_block.appendChild(cmt_bottom);
+    // <p class="cmt_text_block">
+    //   <span class="who_is_mentioned text-sm">@admin</span>
+    //   <span class="cmt_text_block cmt_text text-sm">oveflow를 블라블라블라블라블라 인데 .. 이거 참 어렵네요&nbsp; .. 근데 아샷추가 맛있어서 버틸만해요</span>
+    // </p>
 
-    let who_is_mentioned = document.createElement("i");
-    who_is_mentioned.setAttribute("class", 'cmt_text_block who_is_mentioned');
-    who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
-    cmt_bottom.appendChild(who_is_mentioned);
+    let cmt_content_block = document.createElement("p");
+    cmt_content_block.setAttribute("class", "cmt_text_block");
+    cmt_bottom.appendChild(cmt_content_block);
 
-    let cmt_text = document.createElement("p");
-    cmt_text.setAttribute("class", 'cmt_text_block cmt_text');
+    if (commentObj['who_is_mentioned'] != "") {
+      // 언급된 사람이 있을 때만 추가하기 !
+      let who_is_mentioned = document.createElement("span");
+      who_is_mentioned.setAttribute("class", 'who_is_mentioned text-sm');
+      who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
+      cmt_content_block.appendChild(who_is_mentioned);
+    }
+
+    let cmt_text = document.createElement("span");
+    cmt_text.setAttribute("class", 'cmt_text text-sm');
     cmt_text.innerHTML = `${commentObj.content}`;
-    cmt_bottom.appendChild(cmt_text);
+    cmt_content_block.appendChild(cmt_text);
   }
 
 
   // console.log(nowCommentPK);
-  $.ajax({
-    url: "{% url 'node:load_comment' %}",
-    type: 'POST',
-    data: { 'node_pk': nowCommentPK },
-    success: function (data) {
-      console.log(data.keys);
+  // $.ajax({
+  //   url: "{% url 'node:load_comment' %}",
+  //   type: 'POST',
+  //   data: { 'node_pk': nowCommentPK },
+  //   success: function (data) {
+  //     console.log(data.keys);
 
-    },
-    error: function (e) {
-      console.log("node comment load error");
-    }
-  })
+  //   },
+  //   error: function (e) {
+  //     console.log("node comment load error");
+  //   }
+  // })
 
 
 
@@ -588,11 +605,11 @@
   //     comment_array.push(comment_object[idx]);
   //   }
   // }
-        clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
+  clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
         }
 
       }
-      return clickedNode
+  return clickedNode
 
       
       
@@ -600,7 +617,7 @@
 
   const sendInputContents = async (btnData) => {
     // 클릭된 노드에 대한 data를 btnData가 가지고 있고, 그것을 hidden으로 html에 쏴줍니다.
-    console.log(btnData);
+    // console.log(btnData);
     const sendDataInput = document.querySelector(".hiddenInput");
     const dataLength = Object.keys(btnData[0]).length;
     for (let i = 0; i < dataLength; i++) {
