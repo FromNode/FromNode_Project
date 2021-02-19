@@ -13,19 +13,22 @@
 <div class="header bg-primary pb-9">
     <div class="container-fluid">
         <div class="row align-items-center py-4 bg-primary">
-            <div class="col-lg-6 col-7">
-                <h6 class="h2 text-white d-inline-block mb-0">{{pro_name}}</h6>
-                <!-- <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-            <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-            <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Default</li>
-            </ol>
-        </nav> -->
+            <div class="col-lg-6 col-7 d-flex align-items-center">
+                <h6 class="h1 text-white d-inline-block mb-0">{{pro_name}}</h6>
+
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                    <div class="avatar-group">
+                        {% for member in proj_user %}
+                            <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="{{member.Profile.nickname}}">
+                                <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
+                              </a>
+                        {% endfor %}
+                    </div>
+                </nav>
             </div>
             <div class="col-lg-6 col-5 text-right">
-                <a href="#" class="btn btn-sm btn-neutral">New</a>
-                <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                <!-- <a href="#" class="btn btn-sm btn-neutral">New</a>
+                <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
             </div>
         </div>
     </div>
@@ -215,12 +218,12 @@
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                  <!-- <h2 class="grid-title">Pie Chart</h2> -->
-                                  <div class="item-wrapper">
-                                    <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
-                                  </div>
+                                    <!-- <h2 class="grid-title">Pie Chart</h2> -->
+                                    <div class="item-wrapper">
+                                        <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>

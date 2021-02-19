@@ -26,7 +26,6 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     profile_image = models.ImageField(upload_to = user_path,blank=True,default='MainApp\image\default_profile.png')
     user_color = ColorField(default='#FF0000')
-    # 추가 할 오브젝트는 이 공간에 써주면 되어요
 
 
 @receiver(post_save,sender=User)

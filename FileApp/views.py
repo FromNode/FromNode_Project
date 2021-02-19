@@ -38,7 +38,7 @@ def show_file_list(request,project_id):
     project = Projects.objects.get(id = project_id)
     pro_name = project.name
     # detail pro name 뽑아오는 과정
-    proj_user = []
+    # proj_user = []
 
     empty = ''
     file_obj = Files.objects.filter(ownerPCode=project_id)
