@@ -179,11 +179,7 @@ def node_list(request, file_Code):
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
         # Html로 전송할 정보들
-<<<<<<< HEAD
-        json_set = []
-=======
         # json_set=[]
->>>>>>> issue/171
         comment_data = []
         first_comments = Node_Comment.objects.filter(node_code=61102394)
         for node in node_objs:
@@ -195,31 +191,6 @@ def node_list(request, file_Code):
         for i in range(0, len(comments)):
             if comments[i].who_is_mentioned != None:
                 comment_data.append(
-<<<<<<< HEAD
-                    # [str(comments[i].node_code),
-                    # str(comments[i].content),
-                    # str(comments[i].author_comment),
-                    # str(comments[i].author_comment.Profile.profile_image.url),
-                    # str(comments[i].create_date)
-                    # ]
-                    {'node_code': str(comments[i].node_code),
-                     'content': str(comments[i].content),
-                     'author': str(comments[i].author_comment.Profile.nickname),
-                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
-                     'who_is_mentioned': '@'+str(comments[i].who_is_mentioned.Profile.nickname)
-                     }
-                )
-            else:
-                comment_data.append(
-                    {'node_code': str(comments[i].node_code),
-                     'content': str(comments[i].content),
-                     'author': str(comments[i].author_comment.Profile.nickname),
-                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M"),
-                     'who_is_mentioned': ""
-                     }
-=======
                     {'node_code' : str(comments[i].node_code),
                     'content' : str(comments[i].content),
                     'author' : str(comments[i].author_comment.Profile.nickname),
@@ -237,7 +208,6 @@ def node_list(request, file_Code):
                     'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
                     'who_is_mentioned' : ""
                     }
->>>>>>> issue/171
                 )
         # print(comment_data)
         # comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
@@ -388,21 +358,12 @@ def comment_submit(request):
         mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
         cmt_obj.who_is_mentioned = mentioned_member_Profile.user # Save as User model
         cmt_obj.save()
-<<<<<<< HEAD
-        data = [{'author_img': author_profile,
-                 'comment_author': comment_author,
-                 'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
-                 'mentioned_name': comment_author,
-                 'content': comment_text
-                 }]
-=======
         data = {'author_img' : author_profile,
                 'comment_author':comment_author, # nickname
                 'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
                 'mentioned_name':'@'+mentioned_name, # nickname
                 'content':comment_text
                 }
->>>>>>> issue/171
 
     else:
         # 멘션된 사람 없으면
@@ -413,19 +374,11 @@ def comment_submit(request):
         cmt_obj.create_date = timezone.now()
         cmt_obj.who_is_mentioned = None
         cmt_obj.save()
-<<<<<<< HEAD
-        data = {'author_img': author_profile,
-                'comment_author': comment_author,
-                'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %H:%M"),
-                'mentioned_name': "",
-                'content': comment_text
-=======
         data = {'author_img' : author_profile,
                 'comment_author':comment_author, # nickname
                 'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
                 'mentioned_name':"",
                 'content':comment_text
->>>>>>> issue/171
                 }
 
     # print(data)
@@ -447,23 +400,6 @@ def load_comment(request):
     comment_data = []
     for i in range(0, len(comments)):
         comment_data.append(
-<<<<<<< HEAD
-            # [str(comments[i].node_code),
-            # str(comments[i].content),
-            # str(comments[i].author_comment),
-            # str(comments[i].author_comment.Profile.profile_image.url),
-            # str(comments[i].create_date)
-            # ]
-            {'node_code': str(comments[i].node_code),
-             'content': str(comments[i].content),
-             'author': str(comments[i].author_comment),
-             'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-             'created_date': comments[i].create_date.strftime("%Y-%m-%d %H:%M")
-             }
-        )
-        print(comment_data)
-    data = json.dumps(comment_data, ensure_ascii=False)
-=======
                 # [str(comments[i].node_code),
                 # str(comments[i].content),
                 # str(comments[i].author_comment),
@@ -479,7 +415,6 @@ def load_comment(request):
         )
         # print(comment_data)
     data = json.dumps(comment_data,ensure_ascii=False)
->>>>>>> issue/171
     return JsonResponse(data, safe=False)
 
 
