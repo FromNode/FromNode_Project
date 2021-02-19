@@ -19,6 +19,8 @@ import mimetypes
 from NodeApp.summarization.summary import summary
 from NodeApp.textualization.convert import convert
 from NodeApp.textualization.convert import get_str
+from NodeApp.similarity.similarity import similarity_compare
+import logging
 
 
 def filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check):
@@ -454,12 +456,24 @@ def create_node(request):
         # temp_summary_file 변수에 convert된 Object 담기
         temp_summary_file = convert(request.FILES['uploadFile'])
         # convert된 문서 object를 get_str 함수를 통해 String화
-        temp_summary_file = get_str(temp_summary_file)
+        temp_summary_file_str = get_str(temp_summary_file)
         # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
-        str_summary = summary(temp_summary_file)
+        str_summary = summary(temp_summary_file_str)
         # description 필드에 요약된 Text 삽입
-        node_object.description = str_summary
+
+        # 유사도 결과물 넣을 Empty_list 생성
+        similarity_list = []
+        previous_node_file = clickedNode.fileObj
+        previous_node_file = convert(previous_node_file)
+        # Similarity Module 사용하여 유사도 비교
+        similarity_compare(previous_node_file,
+                           temp_summary_file, "temp_user", similarity_list)
+        node_object.description = str(
+            100 - similarity_list[4]) + "///" + str_summary
+
+        # node_object.description = str_summary
     # End Summary part
+
         node_object.fileObj = request.FILES['uploadFile']
         node_object.filename = request.FILES['uploadFile'].name
         node_object.previousCode = clickedNode
