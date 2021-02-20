@@ -71,75 +71,75 @@
     </svg>
   </div>
 </div>
-  <!-- nodeModal -->
-  <div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="hiddenInput">
-          </div>
-          <!-- <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5> -->
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<!-- nodeModal -->
+<div class="modal fade" id="nodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="hiddenInput">
         </div>
-        <div class="modal-body">
-          <div class="modal-card border-bottom pt-0">
-            <div class="row align-items-center">
-              <div class="col">
-                <h4 class="h2 mb-0">Total orders</h4>
-              </div>
+        <!-- <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-card border-bottom pt-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="h2 mb-0">Total orders</h4>
             </div>
+          </div>
 
-            <div class="row align-items-center">
-              <div class="col">
-                <h5 class="text-uppercase text-muted ls-1 mb-1">2021.02.13 PM 06:33</h5>
+          <div class="row align-items-center">
+            <div class="col">
+              <h5 class="text-uppercase text-muted ls-1 mb-1">2021.02.13 PM 06:33</h5>
 
+            </div>
+            <div class="media align-items-center">
+              <a class="circle-sm rounded-circle" style="background-color: rgb(168, 42, 42);"></a>
+              <div class="media-body">
+                <span class="name mb-0 text-sm">Argon Design System</span>
               </div>
-              <div class="media align-items-center">
-                <a class="circle-sm rounded-circle" style="background-color: rgb(168, 42, 42);"></a>
-                <div class="media-body">
-                  <span class="name mb-0 text-sm">Argon Design System</span>
-                </div>
-                <!-- <div class="circle avatar-sm rounded-circle" style="background-color: rgb(168, 42, 42);">
+              <!-- <div class="circle avatar-sm rounded-circle" style="background-color: rgb(168, 42, 42);">
 
                 </div>
                 <a href="#!" class="btn btn-sm btn-primary">See all</a> -->
-              </div>
             </div>
           </div>
         </div>
-        <div class="modal-body">
-          <div class="modal-card">
-            <span>요약텍스트를 주루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루룩</span>
-          </div>
-          <div class="d-flex justify-content-center">
-            <button class="btn btn-icon btn-primary" type="button">
-              <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
-              <span class="btn-inner--text">Upload</span>
-            </button>
-            
-            <a class="btn btn-icon btn-primary download">
-              <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-              <span class="btn-inner--text">Download</span>
-            </a>
-          </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-card">
+          <span>요약텍스트를 주루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루루룩</span>
         </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-icon btn-primary" type="button">
+            <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+            <span class="btn-inner--text">Upload</span>
+          </button>
 
-        {% include "NodeApp/comment.html" %}
-        
-        <div class="modal-body">
-          <div class="modal-card">
-
-          </div>
+          <a class="btn btn-icon btn-primary download">
+            <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+            <span class="btn-inner--text">Download</span>
+          </a>
         </div>
-        <!-- <div class="modal-footer"> -->
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+
+      {% include "NodeApp/comment.html" %}
+
+      <div class="modal-body">
+        <div class="modal-card">
+
+        </div>
+      </div>
+      <!-- <div class="modal-footer"> -->
+      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button> -->
-        <!-- </div> -->
-  
-        <!-- <div class="modal_Contents">
+      <!-- </div> -->
+
+      <!-- <div class="modal_Contents">
           <div class="Top_Contents">
             <label class="modal_title form-label">Upload Node</label>
             <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input">
@@ -162,11 +162,11 @@
           </div>
         </div> -->
 
-      
-      
-      </div>
+
+
     </div>
   </div>
+</div>
 
 
 
@@ -302,7 +302,7 @@
       // end
 
       btn.setAttribute("onclick", "sendDataToModal(this);")
-      btn.setAttribute("class", `${varObj.Pk} nodeBtn`);
+      btn.setAttribute("class", `${varObj.Pk} nodeBtn`); // searchDataSameToClickedBtnData에서 노드 pk 추적할 때 쓰인다. (중요)
       btn.setAttribute("id", `${varObj.Pk}`);
       btnDiv.appendChild(btn);
       btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
@@ -370,23 +370,169 @@
   // }
   const sendDataToModal = async (clickedValue) => {
     let clickedBtn = clickedValue;
-    let btnData = await searchDataSameToClickedBtnData(clickedBtn);
-    // btnData란,
-    // 
-    await sendInputContents(btnData);
-    await sendNodeDetailContents(btnData);
+    await sendNodeDetailContents(clickedBtn);
+    await searchNodeComments(clickedBtn); //클릭한 node 댓글 모델에 만들기
+
+    // await searchDataSameToClickedBtnData(clickedBtn);
+    // await sendInputContents(btnData);
   }
 
-  const sendNodeDetailContents = async (btnData) => {
+  const sendNodeDetailContents = async (clickedBtn) => {
     // node 클릭했을 때 detail한 정보 html 만들기
+    // node 클릭했을 때 detail한 정보 html 만들기
+    let regionalDataArray = globalDataArray.slice();
+    let clickedValuePk = clickedBtn.classList[0]; //선택한 Node의 Pk
+    let clickedNodeData;
+
+    $.ajax({
+          url: "{% url 'node:load_node_data' %}",
+          type: 'POST',
+          data: { 'node_pk': clickedValuePk },
+          success: function (data) {
+            console.log(data);
+            console.log("success !");
+          },
+          error: function (e) {
+            console.log("node comment load error");
+      }
+    })
+
+
+
+    for (let i = 0; i < regionalDataArray.length; i++) {
+      if (clickedValuePk == regionalDataArray[i].pk) {
+        let fields = regionalDataArray[i].fields;
+        clickedNodeData = {
+          'NodeTitle': fields.comment,
+          'filename': fields.filename,
+          'NodeCreatedDate': fields.createdDate,
+          'NodeDescription': fields.desecription,
+          'NodeFileObj': fields.fileObj,
+          'NodeName': fields.nodeName,
+          'NodeOwnerFileCode': fields.ownerFCode,
+          'NodeOwnerProjectCode': fields.ownerPCode,
+          'NodePreviousCode': fields.previousCode,
+          'NodeOwner': fields.whoIsOwner,
+          'NodePk': clickedValuePk,
+        }
+        nowCommentPK = clickedNodeData['NodePk'];
+      }
+    }
+    console.log("먀아아아" + clickedNodeData);
+
+
+  }
+
+  const searchNodeComments = async(clickedBtn) => {
+    let clickedValuePk = clickedBtn.classList[0]; // button tag의 class 이름들 List로 받아오는건데, 0번째 있는게 선택한 Node의 Pk다 !
+        //comment 만드는 부분입니다
+        let comment_object = [ // node_list 페이지에 있는 전체 comment 불러오는중
+          {% for com in comment_data %}
+            {
+              node_code: "{{ com.node_code }}",
+                content: "{{ com.content }}",
+                  author: "{{ com.author }}", //닉네임이다
+                    author_img: "{{ com.author_img_url }}",
+                      who_is_mentioned: "{{ com.who_is_mentioned }}", //닉네임이다
+                        create_date: "{{ com.created_date }}"
+            },
+          {% endfor %}
+        ]
+
+        // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
+        // 가진 코멘트 정보만 comment_array 배열에 push
+        var comment_array = [];
+        for (idx in comment_object) {
+          if (clickedValuePk == comment_object[idx]['node_code']) {
+            comment_array.push(comment_object[idx]);
+          }
+        }
+        comment_array.reverse();
+
+        // comment data를 html로 쏴주자
+        const clicked_node_pk = clickedValuePk;
+        const comment_write_box = document.getElementById('test');
+        comment_write_box.innerText = "";
+        const comment_write_but = document.getElementById('cmt_but');
+        comment_write_but.setAttribute("name", `${clicked_node_pk}`);
+        const comment_container = document.getElementById('comment_body');
+        comment_container.innerHTML = "";
+
+        for (let i = 0; i < comment_array.length; i++) {
+          let commentObj = {
+            "node_code": comment_array[i]['node_code'],
+            "author_img": comment_array[i]['author_img'],
+            "author": comment_array[i]['author'],
+            "content": comment_array[i]['content'],
+            "created_date": comment_array[i]['create_date'],
+            "who_is_mentioned": comment_array[i]['who_is_mentioned'],
+          };
+          let each_comment = document.createElement("div");
+          each_comment.setAttribute("class", 'each_comment row');
+          comment_container.appendChild(each_comment);
+
+          let profile_part = document.createElement("div");
+          profile_part.setAttribute("class", 'col-auto');
+          each_comment.appendChild(profile_part);
+
+          let prof_img = document.createElement("img");
+          prof_img.setAttribute("class", 'img-circle img-sm');
+          prof_img.setAttribute("alt", 'Profile picture');
+          prof_img.setAttribute("src", `${commentObj.author_img}`);
+          profile_part.appendChild(prof_img);
+
+          let comment_text_block = document.createElement("div");
+          comment_text_block.setAttribute("class", 'col px-0 comment_text_block');
+          each_comment.appendChild(comment_text_block);
+
+          let cmt_top = document.createElement("div");
+          cmt_top.setAttribute("class", 'cmt_top');
+          comment_text_block.appendChild(cmt_top);
+
+          let author_name = document.createElement("span");
+          author_name.setAttribute("class", 'author_name text-sm');
+          author_name.innerHTML = `${commentObj.author}`;
+          cmt_top.appendChild(author_name);
+          // console.log(`${commentObj.author}`);
+
+          let created_date = document.createElement("span");
+          created_date.setAttribute("class", 'created_date text-sm');
+          created_date.innerHTML = `${commentObj.created_date}`;
+          cmt_top.appendChild(created_date);
+
+          let cmt_bottom = document.createElement("div");
+          cmt_bottom.setAttribute("class", 'cmt_bottom');
+          comment_text_block.appendChild(cmt_bottom);
+          // <p class="cmt_text_block">
+          //   <span class="who_is_mentioned text-sm">@admin</span>
+          //   <span class="cmt_text_block cmt_text text-sm">oveflow를 블라블라블라블라블라 인데 .. 이거 참 어렵네요&nbsp; .. 근데 아샷추가 맛있어서 버틸만해요</span>
+          // </p>
+
+          let cmt_content_block = document.createElement("p");
+          cmt_content_block.setAttribute("class", "cmt_text_block");
+          cmt_bottom.appendChild(cmt_content_block);
+
+          if (commentObj['who_is_mentioned'] != "") {
+            // 언급된 사람이 있을 때만 추가하기 !
+            let who_is_mentioned = document.createElement("span");
+            who_is_mentioned.setAttribute("class", 'who_is_mentioned text-sm');
+            who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
+            cmt_content_block.appendChild(who_is_mentioned);
+          }
+
+          let cmt_text = document.createElement("span");
+          cmt_text.setAttribute("class", 'cmt_text text-sm');
+          cmt_text.innerHTML = `${commentObj.content}`;
+          cmt_content_block.appendChild(cmt_text);
+        }
   }
 
   const searchDataSameToClickedBtnData = async (clickedBtn) => {
+    // 2021.02.20 이거 이제 안써요 !
     let regionalDataArray = globalDataArray.slice();
-    // console.log("??" + regionalDataArray[0]['createdDate']);
-    let clickedValuePk = clickedBtn.classList[0]; //선택한 Node의 Pk
+    let clickedValuePk = clickedBtn.classList[0]; // button tag의 class 이름들 List로 받아오는건데, 0번째 있는게 선택한 Node의 Pk다 !
+    // console.log("무엇에 쓰는 물건이고" + clickedValuePk);
     let clickedNode = [];
-    let hs_clickedNode;
 
     for (let i = 0; i < regionalDataArray.length; i++) {
       if (clickedValuePk == regionalDataArray[i].pk) {
@@ -405,217 +551,17 @@
           'NodePk': clickedValuePk,
         }
         nowCommentPK = clickedNodeData['NodePk'];
-
-
-        let comment_object = [
-          {% for com in comment_data %}
-      {
-        node_code: "{{ com.node_code }}",
-          content: "{{ com.content }}",
-            author: "{{ com.author }}", //닉네임이다
-              author_img: "{{ com.author_img_url }}",
-                who_is_mentioned: "{{ com.who_is_mentioned }}", //닉네임이다
-                  create_date: "{{ com.created_date }}"
-      },
-      {% endfor %}
-        ]
-        console.log(comment_object);
-
-
-  // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
-  // 가진 코멘트 정보만 comment_array 배열에 push
-  var comment_array = [];
-  for (idx in comment_object) {
-    if (nowCommentPK == comment_object[idx]['node_code']) {
-      comment_array.push(comment_object[idx]);
-    }
-  }
-  comment_array.reverse();
-  // comment data를 html로 쏴주자
-
-  const clicked_node_pk = nowCommentPK;
-  const comment_write_box = document.getElementById('test');
-  comment_write_box.innerText = "";
-  const comment_write_but = document.getElementById('cmt_but');
-  comment_write_but.setAttribute("name", `${clicked_node_pk}`);
-  const comment_container = document.getElementById('comment_body');
-  comment_container.innerHTML = "";
-  // const profile_image_part = document.getElementById('profile_part');
-  // const author_name = document.getElementsById('author_name');
-  // const cmt_created_date = document.getElementsById('created_date');
-
-  for (let i = 0; i < comment_array.length; i++) {
-    let commentObj = {
-      "node_code": comment_array[i]['node_code'],
-      "author_img": comment_array[i]['author_img'],
-      "author": comment_array[i]['author'],
-      "content": comment_array[i]['content'],
-      "created_date": comment_array[i]['create_date'],
-      "who_is_mentioned": comment_array[i]['who_is_mentioned'],
-    };
-
-    // let author_img = comment_array[i]['author_img'];
-    // let author = comment_array[i]['author'];
-    // let content = comment_array[i]['content'];
-    // let created_date = comment_array[i]['create_date'];
-    // let who_is_mentioned = comment_array[i]['who_is_mentioned'];
-    // -- profile image
-
-    let each_comment = document.createElement("div");
-    each_comment.setAttribute("class", 'each_comment row');
-    comment_container.appendChild(each_comment);
-
-    // comment_container.appendChild(
-    //   '<div class="each_comment">'
-    //   + '<div class="each_comment row"><div class="col-auto"><img class="img-circle img-sm" alt="Profile picture" src="'
-    //     + `${commentObj.author_img}`
-    //     + '"></div><div class="comment_text_block"><div class="cmt_top"><span>'
-    //     + `${commentObj.author}`
-    //     + '</span><span>'
-    //     + `${commentObj.created_date}`
-    //     + '</span></div><div class="cmt_bottom"><p class="cmt_text_block who_is_mentioned">'
-    //     + `${commentObj.who_is_mentioned}`
-    //     + '</p><p class="cmt_text_block cmt_text">'
-    //     + `${commentObj.content}`
-    //     + '</p></div></div></div>'
-    //     + '</div>'
-    // )
-
-
-    let profile_part = document.createElement("div");
-    profile_part.setAttribute("class", 'col-auto');
-    each_comment.appendChild(profile_part);
-
-    let prof_img = document.createElement("img");
-    prof_img.setAttribute("class", 'img-circle img-sm');
-    prof_img.setAttribute("alt", 'Profile picture');
-    prof_img.setAttribute("src", `${commentObj.author_img}`);
-    profile_part.appendChild(prof_img);
-
-    let comment_text_block = document.createElement("div");
-    comment_text_block.setAttribute("class", 'col px-0 comment_text_block');
-    each_comment.appendChild(comment_text_block);
-
-    let cmt_top = document.createElement("div");
-    cmt_top.setAttribute("class", 'cmt_top');
-    comment_text_block.appendChild(cmt_top);
-
-    let author_name = document.createElement("span");
-    author_name.setAttribute("class", 'author_name text-sm');
-    author_name.innerHTML = `${commentObj.author}`;
-    cmt_top.appendChild(author_name);
-    // console.log(`${commentObj.author}`);
-
-    let created_date = document.createElement("span");
-    created_date.setAttribute("class", 'created_date text-sm');
-    created_date.innerHTML = `${commentObj.created_date}`;
-    cmt_top.appendChild(created_date);
-
-    let cmt_bottom = document.createElement("div");
-    cmt_bottom.setAttribute("class", 'cmt_bottom');
-    comment_text_block.appendChild(cmt_bottom);
-    // <p class="cmt_text_block">
-    //   <span class="who_is_mentioned text-sm">@admin</span>
-    //   <span class="cmt_text_block cmt_text text-sm">oveflow를 블라블라블라블라블라 인데 .. 이거 참 어렵네요&nbsp; .. 근데 아샷추가 맛있어서 버틸만해요</span>
-    // </p>
-
-    let cmt_content_block = document.createElement("p");
-    cmt_content_block.setAttribute("class", "cmt_text_block");
-    cmt_bottom.appendChild(cmt_content_block);
-
-    if (commentObj['who_is_mentioned'] != "") {
-      // 언급된 사람이 있을 때만 추가하기 !
-      let who_is_mentioned = document.createElement("span");
-      who_is_mentioned.setAttribute("class", 'who_is_mentioned text-sm');
-      who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
-      cmt_content_block.appendChild(who_is_mentioned);
-    }
-
-    let cmt_text = document.createElement("span");
-    cmt_text.setAttribute("class", 'cmt_text text-sm');
-    cmt_text.innerHTML = `${commentObj.content}`;
-    cmt_content_block.appendChild(cmt_text);
-  }
-
-
-  // console.log(nowCommentPK);
-  // $.ajax({
-  //   url: "{% url 'node:load_comment' %}",
-  //   type: 'POST',
-  //   data: { 'node_pk': nowCommentPK },
-  //   success: function (data) {
-  //     console.log(data.keys);
-
-  //   },
-  //   error: function (e) {
-  //     console.log("node comment load error");
-  //   }
-  // })
-
-
-
-  //from 재훈재훈
-
-  // 현재 클릭된 Node의 Primary Key를 변수로 저장
-  // nowCommentPK = clickedNodeData['NodePk']; 
-  // views.py에서 context로 넘어온 object중 Node_Comment Model에 해당하는 comments를 불러옴
-  // 단순히 for문으로 comments를 불러오면 문법으로 인한 오류가 나므로, JS에서 사용하는 Json과 동일한
-  // 형태로 재구조화함
-  // let comment_object = []
-  //   {% for com in comments %}
-  //     {
-  //       node_code: "{{ com.node_code }}",
-  //       content: "{{ com.content }}",
-  //       author: "{{ com.author_comment }}",
-  //       author_img: "{{ com.author_comment.username }}",
-  //       create_date: "{{ com.create_date }}"
-  //     },
-  //     {% endfor %}
-  // ]
-  // 위에 코드를 아래처럼 바꾼거에요 !
-  // let c_obj = "{{test_comments}}".replace(/&quot;/g, "\"");
-  // var comment_object = JSON.parse(c_obj);
-
-
-  // console.log("comment_object들은?? \n" + comment_object)
-  // nowCommentPK = String(nowCommentPK);
-  // var verbatimeA = "{% verbatim %}";
-  // var nowCommentIF_A = "{% for i in comments %}";
-  // var nowCommentIF_B = "{% if i.node_code_id == " + nowCommentPK + " %}";
-  // var nowCommentIF_C = "{{ i.content }}<br>";
-  // var nowCommentIF_D = "{% endif %}";
-  // var nowCommentIF_E = "{% endfor %}";
-  // var verbatimeB = "{% endverbatim %}";
-
-  // var nowCommentState = nowCommentIF_A + 
-  //                       nowCommentIF_B + 
-  //                       nowCommentIF_C + 
-  //                       nowCommentIF_D + 
-  //                       nowCommentIF_E;
-  // let nowCommentIF = "{% if i.node_code_id == '61102394' %} {{ i.content }}<br> {% endif %}";
-  // var nodeCommentInnerHTML = document.getElementById("nodeCodeForComment");
-  // nodeCommentInnerHTML.innerHTML = nowCommentState;
-
-  // 클릭된 Node에 해당하는 코멘트만 담기 위한 comment_array 배열 선언
-  // var comment_array = [];
-  // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
-  // 가진 코멘트 정보만 comment_array 배열에 push
-  // for(idx in comment_object) {
-  //   if(nowCommentPK == comment_object[idx]['node_code']) {
-  //     comment_array.push(comment_object[idx]);
-  //   }
-  // }
-  clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
-        }
-
+        console.log("nowCommentPK\n" + nowCommentPK);
       }
-  return clickedNode
+      clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
 
-      
+    }
+      return clickedNode
       
     }
 
   const sendInputContents = async (btnData) => {
+    // 이거 이제 안써요 !!
     // 클릭된 노드에 대한 data를 btnData가 가지고 있고, 그것을 hidden으로 html에 쏴줍니다.
     // console.log(btnData);
     const sendDataInput = document.querySelector(".hiddenInput");
@@ -632,8 +578,6 @@
       createInput.setAttribute("value", `${objectValues}`);
       sendDataInput.appendChild(createInput);
     }
-    // modal에 해당 node의 댓글 data ajax로 받아오기
-
   }
 
   const MakeCurveLine = async () => {

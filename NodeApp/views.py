@@ -383,14 +383,6 @@ def comment_submit(request):
 
     # print(data)
 
-    # data = {'mentioned_name':mentioned_name,
-    #         'comment_text':comment_text}
-
-    # data = [{'comment_text': comment_text,
-    #          'author': comment_author,
-    #          'create_date' :
-    #         {'key': 'Julia', 'value': 'Julia38'}]
-    # data = [{'key':'hello'}]
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
 
@@ -485,3 +477,34 @@ def download_view(request, pk):
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404
+
+def load_node_data(request):
+    node_pk = request.POST['node_pk']
+    target_node = Nodes.objects.get(Code=node_pk)
+    # Node 모델에 있는거 싹 다 가지고 옵시다 !
+    created_date = target_node.createdDate # : 노드가 생긴 시간
+    fileObj = target_node.fileObj # : 노드에 업로드 된 첨부파일
+    filename = target_node.filename
+    previousCode = target_node.previousCode
+    ownerPCode = target_node.ownerPCode
+    ownerFCode = target_node.ownerFCode
+    whoIsOwner = target_node.whoIsOwner # : 노드 올린 사람
+    comment = target_node.comment # : actually 노드 이름입니다.
+    similarity = target_node.similarity # : 유사도
+    description = target_node.description # : 문서 요약
+
+    owner_profile = whoIsOwner.Profile.profile_image.url # : 유저 프로필 사진
+    owner_nickname = whoIsOwner.Profile.nickname # : 유저 닉네임
+
+
+    data = {'node_name' : comment,
+        'created_date' : created_date.strftime("%Y-%m-%d %p %I:%M"),
+        'author_img' : owner_profile,
+        'author_nickname' : owner_nickname,
+        'summary' : description,
+        'similarity' : similarity
+    }
+
+    print(data)
+    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
