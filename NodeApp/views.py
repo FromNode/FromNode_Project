@@ -193,23 +193,23 @@ def node_list(request, file_Code):
         for i in range(0, len(comments)):
             if comments[i].who_is_mentioned != None:
                 comment_data.append(
-                    {'node_code' : str(comments[i].node_code),
-                    'content' : str(comments[i].content),
-                    'author' : str(comments[i].author_comment.Profile.nickname),
-                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
-                    'who_is_mentioned' : '@'+str(comments[i].who_is_mentioned.Profile.nickname)
-                    }
+                    {'node_code': str(comments[i].node_code),
+                     'content': str(comments[i].content),
+                     'author': str(comments[i].author_comment.Profile.nickname),
+                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
+                     'who_is_mentioned': '@'+str(comments[i].who_is_mentioned.Profile.nickname)
+                     }
                 )
             else:
-                 comment_data.append(
-                    {'node_code' : str(comments[i].node_code),
-                    'content' : str(comments[i].content),
-                    'author' : str(comments[i].author_comment.Profile.nickname),
-                    'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-                    'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
-                    'who_is_mentioned' : ""
-                    }
+                comment_data.append(
+                    {'node_code': str(comments[i].node_code),
+                     'content': str(comments[i].content),
+                     'author': str(comments[i].author_comment.Profile.nickname),
+                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
+                     'who_is_mentioned': ""
+                     }
                 )
         # print(comment_data)
         # comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
@@ -340,9 +340,9 @@ def mentionable_member_json(request):
 
 def comment_submit(request):
     node_pk = request.POST['node_pk']
-    mentioned_name = request.POST['mentioned_name'] # Profile.nickname
+    mentioned_name = request.POST['mentioned_name']  # Profile.nickname
     comment_text = request.POST['comment_text']
-    comment_author = request.user.Profile.nickname # Profile.nickname
+    comment_author = request.user.Profile.nickname  # Profile.nickname
     author_profile = request.user.Profile.profile_image.url
     # print(node_pk)
     # print(mentioned_name)
@@ -354,17 +354,17 @@ def comment_submit(request):
         # 멘션된 사람 있으면
         cmt_obj = Node_Comment()
         cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
-        cmt_obj.author_comment = request.user # Save as User model
+        cmt_obj.author_comment = request.user  # Save as User model
         cmt_obj.content = comment_text
         cmt_obj.create_date = timezone.now()
         mentioned_member_Profile = Profile.objects.get(nickname=mentioned_name)
-        cmt_obj.who_is_mentioned = mentioned_member_Profile.user # Save as User model
+        cmt_obj.who_is_mentioned = mentioned_member_Profile.user  # Save as User model
         cmt_obj.save()
-        data = {'author_img' : author_profile,
-                'comment_author':comment_author, # nickname
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
-                'mentioned_name':'@'+mentioned_name, # nickname
-                'content':comment_text
+        data = {'author_img': author_profile,
+                'comment_author': comment_author,  # nickname
+                'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
+                'mentioned_name': '@'+mentioned_name,  # nickname
+                'content': comment_text
                 }
 
     else:
@@ -376,11 +376,11 @@ def comment_submit(request):
         cmt_obj.create_date = timezone.now()
         cmt_obj.who_is_mentioned = None
         cmt_obj.save()
-        data = {'author_img' : author_profile,
-                'comment_author':comment_author, # nickname
-                'create_date':cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
-                'mentioned_name':"",
-                'content':comment_text
+        data = {'author_img': author_profile,
+                'comment_author': comment_author,  # nickname
+                'create_date': cmt_obj.create_date.strftime("%Y-%m-%d %p %I:%M"),
+                'mentioned_name': "",
+                'content': comment_text
                 }
 
     # print(data)
@@ -402,21 +402,21 @@ def load_comment(request):
     comment_data = []
     for i in range(0, len(comments)):
         comment_data.append(
-                # [str(comments[i].node_code),
-                # str(comments[i].content),
-                # str(comments[i].author_comment),
-                # str(comments[i].author_comment.Profile.profile_image.url),
-                # str(comments[i].create_date)
-                # ]
-            {'node_code' : str(comments[i].node_code),
-            'content' : str(comments[i].content),
-            'author' : str(comments[i].author_comment),
-            'author_img_url' : str(comments[i].author_comment.Profile.profile_image.url),
-            'created_date' : comments[i].create_date.strftime("%Y-%m-%d %p %I:%M")
-            }
+            # [str(comments[i].node_code),
+            # str(comments[i].content),
+            # str(comments[i].author_comment),
+            # str(comments[i].author_comment.Profile.profile_image.url),
+            # str(comments[i].create_date)
+            # ]
+            {'node_code': str(comments[i].node_code),
+             'content': str(comments[i].content),
+             'author': str(comments[i].author_comment),
+             'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+             'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M")
+             }
         )
         # print(comment_data)
-    data = json.dumps(comment_data,ensure_ascii=False)
+    data = json.dumps(comment_data, ensure_ascii=False)
     return JsonResponse(data, safe=False)
 
 
@@ -448,25 +448,28 @@ def create_node(request):
     if request.method == 'POST':
         node_object = Nodes()
     # Start Summary part
-        # temp_summary_file 변수에 convert된 Object 담기
-        temp_summary_file = convert(request.FILES['uploadFile'])
-        # convert된 문서 object를 get_str 함수를 통해 String화
-        temp_summary_file_str = get_str(temp_summary_file)
-        # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
-        str_summary = summary(temp_summary_file_str)
-        # description 필드에 요약된 Text 삽입
+        if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+            # temp_summary_file 변수에 convert된 Object 담기
+            temp_summary_file = convert(request.FILES['uploadFile'])
+            # convert된 문서 object를 get_str 함수를 통해 String화
+            temp_summary_file_str = get_str(temp_summary_file)
+            # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
+            str_summary = summary(temp_summary_file_str)
+            # description 필드에 요약된 Text 삽입
 
-        # 유사도 결과물 넣을 Empty_list 생성
-        similarity_list = []
-        previous_node_file = clickedNode.fileObj
-        previous_node_file = convert(previous_node_file)
-        # Similarity Module 사용하여 유사도 비교
-        similarity_compare(previous_node_file,
-                           temp_summary_file, "temp_user", similarity_list)
-        # similarity와 summary text 저장
-        node_object.similarity = similarity_list[4]
-        node_object.description = str_summary
-    # End Summary part
+            # 유사도 결과물 넣을 Empty_list 생성
+            similarity_list = []
+            previous_node_file = clickedNode.fileObj
+            previous_node_file = convert(previous_node_file)
+            # Similarity Module 사용하여 유사도 비교
+            similarity_compare(previous_node_file,
+                               temp_summary_file, "temp_user", similarity_list)
+            # similarity와 summary text 저장
+            node_object.similarity = similarity_list[4]
+            node_object.description = str_summary
+        else:
+            pass
+        # End Summary part
 
         node_object.fileObj = request.FILES['uploadFile']
         node_object.filename = request.FILES['uploadFile'].name
