@@ -1,4 +1,6 @@
 # FromNode with Assistant Kim
+![](https://img.shields.io/badge/Django-3.1.1-blue) ![](https://img.shields.io/github/issues/FromNode/FromNode_Project) ![](https://img.shields.io/github/issues-closed/FromNode/FromNode_Project) ![](https://img.shields.io/github/languages/count/FromNode/FromNode_Project) ![](https://img.shields.io/github/contributors/FromNode/FromNode_Project)
+
 # Requirements
 #### put some stuff about development environment.
 ```terminal
