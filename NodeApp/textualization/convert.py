@@ -5,7 +5,7 @@ import docx
 def convert(target_document):
     # FileName Extension
     # fn_extension = target_document.split(".")[-1]
-    fn_extension = "docx"
+    fn_extension = "docx"  # 함수 내에서 처리하면 오류 발생하여 일단 all true로 처리함
     if fn_extension == "docx":
         return docx.Document(target_document)
 
