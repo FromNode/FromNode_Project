@@ -16,6 +16,8 @@ urlpatterns = [
     path('comment_mention/',views.mentionable_member_json, name='mentionable_member_json'),
     path('submit/', views.comment_submit, name="comment_submit"),
     path('load_comment/', views.load_comment, name="load_comment"),
+    path('load_node_data/', views.load_node_data, name="load_node_data"),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

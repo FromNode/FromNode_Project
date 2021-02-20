@@ -171,6 +171,20 @@ def node_list(request, file_Code):
         json_data = serializers.serialize("json", node_objs)
         # Node에 정보를 담기 위한 데이터를 불러옴
 
+        all_node_data = []
+        for i in range(0, len(node_objs)):
+            all_node_data.append(
+                {
+                    # 노드 이름, 날짜, pk, 주인 유저의 색
+                    'node_name' : str(node_objs[i].comment),
+                    'created_date' : str(node_objs[i].createdDate.strftime("%Y.%m.%d")),
+                    'node_code' : str(node_objs[i].Code),
+                    'owner_color' : node_objs[i].whoIsOwner.Profile.user_color
+                }
+            )
+        all_node_data_to_json = json.dumps(all_node_data, ensure_ascii=False)
+        # print(all_node_data_to_json)
+
         tuple_return = get_location_list(node_objs)
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
@@ -248,7 +262,7 @@ def node_list(request, file_Code):
         "coordinates": coordinates,
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
-
+        "all_node_data_to_json" : all_node_data_to_json
     }
     return render(request, 'NodeApp/node_list.html', objects)
 
@@ -385,14 +399,6 @@ def comment_submit(request):
 
     # print(data)
 
-    # data = {'mentioned_name':mentioned_name,
-    #         'comment_text':comment_text}
-
-    # data = [{'comment_text': comment_text,
-    #          'author': comment_author,
-    #          'create_date' :
-    #         {'key': 'Julia', 'value': 'Julia38'}]
-    # data = [{'key':'hello'}]
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
 
 
@@ -501,3 +507,34 @@ def download_view(request, pk):
             response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404
+
+def load_node_data(request):
+    node_pk = request.POST['node_pk']
+    target_node = Nodes.objects.get(Code=node_pk)
+    # Node 모델에 있는거 싹 다 가지고 옵시다 !
+    created_date = target_node.createdDate # : 노드가 생긴 시간
+    fileObj = target_node.fileObj # : 노드에 업로드 된 첨부파일
+    filename = target_node.filename
+    previousCode = target_node.previousCode
+    ownerPCode = target_node.ownerPCode
+    ownerFCode = target_node.ownerFCode
+    whoIsOwner = target_node.whoIsOwner # : 노드 올린 사람
+    comment = target_node.comment # : actually 노드 이름입니다.
+    similarity = target_node.similarity # : 유사도
+    description = target_node.description # : 문서 요약
+
+    owner_profile = whoIsOwner.Profile.profile_image.url # : 유저 프로필 사진
+    owner_nickname = whoIsOwner.Profile.nickname # : 유저 닉네임
+    owner_color = whoIsOwner.Profile.user_color
+
+    data = {'node_name' : comment,
+        'created_date' : created_date.strftime("%Y-%m-%d %p %I:%M"),
+        'author_color' : owner_color,
+        'author_nickname' : owner_nickname,
+        'summary' : description,
+        'similarity' : similarity
+    }
+
+    # print(data)
+    return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+
