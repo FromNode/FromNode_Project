@@ -9,7 +9,7 @@ from .models import Nodes, Node_Comment
 # ModelAdmin을 상속받는 형태로 class를 정의하고, list_display에 tuple 형태로 admin 페이지에 표출될 필드를 정의
 class NodesAdmin(admin.ModelAdmin):
     list_display = ('Code', 'ownerFCode', 'whoIsOwner',
-                    'comment', 'nodeName', 'description')
+                    'comment', 'similarity', 'description')
 
 
 admin.site.register(Nodes, NodesAdmin)

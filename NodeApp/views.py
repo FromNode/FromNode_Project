@@ -468,10 +468,9 @@ def create_node(request):
         # Similarity Module 사용하여 유사도 비교
         similarity_compare(previous_node_file,
                            temp_summary_file, "temp_user", similarity_list)
-        node_object.description = str(
-            100 - similarity_list[4]) + "///" + str_summary
-
-        # node_object.description = str_summary
+        # similarity와 summary text 저장
+        node_object.similarity = similarity_list[4]
+        node_object.description = str_summary
     # End Summary part
 
         node_object.fileObj = request.FILES['uploadFile']

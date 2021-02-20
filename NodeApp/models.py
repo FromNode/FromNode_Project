@@ -39,7 +39,7 @@ class Nodes(models.Model):
         User, on_delete=models.SET_NULL, null=True, blank=True)  # 이 노드를 만든 회원
     comment = models.CharField(
         max_length=200, blank=True, null=True, default='설명을써주세요')
-    nodeName = models.CharField(max_length=100, blank=True, null=True)
+    similarity = models.FloatField(blank=True, null=True)
     description = models.TextField(max_length=20000, blank=True, null=True)
 
     class Meta:
