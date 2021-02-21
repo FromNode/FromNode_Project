@@ -19,6 +19,7 @@ from collections import Counter
 #     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
 def anlayze(files, project):
+    
     file_infoes = []
     total_comments = ''
     proj_members = project.unliked_members.all().union(project.liked_members.all())
@@ -28,7 +29,13 @@ def anlayze(files, project):
             comment_num_ver_user[member.username] = 0
         nodes = Nodes.objects.filter(ownerFCode = x)
         timeline = []
+        contribution = []
         for i in nodes:
+            owner = i.whoIsOwner.username
+            letters = i.added_letters
+            date = i.createdDate
+            contribution.append([owner,letters,date])
+
             comments = Node_Comment.objects.filter(node_code = i.Code)
             for j in comments:
                 # 모든 node의 유저별 댓글 수 불러오기
@@ -36,7 +43,8 @@ def anlayze(files, project):
                 value = comment_num_ver_user.get(user)
                 value +=1
                 comment_num_ver_user[user] = value
-
+                
+                
                 #멘션 불러오기
                 mention = j.who_is_mentioned
                 if mention != 'none':
@@ -59,13 +67,57 @@ def anlayze(files, project):
                 p3 = first_time + phase_time_gap*3
                 p4 = first_time + phase_time_gap*4
 
+                c1 = {}
+                c2 = {}
+                c3 = {}
+                c4 = {}
+                c5 = {}
+                for member in proj_members:
+                    c1[member.username] = 0
+                    c2[member.username] = 0
+                    c3[member.username] = 0
+                    c4[member.username] = 0
+                    c5[member.username] = 0
+
+
+                for i in contribution:
+                    if i[2]<p1:
+                        if i[1] == None:
+                            c1[i[0]] = c1[i[0]]+ 0
+                        else:
+                            c1[i[0]] = c1[i[0]]+ i[1]
+                    elif i[2]>p1 and i[2]>=p2:
+                        if i[1] == None:
+                            c2[i[0]] = c2[i[0]]+ 0
+                        else:
+                            c2[i[0]] = c2[i[0]]+ i[1]
+                    elif i[2]>p2 and i[2]>=p3:
+                        if i[1] == None:
+                            c3[i[0]] = c3[i[0]]+ 0
+                        else:
+                            c3[i[0]] = c3[i[0]]+ i[1]
+                    elif i[2]>p3 and i[2]>=p4:
+                        if i[1] == None:
+                            c4[i[0]] = c4[i[0]]+ 0
+                        else:
+                            c4[i[0]] = c4[i[0]]+ i[1]
+                    else:
+                        if i[1] == None:
+                            c5[i[0]] = c5[i[0]]+ 0
+                        else:
+                            c5[i[0]] = c5[i[0]]+ i[1]
+
+                contribution_ver_user = {}
+                for member in proj_members:
+                    contribution_ver_user[member.username] = 0
+            
                 phase_node_num = []
                 p1_list = []
                 p2_list = []
                 p3_list = []
                 p4_list = []
                 p5_list = []
-
+                
                 for n, i in enumerate(timeline):
                     if i<=p1:
                         p1_list.append(i)
@@ -86,7 +138,7 @@ def anlayze(files, project):
                 node_nums[3] = len(p3_list)
                 node_nums[4] = len(p4_list)
                 node_nums[5] = len(p5_list)
-                print(len(p1_list),len(p2_list),len(p3_list),len(p4_list))
+
                 # for n, i in enumerate(timeline):
                 #     if n +1 != len(timeline) :
                 #         time_gap = timeline[n+1] - timedelta(days=0)
@@ -100,7 +152,7 @@ def anlayze(files, project):
                 
 
             else:
-                print('첫 노드')
+                pass
 
                 
     
@@ -120,7 +172,19 @@ def anlayze(files, project):
         
         file_infoes.append(comment_info_ver_file)
     
-    
+    contribution_list = []
+    for i in range(0,5):
+        if i == 0:
+            contribution_list.append(c1)
+        elif i ==1:
+            contribution_list.append(c2)            
+        elif i ==2:
+            contribution_list.append(c3)            
+        elif i ==3:
+            contribution_list.append(c4)        
+        elif i ==4:
+            contribution_list.append(c5)
+    print(contribution_list)
     new_list = []
     for n, i in enumerate(file_infoes):
         count = Counter(i)
@@ -130,17 +194,14 @@ def anlayze(files, project):
     for i in range(1,len(new_list)):
         x = new_list[i]
         y += x
-    print(y)
     user_proj_comments = dict(y)
-    print(comment_num_ver_user)
     for user in user_proj_comments:
         comment_num_ver_user[user] = user_proj_comments[user]
 
-    print(comment_num_ver_user)
     total_proj_comments = sum(dict(y).values())
     node_nums = node_nums
 
-    return comment_num_ver_user,total_proj_comments,node_nums
+    return comment_num_ver_user,contribution_list,node_nums
 
 def show_file_list(request,project_id):
     
@@ -188,7 +249,6 @@ def show_file_list(request,project_id):
         'graph_datas_2':graph_datas[1],
         'graph_datas_3':graph_datas[2],
         }
-    print(is_there_notice)
     return render(request, 'FileApp/file_list.html', contents)
 
 
