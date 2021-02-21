@@ -184,8 +184,10 @@ def node_list(request, file_Code):
             )
         all_node_data_to_json = json.dumps(all_node_data, ensure_ascii=False)
         # print(all_node_data_to_json)
-
-        tuple_return = get_location_list(node_objs)
+        if node_objs:
+            tuple_return = get_location_list(node_objs)
+        else:
+            tuple_return = [0,0,0,0]
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2]
