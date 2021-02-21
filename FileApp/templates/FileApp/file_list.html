@@ -158,7 +158,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="mb-0">Line Chart</h3>
+                                    <h3 class="mb-0">업로드 시각 분포</h3>
                                 </div>
                                 <!-- <div class="col text-right">
                                   <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
@@ -182,7 +182,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="mb-0">Radar Chart</h3>
+                                    <h3 class="mb-0"> 협업 스타일</h3>
                                 </div>
                                 <!-- <div class="col text-right">
                                   <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
@@ -208,7 +208,7 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="mb-0">Pie Chart</h3>
+                                    <h3 class="mb-0">커뮤니케이션 빈도</h3>
                                 </div>
                                 <!-- <div class="col text-right">
                                   <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
@@ -447,7 +447,255 @@
 
 {% endblock %}
 {% block JS %}
+<script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
+<script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script>
+<script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
+<script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script>
+
 <script>
+$(function () {
+
+    'use strict';
+
+    if ($("#chartjs-staked-area-chart").length) {
+        var options = {
+        type: 'line',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: chartColors[0],
+                borderColor: chartColors[0],
+                borderWidth: 1,
+            },
+            {
+                label: '# of Points',
+                data: [7, 11, 5, 8, 3, 7],
+                borderColor: chartColors[1],
+                borderWidth: 1,
+                backgroundColor: chartColors[1]
+            }
+            ]
+        },
+        options: {
+            scales: {
+            yAxes: [{
+                ticks: {
+                reverse: false
+                }
+            }]
+            },
+            legend: false
+        }
+        }
+
+        var ctx = document.getElementById('chartjs-staked-area-chart').getContext('2d');
+        new Chart(ctx, options);
+    }
+    var graph_datas_3 = `{{graph_datas_3}}`.replaceAll("[", "");
+    graph_datas_3 = graph_datas_3.replaceAll("]", "");
+    var nodes_data = graph_datas_3.split(',')
+
+    if ($("#chartjs-staked-line-chart").length) {
+        var options = {
+        type: 'line',
+        data: {
+            labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
+            datasets: [{
+                label: '# of Nodes',
+                data: nodes_data,
+                borderWidth: 2,
+                fill: false,
+                backgroundColor: chartColors[0],
+                borderColor: chartColors[0],
+                borderWidth: 0
+            }
+            ]
+        },
+        options: {
+            scales: {
+            yAxes: [{
+                ticks: {
+                reverse: false
+                }
+            }]
+            },
+            fill: false,
+            legend: false
+        }
+        }
+
+        var ctx = document.getElementById('chartjs-staked-line-chart').getContext('2d');
+        new Chart(ctx, options);
+    }
+
+    if ($("#chartjs-bar-chart").length) {
+        var BarData = {
+        labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
+        datasets: [{
+            label: '# of Votes',
+            data: nodes_data,
+            backgroundColor: chartColors,
+            borderColor: chartColors,
+            borderWidth: 0
+        }]
+        };
+        var barChartCanvas = $("#chartjs-bar-chart").get(0).getContext("2d");
+        var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: BarData,
+        options: {
+            legend: false
+        }
+        });
+    }
+
+    if ($("#chartjs-staked-bar-chart").length) {
+        var BarData = {
+        labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
+        datasets: [{
+            label: 'Profit',
+            data: nodes_data,
+            backgroundColor: chartColors[0],
+            borderColor: chartColors[0],
+            borderWidth: 0
+            },
+        ]
+        };
+        var barChartCanvas = $("#chartjs-staked-bar-chart").get(0).getContext("2d");
+        var barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: BarData,
+        options: {
+            tooltips: {
+            mode: 'index',
+            intersect: false
+            },
+            responsive: true,
+            scales: {
+            xAxes: [{
+                stacked: true,
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+            },
+            legend: false
+        }
+        });
+    }
+
+    if ($("#chartjs-radar-chart").length) {
+        var marksCanvas = document.getElementById("chartjs-radar-chart");
+
+        var marksData = {
+        labels: ["English", "Maths", "Physics", "Chemistry", "Biology", "History"],
+        datasets: [{
+            label: "Student A",
+            data: [24, 55, 30, 56, 60, 68],
+            backgroundColor: chartColors[0],
+            borderColor: chartColors[0],
+            borderWidth: 0
+            }, {
+            label: "Student B",
+            data: [54, 65, 60, 70, 70, 75],
+            backgroundColor: chartColors[1],
+            borderColor: chartColors[1],
+            borderWidth: 0
+            },
+            {
+            label: "Student c",
+            data: [43, 13, 33, 57, 50, 75],
+            backgroundColor: chartColors[2],
+            borderColor: chartColors[2],
+            borderWidth: 0
+            }
+        ]
+        };
+
+        var radarChart = new Chart(marksCanvas, {
+        type: 'radar',
+        data: marksData
+        });
+    }
+    var graph_datas_1 = `{{graph_datas_1}}`.replaceAll('&#x27;','');
+    graph_datas_1 =graph_datas_1.replaceAll('{','');
+    graph_datas_1 =graph_datas_1.replaceAll('}','');
+    var graph_datas_1_2 = graph_datas_1.split(',');
+    var user_arr = new Array();
+    var comment_arr = new Array();
+
+    for(i=0; i<graph_datas_1_2.length; i++){
+        var user = graph_datas_1_2[i].split(':')[0];
+        var comment_num = graph_datas_1_2[i].split(':')[1]
+
+        user_arr[i] = user;
+        if(comment_num=='0'){
+            comment_num[i] ='0.001';
+        }
+        else{
+            comment_arr[i] = comment_num;
+        }
+        
+    }
+    console.log(user_arr);
+    console.log(comment_arr);
+    var graph_datas_2 = `{{graph_datas_2}}`;
+
+    if ($("#chartjs-doughnut-chart").length) {
+        var DoughnutData = {
+        datasets: [{
+            data: comment_arr,
+            backgroundColor: chartColors,
+            borderColor: chartColors,
+            borderWidth: chartColors
+        }],
+        labels: user_arr
+        };
+        var DoughnutOptions = {
+        responsive: true,
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+        };
+        var doughnutChartCanvas = $("#chartjs-doughnut-chart").get(0).getContext("2d");
+        var doughnutChart = new Chart(doughnutChartCanvas, {
+        type: 'doughnut',
+        data: DoughnutData,
+        options: DoughnutOptions
+        });
+    }
+
+    if ($("#chartjs-pie-chart").length) {
+        var PieData = {
+        datasets: [{
+            data: comment_arr,
+            backgroundColor: chartColors,
+            borderColor: chartColors,
+            borderWidth: chartColors
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: user_arr
+        };
+        var PieOptions = {
+        responsive: true,
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+        };
+        var pieChartCanvas = $("#chartjs-pie-chart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: PieData,
+        options: PieOptions
+        });
+    }
+    });
+
     var img;
     var x = document.getElementsByClassName('image')
     for (var i = 0; i < x.length; i++) {
@@ -464,7 +712,7 @@
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
         else {
-            img = "{% static 'MainApp/picture/powerpoint.png' %}";
+            img = "{% static 'MainApp/picture/docx.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
 

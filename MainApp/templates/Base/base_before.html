@@ -25,6 +25,7 @@
 </head>
 
 <body>
+{% if user.is_authenticated %}
     <!--상단부-->
         <div class="top">
             <div class="top_nav">
@@ -115,6 +116,7 @@
         </div>
     {% block JS %}
     {% endblock %}
+{% endif %}
 </body>
 
 </html>

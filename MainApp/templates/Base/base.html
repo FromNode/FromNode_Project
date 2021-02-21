@@ -17,7 +17,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-
+{% if user.is_authenticated %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -410,16 +410,17 @@
     <script src="{% static 'MainApp/vendor/label-free-bootstrap/vendor.addons.js' %}"></script>
     <!-- endinject -->
     <!-- Vendor Js For This Page Ends-->
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script>
+    {% comment %} <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script> {% endcomment %}
     <!-- Vendor Js For This Page Ends-->
     <!-- build:js -->
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script>
+    {% comment %} <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
+    <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script> {% endcomment %}
     <!-- endbuild -->
     <!-- etc JS -->
     {% block JS %}
     {% endblock %}
+{%endif%}
 </body>
 
 </html>

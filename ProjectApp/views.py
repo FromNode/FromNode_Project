@@ -9,7 +9,7 @@ import random
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from notifications.signals import notify
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
@@ -83,109 +83,28 @@ def likeornot(request ,project_Code):
         proj_obj.save()
     return redirect('/project/project_list/')
 
-def anlayze(files, project):
-    file_infoes = {}
-    
-    proj_members = project.unliked_members.all().union(project.liked_members.all())
-    for x in files:
-        comment_num_ver_user = {}
-        for member in proj_members:
-            comment_num_ver_user[member.username] = 0
-        nodes = Nodes.objects.filter(ownerFCode = x)
-        timeline = []
-        for i in nodes:
-            comments = Node_Comment.objects.filter(node_code = i.Code)
-            for j in comments:
-                # 모든 node의 유저별 댓글 수 불러오기
-                user =j.author_comment.username
-                value = comment_num_ver_user.get(user)
-                value +=1
-                comment_num_ver_user[user] = value
 
-                #멘션 불러오기
-                mention = j.who_is_mentioned
-                if mention != 'none':
-                    pass
-            # 노드의 datetimeline을 불러오기
-            timeline.append(i.createdDate)
-
-        timeline.sort()
-        # print(timeline)
-        if timeline != []:
-            # 맨 처음, 마지막 노드의 간격을 불러와 노드 전체로 나눈거랑 비교
-            first_time = min(timeline)
-            last_time = max(timeline)
-            if(first_time != last_time):
-                total_time_gap = last_time-first_time
-                day = int(total_time_gap.days)
-                seconds = int(total_time_gap.seconds)
-                # 평균 gap 계산
-                sorted_by_seconds = day*24*60*60 + seconds
-                averge_time_gap = round(sorted_by_seconds/len(nodes),3)
-                print(averge_time_gap)
-
-                node_time_gap = []
-
-                for n, i in enumerate(timeline):
-                    if n +1 != len(timeline) :
-                        time_gap = timeline[n+1] - timeline[n]
-                        day = int(time_gap.days)
-                        seconds = int(time_gap.seconds)
-                        time_gap = day*24*60*60 + seconds
-
-                        node_time_gap.append(time_gap)
-                
-
-            else:
-                print('첫 노드')
-
-                
-    
-        # 댓글 수 나눠서 기여도 체크
-        all_comments_num = sum(i for i in comment_num_ver_user.values())
-        # average_comments = all_comments_num / proj_members_num
-        comment_info_ver_file = {}
-
-        for i in comment_num_ver_user:
-            comment_num = comment_num_ver_user[i]
-            if all_comments_num == 0:
-                contribute_ver_comments =0 
-            else:
-                contribute_ver_comments = round(comment_num / all_comments_num *100 ,2)
-            # 파일별 유저 기여도_코멘트 수
-            comment_info_ver_file[i] = [comment_num,contribute_ver_comments]
-        
-        file_infoes[x] = comment_info_ver_file
-
-    print(file_infoes)
-    total_comments = []
-
-    print(total_comments)
-            
-        
 
         # 파일 업로드 오너 유저 불러오기
         # 업로드 점유율 체크
 
 
-def proj_contributions(request,project_Code):
-    if request.user.is_authenticated:
-        t_comment_num_ver_user = []
-        t_node_timeline_gap = []
-        t_file_upload_ver_user = []
+# def proj_contributions(request,project_Code):
+#     if request.user.is_authenticated:
+#         t_comment_num_ver_user = []
+#         t_node_timeline_gap = []
+#         t_file_upload_ver_user = []
 
-        The_Project = Projects.objects.get(Code = project_Code)
-        files = Files.objects.filter(ownerPCode = The_Project)
-        anlayze(files, The_Project)
         
-        objects ={
+        
+#         objects ={
 
-        }
+#         }
 
-        return render(request, 'ProjectApp/proj_contributions.html', objects)
+#         return render(request, 'ProjectApp/proj_contributions.html', objects)
 
-    else:
-        return render(request,'MainApp/index.html')
+#     else:
+#         return render(request,'MainApp/index.html')
 
     
 

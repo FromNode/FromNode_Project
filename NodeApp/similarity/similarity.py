@@ -15,14 +15,14 @@ def similarity_sentence_compare(before_doc, after_doc, user_name, save_list):
     before = list(itertools.chain(*before))
     while '' in before:
         before.remove('')
-    while ' ' in a:
+    while ' ' in before:
         before.remove(' ')
 
     after = list(map(lambda x: x.text.split("."), after_doc.paragraphs[:]))
     after = list(itertools.chain(*after))
-    while '' in before:
+    while '' in after:
         after.remove('')
-    while ' ' in a:
+    while ' ' in after:
         after.remove(' ')
 
     # Sentence간 비교 (after file <-> before file)
