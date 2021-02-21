@@ -213,15 +213,16 @@ def add_notice(request):
 
 def create_new_file(request):
     pk = request.POST['pk']
+    user_write_f_name = request.POST['file_name']
     next_url = '/file/file_list/'+str(pk)
     filename = request.FILES['myFile']
     fileExtension = str(filename).split('.')[1]
     #str(filename).split('.')[0] 디폴트 파일 명
     file_obj = Files()
-    file_obj.fileName = request.POST['fileName']
+    file_obj.fileName = request.POST['file_name']
     file_obj.whoIsOwner = request.user
     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
-    file_obj.description = request.POST['fileMemo']
+    file_obj.description = "파일 설명 필드 지금 안쓴다."
     if(fileExtension == 'pptx'):
         file_obj.image = 'ppt'
     elif(fileExtension =='doc' or fileExtension == 'docx'):
@@ -236,6 +237,7 @@ def create_new_file(request):
     node_obj.fileObj = request.FILES['myFile']
     node_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
     node_obj.ownerFCode = file_obj
+    node_obj.comment = request.POST['file_name']
     node_obj.filename = request.FILES['myFile'].name
     node_obj.whoIsOwner = request.user
     node_obj.save()

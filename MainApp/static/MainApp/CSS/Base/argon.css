@@ -29900,3 +29900,8 @@ input.datetimepicker[data-color='yellow'] + .bootstrap-datetimepicker-widget.dro
     box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
 }
 
+.file_list_card{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #d6dde3;
+}
