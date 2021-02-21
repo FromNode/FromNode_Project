@@ -215,7 +215,7 @@ def show_file_list(request,project_id):
         project = Projects.objects.get(pk = project_id)
         proj_user = project.unliked_members.all().union(project.liked_members.all())
         files = Files.objects.filter(ownerPCode = project)
-        if files == []:            
+        if bool(files) == True:            
             graph_datas = anlayze(files, project)
         else:
             graph_datas = [1,2,3]
