@@ -53,16 +53,12 @@
     </div>
   </div>
 </div>
-<div class="container-fluid">
-  <!-- Button trigger modal -->
+<!-- <div class="container-fluid">
   <button type="button" class="node_btn" data-toggle="modal" style="border:3px solid rgb(173, 55, 55)">
     <h5 class="text-sm mb-0" id="n_btn_name">냐아아아아아아아아아아아</h5>
     <h6 class="text-muted mb-0" id="n_btn_created_date">2021.02.18</h6>
   </button>
-  
-
-
-</div>
+</div> -->
 <!-- end -->
 <div class="container-fluid">
   <!-- 여기에 노드리스트 깔자 -->
@@ -78,20 +74,44 @@
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <div class="hiddenInput">
-        </div>  
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" placeholder="Default input">
-        <form>
-          <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFileLang" lang="en">
-              <label class="custom-file-label" for="customFileLang">Select file</label>
+      <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form"
+      enctype="multipart/form-data">
+      {% csrf_token %}
+
+        <div class="modal-header">
+          <!-- <div class="hiddenInput">
+          </div> -->
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Node Name</span>
+              </div>
+              <input type="text" class="form-control" aria-describedby="basic-addon3">
+
+            </div>
           </div>
-      </form>
-        <h1>냐아아</h1>
-      </div>
+          <div class="custom-file">
+            <label class="custom-file-label" for="customFileLang">Select file</label>
+            <input type="file" name="uploadFile" class="custom-file-input" id="customFileLang" lang="en">
+            
+          </div>
+        </div>
+        <!-- <div class="modal-body">          
+          <input type="text" class="form-control" placeholder="Default input">
+          <div class="custom-file">
+                <input type="file" name="uploadFile" class="custom-file-input" id="customFileLang" lang="en">
+                <label class="custom-file-label" for="customFileLang">Select file</label>
+          </div>
+       
+        </div> -->
+        <div class="modal-body">
+          <button class="btn btn-icon btn-primary" type="button">
+            <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
+            <span class="btn-inner--text">Make New Node</span>
+          </button>
+        </div>
     </div>
   </div>
 </div>
@@ -476,6 +496,7 @@
   // }
   const sendDataToModal = async (clickedValue) => {
     let clickedBtn = clickedValue;
+    // let btnData = await searchDataSameToClickedBtnData(clickedBtn);
     await sendNodeDetailContents(clickedBtn);
     await searchNodeComments(clickedBtn); //클릭한 node 댓글 모델에 만들기
 
