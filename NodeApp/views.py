@@ -176,10 +176,10 @@ def node_list(request, file_Code):
             all_node_data.append(
                 {
                     # 노드 이름, 날짜, pk, 주인 유저의 색
-                    'node_name' : str(node_objs[i].comment),
-                    'created_date' : str(node_objs[i].createdDate.strftime("%Y.%m.%d")),
-                    'node_code' : str(node_objs[i].Code),
-                    'owner_color' : node_objs[i].whoIsOwner.Profile.user_color
+                    'node_name': str(node_objs[i].comment),
+                    'created_date': str(node_objs[i].createdDate.strftime("%Y.%m.%d")),
+                    'node_code': str(node_objs[i].Code),
+                    'owner_color': node_objs[i].whoIsOwner.Profile.user_color
                 }
             )
         all_node_data_to_json = json.dumps(all_node_data, ensure_ascii=False)
@@ -262,7 +262,7 @@ def node_list(request, file_Code):
         "coordinates": coordinates,
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
-        "all_node_data_to_json" : all_node_data_to_json
+        "all_node_data_to_json": all_node_data_to_json
     }
     return render(request, 'NodeApp/node_list.html', objects)
 
@@ -454,6 +454,8 @@ def create_node(request):
     if request.method == 'POST':
         node_object = Nodes()
     # Start Summary part
+        # File 확장자 확인, docx인가?
+        # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
         if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
             # temp_summary_file 변수에 convert된 Object 담기
             temp_summary_file = convert(request.FILES['uploadFile'])
@@ -471,8 +473,9 @@ def create_node(request):
             similarity_compare(previous_node_file,
                                temp_summary_file, "temp_user", similarity_list)
             # similarity와 summary text 저장
-            node_object.similarity = similarity_list[4]
+            node_object.similarity = 100 - similarity_list[4]
             node_object.description = str_summary
+
         else:
             pass
         # End Summary part
@@ -489,8 +492,6 @@ def create_node(request):
         file_object.save()
         return redirect(redirectURL)
     return redirect(redirectURL)
-
-
 
 
 def changeNodeInfo(request):
@@ -510,33 +511,33 @@ def download_view(request, pk):
             return response
         raise Http404
 
+
 def load_node_data(request):
     node_pk = request.POST['node_pk']
     target_node = Nodes.objects.get(Code=node_pk)
     # Node 모델에 있는거 싹 다 가지고 옵시다 !
-    created_date = target_node.createdDate # : 노드가 생긴 시간
-    fileObj = target_node.fileObj # : 노드에 업로드 된 첨부파일
+    created_date = target_node.createdDate  # : 노드가 생긴 시간
+    fileObj = target_node.fileObj  # : 노드에 업로드 된 첨부파일
     filename = target_node.filename
     previousCode = target_node.previousCode
     ownerPCode = target_node.ownerPCode
     ownerFCode = target_node.ownerFCode
-    whoIsOwner = target_node.whoIsOwner # : 노드 올린 사람
-    comment = target_node.comment # : actually 노드 이름입니다.
-    similarity = target_node.similarity # : 유사도
-    description = target_node.description # : 문서 요약
+    whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
+    comment = target_node.comment  # : actually 노드 이름입니다.
+    similarity = target_node.similarity  # : 유사도
+    description = target_node.description  # : 문서 요약
 
-    owner_profile = whoIsOwner.Profile.profile_image.url # : 유저 프로필 사진
-    owner_nickname = whoIsOwner.Profile.nickname # : 유저 닉네임
+    owner_profile = whoIsOwner.Profile.profile_image.url  # : 유저 프로필 사진
+    owner_nickname = whoIsOwner.Profile.nickname  # : 유저 닉네임
     owner_color = whoIsOwner.Profile.user_color
 
-    data = {'node_name' : comment,
-        'created_date' : created_date.strftime("%Y-%m-%d %p %I:%M"),
-        'author_color' : owner_color,
-        'author_nickname' : owner_nickname,
-        'summary' : description,
-        'similarity' : similarity
-    }
+    data = {'node_name': comment,
+            'created_date': created_date.strftime("%Y-%m-%d %p %I:%M"),
+            'author_color': owner_color,
+            'author_nickname': owner_nickname,
+            'summary': description,
+            'similarity': similarity
+            }
 
     # print(data)
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
-
