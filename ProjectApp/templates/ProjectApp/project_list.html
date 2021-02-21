@@ -11,217 +11,38 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <!-- Page content -->
-        <div class="row">
-          <div class="col">
-            <div class="card">
-              <!-- Card header -->
-              <div class="card-header border-0">
-                <h3 class="mb-0">Project List</h3>
-              </div>
-              <!-- Light table -->
-              <div class="table-responsive">
-                <table class="table align-items-center table-flush">
-                  <thead class="thead-light">
-                    <tr>
-                      <th scope="col" class="sort" data-sort="name">Project</th>
-                      <th scope="col" class="sort" data-sort="budget">Date</th>
-                      <!-- <th scope="col" class="sort" data-sort="status">Status</th> -->
-                      <th scope="col">Users</th>
-                      <!-- <th scope="col" class="sort" data-sort="completion">Completion</th>
-                      <th scope="col"></th> -->
-                    </tr>
-                  </thead>
-                  <tbody class="list">
-                      {% for proj in proj_obj %}
-                    <tr>
-                      <th scope="row">
-                        <div class="media align-items-center">
-                          <div class="media-body">
-                            <a href="{% url 'file:file_list' proj.id %}">
-                              <span class="name mb-0 text-sm">{{proj.name}}</span>
-                            </a>
-                          </div>
-                        </div>
-                      </th>
-                      <td>
-                          날짜입니다.
-                      </td>
-                      <td>
-                        <div class="avatar-group">
-                          <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Ryan Tompson">
-                            <img alt="Image placeholder" src="../assets/img/theme/team-1.jpg">
-                          </a>
-                          <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Romina Hadid">
-                            <img alt="Image placeholder" src="../assets/img/theme/team-2.jpg">
-                          </a>
-                          <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Alexander Smith">
-                            <img alt="Image placeholder" src="../assets/img/theme/team-3.jpg">
-                          </a>
-                          <a href="#" class="avatar avatar-sm rounded-circle" data-toggle="tooltip" data-original-title="Jessica Doe">
-                            <img alt="Image placeholder" src="../assets/img/theme/team-4.jpg">
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                    <!-- end -->
-                  </tbody>
-                </table>
-              </div>
-              <!-- Card footer -->
-              <div class="card-footer py-4">
-                <nav aria-label="...">
-                  <ul class="pagination justify-content-end mb-0">
-                    <li class="page-item disabled">
-                      <a class="page-link" href="#" tabindex="-1">
-                        <i class="fas fa-angle-left"></i>
-                        <span class="sr-only">Previous</span>
-                      </a>
-                    </li>
-                    <li class="page-item active">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">
-                        <i class="fas fa-angle-right"></i>
-                        <span class="sr-only">Next</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="header bg-primary pt-3">
 
+<div class="container-fluid">
+  <div class="row mb-3">
+    <div class="col-lg-6 col-7 d-flex align-items-center">
+      <h6 class="h1 text-white d-inline-block mb-0">프로젝트 리스트</h6>
+  </div>
+  </div>
+  <div class="row">
+    {% for proj in proj_obj %}
+    <div class="col-xl-3 col-md-5">
+        <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body py-4">
+                <div class="row flex-column">
+                  <a href="{% url 'file:file_list' proj.id %}">
+                    <span class="h2 font-weight-bold mb-0">{{proj.name}}</span>
+                  </a>
 
-<!-- 화면에 생성되는 박스들 태그 -->
+                
+                  <span class="text-nowrap">{{proj.start_date|date:'Y-m-d'}} ~ {{proj.due_date|date:'Y-m-d'}}</span>
 
-<div class="box">
-    <p class = 'font title l'>새 프로젝트</p>
-    <div class = 'invite_link'>
-        <div class = 'invite_top'>
-            <p class = 'font middle'>초대링크 입력하기</p>
-            <form action="{% url 'project:project_checkcode' %}" method='POST'>
-            {% csrf_token %}
-                <div class = 'invite_search'>
-                    <input class = 'invite_bar' type="text" name = 'Code'>
-                    <button class = 'invite_button' type="submit">OK</button>
                 </div>
-            </form>
+
+            </div>
         </div>
-        <div class='invite_bottom'>
-            <li class = 'font middle' style="list-style: none;">
-                <ul><img src="{% static 'Projectapp/image/empty_project.png' %}" style ="width:17px;height:17px;"><a style = 'text-decoration: none;
-                    color: #0F69E4; cursor:pointer;'class = 'openModal'> 빈 프로젝트 생성하기</a></ul>
-                <!-- {% url 'project:project_create' %} -->
-                <ul><img src="{% static 'Projectapp/image/file_upload.png' %}"style ="width:17px;height:17px;">파일 업로드</ul>
-                <ul><img src="{% static 'Projectapp/image/folder_upload.png' %}"style ="width:17px;height:17px;">폴더 업로드</ul>
-            </li>
-        </div>
-        <p>{{message}}</p>
     </div>
+    {% endfor %}
 </div>
-<div class="box">
-    <p class="font title">즐겨찾기한 프로젝트</p>
-    <div class="projects">
-        <div style="width: 100%;">
-        {% for project in like_proj %}
-        <div class = 'project_box col-md-3' style="margin-bottom: 1%;">
-            <div class = 'project_top'>
-                <div class = 'project_top_left'>
-                    <br>
-                    <a href="{% url 'file:file_list' project.id %}"><p class = 'font large'>{{project.name}}</p></a>
-                    <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
-                </div>
-                <div class = 'project_top_right'>
-                    <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;' ></a>
-                </div>
-            </div>
+</div>
+</div>
 
-            <br>
-            <div class = 'project_join_members'>
-                <p class='font middle'>{{project.Code}}</p>
-            </div>
-        </div>
-
-        <!-- projec_top col-md-3 class를 가진 div와 조합되어 총 3개의 오브젝트를 구성하는 -->
-        <!-- col-md-1 Div (Bootstrap grid는 총 12로 합산 되어야 함. 따라서 (3+1)*3=12 -->
-
-        {% endfor %}
-
-        </div>
-    </div>
-</div>    
-<div class="box">
-    <p class = 'font title'>참여중인 프로젝트</p>
-    <a name="join_projects"></a>
-    <div class = 'projects row'>
-        {% if proj_obj.has_previous %}
-        <a href="?page={{ proj_obj.previous_page_number }}"><img src="{%static 'Projectapp/image/arrowleft.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
-        {% endif %}
-        <div style="width: 100%; margin-left: 10px;">
-            {% for project in proj_obj %}
-            <div class = 'project_box col-md-3' style="margin-bottom: 1%;">
-                <div class = 'project_top'>
-                    <div class = 'project_top_left'>
-                        <br>
-                        <a href="{% url 'file:file_list' project.id %}"><p class = 'font large'>{{project.name}}</p></a>
-                        <p class = 'font small'>{{today|date:"Y-m-d"}}</p>    
-                    </div>
-                    <div class = 'project_top_right'>
-                        <a href='{% url "project:project_likeornot" project.Code %}'><img class = '{{project.Code}}' id ='likeornot' style='width: 30px; height: 30px;'></a>
-                    </div>
-            </div>
-    
-            <br>
-
-            <div class = 'project_join_members'>
-                <p class='font middle'>{{project.Code}}</p>
-            </div>
-        </div>
-        {% endfor %}
-
-        {% if proj_obj.has_next %}
-        <a href="?page={{ proj_obj.next_page_number }}"><img src="{%static 'Projectapp/image/arrowright.png'%}" style ='width: 50px; height: 50px; margin-top: 50px;'></a>
-        {% endif %}
-        </div>  
-
-        <div class="uploadModal hidden">
-            <!--hidden-->
-            <div class="modal_Overlay"></div>
-                <div class="modal_Contents">
-                    <p class="modal-title">프로젝트 이름을 정해주세요 :-)</p>
-                    <form action = "{% url 'project:project_create'%}" method = 'POST' class='create_project_form' onsubmit="return checkForm()">
-                        {% csrf_token %}
-                        <div class="m-boxes">
-                            <div class="m-box">
-                                <div class="input-title">이름 :                             
-                                </div>
-                                <div class="write">
-                                    <input type='text' name='name' class='input_sec' value=''>
-                                </div>
-                            </div>
-                            <div class="m-box">
-                                <div class="input-title">설명 : </div>
-                                <div class="write">
-                                    <input type='text' name='description' class='input_sec' value=''>
-                                </div>
-                            </div>
-                        </div>
-                        <p class= 'alert_text' style='color: red;'></p>
-                        <div class="submit">
-                            <input class="uploadBtn" type='submit'  value='생성'>
-                        </div>
-                    </form>
-                </div>
-        </div>
-    </div>
 {% else %}
     <p class='error'>올바르지 않은 접근입니다!</p>
     <img src ="{% static 'image/logo_character.png' %}"alt="">

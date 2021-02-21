@@ -30,16 +30,32 @@ def show_project_list(request):
         # paginator = Paginator(all_proj, 4)  # 페이지당 10개씩 보여주기
         # page_obj = paginator.get_page(page)
         proj_obj = all_proj
+
     empty = ''
     if len(proj_obj) == 0:
         empty = '참여중인 프로젝트가 없습니다'
     today = datetime.today()
+    user_img_data = []
+    for i in range(0, len(proj_obj)):
+        people = proj_obj[i].unliked_members.all().union(proj_obj[i].liked_members.all())
+        print(people)
+        # {
+        # 'name' : proj_obj[i].name,
+        # 's_date' : proj_obj[i].start_date,
+        # 'd_date' : proj_obj[i].due_date,
+        # 'member' : {
+        #             for j in range(0,len(people)):
+        #                 { j : people[j].Profile.profile_image, }
+        #             }   
+        # }
+
     contents = {
         'proj_obj' : proj_obj,
         'empty':empty, 
         'today':today,
         'proj_obj_all':all_proj,
-        'like_proj':liked_proj
+        'like_proj':liked_proj,
+        'people':people
     }
     return render(request, 'ProjectApp/project_list.html', contents)
 
