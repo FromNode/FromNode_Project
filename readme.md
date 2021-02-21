@@ -82,3 +82,4 @@ PBL을 비롯한 여러 팀프로젝트 기반의 수업은 평가방식 자체�
  --------------
  
  # License
+FromNode with Assistant Kim Project is licensed under the terms of the Apache License 2.0.
