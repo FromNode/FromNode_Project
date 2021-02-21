@@ -7893,7 +7893,9 @@ a.close.disabled
 
     outline: 0;
 }
-
+.upload_Modal{
+    z-index:2050 !important;
+}
 .modal-dialog
 {
     position: relative;

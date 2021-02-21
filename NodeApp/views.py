@@ -436,24 +436,29 @@ def node_detail(request, node_Code):
 
 
 def create_node(request):
+    # 냐아
+
     # 나중에 쓰일 수도 ? 클릭한 노드 정보 일단 담아뒀음
     # NodeComment = request.POST['NodeComment']
-    NodeComment = 'Test'
-    NodeCreatedDate = request.POST['NodeCreatedDate']
-    NodeDescription = request.POST['NodeDescription']
-    NodeFileObj = request.POST['NodeFileObj']
-    NodeName = request.POST['NodeName']
-    NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
-    NodeOwnerProjectCode = request.POST['NodeOwnerProjectCode']
-    NodePreviousCode = request.POST['NodePreviousCode']
-    NodeOwner = request.POST['NodeOwner']
-    NodePk = request.POST['NodePk']
-    redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
+    # NodeComment = 'Test'
+    # NodeCreatedDate = request.POST['NodeCreatedDate']
+    # NodeDescription = request.POST['NodeDescription']
+    # NodeFileObj = request.POST['NodeFileObj']
+    # NodeName = request.POST['NodeName']
+    # NodeOwnerFileCode = request.POST['NodeOwnerFileCode']
+    # NodeOwnerProjectCode = request.POST['NodeOwnerProjectCode']
+    # NodePreviousCode = request.POST['NodePreviousCode']
+    # NodeOwner = request.POST['NodeOwner']
+    # NodePk = request.POST['NodePk']
+    # redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
 
-    clickedNode = Nodes.objects.get(Code=str(NodePk))
-    print(request.user)
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
+        nodePk = request.POST['this_node_pk']
+        clickedNode = Nodes.objects.get(Code=str(nodePk))
+        NodeOwnerFileCode = clickedNode.ownerFCode.Code
+        redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
+
         node_object = Nodes()
     # Start Summary part
         # File 확장자 확인, docx인가?
@@ -495,6 +500,7 @@ def create_node(request):
         node_object.ownerFCode = clickedNode.ownerFCode
         node_object.ownerPCode = clickedNode.ownerPCode
         node_object.whoIsOwner = request.user
+        node_object.comment = request.POST['node_name']
         node_object.save()
         file_object = Files.objects.get(Code=NodeOwnerFileCode)
         file_object.File_Nodes.add(node_object)
