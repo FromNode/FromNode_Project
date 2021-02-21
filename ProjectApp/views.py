@@ -141,6 +141,7 @@ def project_create(request):
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
         User_Profile.save()
+        '''
         try:
             p_w_u_obj =proj_with_user();
             p_w_u_obj.proj_id = Projects.objects.get(name=proj_obj.name)
@@ -150,6 +151,7 @@ def project_create(request):
         except:
             Projects.objects.last.delete()
             return redirect('project:error')
+        '''
     else:
         return redirect('project:project_list')
 
