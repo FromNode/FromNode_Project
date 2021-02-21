@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     ".ap-northeast-2.compute.amazonaws.com",
     ".fromnode.com",
     '127.0.0.1',
+    '3.34.187.248',
 ]
 
 
