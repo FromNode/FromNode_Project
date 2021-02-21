@@ -29,15 +29,14 @@
             <div class="section1">
                 <div class="section1_Left">
                     <span class="title">세상에서 가장 간단한<Br>파일 관리 서비스</span> 
-                    <span class="subTitle">Anything you want, <Br>share and view the flow of your file</span>
                     {% if user.is_authenticated %}    
                         <button class="project_Button"><a class="project_Text" href="{% url 'project:project_list'%}">My Project</a></button>
                     {% else %}
                         <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">Login</a></button>
                         <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
                     {% endif %}
-                    {% if hidden == 0 %}
-                    <div class="loginModal">
+                    <!-- {#% if hidden == 0 %#} -->
+                    <!-- <div class="loginModal">
                         <div class="modal_Overlay"></div>
                         <div class="modal_Contents">
                             <form method="POST" action="{% url 'user:login' %}" class="login">
@@ -49,14 +48,14 @@
 
                                 <button class="loginbox" type="submit">Log in</button>
                                 <p class='message'>{{message}}</p>
-                                <!-- <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span> -->
+                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
 <br>
                             </form>   
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                    {% else %}
-                    <div class="loginModal hidden">
+                    <!-- {#% else %#} -->
+                    <!-- <div class="loginModal hidden">
                         <div class="modal_Overlay"></div>
                         <div class="modal_Contents">
                             <form method="POST" action="{% url 'user:login' %}" class="login">
@@ -72,15 +71,10 @@
 <br>
                             </form>   
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-                    {% endif %}
-                    
-                <div class="section1_Right">
-                    <div class="section1_Right_Box">
-                    </div>
-                </div>
-            </div>
+                    <!-- {#% endif %#} -->
+        
         </div>
         <!-- <div class="main_Footer">
             <Div class="main_Footer_Left">
