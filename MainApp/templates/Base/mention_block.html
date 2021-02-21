@@ -1,8 +1,11 @@
 {% load static %}
 
 <body>
+{% if user.is_authenticated %}
     <mini-editor placeholder="내용을 입력하세요 (@멘션)"  ></mini-editor>
+{% endif %}
 </body>
+
 <script src="{% static 'MainApp/JS/mention_block.js' %}">
 </script>
 
