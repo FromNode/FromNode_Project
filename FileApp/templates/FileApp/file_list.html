@@ -6,324 +6,38 @@
 {% block scss %}
 <link href="{% sass_src 'FileApp/CSS/file_list.scss' %}" rel="stylesheet" type="text/css">
 <link href="{% sass_src 'FileApp/CSS/modal.scss' %}" rel="stylesheet" type="text/css">
+
 {% endblock %}
 
 
+{% block leftbar %}
+<div class="side-box">
+    <p class="side-title">내 프로젝트</p>
+    {% for project in proj_obj %}
+    <ul class="side-content">
+        <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" style="color: black">
+                <p>{{project.name}}</p>
+            </a></li>
+    </ul>
+    {% endfor %}
+</div>
+
+<div class="side-box">
+    <p class="side-title ">최종 파일 모음</p>
+</div>
+{% endblock %}
+
 {% block content %}
-<div class="header bg-primary pb-9">
-    <div class="container-fluid">
-        <div class="row align-items-center py-4 bg-primary">
-            <div class="col-lg-6 col-7 d-flex align-items-center">
-                <h6 class="h1 text-white d-inline-block mb-0">{{pro_name}}</h6>
-
-                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                    <div class="avatar-group">
-                        {% for member in proj_user %}
-                            <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="{{member.Profile.nickname}}">
-                                <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
-                              </a>
-                        {% endfor %}
-                    </div>
-                </nav>
-            </div>
-            <div class="col-lg-6 col-5 text-right">
-                <!-- <a href="#" class="btn btn-sm btn-neutral">New</a>
-                <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid mt--9">
-    <div class="row">
-        <!-- 김조교 -->
-        <div class="col-xl-8">
-            <!-- 김조교 -->
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                        <i class="ni ni-active-40"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                                        <i class="ni ni-chart-pie-35"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                                    <span class="h2 font-weight-bold mb-0">924</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                        <i class="ni ni-money-coins"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card card-stats">
-                        <!-- Card body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                    <span class="h2 font-weight-bold mb-0">49,65%</span>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                                        <i class="ni ni-chart-bar-32"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">Since last month</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">Area Chart</h3>
-                                </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid">
-                                <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Area Chart</h2> -->
-                                    <div class="item-wrapper">
-                                        <canvas id="chartjs-staked-area-chart" width="600" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">업로드 시각 분포</h3>
-                                </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid">
-                                <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Line Chart</h2> -->
-                                    <div class="item-wrapper">
-                                        <canvas id="chartjs-staked-line-chart" width="600" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0"> 협업 스타일</h3>
-                                </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid">
-                                <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Radar Chart</h2> -->
-                                    <div class="item-wrapper">
-                                        <canvas id="chartjs-radar-chart" width="600" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="mb-0">커뮤니케이션 빈도</h3>
-                                </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid">
-                                <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Pie Chart</h2> -->
-                                    <div class="item-wrapper">
-                                        <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- 파일리스트 & 공지사항 -->
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">File List</h3>
-                        </div>
-                        <div class="col text-right">
-                            <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row card-body">
-                    {% for file in file_obj %}
-                    <div class="media flex-column col-xl-4 align-items-center">
-                        <input class='image' type='hidden' value='{{file.image}}'></input>
-
-                        <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
-                                style='width:5rem; height:5rem;'></a>
-
-                        <div class="text-center">
-                            <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">공지사항</h3>
-                        </div>
-                        <!-- <div class="col text-right">
-                          <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                        </div> -->
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% if is_there_notice == False %}
-                    <h3>아직 이야기를 남긴 사람이 없어요</h3>
-                    {% else %}
-                    {% for notice in noticeboard %}
-                    <div class='notice_content'>
-                        <div class='notice_username'>
-                            <h4>{{notice.user_id.username}}</h4>
-                        </div>
-                        <div class='notice_comment'>
-                            {{notice.notice}}
-                        </div>
-                        <div class='notice_date'>
-                            {{notice.date | date:'Y.m.d H:i'}}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    <div>
-                        <form method="POST" action="{% url 'file:add_notice' %}">
-                            {% csrf_token %}
-                            <input type='hidden' name='proj_id' value='{{project_id}}'>
-                            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<div class="row bg-primary">
-    <!-- 자 여기에 해보자 -->
-
-</div>
-<!-- <div class="container"> -->
-<!-- <div class="fileList_Header">
-        <div>
-            <span class="fileListTitle large">
-                <h1>{{pro_name}}</h1>
-            </span>
-        </div>
-        <div>
-            <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
-        </div>
-        <p class='Large'>프로젝트 참여 명단</p>
+<div class="container">
+    <div class="fileList_Header">
+        <span class="fileListTitle large">{{pro_name}}</span>
+        <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버젼을 확인해보세요</span>
+        <!-- <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
             <span>{{users.username}}</span>
-        {% endfor %}
-    </div> -->
-<!-- <div class="fileList_Contents">
-        <div calss="fileList_Contents_Header">
-            <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버전을 확인해보세요</span>
-        </div>
+        {% endfor %} -->
+    </div>
+    <div class="fileList_Contents">
         <div class="fileList_List">
             {% for file in file_obj %}
             <div class='file'>
@@ -339,48 +53,22 @@
 
             </div>
             {% endfor %}
-            <div class="fileList_upload">
-                <button class="openModal"><img style='width:40px;height:40px;'
-                        src="{% static 'MainApp/picture/pluslogo.png' %}"><br>
-                </button>
-            </div>
         </div>
-
-    </div> -->
-<!-- <div class="notice_board">
-        {% if is_there_notice == False %}
-        <h3>아직 이야기를 남긴 사람이 없어요</h3>
-        {% else %}
-        {% for notice in noticeboard %}
-        <div class='notice_content'>
-            <div class='notice_username'>
-                <h4>{{notice.user_id.username}}</h4>
-            </div>
-            <div class='notice_comment'>
-                {{notice.notice}}
-            </div>
-            <div class='notice_date'>
-                {{notice.date | date:'Y.m.d H:i'}}
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-        <div>
-            <form method="POST" action="{% url 'file:add_notice' %}">
-                {% csrf_token %}
-                <input type='hidden' name='proj_id' value='{{project_id}}'>
-                <input type='text' name='notice_text' value=''><input type="submit" value="enter">
-            </form>
-        </div>
-    </div> -->
-<!-- </div> -->
+    </div>
+    <div class="fileList_upload">
+        <button class="openModal"><i class="fas fa-plus fa-5x plus"></i><img style='width:40px;height:40px;'
+                src="{% static 'MainApp/picture/pluslogo.png' %}"><br><Br>
+            <p class='small'>버전을 추적할</p>
+            <p class='small'>새 파일을 추가해보세요</p>
+        </button>
+    </div>
+</div>
 <br>
 <div class="uploadModal hidden">
     <!--hidden-->
     <div class="modal_Overlay"></div>
     <div class="modal_Contents">
-        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data"
-            onsubmit="return checkForm()">
+        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data" onsubmit="return checkForm()">
             {% csrf_token %}
             <div class="box">
                 <div class="title">파일명 : </div>
@@ -400,16 +88,15 @@
                 <div class="drop-zone">
                     <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
                     <div>
-                        <label class="self-select">
-                            <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
-                            <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p>
-                        </label>
+                        <label  class="self-select">
+                        <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
+                        <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p></label>    
                     </div>
                     <!-- <div class="drop-zone__prompt">
                         <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
                     </div> -->
                     <!-- <span class="drop-zone__prompt"></span> -->
-
+    
                     <!-- <div>
                         <span class="drop-zone__prompt">
                             <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
@@ -417,11 +104,11 @@
                     </div> -->
                     <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
                 </div>
-
+                
             </div>
-            <p class='alert_text' style='color: red;'></p>
+            <p class= 'alert_text' style='color: red;'></p>
             <div class="submit">
-                <input class="uploadBtn" type="submit" value="OK">
+                <input class="uploadBtn" type="submit"  value="OK">
             </div>
 
 
@@ -443,259 +130,9 @@
     </div>
 </div>
 
-
-
 {% endblock %}
 {% block JS %}
-<script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
-<script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script>
-<script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
-<script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script>
-
 <script>
-$(function () {
-
-    'use strict';
-
-    if ($("#chartjs-staked-area-chart").length) {
-        var options = {
-        type: 'line',
-        data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: chartColors[0],
-                borderColor: chartColors[0],
-                borderWidth: 1,
-            },
-            {
-                label: '# of Points',
-                data: [7, 11, 5, 8, 3, 7],
-                borderColor: chartColors[1],
-                borderWidth: 1,
-                backgroundColor: chartColors[1]
-            }
-            ]
-        },
-        options: {
-            scales: {
-            yAxes: [{
-                ticks: {
-                reverse: false
-                }
-            }]
-            },
-            legend: false
-        }
-        }
-
-        var ctx = document.getElementById('chartjs-staked-area-chart').getContext('2d');
-        new Chart(ctx, options);
-    }
-    var graph_datas_3 = `{{graph_datas_3}}`.replaceAll("[", "");
-    graph_datas_3 = graph_datas_3.replaceAll("]", "");
-    var nodes_data = graph_datas_3.split(',')
-
-    if ($("#chartjs-staked-line-chart").length) {
-        var options = {
-        type: 'line',
-        data: {
-            labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
-            datasets: [{
-                label: '# of Nodes',
-                data: nodes_data,
-                borderWidth: 2,
-                fill: false,
-                backgroundColor: chartColors[0],
-                borderColor: chartColors[0],
-                borderWidth: 0
-            }
-            ]
-        },
-        options: {
-            scales: {
-            yAxes: [{
-                ticks: {
-                reverse: false
-                }
-            }]
-            },
-            fill: false,
-            legend: false
-        }
-        }
-
-        var ctx = document.getElementById('chartjs-staked-line-chart').getContext('2d');
-        new Chart(ctx, options);
-    }
-
-    if ($("#chartjs-bar-chart").length) {
-        var BarData = {
-        labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
-        datasets: [{
-            label: '# of Votes',
-            data: nodes_data,
-            backgroundColor: chartColors,
-            borderColor: chartColors,
-            borderWidth: 0
-        }]
-        };
-        var barChartCanvas = $("#chartjs-bar-chart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: BarData,
-        options: {
-            legend: false
-        }
-        });
-    }
-
-    if ($("#chartjs-staked-bar-chart").length) {
-        var BarData = {
-        labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
-        datasets: [{
-            label: 'Profit',
-            data: nodes_data,
-            backgroundColor: chartColors[0],
-            borderColor: chartColors[0],
-            borderWidth: 0
-            },
-        ]
-        };
-        var barChartCanvas = $("#chartjs-staked-bar-chart").get(0).getContext("2d");
-        var barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: BarData,
-        options: {
-            tooltips: {
-            mode: 'index',
-            intersect: false
-            },
-            responsive: true,
-            scales: {
-            xAxes: [{
-                stacked: true,
-            }],
-            yAxes: [{
-                stacked: true
-            }]
-            },
-            legend: false
-        }
-        });
-    }
-
-    if ($("#chartjs-radar-chart").length) {
-        var marksCanvas = document.getElementById("chartjs-radar-chart");
-
-        var marksData = {
-        labels: ["English", "Maths", "Physics", "Chemistry", "Biology", "History"],
-        datasets: [{
-            label: "Student A",
-            data: [24, 55, 30, 56, 60, 68],
-            backgroundColor: chartColors[0],
-            borderColor: chartColors[0],
-            borderWidth: 0
-            }, {
-            label: "Student B",
-            data: [54, 65, 60, 70, 70, 75],
-            backgroundColor: chartColors[1],
-            borderColor: chartColors[1],
-            borderWidth: 0
-            },
-            {
-            label: "Student c",
-            data: [43, 13, 33, 57, 50, 75],
-            backgroundColor: chartColors[2],
-            borderColor: chartColors[2],
-            borderWidth: 0
-            }
-        ]
-        };
-
-        var radarChart = new Chart(marksCanvas, {
-        type: 'radar',
-        data: marksData
-        });
-    }
-    var graph_datas_1 = `{{graph_datas_1}}`.replaceAll('&#x27;','');
-    graph_datas_1 =graph_datas_1.replaceAll('{','');
-    graph_datas_1 =graph_datas_1.replaceAll('}','');
-    var graph_datas_1_2 = graph_datas_1.split(',');
-    var user_arr = new Array();
-    var comment_arr = new Array();
-
-    for(i=0; i<graph_datas_1_2.length; i++){
-        var user = graph_datas_1_2[i].split(':')[0];
-        var comment_num = graph_datas_1_2[i].split(':')[1]
-
-        user_arr[i] = user;
-        if(comment_num=='0'){
-            comment_num[i] ='0.001';
-        }
-        else{
-            comment_arr[i] = comment_num;
-        }
-        
-    }
-    console.log(user_arr);
-    console.log(comment_arr);
-    var graph_datas_2 = `{{graph_datas_2}}`;
-
-    if ($("#chartjs-doughnut-chart").length) {
-        var DoughnutData = {
-        datasets: [{
-            data: comment_arr,
-            backgroundColor: chartColors,
-            borderColor: chartColors,
-            borderWidth: chartColors
-        }],
-        labels: user_arr
-        };
-        var DoughnutOptions = {
-        responsive: true,
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-        };
-        var doughnutChartCanvas = $("#chartjs-doughnut-chart").get(0).getContext("2d");
-        var doughnutChart = new Chart(doughnutChartCanvas, {
-        type: 'doughnut',
-        data: DoughnutData,
-        options: DoughnutOptions
-        });
-    }
-
-    if ($("#chartjs-pie-chart").length) {
-        var PieData = {
-        datasets: [{
-            data: comment_arr,
-            backgroundColor: chartColors,
-            borderColor: chartColors,
-            borderWidth: chartColors
-        }],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: user_arr
-        };
-        var PieOptions = {
-        responsive: true,
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-        };
-        var pieChartCanvas = $("#chartjs-pie-chart").get(0).getContext("2d");
-        var pieChart = new Chart(pieChartCanvas, {
-        type: 'pie',
-        data: PieData,
-        options: PieOptions
-        });
-    }
-    });
-
     var img;
     var x = document.getElementsByClassName('image')
     for (var i = 0; i < x.length; i++) {
@@ -712,7 +149,7 @@ $(function () {
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
         else {
-            img = "{% static 'MainApp/picture/docx.png' %}";
+            img = "{% static 'MainApp/picture/powerpoint.png' %}";
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
 
@@ -729,23 +166,23 @@ $(function () {
     overlay.addEventListener("click", toggleModal);
     openButton.addEventListener("click", toggleModal);
 
-    function checkForm() {
+    function checkForm(){
         const form = document.querySelector(".upload_Form");
         fileName = form.fileName;
         fileMemo = form.fileMemo;
         myFile = form.myFile;
-        if (fileName.value == "") {
-            alert_text.innerHTML = "제목란을 채워주세요"
+        if(fileName.value == ""){
+            alert_text.innerHTML ="제목란을 채워주세요"
             form.fileName.focus();
             return false;
         }
-        else if (fileMemo.value == "") {
-            alert_text.innerHTML = "메모란을 채워주세요"
+        else if(fileMemo.value ==""){
+            alert_text.innerHTML ="메모란을 채워주세요"
             form.fileMemo.focus();
             return false;
         }
-        else if (myFile.value == "") {
-            alert_text.innerHTML = "파일을 추가해주세요"
+        else if(myFile.value == ""){
+            alert_text.innerHTML ="파일을 추가해주세요"
             form.myFile.focus();
             return false;
         }

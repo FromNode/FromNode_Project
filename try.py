@@ -1,8 +1,5 @@
-def test(a,b,c):
-    a =1
-    b =2
-    c =3
-    return [1,2,3]
+User_Projects = '첫 프로젝트,proscons,proscons2'
 
-a = test(1,2,3)
-print(a,test)
+
+b = [1,2,3] +['3','4','5']
+print(b)

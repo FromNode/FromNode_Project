@@ -7,6 +7,24 @@
 
 {% endblock %}
 
+{% block leftbar %}
+<div class="side-box">
+    <p class="side-title">내 프로젝트</p>
+    {% for project in proj_obj %}
+    <ul class="side-content">
+        <li class="side-project-name"><a href="{% url 'file:file_list' project.id %}" style="color: black">
+                <p>프로젝트{{project.id}} : {{project.name}}</p>
+            </a></li>
+    </ul>
+    {% endfor %}
+</div>
+
+<div class="side-box">
+    <p class="side-title ">최종 파일 모음</p>
+</div>
+{% endblock %}
+
+
 {% block content %}
 {% notifications_unread as unread_count %}
 <!-- <button>구독 신청하기(과금)</button> -->

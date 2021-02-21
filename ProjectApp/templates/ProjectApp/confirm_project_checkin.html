@@ -1,7 +1,0 @@
-    <h1>자네 이 프로젝트에 들어오려는게 맞는가</h1>
-    {{target_project.name}} <br>
-    <form method="POST" action="{% url 'project:project_checkin' %}">
-        {% csrf_token %}
-        <input type='hidden' name='project_code' value='{{target_project.Code}}'>
-        <input type='submit' value='네'>
-    </form>

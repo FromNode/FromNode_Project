@@ -10,6 +10,7 @@ from notifications.signals import notify
 # Create your views here.
 
 def signup(request):
+    
     if request.method == 'POST':
         if request.POST['password'] == request.POST['confirm']:
             user = User.objects.create_user(username=request.POST['username'], password=request.POST['password'])
@@ -20,12 +21,9 @@ def signup(request):
             # user.set_password(user_form_password)
             # user.save()
             if profile_form.is_valid():
-                #이 밑에 저거 왜 필요한지 모르겠어서 일단 주석해둘게요 ,, 
-                '''
                 user.profile.bio = profile_form.cleaned_data.get('bio')
                 user.profile.location = profile_form.cleaned_data.get('location')
                 user.profile.save()
-                '''
                 auth.login(request, user)
                 redirect('project:project_list')
             else:
@@ -44,10 +42,10 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username=username,password=password)
-        if user is not None: #스무스하게 로그인
+        if user is not None:
             auth.login(request, user)
             return redirect('project:project_list')
-        else: #뭔가 잘못쳤을 때
+        else:
             hidden = 0
             message = '로그인 정보가 옳지 않아요!'
             return render(request,'MainApp/index.html',{'hidden':hidden,'message':message})

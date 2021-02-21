@@ -20,8 +20,3 @@ class Projects(models.Model):
     liked_members = models.ManyToManyField(User,blank = True, related_name ='Joined_Liked_Projects')
     def __str__(self):
         return self.name
-        
-
-class proj_with_user(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
-    proj_id = models.ForeignKey(Projects, on_delete=models.CASCADE, db_column="proj_id")

@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Projects, proj_with_user
-from FileApp.models import Files
-from NodeApp.models import Nodes, Node_Comment
+from .models import Projects
 from django.contrib.auth.models import User
 from django.contrib import auth
 from UserApp.models import Profile
@@ -9,10 +7,9 @@ import random
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from notifications.signals import notify
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponse
 
 # User 모델 불러오기
 # 불러온 User 모델의 Projects 불러오기
@@ -84,28 +81,6 @@ def likeornot(request ,project_Code):
     return redirect('/project/project_list/')
 
 
-
-        # 파일 업로드 오너 유저 불러오기
-        # 업로드 점유율 체크
-
-
-# def proj_contributions(request,project_Code):
-#     if request.user.is_authenticated:
-#         t_comment_num_ver_user = []
-#         t_node_timeline_gap = []
-#         t_file_upload_ver_user = []
-
-        
-        
-#         objects ={
-
-#         }
-
-#         return render(request, 'ProjectApp/proj_contributions.html', objects)
-
-#     else:
-#         return render(request,'MainApp/index.html')
-
     
 
 # def form_create_project(request):
@@ -141,60 +116,6 @@ def project_create(request):
         proj_obj.save()
         User_Profile = Profile.objects.get(user=request.user)
         User_Profile.save()
-        try:
-            p_w_u_obj =proj_with_user();
-            p_w_u_obj.proj_id = Projects.objects.get(name=proj_obj.name)
-            p_w_u_obj.user_id = user
-            p_w_u_obj.save()
-            return redirect('project:project_list')
-        except:
-            Projects.objects.last.delete()
-            return redirect('project:error')
+        return redirect('project:project_list')
     else:
         return redirect('project:project_list')
-
-
-def error(request):
-    return render(request, 'ProjectApp/error.html')
-
-
-def already_exist(request):
-    return render(request, 'ProjectApp/already.html')
-
-
-def confirm_project_checkin(request, project_Code):
-    target_project = Projects.objects.get(Code = project_Code)
-    return render(request, 'ProjectApp/confirm_project_checkin.html', {'target_project':target_project})
-
-
-def project_checkin(request):
-    if request.method == 'POST':
-        project_code = request.POST['project_code']
-        if request.user.is_authenticated:
-            user = request.user
-            project_obj = Projects.objects.get(Code=project_code)
-            project_member = proj_with_user.objects.filter(proj_id = project_obj.id)
-            for member in project_member:
-                if member.user_id == user.id: #내가 안속해있는 프로젝트인지 확인
-                    return redirect('project:already_exist')
-                else:
-                    project_obj.unliked_members.add(user)
-                    project_obj.save()
-                    try:
-                        p_w_u_obj =proj_with_user();
-                        p_w_u_obj.proj_id = project_obj
-                        p_w_u_obj.user_id = user
-                        p_w_u_obj.save()
-                        return redirect('project:project_list')
-                    except:
-                        project_obj.unliked_members.remove(user)
-                        project_obj.save()
-                        return redirect('project:error')
-        else:
-            request.COOKIES['project_code']=project_code
-            response = render(request, 'UserApp/login.html')
-            response.set_cookie(key='project_code', value=project_code)
-            return response
-    else:
-        return redirect('main:index')
-    
