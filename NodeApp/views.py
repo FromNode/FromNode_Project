@@ -477,10 +477,10 @@ def create_node(request):
             node_object.description = str_summary
 
             # 기존 Project File에 해당하는지 or 기타 File인지 판단
-            if similarity_list[4] > 1:  # 1% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
-                pass
-        else:
-            pass
+            if similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
+                node_object.is_workflow = 1  # Project File로 판단하여 1 삽입
+        else:  # docx 외의 File
+            node_object.is_workflow = 0
         # End Summary part
 
         node_object.fileObj = request.FILES['uploadFile']
