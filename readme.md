@@ -1,6 +1,6 @@
 ![noname](https://user-images.githubusercontent.com/43606451/108619937-adbb7b80-746b-11eb-9508-012266a5b8c1.png)
 # FromNode with Assistant Kim
-![](https://img.shields.io/badge/Django-3.1.1-blue) ![](https://img.shields.io/github/issues/FromNode/FromNode_Project) ![](https://img.shields.io/github/issues-closed/FromNode/FromNode_Project) ![](https://img.shields.io/github/languages/count/FromNode/FromNode_Project) ![](https://img.shields.io/github/contributors/FromNode/FromNode_Project)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![](https://img.shields.io/badge/Django-3.1.1-blue) ![](https://img.shields.io/github/issues/FromNode/FromNode_Project) ![](https://img.shields.io/github/issues-closed/FromNode/FromNode_Project) ![](https://img.shields.io/github/languages/count/FromNode/FromNode_Project) ![](https://img.shields.io/github/contributors/FromNode/FromNode_Project)
 ## __Are you a univ student? Then you are our user!__
 This is __Fromnode__, and __assistant kim__. It is __super simple__ to use.   
 Drag the document to the screen on our web page and write a explanation like github commit.   
