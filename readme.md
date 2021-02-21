@@ -82,5 +82,23 @@ PBL을 비롯한 여러 팀프로젝트 기반의 수업은 평가방식 자체�
        - If you want to get the all of the paragraphs, use "all".
  --------------
  
- # License
+# Project Members
+ ### Sea Jung 
+  - 👩‍💼 __Project Leader__
+  - 🖥 __Business Logistics__
+ ### Hyeseon Lee 
+  - 👩‍💻 __Developer__
+  - 📊 __Data·DataBase__
+ ### Taewon Jin 
+  - 🧑‍💻 __Developer__
+  - 💻 __Dev·Logic·Network__
+ ### Jaehoon Kim 
+  - 🧑‍💻 __Developer__
+  - 📊 __DataScience·Algorithm__
+ ### Ina Woo 
+  - 👩‍💻 __Designer__
+  - 🎨 __Front-End·Design·UI/UX Interface__
+ 
+ --------------
+# License
 FromNode with Assistant Kim Project is licensed under the terms of the Apache License 2.0.
