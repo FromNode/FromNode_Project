@@ -491,6 +491,8 @@ def create_node(request):
     return redirect(redirectURL)
 
 
+
+
 def changeNodeInfo(request):
     return render(request, 'NodeApp/node_list.html')
 
