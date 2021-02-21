@@ -476,6 +476,10 @@ def create_node(request):
             node_object.similarity = 100 - similarity_list[4]
             node_object.description = str_summary
 
+            # 추가한 글자수와 라인수를 저장
+            node_object.added_letters = similarity_list[5]
+            node_object.added_sentences = similarity_list[6]
+
             # 기존 Project File에 해당하는지 or 기타 File인지 판단
             if similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
                 node_object.is_workflow = 1  # Project File로 판단하여 1 삽입
