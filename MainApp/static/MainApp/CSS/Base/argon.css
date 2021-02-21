@@ -7894,7 +7894,20 @@ a.close.disabled
     outline: 0;
 }
 .upload_Modal{
+    position: fixed;
     z-index:2050 !important;
+
+    top: 0;
+    left: 0;
+
+    display: none;
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    outline: 0;
+
 }
 .modal-dialog
 {
