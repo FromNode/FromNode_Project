@@ -6,6 +6,7 @@ from UserApp.forms import LoginForm
 def index(request):
     # if User.is_authenticated:
         # return redirect('project:project_list')
+    print(request)
     return render(request, 'MainApp/index.html')
 
 def logout(request):
