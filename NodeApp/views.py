@@ -476,6 +476,9 @@ def create_node(request):
             node_object.similarity = 100 - similarity_list[4]
             node_object.description = str_summary
 
+            # 기존 Project File에 해당하는지 or 기타 File인지 판단
+            if similarity_list[4] > 1:  # 1% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
+                pass
         else:
             pass
         # End Summary part
