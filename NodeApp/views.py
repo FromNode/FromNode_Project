@@ -20,6 +20,7 @@ from NodeApp.summarization.summary import summary
 from NodeApp.textualization.convert import convert
 from NodeApp.textualization.convert import get_str
 from NodeApp.similarity.similarity import similarity_compare
+from NodeApp.similarity.similarity import similarity_sentence_compare
 import logging
 
 
@@ -463,7 +464,7 @@ def create_node(request):
     # Start Summary part
         # File 확장자 확인, docx인가?
         # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
-        if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+        if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.fileObj.name.split(".")[-1] == "docx":
             # temp_summary_file 변수에 convert된 Object 담기
             temp_summary_file = convert(request.FILES['uploadFile'])
             # convert된 문서 object를 get_str 함수를 통해 String화
@@ -477,7 +478,7 @@ def create_node(request):
             previous_node_file = clickedNode.fileObj
             previous_node_file = convert(previous_node_file)
             # Similarity Module 사용하여 유사도 비교
-            similarity_compare(previous_node_file,
+            similarity_sentence_compare(previous_node_file,
                                temp_summary_file, "temp_user", similarity_list)
             # similarity와 summary text 저장
             node_object.similarity = 100 - similarity_list[4]
