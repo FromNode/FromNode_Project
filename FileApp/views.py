@@ -149,7 +149,20 @@ def anlayze(files, project):
 
                 #         node_time_gap.append(time_gap)
                     
-                
+            
+                contribution_list = []
+                for i in range(0,5):
+                    if i == 0:
+                        contribution_list.append(c1)
+                    elif i ==1:
+                        contribution_list.append(c2)            
+                    elif i ==2:
+                        contribution_list.append(c3)            
+                    elif i ==3:
+                        contribution_list.append(c4)        
+                    elif i ==4:
+                        contribution_list.append(c5)
+                print(contribution_list)    
 
             else:
                 pass
@@ -172,19 +185,7 @@ def anlayze(files, project):
         
         file_infoes.append(comment_info_ver_file)
     
-    contribution_list = []
-    for i in range(0,5):
-        if i == 0:
-            contribution_list.append(c1)
-        elif i ==1:
-            contribution_list.append(c2)            
-        elif i ==2:
-            contribution_list.append(c3)            
-        elif i ==3:
-            contribution_list.append(c4)        
-        elif i ==4:
-            contribution_list.append(c5)
-    print(contribution_list)
+    
     new_list = []
     for n, i in enumerate(file_infoes):
         count = Counter(i)
@@ -214,7 +215,10 @@ def show_file_list(request,project_id):
         project = Projects.objects.get(pk = project_id)
         proj_user = project.unliked_members.all().union(project.liked_members.all())
         files = Files.objects.filter(ownerPCode = project)
-        graph_datas = anlayze(files, project)
+        if files == []:            
+            graph_datas = anlayze(files, project)
+        else:
+            graph_datas = [1,2,3]
     else:
         
         pass
