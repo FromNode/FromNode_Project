@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, reverse
 from .models import Files, board
-from NodeApp.models import Nodes
+from NodeApp.models import Nodes, Node_Comment
 from ProjectApp.models import Projects
 from django.contrib.auth.models import User
 from UserApp.models import Profile
 import os
 import random
-
+from django.core import serializers
+from collections import Counter
 # def show_project_list(request):
 #     proj_obj = []
 #     User_Profile = Profile.objects.get(user=request.user)
@@ -17,7 +18,132 @@ import random
 #         proj_obj += Projects.objects.filter(name=i)
 #     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
+def anlayze(files, project):
+    file_infoes = []
+    total_comments = ''
+    proj_members = project.unliked_members.all().union(project.liked_members.all())
+    for x in files:
+        comment_num_ver_user = {}
+        for member in proj_members:
+            comment_num_ver_user[member.username] = 0
+        nodes = Nodes.objects.filter(ownerFCode = x)
+        timeline = []
+        for i in nodes:
+            comments = Node_Comment.objects.filter(node_code = i.Code)
+            for j in comments:
+                # 모든 node의 유저별 댓글 수 불러오기
+                user =j.author_comment.username
+                value = comment_num_ver_user.get(user)
+                value +=1
+                comment_num_ver_user[user] = value
+
+                #멘션 불러오기
+                mention = j.who_is_mentioned
+                if mention != 'none':
+                    pass
+            # 노드의 datetimeline을 불러오기
+            timeline.append(i.createdDate)
+
+        timeline.sort()
+        # print(timeline)
+        if timeline != []:
+            # 맨 처음, 마지막 노드의 간격을 불러와 노드 전체로 나눈거랑 비교
+            first_time = min(timeline)
+            last_time = max(timeline)
+            if(first_time != last_time):
+                total_time_gap = last_time-first_time
+                phase_time_gap = total_time_gap/5
+
+                p1 = first_time + phase_time_gap*1
+                p2 = first_time + phase_time_gap*2
+                p3 = first_time + phase_time_gap*3
+                p4 = first_time + phase_time_gap*4
+
+                phase_node_num = []
+                p1_list = []
+                p2_list = []
+                p3_list = []
+                p4_list = []
+                p5_list = []
+
+                for n, i in enumerate(timeline):
+                    if i<=p1:
+                        p1_list.append(i)
+                    elif i>p1 and i<=p2:
+                        p2_list.append(i)
+                    elif i>p2 and i<=p3:
+                        p3_list.append(i)
+                    elif i>p3 and i<=p4:
+                        p4_list.append(i)
+                    else:
+                        p5_list.append(i)
+
+
+                node_time_gap = []
+                node_nums = [0 ,0 ,0 ,0 ,0 ,0]
+                node_nums[1] = len(p1_list)
+                node_nums[2] = len(p2_list)
+                node_nums[3] = len(p3_list)
+                node_nums[4] = len(p4_list)
+                node_nums[5] = len(p5_list)
+                print(len(p1_list),len(p2_list),len(p3_list),len(p4_list))
+                # for n, i in enumerate(timeline):
+                #     if n +1 != len(timeline) :
+                #         time_gap = timeline[n+1] - timedelta(days=0)
+                #         print(type(time_gap))
+                #         day = int(time_gap.days)
+                #         seconds = int(time_gap.seconds)
+                #         time_gap = day*24*60*60 + seconds
+
+                #         node_time_gap.append(time_gap)
+                    
+                
+
+            else:
+                print('첫 노드')
+
+                
+    
+        # 댓글 수 나눠서 기여도 체크
+        all_comments_num = sum(i for i in comment_num_ver_user.values())
+        # average_comments = all_comments_num / proj_members_num
+        comment_info_ver_file = {}
+
+        for i in comment_num_ver_user:
+            comment_num = comment_num_ver_user[i]
+            if all_comments_num == 0:
+                contribute_ver_comments =0 
+            else:
+                contribute_ver_comments = round(comment_num / all_comments_num *100 ,2)
+            # 파일별 유저 기여도_코멘트 수
+            comment_info_ver_file[i] = comment_num
+        
+        file_infoes.append(comment_info_ver_file)
+    
+    
+    new_list = []
+    for n, i in enumerate(file_infoes):
+        count = Counter(i)
+        new_list.append(count)
+
+    y = new_list[0]
+    for i in range(1,len(new_list)):
+        x = new_list[i]
+        y += x
+    print(y)
+    user_proj_comments = dict(y)
+    print(comment_num_ver_user)
+    for user in user_proj_comments:
+        comment_num_ver_user[user] = user_proj_comments[user]
+
+    print(comment_num_ver_user)
+    total_proj_comments = sum(dict(y).values())
+    node_nums = node_nums
+
+    return comment_num_ver_user,total_proj_comments,node_nums
+
 def show_file_list(request,project_id):
+    
     if request.user.is_authenticated:
         User = request.user
         unliked_proj = User.Joined_Unliked_Projects.all()
@@ -26,7 +152,10 @@ def show_file_list(request,project_id):
         proj_obj = all_proj
         project = Projects.objects.get(pk = project_id)
         proj_user = project.unliked_members.all().union(project.liked_members.all())
+        files = Files.objects.filter(ownerPCode = project)
+        graph_datas = anlayze(files, project)
     else:
+        
         pass
     
     is_there_notice = False
@@ -45,7 +174,6 @@ def show_file_list(request,project_id):
     
     if len(file_obj) == 0:
         empty = '추적한 파일이 없습니다'
-    
     contents = {
         'proj_obj':proj_obj,
         'pro_name':pro_name,
@@ -56,9 +184,13 @@ def show_file_list(request,project_id):
         'project_id':project_id,
         'is_there_notice':is_there_notice,
         'noticeboard':noticeboard,
+        'graph_datas_1':graph_datas[0],  
+        'graph_datas_2':graph_datas[1],
+        'graph_datas_3':graph_datas[2],
         }
     print(is_there_notice)
     return render(request, 'FileApp/file_list.html', contents)
+
 
 def add_notice(request):
     notice_text = request.POST['notice_text']
