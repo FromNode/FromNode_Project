@@ -11,6 +11,8 @@ def project_list(request):
         return {'proj_obj_all':all_proj,
                 'profile_img_url':profile_img_url,
                 'username':username}
+    else:
+        return request
     # else:
     #     return {'proj_obj_all':'none',
     #             'profile_img_url':''}
