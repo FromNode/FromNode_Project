@@ -6,6 +6,10 @@ import itertools
 
 
 def similarity_sentence_compare(before_doc, after_doc, user_name, save_list):
+    # User가 새로 추가한 Sentence의 수, Letter의 수를 담는 변수
+    new_sentences_num = 0
+    new_letters_num = 0
+
     # 각 Sentence의 index를 담는 list 생성
     same_sentence_line = []
     new_sentence_line = []
@@ -15,14 +19,14 @@ def similarity_sentence_compare(before_doc, after_doc, user_name, save_list):
     before = list(itertools.chain(*before))
     while '' in before:
         before.remove('')
-    while ' ' in a:
+    while ' ' in before:
         before.remove(' ')
 
     after = list(map(lambda x: x.text.split("."), after_doc.paragraphs[:]))
     after = list(itertools.chain(*after))
-    while '' in before:
+    while '' in after:
         after.remove('')
-    while ' ' in a:
+    while ' ' in after:
         after.remove(' ')
 
     # Sentence간 비교 (after file <-> before file)
@@ -44,6 +48,8 @@ def similarity_sentence_compare(before_doc, after_doc, user_name, save_list):
         # 전체 순회가 끝났으나, 동일한 Sentence가 발견되지 않은 경우 => 새롭게 추가된/수정된 Sentence
         if x not in same_sentence_line and x not in moved_sentence_line:
             new_sentence_line.append(x)
+            new_letters_num = new_letters_num + len(after_sentence)
+            new_sentences_num = new_sentences_num + 1
 
     # 전체에서 new_sentence_line의 비율 계산
     ratio_new_sentence = round(
@@ -56,6 +62,8 @@ def similarity_sentence_compare(before_doc, after_doc, user_name, save_list):
     save_list.append(moved_sentence_line)
     save_list.append(new_sentence_line)
     save_list.append(ratio_new_sentence)
+    save_list.append(new_letters_num)
+    save_list.append(new_sentences_num)
 
 # 비교할 before, after 문서 파일, 최종적으로 함께 list에 넣어줄 user_name, 결과를 받을 빈 list를 넣어서 사용
 

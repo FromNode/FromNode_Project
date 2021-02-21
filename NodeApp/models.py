@@ -41,6 +41,9 @@ class Nodes(models.Model):
         max_length=200, blank=True, null=True, default='설명을써주세요')
     similarity = models.FloatField(blank=True, null=True)
     description = models.TextField(max_length=20000, blank=True, null=True)
+    is_workflow = models.CharField(max_length=5, blank=True, null=True)
+    added_letters = models.IntegerField(blank=True, null=True)
+    added_sentences = models.IntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ['ownerPCode', 'createdDate']
