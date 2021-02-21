@@ -523,14 +523,17 @@ $(function () {
     var graph_datas_split = c.split('}')
     var users_arr = new Array();
     var all_contri_arr = new Array();
+    
     for(var i=0;i<graph_datas_split.length-1;i++){
         var d = graph_datas_split[i];
         var elements = d.split(',');
         const new_elements = elements.filter(Boolean);
         var contribute_arr = new Array();
+        
         for(var j=0;j<new_elements.length;j++){
-            var users = new_elements[j].split(':')[0];
-            var contribute_num = new_elements[i].split(':')[1]
+            var test = new_elements[j].split(':')
+            var users = test[0];
+            var contribute_num = test[1]
             users_arr[j] = users;
             contribute_arr[j] = contribute_num;
         }

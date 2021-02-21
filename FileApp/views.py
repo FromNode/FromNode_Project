@@ -19,6 +19,8 @@ from collections import Counter
 #     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
 def anlayze(files, project):
+    contribution_list = []
+    node_nums = [0 ,0 ,0 ,0 ,0 ,0]
     
     file_infoes = []
     total_comments = ''
@@ -132,7 +134,7 @@ def anlayze(files, project):
 
 
                 node_time_gap = []
-                node_nums = [0 ,0 ,0 ,0 ,0 ,0]
+                
                 node_nums[1] = len(p1_list)
                 node_nums[2] = len(p2_list)
                 node_nums[3] = len(p3_list)
@@ -150,7 +152,7 @@ def anlayze(files, project):
                 #         node_time_gap.append(time_gap)
                     
             
-                contribution_list = []
+                
                 for i in range(0,5):
                     if i == 0:
                         contribution_list.append(c1)
@@ -161,8 +163,7 @@ def anlayze(files, project):
                     elif i ==3:
                         contribution_list.append(c4)        
                     elif i ==4:
-                        contribution_list.append(c5)
-                print(contribution_list)    
+                        contribution_list.append(c5)    
 
             else:
                 pass
@@ -200,7 +201,6 @@ def anlayze(files, project):
         comment_num_ver_user[user] = user_proj_comments[user]
 
     total_proj_comments = sum(dict(y).values())
-    node_nums = node_nums
 
     return comment_num_ver_user,contribution_list,node_nums
 
@@ -215,6 +215,7 @@ def show_file_list(request,project_id):
         project = Projects.objects.get(pk = project_id)
         proj_user = project.unliked_members.all().union(project.liked_members.all())
         files = Files.objects.filter(ownerPCode = project)
+        print(bool(files))
         if bool(files) == True:            
             graph_datas = anlayze(files, project)
         else:
