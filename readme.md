@@ -3,6 +3,7 @@
 # FromNode with Assistant Kim
 
 ## __Are you a univ student? Then you are our user!__
+![image](https://user-images.githubusercontent.com/44171634/109509137-ed293e00-7ae3-11eb-844c-b8ed6aff8249.png)
 This is __Fromnode__, and __assistant kim__. It is __super simple__ to use.   
 Drag the document to the screen on our web page and write a explanation like github commit.   
 This gives you a __quick__, __at-a-glance view of flow__ around the evolution of the file.
