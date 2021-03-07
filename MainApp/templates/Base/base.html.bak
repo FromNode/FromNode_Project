@@ -18,7 +18,6 @@
 <!DOCTYPE html>
 <html>
 {% if user.is_authenticated %}
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -68,8 +67,8 @@
                 <div class="collapse navbar-collapse" id="sidenav-collapse-main">
                     <div class="user-profile">
                         <div class="display-avatar animated-avatar">
-                            <img class="profile-img img-lg rounded-circle" src="{{profile_img_url}}"
-                                alt="profile image">
+                            <img class="profile-img img-lg rounded-circle"
+                                src="{{profile_img_url}}" alt="profile image">
                         </div>
                         <div class="info-wrapper">
                             <p class="user-name">{{username}}</p>
@@ -93,7 +92,7 @@
                     <!-- Navigation -->
                     <ul class="navbar-nav mb-md-3">
                         <li class="nav-item">
-                            <a class="nav-link active active-pro" href="#">
+                            <a class="nav-link active active-pro" href="upgrade.html">
                                 <i class="ni ni-send text-dark"></i>
                                 <span class="nav-link-text">Upgrade to PRO</span>
                             </a>
@@ -143,7 +142,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" role="button" aria-haspopup="true"
+                            <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <i class="ni ni-bell-55"></i>
                             </a>
@@ -266,6 +265,47 @@
                                 aria-expanded="false">
                                 <i class="ni ni-ungroup"></i>
                             </a>
+                            <div
+                                class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
+                                <div class="row shortcuts px-4">
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-red">
+                                            <i class="ni ni-calendar-grid-58"></i>
+                                        </span>
+                                        <small>Calendar</small>
+                                    </a>
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-orange">
+                                            <i class="ni ni-email-83"></i>
+                                        </span>
+                                        <small>Email</small>
+                                    </a>
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-info">
+                                            <i class="ni ni-credit-card"></i>
+                                        </span>
+                                        <small>Payments</small>
+                                    </a>
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-green">
+                                            <i class="ni ni-books"></i>
+                                        </span>
+                                        <small>Reports</small>
+                                    </a>
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
+                                            <i class="ni ni-pin-3"></i>
+                                        </span>
+                                        <small>Maps</small>
+                                    </a>
+                                    <a href="#!" class="col-4 shortcut-item">
+                                        <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
+                                            <i class="ni ni-basket"></i>
+                                        </span>
+                                        <small>Shop</small>
+                                    </a>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                     <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
@@ -314,44 +354,39 @@
         </nav>
         <!-- Header -->
         <!-- blockcontent -->
-        {% block content %}
-        {% endblock %}
+                {% block content %}
+                {% endblock %}
         <!-- end blockcontent -->
-        <!-- Footer -->
-        <div class="container-fluid ">
-            <footer class="footer pb-3">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6 p-0">
-                        <div class="copyright text-center  text-lg-left  text-muted">
-                            &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1"
-                                target="_blank">옹헤야Lab</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 p-0">
-                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                            <li class="nav-item">
-                                <a href="https://github.com/FromNode/FromNode_Project" class="nav-link" target="_blank">옹헤야Lab</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/FromNode/FromNode_Project/blob/new_master/readme.md" class="nav-link" target="_blank">About
-                                    Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/FromNode/FromNode_Project" class="nav-link" target="_blank">Github</a>
-                            </li>
-                            <li class="nav-item pr-3">
-                                <a href="https://github.com/FromNode/FromNode_Project/blob/new_master/LICENSE"
-                                    class="nav-link" target="_blank">MIT License</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
-    
+
         </div>
 
     </div>
-
+            <!-- Footer -->
+        <footer class="footer pt-0">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6">
+              <div class="copyright text-center  text-lg-left  text-muted">
+                &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </footer>
 
     <!-- Argon Scripts -->
     <!-- <script src="{% static 'MainApp/JS/tribute.js' %}"></script> -->
@@ -367,7 +402,7 @@
     <script src="{% static 'MainApp/vendor/chart.js/dist/Chart.extension.js' %}"></script>
     <!-- Argon JS -->
     <script src="{% static 'MainApp/JS/argon.js' %}"></script>
-
+    
     <!-- SCRIPT LOADING START FORM HERE /////////////-->
     <!-- label source -->
     <!-- plugins:js -->
@@ -375,19 +410,17 @@
     <script src="{% static 'MainApp/vendor/label-free-bootstrap/vendor.addons.js' %}"></script>
     <!-- endinject -->
     <!-- Vendor Js For This Page Ends-->
-    {% comment %}
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
+    {% comment %} <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
     <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script> {% endcomment %}
     <!-- Vendor Js For This Page Ends-->
     <!-- build:js -->
-    {% comment %}
-    <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
+    {% comment %} <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
     <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script> {% endcomment %}
     <!-- endbuild -->
     <!-- etc JS -->
     {% block JS %}
     {% endblock %}
-    {%endif%}
+{%endif%}
 </body>
 
 </html>

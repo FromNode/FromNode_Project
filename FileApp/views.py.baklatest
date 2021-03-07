@@ -19,6 +19,7 @@ from collections import Counter
 #     return render(request, 'ProjectApp/project_list.html', {'proj_obj' : proj_obj})
 
 def anlayze(files, project):
+    contribution_list_file = []
     node_nums = [0 ,0 ,0 ,0 ,0 ,0]
     last_node_time = ''
     file_infoes = []
@@ -62,8 +63,18 @@ def anlayze(files, project):
 
         timeline.sort()
         # print(timeline)
+        c1 = {}
+        c2 = {}
+        c3 = {}
+        c4 = {}
+        c5 = {}
+        for member in proj_members:
+            c1[member.username] = 1
+            c2[member.username] = 1
+            c3[member.username] = 1
+            c4[member.username] = 1
+            c5[member.username] = 1
         if timeline != []:
-
             # 맨 처음, 마지막 노드의 간격을 불러와 노드 전체로 나눈거랑 비교
             first_time = min(timeline)
             last_time = max(timeline)
@@ -76,19 +87,6 @@ def anlayze(files, project):
                 p2 = first_time + phase_time_gap*2
                 p3 = first_time + phase_time_gap*3
                 p4 = first_time + phase_time_gap*4
-
-                c1 = {}
-                c2 = {}
-                c3 = {}
-                c4 = {}
-                c5 = {}
-                for member in proj_members:
-                    c1[member.username] = 1
-                    c2[member.username] = 1
-                    c3[member.username] = 1
-                    c4[member.username] = 1
-                    c5[member.username] = 1
-
 
                 for i in contribution:
                     if i[2]<p1:
@@ -175,35 +173,15 @@ def anlayze(files, project):
                         contribution_list_file.append(Counter(c5))    
                 
             else:
-                contribution_list_file = []
-                c1 = {}
-                c2 = {}
-                c3 = {}
-                c4 = {}
-                c5 = {}
-                for member in proj_members:
-                    c1[member.username] = 1
-                    c2[member.username] = 1
-                    c3[member.username] = 1
-                    c4[member.username] = 1
-                    c5[member.username] = 1
-                for i in range(0,5):
-                    if i == 0:
-                        contribution_list_file.append(Counter(c1))
-                    elif i ==1:
-                        contribution_list_file.append(Counter(c2))
-                    elif i ==2:
-                        contribution_list_file.append(Counter(c3))
-                    elif i ==3:
-                        contribution_list_file.append(Counter(c4))
-                    elif i ==4:
-                        contribution_list_file.append(Counter(c5))
-
+                pass
         
-        for i in range(0,5):
-            x = contribution_list[i] + contribution_list_file[i]
-            # print(contribution_list[i],contribution_list_file[i])
-            contribution_list[i]= (x)
+            print(contribution_list)
+            print(contribution_list_file)
+
+            for i in range(0,5):
+                x = contribution_list[i] + contribution_list_file[i]
+                # print(contribution_list[i],contribution_list_file[i])
+                contribution_list[i]= (x)
         
         # 댓글 수 나눠서 기여도 체크
         all_comments_num = sum(i for i in comment_num_ver_user.values())

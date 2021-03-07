@@ -265,7 +265,7 @@ def node_list(request, file_Code):
         "coordinates": coordinates,
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
-        "all_node_data_to_json": all_node_data_to_json
+        "all_node_data_to_json": all_node_data_to_json,
     }
     return render(request, 'NodeApp/node_list.html', objects)
 
@@ -544,8 +544,6 @@ def load_node_data(request):
     comment = target_node.comment  # : actually 노드 이름입니다.
     similarity = target_node.similarity  # : 유사도
     description = target_node.description  # : 문서 요약
-    is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
-    added_letters = target_node.added_letters # : text 몇개가 추가됐니?
 
     owner_profile = whoIsOwner.Profile.profile_image.url  # : 유저 프로필 사진
     owner_nickname = whoIsOwner.Profile.nickname  # : 유저 닉네임
@@ -556,11 +554,8 @@ def load_node_data(request):
             'author_color': owner_color,
             'author_nickname': owner_nickname,
             'summary': description,
-            'similarity': similarity,
-            'is_workflow':is_workflow,
-            'added_letters':added_letters
+            'similarity': similarity
             }
 
     # print(data)
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
-
