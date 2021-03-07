@@ -286,7 +286,7 @@ def show_file_list(request,project_id):
     contents = {
         'proj_obj':proj_obj,
         'pro_name':pro_name,
-        'project':project.id, 
+        'project_code':project.Code, 
         'file_obj':file_obj,
         'proj_user':proj_user,
         'empty':empty,

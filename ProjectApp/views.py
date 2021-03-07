@@ -89,48 +89,6 @@ def likeornot(request ,project_Code):
         # 업로드 점유율 체크
 
 
-# def proj_contributions(request,project_Code):
-#     if request.user.is_authenticated:
-#         t_comment_num_ver_user = []
-#         t_node_timeline_gap = []
-#         t_file_upload_ver_user = []
-
-        
-        
-#         objects ={
-
-#         }
-
-#         return render(request, 'ProjectApp/proj_contributions.html', objects)
-
-#     else:
-#         return render(request,'MainApp/index.html')
-
-    
-
-# def form_create_project(request):
-#     return render(request,'ProjectApp/form_create_project.html')
-
-# def create_project(request):
-#     proj_obj = Projects()
-#     proj_obj.Code = random.randint(0,0xffffff)
-#     proj_obj.name = request.GET['projectName']
-#     proj_obj.whoIsOwner = User.objects.get(username = 'sea')
-#     proj_obj.save()
-#     return redirect('project_list')
-
-# def create_project(request):
-#     proj_obj = Projects()
-#     proj_obj.Code = random.randint(0,0xffffff)
-#     proj_obj.name = request.GET['projectName']
-#     proj_obj.whoIsOwner = User.objects.get(username = 'sea')
-#     proj_obj.save()
-#     return redirect('project_list')
-
-# def logout(request):
-#     auth.logout(request)s
-#     return redirect('/')
-
 def project_create(request):
 
     if request.method == 'POST':
@@ -174,6 +132,7 @@ def confirm_project_checkin(request, project_Code):
 def project_checkin(request):
     if request.method == 'POST':
         project_code = request.POST['project_code']
+        print(project_code)
         if request.user.is_authenticated:
             user = request.user
             project_obj = Projects.objects.get(Code=project_code)
@@ -198,7 +157,7 @@ def project_checkin(request):
             request.COOKIES['project_code']=project_code
             response = render(request, 'UserApp/login.html')
             response.set_cookie(key='project_code', value=project_code)
-            return response
+            return redirect('project:project_list')
     else:
         return redirect('main:index')
     

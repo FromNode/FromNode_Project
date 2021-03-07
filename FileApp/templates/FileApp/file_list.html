@@ -23,6 +23,11 @@
                                 <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
                               </a>
                         {% endfor %}
+                        <a href="{% url 'file:invite' project_id %}" class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="#">
+                                <img alt="Image placeholder" src="{% static 'MainApp/picture/pluslogo.png' %}">
+                        </a>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#inviteModal">
+                            + invite! </button>
                     </div>
                 </nav>
             </div>
@@ -295,6 +300,15 @@
 </div>
 </div>
 
+<!-- inviteModal -->
+<div class="modal fade invite_Moal" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <h3>fromnode.com/project/invite/{{project_code}}</h3>
+        </div>
+    </div>
+</div>
+
 <!-- uploadModal -->
 <div class="modal fade upload_Modal" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -334,7 +348,7 @@
           <div class="custom-file">
             <label class="custom-file-label" for="customFileLang">Select file</label>
             <input type="file" name="myFile" class="custom-file-input" id="customFileLang" lang="en">
-            <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
+            <input type='hidden' name='pk' value='{{project_id}}' formenctype="multipart/form-data">
         </div>
         </div>
         <div class="modal-body my-4">
@@ -355,75 +369,6 @@
     <!-- 자 여기에 해보자 -->
 
 </div>
-<!-- <div class="container"> -->
-<!-- <div class="fileList_Header">
-        <div>
-            <span class="fileListTitle large">
-                <h1>{{pro_name}}</h1>
-            </span>
-        </div>
-        <div>
-            <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
-        </div>
-        <p class='Large'>프로젝트 참여 명단</p>
-        {% for users in proj_user %}
-            <span>{{users.username}}</span>
-        {% endfor %}
-    </div> -->
-<!-- <div class="fileList_Contents">
-        <div calss="fileList_Contents_Header">
-            <span class='Title_discription small'>원하는 파일을 클릭하여 전체 버전을 확인해보세요</span>
-        </div>
-        <div class="fileList_List">
-            {% for file in file_obj %}
-            <div class='file'>
-                <input class='image' type='hidden' value='{{file.image}}'></input>
-                <div class='file_image'>
-                    <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
-                            style='width:120px;height:120px;'></a>
-                </div>
-                <div class='file_name'>
-                    <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
-                </div>
-
-
-            </div>
-            {% endfor %}
-            <div class="fileList_upload">
-                <button class="openModal"><img style='width:40px;height:40px;'
-                        src="{% static 'MainApp/picture/pluslogo.png' %}"><br>
-                </button>
-            </div>
-        </div>
-
-    </div> -->
-<!-- <div class="notice_board">
-        {% if is_there_notice == False %}
-        <h3>아직 이야기를 남긴 사람이 없어요</h3>
-        {% else %}
-        {% for notice in noticeboard %}
-        <div class='notice_content'>
-            <div class='notice_username'>
-                <h4>{{notice.user_id.username}}</h4>
-            </div>
-            <div class='notice_comment'>
-                {{notice.notice}}
-            </div>
-            <div class='notice_date'>
-                {{notice.date | date:'Y.m.d H:i'}}
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-        <div>
-            <form method="POST" action="{% url 'file:add_notice' %}">
-                {% csrf_token %}
-                <input type='hidden' name='proj_id' value='{{project_id}}'>
-                <input type='text' name='notice_text' value=''><input type="submit" value="enter">
-            </form>
-        </div>
-    </div> -->
-<!-- </div> -->
 <br>
 <div class="uploadModal hidden">
     <!--hidden-->
@@ -465,7 +410,7 @@
                             <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
                         </span>
                     </div> -->
-                    <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
+                    <input type='hidden' name='pk' value='{{project_id}}' formenctype="multipart/form-data">
                 </div>
 
             </div>
@@ -850,7 +795,7 @@ $(function () {
 
     }
 
-    const openButton = document.querySelector(".openModal");
+    // const openButton = document.querySelector(".openModal");
     const modal = document.querySelector(".uploadModal");
     const overlay = modal.querySelector(".modal_Overlay");
     const alert_text = document.querySelector('.alert_text');
