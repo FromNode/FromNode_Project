@@ -1,18 +1,20 @@
-from django.shortcuts import render, redirect
-from .models import Projects, proj_with_user
-from FileApp.models import Files
-from NodeApp.models import Nodes, Node_Comment
-from django.contrib.auth.models import User
-from django.contrib import auth
-from UserApp.models import Profile
 import random
-from django.utils import timezone
-from django.contrib.auth.decorators import login_required
-from notifications.signals import notify
 from datetime import datetime, timedelta
+
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from FileApp.models import Files
+from NodeApp.models import Node_Comment, Nodes
+from notifications.signals import notify
+from UserApp.models import Profile
+
+from .models import Projects, proj_with_user
 
 # User 모델 불러오기
 # 불러온 User 모델의 Projects 불러오기

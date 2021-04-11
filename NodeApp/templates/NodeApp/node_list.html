@@ -41,7 +41,12 @@
             {% endfor %}
           </div>
         </nav>
+
       </div>
+    <div class="col text-right">
+        <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;' onclick = "location.href = '{% url "file:file_list" pro_code %}' ">
+            Node 분석하기 </button>
+    </div>
       <!-- <div class="col-lg-6 col-5 text-right">
         <button class="btn btn-icon btn-secondary" type="button">
           <span class="btn-inner--icon"><i class="ni ni-active-40"></i></span>
@@ -52,6 +57,10 @@
   </div>
 </div>
 <div class="container-fluid">
+    <div class="col text-left" style='display:{{empty_check}}; margin:20px;'>
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#uploadModal">
+            + Add First Node  </button>
+    </div>
   <!-- 여기에 노드리스트 깔자 -->
   <div class="NodeContainer">
     <?xml version="1.1" ?>
@@ -76,6 +85,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <input type="hidden" id="upload_hiddenInput" name="this_node_pk">
+          <input type='hidden' name='ownerPCode' value = '{{pro_code}}'>
         </div>
         <div class="modal-body py-4">
           <div class="form-group">
@@ -276,7 +286,7 @@
       };
       let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
       var all_node_data = JSON.parse(all_node_data_to_json);
-     
+
       let btnDiv = document.createElement("div");
       let n_btn = document.createElement("button");
       // bootstrap modal 개조

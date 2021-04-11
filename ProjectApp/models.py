@@ -1,8 +1,11 @@
-from django.db import models
-from django.contrib.auth.models import User
-from random import choice
-from datetime import datetime
 import string
+from datetime import datetime
+from random import choice
+
+from django.contrib.auth.models import User
+from django.db import models
+from NodeApp.models import Nodes
+
 
 def random_code():
     arr = [choice(string.ascii_letters) for _ in range(8)]
@@ -18,6 +21,7 @@ class Projects(models.Model):
     description = models.TextField(max_length= 20000, blank = True)
     unliked_members = models.ManyToManyField(User,blank = True, related_name ='Joined_Unliked_Projects')
     liked_members = models.ManyToManyField(User,blank = True, related_name ='Joined_Liked_Projects')
+    Proj_Nodes = models.ManyToManyField(Nodes,blank = True, related_name ='ProjNode')
     def __str__(self):
         return self.name
         

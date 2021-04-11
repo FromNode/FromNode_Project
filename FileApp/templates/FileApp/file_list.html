@@ -222,35 +222,10 @@
 
         </div>
         <!-- 파일리스트 & 공지사항 -->
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">File List</h3>
-                        </div>
-                        <div class="col text-right">
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fileModal">
-                                + Add </button>
-                            <!-- <a class="btn btn-sm btn-primary">+ Add</a> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="file_list_card card-body"> 
-                    {% for file in file_obj %}
-                    <div class="media flex-column col-xl-4 align-items-center">
-                        <input class='image' type='hidden' value='{{file.image}}'></input>
-
-                        <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
-                                style='width:5rem; height:5rem;'></a>
-
-                        <div class="text-center">
-                            <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+        <div class="col text-right">
+        <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;' onclick = "location.href = '{% url "node:node_list" pro_code %}' ">
+            Node 돌아가기 </button>
+        </div>
 
             <div class="card">
                 <div class="card-header">
@@ -284,7 +259,7 @@
                     <div>
                         <form method="POST" action="{% url 'file:add_notice' %}">
                             {% csrf_token %}
-                            <input type='hidden' name='proj_id' value='{{project_id}}'>
+                            <input type='hidden' name='proj_id' value='{{proj_id}}'>
                             <input type='text' name='notice_text' value=''><input type="submit" value="enter">
                         </form>
                     </div>
@@ -296,12 +271,12 @@
 </div>
 
 <!-- uploadModal -->
-<div class="modal fade upload_Modal" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{% comment %} <div class="modal fade upload_Modal" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"> {% endcomment %}
 
       <!-- <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
       <p class='middle'>파일 업로드</p>
@@ -313,7 +288,7 @@
       <input class="uploadBtn" type="submit" value="OK"> -->
 
 
-      {% csrf_token %}
+      {% comment %} {% csrf_token %}
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -344,12 +319,12 @@
                     <span class="btn-inner--text">Make New File</span>
                 </button>
         </div>
-        </div>
-        <div class="modal-footer">
+        </div> {% endcomment %}
+        {% comment %} <div class="modal-footer">
         </div>
     </div>
   </div>
-</div>
+</div> {% endcomment %}
 
 <div class="row bg-primary">
     <!-- 자 여기에 해보자 -->
@@ -363,7 +338,6 @@
             </span>
         </div>
         <div>
-            <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
         </div>
         <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
@@ -425,71 +399,7 @@
     </div> -->
 <!-- </div> -->
 <br>
-<div class="uploadModal hidden">
-    <!--hidden-->
-    <div class="modal_Overlay"></div> 
-    <div class="modal_Contents">
-        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data"
-            onsubmit="return checkForm()">
-            {% csrf_token %}
-            <div class="box">
-                <div class="title">파일명 : </div>
-                <div class="write">
-                    <input type='text' name='fileName' class='input_sec' value=''>
-                </div>
 
-            </div>
-            <div class="box">
-                <div class="title">메모 : </div>
-                <div class="write">
-                    <input type='text' name='fileMemo' class='input_sec' value=''>
-                </div>
-            </div>
-            <div class="upload_box">
-                <div class="upload_title">파일 업로드</div>
-                <div class="drop-zone">
-                    <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
-                    <div>
-                        <label class="self-select">
-                            <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
-                            <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p>
-                        </label>
-                    </div>
-                    <!-- <div class="drop-zone__prompt">
-                        <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                    </div> -->
-                    <!-- <span class="drop-zone__prompt"></span> -->
-
-                    <!-- <div>
-                        <span class="drop-zone__prompt">
-                            <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                        </span>
-                    </div> -->
-                    <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-                </div>
-
-            </div>
-            <p class='alert_text' style='color: red;'></p>
-            <div class="submit">
-                <input class="uploadBtn" type="submit" value="OK">
-            </div>
-
-
-
-            <!-- <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
-                <p class='middle'>파일 업로드</p>
-                <div class="drop-zone">
-                    <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
-                    <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
-                </div>
-                <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-                <input class="uploadBtn" type="submit" value="OK">
-            </form> -->
-
-
-        </form>
     </div>
 </div>
 

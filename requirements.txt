@@ -1,4 +1,4 @@
-antlr4-python3-runtime==4.8
+# pythantlr4-python3-runtime==4.8
 asgiref==3.2.10
 certifi==2020.12.5
 cffi==1.14.5
@@ -32,17 +32,16 @@ kss==2.5.0
 libsass==0.20.1
 lxml==4.6.2
 marisa-trie==0.7.5
-mkl-fft==1.2.1
-mkl-random==1.1.1
-mkl-service==2.3.0
+# mkl-fft==1.2.1
+# mkl-random==1.1.1
+# mkl-service==2.3.0
 mysqlclient==1.4.6
 nltk==3.5
-numpy @ file:///C:/ci/numpy_and_numpy_base_1603466732592/work
+# numpy @ file:///C:/ci/numpy_and_numpy_base_1603466732592/work
 olefile==0.46
 omegaconf==2.0.6
 packaging==20.9
 Pillow==7.2.0
-pororo==0.4.2
 portalocker==2.2.1
 pycparser==2.20
 PyMySQL==1.0.2
@@ -68,8 +67,6 @@ sqlparse==0.4.1
 swapper==1.1.2.post1
 threadpoolctl==2.1.0
 tokenizers==0.10.1
-torch==1.6.0+cpu
-torchvision==0.7.0+cpu
 tqdm==4.57.0
 transformers==4.3.2
 typing-extensions==3.7.4.3
