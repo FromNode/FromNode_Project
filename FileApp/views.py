@@ -300,8 +300,8 @@ def show_file_list(request,proj_Code):
 
 def add_notice(request):
     notice_text = request.POST['notice_text']
-    proj_id = request.POST['proj_id']
-    proj_obj = Projects.objects.get(id = proj_id)
+    proj_code = request.POST['proj_id']
+    proj_obj = Projects.objects.get(Code = proj_code)
     user_id = request.user
     new_notice = board()
     new_notice.proj_id = proj_obj
@@ -309,7 +309,7 @@ def add_notice(request):
     new_notice.notice = notice_text
     new_notice.save()
 
-    next_url = '/file/file_list/'+str(proj_id)
+    next_url = '/file/file_list/'+str(proj_code)
     return redirect(next_url)
 # def form_create_new_file(request):
 #     return render(request, 'FileApp/form_create_new_file.html')

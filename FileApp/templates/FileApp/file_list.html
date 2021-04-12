@@ -27,8 +27,9 @@
                 </nav>
             </div>
             <div class="col-lg-6 col-5 text-right">
-                <!-- <a href="#" class="btn btn-sm btn-neutral">New</a>
-                <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
+                <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;'onclick = "location.href = '{% url "node:node_list" pro_code %}' ">
+                    Back to Nodes </button>
+        
             </div>
         </div>
     </div>
@@ -65,7 +66,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">마지막 노드 생성시각</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{date_last_node | date:'y.n.n H:i'}}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{date_last_node | date:'Y. m. d H : i'}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -73,10 +74,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-sm">
+                            <!-- <p class="mt-3 mb-0 text-sm">
                                 {% comment %} <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                                 <span class="text-nowrap">Since last month</span> {% endcomment %}
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
@@ -119,7 +120,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- 그래프 -->            
+            <!-- <div class="row">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -127,15 +129,12 @@
                                 <div class="col">
                                     <h3 class="mb-0">개인별 참여도 추이</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
+
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Area Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-staked-area-chart" width="600" height="400"></canvas>
                                     </div>
@@ -151,15 +150,11 @@
                                 <div class="col">
                                     <h3 class="mb-0"> 노드 업로드 시각 분포</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Line Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-staked-line-chart" width="600" height="400"></canvas>
                                     </div>
@@ -175,15 +170,11 @@
                                 <div class="col">
                                     <h3 class="mb-0"> 협업 스타일</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Radar Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-radar-chart" width="600" height="400"></canvas>
                                     </div>
@@ -201,15 +192,11 @@
                                 <div class="col">
                                     <h3 class="mb-0">커뮤니케이션 빈도</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Pie Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
                                     </div>
@@ -218,14 +205,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
         <!-- 파일리스트 & 공지사항 -->
         <div class="col text-right">
-        <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;' onclick = "location.href = '{% url "node:node_list" pro_code %}' ">
-            Node 돌아가기 </button>
-        </div>
+
 
             <div class="card">
                 <div class="card-header">
@@ -244,23 +229,35 @@
                     {% else %}
                     {% for notice in noticeboard %}
                     <div class='notice_content'>
-                        <div class='notice_username'>
+                        <div class='notice_username pr-2'>
                             <h4>{{notice.user_id.username}}</h4>
                         </div>
-                        <div class='notice_comment'>
+                        <div class='notice_comment pr-2'>
                             {{notice.notice}}
                         </div>
                         <div class='notice_date'>
-                            {{notice.date | date:'Y.m.d H:i'}}
+                            {{notice.date | date:'y.m.d H:i'}}
                         </div>
                     </div>
                     {% endfor %}
                     {% endif %}
-                    <div>
+                    <div class="pt-2">
                         <form method="POST" action="{% url 'file:add_notice' %}">
                             {% csrf_token %}
-                            <input type='hidden' name='proj_id' value='{{proj_id}}'>
-                            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
+                            <input type='hidden' name='proj_id' value='{{pro_code}}'>
+                            
+                            <!-- <input type='text' name='notice_text' value=''>
+                            <input type="submit" value="enter"> -->
+
+                            <div class="input-group">
+            <input type="text" class="form-control" aria-describedby="button-addon2" name="notice_text" value=''> 
+            <div class="input-group-append">
+                <button class="btn btn-icon btn-outline-primary" value="enter" type="submit">
+                    <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+                </button>
+            </div>
+            </div>
+        
                         </form>
                     </div>
                 </div>

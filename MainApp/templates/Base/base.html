@@ -81,7 +81,7 @@
                     <ul class="navbar-nav">
                         {% for project in proj_obj_all %}
                         <li class="nav-item">
-                            <a class="nav-link" id="{{project.Code}}" href="{% url 'file:file_list' project.id %}"
+                            <a class="nav-link" id="{{project.Code}}" href="{% url 'node:node_list' project.Code %}"
                                 onclick="select_activate(this)">
                                 <i class="ni ni-archive-2 text-primary"></i>
                                 <span class="nav-link-text">{{project.name}}</span>
@@ -137,11 +137,11 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item d-sm-none">
+                        <!-- <li class="nav-item d-sm-none">
                             <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
                                 <i class="ni ni-zoom-split-in"></i>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" aria-haspopup="true"
                                 aria-expanded="false">
@@ -261,12 +261,12 @@
                                     all</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
+                        <!-- <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <i class="ni ni-ungroup"></i>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                     <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
                         <li class="nav-item dropdown">
