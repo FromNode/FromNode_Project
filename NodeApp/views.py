@@ -109,7 +109,7 @@ def get_location_list(dbData):
                     end_axis = i[0], i[1], 'x'
                     append_axis = start_axis + end_axis
             coordinates.append(append_axis)
-
+    print(li_location)
     return li_location, num_of_row, num_of_column, coordinates
 
 
