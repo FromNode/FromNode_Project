@@ -1,9 +1,10 @@
-from django.db import models
+import string
+from random import choice
+
 from django.contrib.auth.models import User
+from django.db import models
 from NodeApp.models import Nodes
 from ProjectApp.models import Projects
-from random import choice
-import string
 
 
 def random_code():
@@ -23,10 +24,10 @@ class Files(models.Model):
     createdDate = models.DateTimeField(auto_now=True)
     Code = models.CharField(primary_key = True, max_length=255, default=random_code, unique=True)
     whoIsOwner = models.ForeignKey(User,on_delete = models.SET_NULL, null=True, blank=True)
-    ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE, default='0', null=True)
+    ownerPCode = models.ForeignKey('ProjectApp.projects', on_delete=models.CASCADE, null=True)
     image = models.CharField(max_length=255, default='etc')
     Memo = models.CharField(max_length=1023, blank = True)
-    File_Nodes = models.ManyToManyField(Nodes,blank = True, related_name ='FileNode')
+    
 
 
 class board(models.Model):

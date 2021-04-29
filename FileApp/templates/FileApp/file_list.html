@@ -27,8 +27,9 @@
                 </nav>
             </div>
             <div class="col-lg-6 col-5 text-right">
-                <!-- <a href="#" class="btn btn-sm btn-neutral">New</a>
-                <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
+                <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;'onclick = "location.href = '{% url "node:node_list" pro_code %}' ">
+                    Back to Nodes </button>
+        
             </div>
         </div>
     </div>
@@ -46,7 +47,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">총 댓글 작성수</h5>
-                                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                                    <span class="h2 font-weight-bold mb-0">{{total_comment}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -54,10 +55,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">지난달부터</span>
-                            </p>
+                            
                         </div>
                     </div>
                 </div>
@@ -68,7 +66,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">마지막 노드 생성시각</h5>
-                                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                                    <span class="h2 font-weight-bold mb-0">{{date_last_node | date:'Y. m. d H : i'}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -76,10 +74,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-sm">
+                            <!-- <p class="mt-3 mb-0 text-sm">
                                 {% comment %} <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                                 <span class="text-nowrap">Since last month</span> {% endcomment %}
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </div>
@@ -90,7 +88,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">총 노드 수</h5>
-                                    <span class="h2 font-weight-bold mb-0">924</span>
+                                    <span class="h2 font-weight-bold mb-0">{{total_node}}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -98,10 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">지난달부터</span>
-                            </p>
+                            
                         </div>
                     </div>
                 </div>
@@ -120,15 +115,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 mb-0 text-sm">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span class="text-nowrap">지난달부터</span>
-                            </p>
+                           
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- 그래프 -->            
+            <!-- <div class="row">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -136,15 +129,12 @@
                                 <div class="col">
                                     <h3 class="mb-0">개인별 참여도 추이</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
+
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Area Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-staked-area-chart" width="600" height="400"></canvas>
                                     </div>
@@ -158,17 +148,13 @@
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="mb-0">업로드 시각 분포</h3>
+                                    <h3 class="mb-0"> 노드 업로드 시각 분포</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Line Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-staked-line-chart" width="600" height="400"></canvas>
                                     </div>
@@ -184,15 +170,11 @@
                                 <div class="col">
                                     <h3 class="mb-0"> 협업 스타일</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Radar Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-radar-chart" width="600" height="400"></canvas>
                                     </div>
@@ -210,15 +192,11 @@
                                 <div class="col">
                                     <h3 class="mb-0">커뮤니케이션 빈도</h3>
                                 </div>
-                                <!-- <div class="col text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">+ Add</a>
-                                </div> -->
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="grid">
                                 <div class="grid-body">
-                                    <!-- <h2 class="grid-title">Pie Chart</h2> -->
                                     <div class="item-wrapper">
                                         <canvas id="chartjs-pie-chart" width="600" height="400"></canvas>
                                     </div>
@@ -227,39 +205,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
         <!-- 파일리스트 & 공지사항 -->
-        <div class="col-xl-4">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">File List</h3>
-                        </div>
-                        <div class="col text-right">
-                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#fileModal">
-                                + Add </button>
-                            <!-- <a class="btn btn-sm btn-primary">+ Add</a> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="file_list_card card-body"> 
-                    {% for file in file_obj %}
-                    <div class="media flex-column col-xl-4 align-items-center">
-                        <input class='image' type='hidden' value='{{file.image}}'></input>
+        <div class="col text-right">
 
-                        <a href="{% url 'node:node_list' file.Code %}"><img class='file_img'
-                                style='width:5rem; height:5rem;'></a>
-
-                        <div class="text-center">
-                            <a href="{% url 'node:node_list' file.Code %}">{{file.fileName}}</a>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -278,23 +229,35 @@
                     {% else %}
                     {% for notice in noticeboard %}
                     <div class='notice_content'>
-                        <div class='notice_username'>
+                        <div class='notice_username pr-2'>
                             <h4>{{notice.user_id.username}}</h4>
                         </div>
-                        <div class='notice_comment'>
+                        <div class='notice_comment pr-2'>
                             {{notice.notice}}
                         </div>
                         <div class='notice_date'>
-                            {{notice.date | date:'Y.m.d H:i'}}
+                            {{notice.date | date:'y.m.d H:i'}}
                         </div>
                     </div>
                     {% endfor %}
                     {% endif %}
-                    <div>
+                    <div class="pt-2">
                         <form method="POST" action="{% url 'file:add_notice' %}">
                             {% csrf_token %}
-                            <input type='hidden' name='proj_id' value='{{project_id}}'>
-                            <input type='text' name='notice_text' value=''><input type="submit" value="enter">
+                            <input type='hidden' name='proj_id' value='{{pro_code}}'>
+                            
+                            <!-- <input type='text' name='notice_text' value=''>
+                            <input type="submit" value="enter"> -->
+
+                            <div class="input-group">
+            <input type="text" class="form-control" aria-describedby="button-addon2" name="notice_text" value=''> 
+            <div class="input-group-append">
+                <button class="btn btn-icon btn-outline-primary" value="enter" type="submit">
+                    <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+                </button>
+            </div>
+            </div>
+        
                         </form>
                     </div>
                 </div>
@@ -305,12 +268,12 @@
 </div>
 
 <!-- uploadModal -->
-<div class="modal fade upload_Modal" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{% comment %} <div class="modal fade upload_Modal" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"> {% endcomment %}
 
       <!-- <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
       <p class='middle'>파일 업로드</p>
@@ -322,7 +285,7 @@
       <input class="uploadBtn" type="submit" value="OK"> -->
 
 
-      {% csrf_token %}
+      {% comment %} {% csrf_token %}
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -353,12 +316,12 @@
                     <span class="btn-inner--text">Make New File</span>
                 </button>
         </div>
-        </div>
-        <div class="modal-footer">
+        </div> {% endcomment %}
+        {% comment %} <div class="modal-footer">
         </div>
     </div>
   </div>
-</div>
+</div> {% endcomment %}
 
 <div class="row bg-primary">
     <!-- 자 여기에 해보자 -->
@@ -372,7 +335,6 @@
             </span>
         </div>
         <div>
-            <a href="{% url 'file:invite' project_id %}">초대 링크 만들기</a>
         </div>
         <p class='Large'>프로젝트 참여 명단</p>
         {% for users in proj_user %}
@@ -434,71 +396,7 @@
     </div> -->
 <!-- </div> -->
 <br>
-<div class="uploadModal hidden">
-    <!--hidden-->
-    <div class="modal_Overlay"></div> 
-    <div class="modal_Contents">
-        <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data"
-            onsubmit="return checkForm()">
-            {% csrf_token %}
-            <div class="box">
-                <div class="title">파일명 : </div>
-                <div class="write">
-                    <input type='text' name='fileName' class='input_sec' value=''>
-                </div>
 
-            </div>
-            <div class="box">
-                <div class="title">메모 : </div>
-                <div class="write">
-                    <input type='text' name='fileMemo' class='input_sec' value=''>
-                </div>
-            </div>
-            <div class="upload_box">
-                <div class="upload_title">파일 업로드</div>
-                <div class="drop-zone">
-                    <!-- <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple> -->
-                    <div>
-                        <label class="self-select">
-                            <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple>
-                            <p class="drop-zone__input_label">또는 파일을 여기로 끌어 놓으세요</p>
-                        </label>
-                    </div>
-                    <!-- <div class="drop-zone__prompt">
-                        <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                    </div> -->
-                    <!-- <span class="drop-zone__prompt"></span> -->
-
-                    <!-- <div>
-                        <span class="drop-zone__prompt">
-                            <p class='inner_text'>또는 파일을 여기로 끌어 놓으세요</p>
-                        </span>
-                    </div> -->
-                    <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-                </div>
-
-            </div>
-            <p class='alert_text' style='color: red;'></p>
-            <div class="submit">
-                <input class="uploadBtn" type="submit" value="OK">
-            </div>
-
-
-
-            <!-- <form method="POST" action="{% url 'file:create_new_file' %}" class="upload_Form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <p class='middle'>메모:</p><input type='text' name='fileMemo' class='fileMemo' value=''>
-                <p class='middle'>파일 업로드</p>
-                <div class="drop-zone">
-                    <input type="file" name="myFile" class="drop-zone__input" value='파일 선택' multiple><Br>
-                    <span class="drop-zone__prompt"><p class='small'>또는 파일을 여기로 끌어 놓으세요</p></span>
-                </div>
-                <input type='hidden' name='pk' value='{{project}}' formenctype="multipart/form-data">
-                <input class="uploadBtn" type="submit" value="OK">
-            </form> -->
-
-
-        </form>
     </div>
 </div>
 
@@ -507,7 +405,7 @@
 {% endblock %}
 {% block JS %}
 <script src="{% static 'MainApp/vendor/label-free-bootstrap/template.js' %}"></script>
-<script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script>
+{% comment %} <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.js' %}"></script> {% endcomment %}
 <script src="{% static 'MainApp/vendor/label-free-bootstrap/Chart.min.js' %}"></script>
 <script src="{% static 'MainApp/vendor/label-free-bootstrap/chartjs.addon.js' %}"></script>
 
@@ -520,16 +418,28 @@ $(function () {
     var a = graph_datas_2_2.replaceAll(']','');
     var b = a.replaceAll(',{','');
     var c = b.replaceAll('{','');
-    var graph_datas_split = c.split('}')
+    var graph_datas_split = c.split('}');
     var users_arr = new Array();
     var all_contri_arr = new Array();
-    
+    var save_len = new Array();
+
     for(var i=0;i<graph_datas_split.length-1;i++){
+
         var d = graph_datas_split[i];
         var elements = d.split(',');
         const new_elements = elements.filter(Boolean);
-        var contribute_arr = new Array();
+        var contribute_arr = new Array();  
+        for (let x=0; x<new_elements.length; x++){
+                var new_data = new_elements[x]
+                var test = new_data.split(':')
+                var users = test[0];
+                var contribute_num = test[1]
+                users_arr[x] = users;
+                contribute_arr[x] = contribute_num;       
+        }
+        save_len[i] = contribute_arr.length;
         
+
         for(var j=0;j<new_elements.length;j++){
             var test = new_elements[j].split(':')
             var users = test[0];
@@ -538,20 +448,40 @@ $(function () {
             contribute_arr[j] = contribute_num;
         }
         all_contri_arr[i] = contribute_arr
-    }
-    var Arr_Data = new Array();
-
-    for (let i = 0; i < all_contri_arr.length; i++) {
         
+    }
+    
+    
+    var Fix_Data = new Array(users_arr.length);
+
+    var len = Math.max.apply(null, save_len);
+
+    for (var i = 0; i < Fix_Data.length; i++) {
+        Fix_Data[i] = new Array(5);
+    }
+
+    for (var x= 0; x<all_contri_arr.length; x++){ 
+
+        for (var y=0; y<len; y++){
+            Fix_Data[y][x] = all_contri_arr[x][y];
+        }
+    }
+    
+    console.log(Fix_Data);
+    var Arr_Data = new Array();
+    for (let i = 0; i <= all_contri_arr.length; i++) {
         let Data = {
-                label:'글자 수',
-                data: all_contri_arr[i],
+                label:users_arr[i],
+                data: Fix_Data[i],
                 backgroundColor: chartColors[i],
                 borderColor: chartColors[i],
-                borderWidth: 1,
+                borderWidth: 2,
+                fill: false,
                 }
         Arr_Data[i] = Data;
     }
+
+    
     console.log(Arr_Data);
         
 
@@ -560,8 +490,9 @@ $(function () {
         type: 'line',
         data: {
             labels: ["1분기", "2분기", "3분기", "4분기", "5분기"],
-            datasets:Arr_Data
-
+            datasets:Arr_Data,
+            
+            
         },
         options: {
             scales: {
@@ -591,9 +522,8 @@ $(function () {
                 label: '# of Nodes',
                 data: nodes_data,
                 borderWidth: 2,
-                fill: false,
-                backgroundColor: chartColors[0],
-                borderColor: chartColors[0],
+                backgroundColor: chartColors[10],
+                borderColor: chartColors[10],
                 borderWidth: 0
             }
             ]
@@ -621,8 +551,8 @@ $(function () {
         datasets: [{
             label: '# of Votes',
             data: nodes_data,
-            backgroundColor: chartColors,
-            borderColor: chartColors,
+            backgroundColor: chartColors[4],
+            borderColor: chartColors[4],
             borderWidth: 0
         }]
         };
@@ -638,15 +568,17 @@ $(function () {
 
     if ($("#chartjs-staked-bar-chart").length) {
         var BarData = {
+
         labels: ['', "1분기", "2분기", "3분기", "4분기",'5분기'],
         datasets: [{
             label: 'Profit',
             data: nodes_data,
-            backgroundColor: chartColors[0],
-            borderColor: chartColors[0],
+            backgroundColor: chartColors[4],
+            borderColor: chartColors[4],
             borderWidth: 0
             },
         ]
+
         };
         var barChartCanvas = $("#chartjs-staked-bar-chart").get(0).getContext("2d");
         var barChart = new Chart(barChartCanvas, {
@@ -671,39 +603,61 @@ $(function () {
         });
     }
 
-    if ($("#chartjs-radar-chart").length) {
-        var marksCanvas = document.getElementById("chartjs-radar-chart");
+     if ($("#chartjs-radar-chart").length) {
+            var marksCanvas = document.getElementById("chartjs-radar-chart");
 
-        var marksData = {
-        labels: ["English", "Maths", "Physics", "Chemistry", "Biology", "History"],
-        datasets: [{
-            label: "Student A",
-            data: [24, 55, 30, 56, 60, 68],
-            backgroundColor: chartColors[0],
-            borderColor: chartColors[0],
-            borderWidth: 0
-            }, {
-            label: "Student B",
-            data: [54, 65, 60, 70, 70, 75],
-            backgroundColor: chartColors[1],
-            borderColor: chartColors[1],
-            borderWidth: 0
-            },
-            {
-            label: "Student c",
-            data: [43, 13, 33, 57, 50, 75],
-            backgroundColor: chartColors[2],
-            borderColor: chartColors[2],
-            borderWidth: 0
-            }
-        ]
-        };
+            var marksData = {
+                labels: ["일정", "조율", "대답", "주장", "동의", "무관심"],
+                datasets: [{
+                    label: "sea",
+                    data: [24, 55, 30, 56, 60, 11],
+                    backgroundColor: chartColors[0],
+                    borderColor: chartColors[0],
+                    borderWidth: 0
+                }, 
+                {
+                    label: "ina",
+                    data: [54, 65, 60, 70, 70, 0],
+                    backgroundColor: chartColors[1],
+                    borderColor: chartColors[1],
+                    borderWidth: 0
+                },
+                {
+                    label: "hyeseon",
+                    data: [66, 13, 33, 57, 50, 16],
+                    backgroundColor: chartColors[2],
+                    borderColor: chartColors[2],
+                    borderWidth: 0
+                },
+                {
+                    label: "jaehoon",
+                    data: [85, 45, 16, 76, 50, 8],
+                    backgroundColor: chartColors[3],
+                    borderColor: chartColors[3],
+                    borderWidth: 0
+                },
+                {
+                    label: "guest",
+                    data: [76, 85, 46, 95, 26, 90],
+                    backgroundColor: chartColors[4],
+                    borderColor: chartColors[4],
+                    borderWidth: 0
+                },
+                {
+                    label: "kpmg",
+                    data: [65, 80, 49, 77, 80, 11],
+                    backgroundColor: chartColors[0],
+                    borderColor: chartColors[0],
+                    borderWidth: 0
+                }, 
+                ]
+            };
 
-        var radarChart = new Chart(marksCanvas, {
-        type: 'radar',
-        data: marksData
-        });
-    }
+            var radarChart = new Chart(marksCanvas, {
+                type: 'radar',
+                data: marksData
+            });
+        }
     var graph_datas_1 = `{{graph_datas_1}}`.replaceAll('&#x27;','');
     graph_datas_1 =graph_datas_1.replaceAll('{','');
     graph_datas_1 =graph_datas_1.replaceAll('}','');
@@ -788,7 +742,7 @@ $(function () {
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
         else if (x[i].value == 'word') {
-            img = "{% static 'MainApp/picture/word.png' %}";
+            img = "/media/media/docx_img.png";
             document.getElementsByClassName('file_img')[i].setAttribute('src', img);
         }
         else if (x[i].value == 'ppt') {
@@ -839,3 +793,4 @@ $(function () {
 
 </script>
 {% endblock %}
+

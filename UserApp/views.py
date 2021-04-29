@@ -26,6 +26,7 @@ def signup(request):
                 user.profile.location = profile_form.cleaned_data.get('location')
                 user.profile.save()
                 '''
+                user.Profile.nickname = request.POST['username']
                 auth.login(request, user)
                 redirect('project:project_list')
             else:
@@ -115,4 +116,5 @@ def cofirm_alarm(request):
         return redirect('user:mypage')
         
     return redirect('user:mypage')
+
 

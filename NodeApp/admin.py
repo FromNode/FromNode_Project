@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Nodes, Node_Comment
+
+from .models import Node_Comment, Nodes
 
 # admin.site.register(Nodes)
 # admin.site.register(Node_Comment)
@@ -8,7 +9,7 @@ from .models import Nodes, Node_Comment
 # 기존 Nodes model의 단순 admin 등록을 대체하는 NodesAdmin Class 정의
 # ModelAdmin을 상속받는 형태로 class를 정의하고, list_display에 tuple 형태로 admin 페이지에 표출될 필드를 정의
 class NodesAdmin(admin.ModelAdmin):
-    list_display = ('Code', 'ownerFCode', 'whoIsOwner',
+    list_display = ('Code', 'whoIsOwner',
                     'comment', 'similarity', 'description')
 
 

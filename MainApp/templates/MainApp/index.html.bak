@@ -1,0 +1,93 @@
+{% load sass_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 파일 관리 Fromnode</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <link href="{% sass_src 'MainApp/CSS/Index/index.scss' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container_main"> 
+        <div class="menu_Bar">
+            <div class="logo"><img src="{% static 'MainApp/image/fn_logo.png' %}" alt="로고" class="logo_Text"></div>
+            <div class="menu_Button">
+                <a class="menu_Btn" href="#"> 메뉴1 </a>
+                <a class="menu_Btn" href="#"> 메뉴2 </a>
+                <a class="menu_Btn" href="#"> 메뉴3 </a>
+            </div>
+            {% if user.is_authenticated %}
+                <button class="login_Btn"><a class="logout_Text" href="{% url 'user:logout'%}">Logout</a></button>
+            {% else %}
+                <button class="login_Btn"><a class="login_Text" href="{% url 'user:login'%}">Login</a></button>
+            {% endif %}
+        </div>
+        <div class="main_Contents">
+            <div class="section1">
+                <div class="section1_Left">
+                    <span class="title">세상에서 가장 간단한<Br>파일 관리 서비스</span> 
+                    {% if user.is_authenticated %}    
+                        <button class="project_Button"><a class="project_Text" href="{% url 'project:project_list'%}">My Project</a></button>
+                    {% else %}
+                        <button class="project_Button"><a class="project_Text" href="{% url 'user:login'%}">Login</a></button>
+                        <!-- <button class="login_Button"><span class="login_Text">Login</span></button> -->
+                    {% endif %}
+                    <!-- {#% if hidden == 0 %#} -->
+                    <!-- <div class="loginModal">
+                        <div class="modal_Overlay"></div>
+                        <div class="modal_Contents">
+                            <form method="POST" action="{% url 'user:login' %}" class="login">
+                                {% csrf_token %}
+                                <img src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="login_logo loginbox">
+                                <input class="loginbox" type="text" name="username" placeholder="아이디">
+                                
+                                <input class="loginbox" type="password" name="password" placeholder="비밀번호">
+
+                                <button class="loginbox" type="submit">Log in</button>
+                                <p class='message'>{{message}}</p>
+                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+<br>
+                            </form>   
+                        </div>
+                    </div> -->
+                </div>
+                    <!-- {#% else %#} -->
+                    <!-- <div class="loginModal hidden">
+                        <div class="modal_Overlay"></div>
+                        <div class="modal_Contents">
+                            <form method="POST" action="{% url 'user:login' %}" class="login">
+                                {% csrf_token %}
+                                <img src="{% static 'MainApp/image/fn_symbol.png' %}" alt="로고" class="login_logo loginbox">
+                                <input class="loginbox" type="text" name="username" placeholder="아이디">
+                                
+                                <input class="loginbox" type="password" name="password" placeholder="비밀번호">
+
+                                <button class="loginbox" type="submit">Login</button>
+                                
+                                <span class="ToGoSignup">아직 계정이 없다면? <a class="ToGoSignup_A" href="{% url 'user:signup' %}">가입하기</a></span>
+<br>
+                            </form>   
+                        </div>
+                    </div> -->
+                </div>
+                    <!-- {#% endif %#} -->
+        
+        </div>
+        <!-- <div class="main_Footer">
+            <Div class="main_Footer_Left">
+                <span>FromNode</span>
+                <img src="{% static 'MainApp/image/logo_text.png' %}" alt="로고" class="logo_Text" style="border:1px solid white;">
+            </Div>
+            <Div class="main_Footer_Right">
+                <span class="main_Footer_Text">팀 이름 : 옹헤야Lab</span>
+                <span class="main_Footer_Text">문의 : fromNode </span>
+            </Div>
+        </div> -->
+    </div>
+    <script src="{% static 'MainApp/JS/index.js' %}">
+    </script>
+</body>
+</html>

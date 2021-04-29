@@ -1,9 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
-from random import choice
 import string
-from uuid import uuid4
 from datetime import datetime
+from random import choice
+from uuid import uuid4
+
+from django.contrib.auth.models import User
+from django.db import models
 
 
 def get_file_path(instance, filename):
@@ -32,9 +33,9 @@ class Nodes(models.Model):
     previousCode = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True, blank=True)  # 이전 노드
     ownerPCode = models.ForeignKey(
-        'ProjectApp.projects', on_delete=models.CASCADE, default='0', null=True)  # 이 노드가 속해 있는 프로젝트
-    ownerFCode = models.ForeignKey(
-        'FileApp.Files', on_delete=models.CASCADE)  # 이 노드가 속해 있는 프로젝트
+        'ProjectApp.projects', on_delete=models.CASCADE, null=True)  # 이 노드가 속해 있는 프로젝트
+    # ownerFCode = models.ForeignKey(
+    #     'FileApp.Files', on_delete=models.CASCADE, null=True)  # 이 노드가 속해 있는 프로젝트
     whoIsOwner = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True)  # 이 노드를 만든 회원
     comment = models.CharField(

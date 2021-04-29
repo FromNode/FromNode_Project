@@ -1,27 +1,27 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Nodes, Node_Comment
+import json
+import logging
+import mimetypes
+import os
+import urllib
+from datetime import datetime
+
+from django.contrib.auth.models import User
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from FileApp.models import Files
 from ProjectApp.models import Projects
-from django.contrib.auth.models import User
-from datetime import datetime
-from django.core import serializers
 from UserApp.models import Profile
-from NodeApp.forms import CommentForm
-from django.utils import timezone
-from django.http import JsonResponse, HttpResponse
-import json
-from django.core.serializers.json import DjangoJSONEncoder
 
-import urllib
-import os
-from django.http import HttpResponse, Http404
-import mimetypes
+from NodeApp.forms import CommentForm
+from NodeApp.similarity.similarity import (similarity_compare,
+                                           similarity_sentence_compare)
 from NodeApp.summarization.summary import summary
-from NodeApp.textualization.convert import convert
-from NodeApp.textualization.convert import get_str
-from NodeApp.similarity.similarity import similarity_compare
-from NodeApp.similarity.similarity import similarity_sentence_compare
-import logging
+from NodeApp.textualization.convert import convert, get_str
+
+from .models import Node_Comment, Nodes
 
 
 def filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check):
@@ -109,7 +109,7 @@ def get_location_list(dbData):
                     end_axis = i[0], i[1], 'x'
                     append_axis = start_axis + end_axis
             coordinates.append(append_axis)
-
+    print(li_location)
     return li_location, num_of_row, num_of_column, coordinates
 
 
@@ -152,7 +152,7 @@ def get_location_list(dbData):
 #     else:
 #         pass
 
-def node_list(request, file_Code):
+def node_list(request, proj_Code):
     if request.user.is_authenticated:
         Users = request.user
         unliked_proj = Users.Joined_Unliked_Projects.all()
@@ -160,10 +160,10 @@ def node_list(request, file_Code):
         all_proj = unliked_proj.union(liked_proj)
         proj_obj = all_proj
         # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
-        The_File = Files.objects.get(Code=file_Code)
-        project = The_File.ownerPCode
+        project = Projects.objects.get(Code=proj_Code)
+        node_objs =project.Proj_Nodes.all()
         pro_name = project.name
-        node_objs = The_File.File_Nodes.all()
+        pro_code = proj_Code
         proj_user = project.unliked_members.all().union(project.liked_members.all())
         # 유저가 누른 File에 해당하는 Objects들을 The_File로 불러옵니다.
         # project는 File이 속한 project
@@ -244,7 +244,12 @@ def node_list(request, file_Code):
         pass
 
     if request.method == "POST":
-        node_comment_create(request, file_Code)
+        node_comment_create(request, proj_Code)
+
+    if json_data == '[]':
+        empty_check = ''
+    else:
+        empty_check = 'none'
 
     objects = {
         "li_location": li_location,
@@ -257,7 +262,6 @@ def node_list(request, file_Code):
         # 행과 열의 개수를 넘김
         "proj_obj": proj_obj,
         "node_objs": node_objs,
-        "The_File": The_File,
         "json": json_data,
         "proj_user": proj_user,
         "pro_name": pro_name,
@@ -265,14 +269,17 @@ def node_list(request, file_Code):
         "coordinates": coordinates,
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
-        "all_node_data_to_json": all_node_data_to_json
+        "all_node_data_to_json": all_node_data_to_json,
+        'empty_check':empty_check,
+        'pro_code':pro_code,
     }
+    # print(json_data)
     return render(request, 'NodeApp/node_list.html', objects)
 
 
-def node_comment_create(request, file_Code):
+def node_comment_create(request, proj_Code):
     if request.method == "POST":
-        node_comment_create(request, file_Code)
+        node_comment_create(request, proj_Code)
 
     objects = {
         "li_location": li_location,
@@ -299,7 +306,7 @@ def node_comment_create(request, file_Code):
 
 def node_detail(request, node_Code):
     node_obj = Nodes.objects.filter(Code=node_Code)
-    The_file = Nodes.objects.get(Code=node_Code).ownerFCode
+    The_file = Nodes.objects.get(Code=node_Code).ownerPCode
     node_comments = Node_Comment.objects.filter(node_code=node_Code)
     node_code = Nodes.objects.get(Code=node_Code).Code
 
@@ -456,57 +463,73 @@ def create_node(request):
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
         nodePk = request.POST['this_node_pk']
-        clickedNode = Nodes.objects.get(Code=str(nodePk))
-        NodeOwnerFileCode = clickedNode.ownerFCode.Code
-        redirectURL = '/node/node_list/'+str(NodeOwnerFileCode)
+        print(nodePk)
+        PCode = request.POST['ownerPCode']
+        node_obj = Nodes()
+        if nodePk == '':
+            # first node
+            node_obj.fileObj = request.FILES['uploadFile']
+            node_obj.filename = request.FILES['uploadFile'].name
+            node_obj.ownerPCode = Projects.objects.get(Code = PCode)
+            node_obj.comment = request.POST['node_name']
+            node_obj.whoIsOwner = request.user
+            node_obj.save()
+            proj_obj = Projects.objects.get(Code=PCode)
+            proj_obj.Proj_Nodes.add(node_obj)
+            proj_obj.save()
 
-        node_object = Nodes()
-    # Start Summary part
-        # File 확장자 확인, docx인가?
-        # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
-        if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.fileObj.name.split(".")[-1] == "docx":
-            # temp_summary_file 변수에 convert된 Object 담기
-            temp_summary_file = convert(request.FILES['uploadFile'])
-            # convert된 문서 object를 get_str 함수를 통해 String화
-            temp_summary_file_str = get_str(temp_summary_file)
-            # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
-            str_summary = summary(temp_summary_file_str)
-            # description 필드에 요약된 Text 삽입
+            redirectURL = '/node/node_list/'+str(PCode)
+        else:
+            clickedNode = Nodes.objects.get(Code=str(nodePk))
+            print(clickedNode,'안녕')
+            redirectURL = '/node/node_list/'+str(PCode)
+        # Start Summary part
+            # File 확장자 확인, docx인가?
+            # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.filename.split(".")[-1] == "docx":
+                # temp_summary_file 변수에 convert된 Object 담기
+                temp_summary_file = convert(request.FILES['uploadFile'])
+                # convert된 문서 object를 get_str 함수를 통해 String화
+                temp_summary_file_str = get_str(temp_summary_file)
+                # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
+                str_summary = summary(temp_summary_file_str)
+                # description 필드에 요약된 Text 삽입
 
-            # 유사도 결과물 넣을 Empty_list 생성
-            similarity_list = []
-            previous_node_file = clickedNode.fileObj
-            previous_node_file = convert(previous_node_file)
-            # Similarity Module 사용하여 유사도 비교
-            similarity_sentence_compare(previous_node_file,
-                               temp_summary_file, "temp_user", similarity_list)
-            # similarity와 summary text 저장
-            node_object.similarity = 100 - similarity_list[4]
-            node_object.description = str_summary
+                # 유사도 결과물 넣을 Empty_list 생성
+                similarity_list = []
+                previous_node_file = clickedNode.fileObj
+                previous_node_file = convert(previous_node_file)
+                # Similarity Module 사용하여 유사도 비교
+                similarity_sentence_compare(previous_node_file,
+                                temp_summary_file, "temp_user", similarity_list)
+                # similarity와 summary text 저장
+                node_obj.similarity = 100 - similarity_list[4]
+                node_obj.description = str_summary
 
-            # 추가한 글자수와 라인수를 저장
-            node_object.added_letters = similarity_list[5]
-            node_object.added_sentences = similarity_list[6]
+                # 추가한 글자수와 라인수를 저장
+                node_obj.added_letters = similarity_list[5]
+                node_obj.added_sentences = similarity_list[6]
 
-            # 기존 Project File에 해당하는지 or 기타 File인지 판단
-            if similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
-                node_object.is_workflow = 1  # Project File로 판단하여 1 삽입
-        else:  # docx 외의 File
-            node_object.is_workflow = 0
-        # End Summary part
+                # 기존 Project File에 해당하는지 or 기타 File인지 판단
+                if 100 - similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
+                    node_obj.is_workflow = 1  # Project File로 판단하여 1 삽입
+                else:
+                    node_obj.is_workflow = 0
+            else:  # docx 외의 File
+                node_obj.is_workflow = 0
+            # End Summary part
 
-        node_object.fileObj = request.FILES['uploadFile']
-        node_object.filename = request.FILES['uploadFile'].name
-        node_object.previousCode = clickedNode
-        node_object.ownerFCode = clickedNode.ownerFCode
-        node_object.ownerPCode = clickedNode.ownerPCode
-        node_object.whoIsOwner = request.user
-        node_object.comment = request.POST['node_name']
-        node_object.save()
-        file_object = Files.objects.get(Code=NodeOwnerFileCode)
-        file_object.File_Nodes.add(node_object)
-        file_object.save()
-        return redirect(redirectURL)
+            node_obj.fileObj = request.FILES['uploadFile']
+            node_obj.filename = request.FILES['uploadFile'].name
+            node_obj.previousCode = clickedNode
+            node_obj.ownerPCode = clickedNode.ownerPCode
+            node_obj.whoIsOwner = request.user
+            node_obj.comment = request.POST['node_name']
+            node_obj.save()
+            proj_obj = Projects.objects.get(Code=PCode)
+            proj_obj.Proj_Nodes.add(node_obj)
+            proj_obj.save()
+            return redirect(redirectURL)
     return redirect(redirectURL)
 
 
@@ -537,11 +560,12 @@ def load_node_data(request):
     filename = target_node.filename
     previousCode = target_node.previousCode
     ownerPCode = target_node.ownerPCode
-    ownerFCode = target_node.ownerFCode
     whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
     comment = target_node.comment  # : actually 노드 이름입니다.
     similarity = target_node.similarity  # : 유사도
     description = target_node.description  # : 문서 요약
+    is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
+    added_letters = target_node.added_letters # : text 몇개가 추가됐니?
 
     owner_profile = whoIsOwner.Profile.profile_image.url  # : 유저 프로필 사진
     owner_nickname = whoIsOwner.Profile.nickname  # : 유저 닉네임
@@ -552,8 +576,11 @@ def load_node_data(request):
             'author_color': owner_color,
             'author_nickname': owner_nickname,
             'summary': description,
-            'similarity': similarity
+            'similarity': similarity,
+            'is_workflow':is_workflow,
+            'added_letters':added_letters
             }
 
     # print(data)
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
+

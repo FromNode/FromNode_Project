@@ -41,26 +41,26 @@
             {% endfor %}
           </div>
         </nav>
+
       </div>
-      <div class="col-lg-6 col-5 text-right">
+    <div class="col text-right">
+        <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;' onclick = "location.href = '{% url "file:file_list" pro_code %}' ">
+            Node 분석하기 </button>
+    </div>
+      <!-- <div class="col-lg-6 col-5 text-right">
         <button class="btn btn-icon btn-secondary" type="button">
           <span class="btn-inner--icon"><i class="ni ni-active-40"></i></span>
           <span class="btn-inner--text">New Node</span>
         </button>
-        <!-- <a href="#" class="btn btn-sm btn-neutral">New</a>
-              <a href="#" class="btn btn-sm btn-neutral">Filters</a> -->
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
-<!-- <div class="container-fluid">
-  <button type="button" class="node_btn" data-toggle="modal" style="border:3px solid rgb(173, 55, 55)">
-    <h5 class="text-sm mb-0" id="n_btn_name">냐아아아아아아아아아아아</h5>
-    <h6 class="text-muted mb-0" id="n_btn_created_date">2021.02.18</h6>
-  </button>
-</div> -->
-<!-- end -->
 <div class="container-fluid">
+    <div class="col text-left" style='display:{{empty_check}}; margin:20px;'>
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#uploadModal">
+            + Add First Node  </button>
+    </div>
   <!-- 여기에 노드리스트 깔자 -->
   <div class="NodeContainer">
     <?xml version="1.1" ?>
@@ -69,35 +69,6 @@
     </svg>
   </div>
 </div>
-
-<!-- Node 클릭시 나오는 모달 (파일 업로드, 다운로드, 댓글 가능) -->
-<!-- <div class="nodeUploadModal hidden">
-  <div class="modal_Overlay"></div>
-  <div class="modal_Contents">
-    <div class="Top_Contents">
-      <label class="modal_title form-label">Upload Node</label>
-      <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input">
-      <div class='Upload_Contents'>
-        <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="hiddenInput">
-          </div>
-          <div class="drop-zone">
-            <span class="drop-zone__text ">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
-            <br><br>
-            <input type="file" name="uploadFile" class="drop-zone__input" multiple>
-            <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
-          </div>
-          <a class='download'>다운로드하기</a>
-          <input class="uploadBtn" type="submit" value="업로드하기">
-        </form>
-      </div>
-    </div>
-    <div class='Low_Contents'>
-      {#% include "NodeApp/comment.html" %#}
-    </div>
-  </div>
-</div> -->
 
 
 <!-- uploadModal -->
@@ -114,6 +85,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <input type="hidden" id="upload_hiddenInput" name="this_node_pk">
+          <input type='hidden' name='ownerPCode' value = '{{pro_code}}'>
         </div>
         <div class="modal-body py-4">
           <div class="form-group">
@@ -150,7 +122,6 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <!-- <h5 class="modal-title" id="exampleModalLabel">NodeModal 입니다.</h5> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -159,22 +130,33 @@
         <div class="modal-card border-bottom pt-0">
           <div class="row align-items-center">
             <div class="col">
-              <h4 class="h2 mb-0" id="node_name">Total orders</h4>
+              <h4 class="h2 mb-0" id="node_name"></h4>
             </div>
           </div>
 
           <div class="row align-items-center">
             <div class="col">
-              <h5 class="text-uppercase text-muted ls-1 mb-1" id="created_date">2021.02.13 PM 06:33</h5>
-
+              <h5 class="text-uppercase text-muted ls-1 mb-1" id="created_date"></h5>
             </div>
             <div class="media align-items-center">
               <a class="circle-sm rounded-circle" id="author_color"></a>
               <div class="media-body">
-                <span class="name mb-0 text-sm" id="author_nickname"></span>
+                <span class="name mb-0 text-sm text-body font-weight-600" id="author_nickname"></span>
               </div>
             </div>
           </div>
+          <!-- <div class="row align-items-left">
+            <div class="col">
+              <span class="text-sm text-body font-weight-600">Similarity</span>
+              <span id="similarity" class="text-sm text-muted font-weight-600"></span>
+              
+              <span class="text-sm text-body font-weight-600">New Text</span>
+              <span id="added_letters" class="text-sm text-muted font-weight-600"></span> 
+            </div>
+            <div class="text-right">
+              <span id="is_workflow" class="text-sm text-danger font-weight-500"></span> 
+            </div>
+          </div> -->
         </div>
       </div>
       <div class="modal-body">
@@ -197,32 +179,6 @@
 
       <div class="modal-footer">
       </div>
-
-      <!-- <div class="modal_Contents">
-          <div class="Top_Contents">
-            <label class="modal_title form-label">Upload Node</label>
-            <input type="text" placeholder="파일 설명을 남겨주세요" class="upload_input">
-            <div class='Upload_Contents'>
-              <form method="POST" action="{% url 'node:create_node' %}" class="upload_Form"
-                enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="hiddenInput">
-                </div>
-                <div class="drop-zone">
-                  <span class="drop-zone__text ">파일을 끌어오거나 영역을 클릭해 업로드할 파일을 선택하세요</span>
-                  <br><br>
-                  <input type="file" name="uploadFile" class="drop-zone__input" multiple>
-                  <input type='hidden' name='pk' value='{{The_file.Code}}' formenctype="multipart/form-data">
-                </div>
-                <a class='download'>다운로드하기</a>
-                <input class="uploadBtn" type="submit" value="업로드하기">
-              </form>
-            </div>
-          </div>
-        </div> -->
-
-
-
     </div>
   </div>
 </div>
@@ -247,17 +203,14 @@
     let sorted_data = '{{li_location}}'.replaceAll("&#x27;", "");
     let location_Data = sorted_data;
     let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
-    // console.log(location_Data);
-    // console.log("데이타가 무엇이냐\n" + data[0]);
     let locationData = await getLocationData(data, location_Data);
-    // console.log("locationData\n" + locationData);
+    console.log("locationData\n" + locationData);
     await createGrid(data); // 그리드 만들기
     await createNodeBtn(data, locationData);
     await createGhostDiv();
     await settingNodeDiv();
     // await showUpModal();
     await MakeCurveLine();
-    // console.log("냐아하\n"+"{{test_comments}}");
   }
   const getNodeData = async () => {
     let json_data = '{{json}}'.replaceAll("&quot;", "\"");
@@ -331,42 +284,15 @@
         "column": locationData[i].Column,
         "Pk": locationData[i].Pk,
       };
+
+
+
       let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
       var all_node_data = JSON.parse(all_node_data_to_json);
-      // console.log(all_node_data[i]['created_date']);
-      // console.log("댜댜댜댜댜\n"+all_node_data);
-
-      // js 코드로 노드를 만들어줄거에요 ~~
-
-      // let n_btn = document.createElement("button");
-      // // bootstrap modal 개조
-      // n_btn.setAttribute("data-target", "#nodeModal");
-      // n_btn.setAttribute("type", "button");
-      // n_btn.setAttribute("data-toggle", "modal");
-      // // end
-      // n_btn.setAttribute("onclick", "sendDataToModal(this);")
-      // n_btn.setAttribute("class", `${varObj.Pk} node_btn R${varObj.row}C${varObj.column} Nodes`); // searchDataSameToClickedBtnData에서 노드 pk 추적할 때 쓰인다. (중요)
-      // n_btn.setAttribute("id", `${varObj.Pk}`);
-      // n_btn.style.setProperty('border', `3px solid all_node_data[i]['owner_color']`);
-
-      // let n_name_text = document.createElement("h5");
-      // n_name_text.setAttribute("class", "text-sm mb-0");
-      // n_name_text.setAttribute("id", "n_btn_name");
-      // n_name_text.innerText = all_node_data[i]['node_name'];
-      // n_btn.appendChild(n_name_text);
-
-      // let n_date = document.createElement("h6");
-      // n_date.setAttribute("class", "text-muted mb-0");
-      // n_date.setAttribute("id","n_btn_created_date");
-      // n_date.innerText = all_node_data[i]['created_date'];
-      // n_btn.appendChild(n_date);
-
-
-      // NodeContainer.appendChild(n_btn);
-
+      
       let btnDiv = document.createElement("div");
       let n_btn = document.createElement("button");
-      // bootstrap modal 개조
+      // bootstrap modal 개조 
       n_btn.setAttribute("data-target", "#nodeModal");
       n_btn.setAttribute("type", "button");
       n_btn.setAttribute("data-toggle", "modal");
@@ -394,39 +320,7 @@
 
 
       btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
-      // btnDiv.style.setProperty('width', '50%');
-      // btnDiv.style.setProperty('height', '80%');
-      // btnDiv.style.setProperty('border', `4px solid {{user.Profile.user_color}}`);
-      // btnDiv.style.setProperty('border-radius', `30% 30%`);
-      // btnDiv.style.setProperty('text-align', 'center');
       NodeContainer.appendChild(btnDiv);
-
-      // 냐아
-
-
-      // console.log("응??????????" + data[i]);
-      // let btnDiv = document.createElement("div");
-      // let btn = document.createElement("button");
-      // let btnText = document.createTextNode(`${varObj.column}행 ${varObj.row}열  ${varObj.Pk}`);
-      // btn.appendChild(btnText);
-      // // bootstrap modal 개조
-      // btn.setAttribute("data-target", "#nodeModal");
-      // btn.setAttribute("type", "button");
-      // btn.setAttribute("class", "btn btn-primary");
-      // btn.setAttribute("data-toggle", "modal");
-      // // end
-
-      // btn.setAttribute("onclick", "sendDataToModal(this);")
-      // btn.setAttribute("class", `${varObj.Pk} nodeBtn`); // searchDataSameToClickedBtnData에서 노드 pk 추적할 때 쓰인다. (중요)
-      // btn.setAttribute("id", `${varObj.Pk}`);
-      // btnDiv.appendChild(btn);
-      // btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
-      // btnDiv.style.setProperty('width', '50%');
-      // btnDiv.style.setProperty('height', '80%');
-      // btnDiv.style.setProperty('border', `4px solid {{user.Profile.user_color}}`);
-      // btnDiv.style.setProperty('border-radius', `30% 30%`);
-      // btnDiv.style.setProperty('text-align', 'center');
-      // NodeContainer.appendChild(btnDiv);
     }
   }
   const createGhostDiv = async () => {
@@ -471,18 +365,6 @@
       Nodes[i].style.setProperty('grid-area', `${nodeLocation}`); // 위치 지정
     }
   }
-  // const showUpModal = async (data) => {
-  //   const modalButton = document.querySelectorAll(".Nodes");
-  //   const modal = document.querySelector(".nodeUploadModal");
-  //   const overlay = modal.querySelector(".modal_Overlay");
-  //   const toggleModal = () => {
-  //     modal.classList.toggle("hidden");
-  //   }
-  //   overlay.addEventListener("click", toggleModal);
-  //   for (let i = 0; i < modalButton.length; i++) {
-  //     modalButton[i].addEventListener("click", toggleModal);
-  //   }
-  // }
   const sendDataToModal = async (clickedValue) => {
     let clickedBtn = clickedValue;
     // let btnData = await searchDataSameToClickedBtnData(clickedBtn);
@@ -511,11 +393,35 @@
             let color = "background-color:" + data['author_color'] +"; border:1px solid rgba(0, 0, 0, .05)";
             document.getElementById('author_color').setAttribute("style", color);
             document.getElementById('author_nickname').innerText = data['author_nickname'];
-            document.getElementById('summary_text').innerText = data['summary'];
+            // document.getElementById('summary_text').innerText = data['summary'];
+            // if(data['similarity'] != null) {
+            //   // similarity 값이 있으면
+            //   document.getElementById('similarity').innerText = data['similarity'] +"% | ";
+            // }
+            // else{
+            //   document.getElementById('similarity').innerText = "0%  | ";
+            // }
+
+            // if(data['added_letters'] != null){
+            //   // added letters 값이 있으면
+            //   document.getElementById('added_letters').innerText = data['added_letters'] + " ++";
+            // }
+            // else{
+            //   document.getElementById('added_letters').innerText = "0++";
+            // }
+
+            // if(data['is_workflow'] == "1") {
+            //   // 작업중 파일
+            //   document.getElementById('is_workflow').innerText = "작업중 파일";
+            // }
+            // else{
+            //   document.getElementById('is_workflow').innerText = "기타 파일";
+            // }
 
             //upload, download 버튼
             document.getElementById('upload_hiddenInput').setAttribute("value", clickedValuePk);
             let node_downloadBtn = document.querySelector('.download');
+            console.log("먀아"+node_downloadBtn)
             node_downloadBtn.setAttribute('href', `/node/download/${clickedValuePk}`);
                         
             // console.log(document.getElemen('node_name').innerHTML);
@@ -754,8 +660,8 @@
       let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       // let newElement = document.createElementNS('http://www.w3.org/2000/svg','rect');
       path.setAttribute("d", `M${Axis.start_x} ${Axis.start_y} C ${Axis.middle_x} ${Axis.start_y} ${Axis.middle_x} ${Axis.end_y} ${Axis.end_x} ${Axis.end_y}`);
-      path.setAttribute('stroke', `{{user.Profile.user_color}}`);
-      path.setAttribute('stroke-width', '5');
+      path.setAttribute('stroke', `rgb(74 74 74)`);
+      path.setAttribute('stroke-width', '3');
       path.setAttribute('fill', 'none');
       pathes.appendChild(path);
       pathes.setAttribute('width', set_x);
