@@ -562,10 +562,10 @@ def load_node_data(request):
     ownerPCode = target_node.ownerPCode
     whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
     comment = target_node.comment  # : actually 노드 이름입니다.
-    similarity = target_node.similarity  # : 유사도
+    # similarity = target_node.similarity  # : 유사도
     description = target_node.description  # : 문서 요약
-    is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
-    added_letters = target_node.added_letters # : text 몇개가 추가됐니?
+    # is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
+    # added_letters = target_node.added_letters # : text 몇개가 추가됐니?
 
     owner_profile = whoIsOwner.Profile.profile_image.url  # : 유저 프로필 사진
     owner_nickname = whoIsOwner.Profile.nickname  # : 유저 닉네임
@@ -576,9 +576,9 @@ def load_node_data(request):
             'author_color': owner_color,
             'author_nickname': owner_nickname,
             'summary': description,
-            'similarity': similarity,
-            'is_workflow':is_workflow,
-            'added_letters':added_letters
+            # 'similarity': similarity,
+            # 'is_workflow':is_workflow,
+            # 'added_letters':added_letters
             }
 
     # print(data)

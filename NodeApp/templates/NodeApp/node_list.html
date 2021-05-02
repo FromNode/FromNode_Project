@@ -214,7 +214,7 @@
   }
   const getNodeData = async () => {
     let json_data = '{{json}}'.replaceAll("&quot;", "\"");
-    // console.log("json_data" + json_data);
+    console.log("json_data" + json_data);
     let json = JSON.parse(json_data);
     // console.log("json??" + json[0]['Code']);
     for (let i = 0; i < json.length; i++) {
@@ -285,11 +285,25 @@
         "Pk": locationData[i].Pk,
       };
 
+      // console.log(`${varObj.Pk}`+" 타입은"+ typeof `${varObj.Pk}`);
+
+      // $.ajax({
+      //     url: "{% url 'node:load_node_data' %}",
+      //     type: 'POST',
+      //     data: {'node_pk': `${varObj.Pk}`},
+      //     success: function (data) {
+      //       console.log("helllo")
+      //     },
+      //     error: function (e) {
+      //       console.log("node load error");
+      //     }
+      // })
 
 
       let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
       var all_node_data = JSON.parse(all_node_data_to_json);
-      
+      console.log(all_node_data);
+
       let btnDiv = document.createElement("div");
       let n_btn = document.createElement("button");
       // bootstrap modal 개조 
@@ -306,8 +320,9 @@
       let n_name_text = document.createElement("h5");
       n_name_text.setAttribute("class", "text-sm mb-0");
       n_name_text.setAttribute("id", "n_btn_name");
+      n_name_text.setAttribute("type", `${all_node_data[i]['node_code']}`);
       n_name_text.innerText = all_node_data[i]['node_name'];
-      n_btn.appendChild(n_name_text);
+      n_btn.appendChild(n_name_text); 
 
       let n_date = document.createElement("h6");
       n_date.setAttribute("class", "text-muted mb-0");
@@ -320,8 +335,12 @@
 
 
       btnDiv.setAttribute("class", `R${varObj.row}C${varObj.column} Nodes`);// R1C1
+      console.log(btnDiv);
       NodeContainer.appendChild(btnDiv);
+      // console.log("안뇽");
+
     }
+
   }
   const createGhostDiv = async () => {
     const emptyArea = document.querySelectorAll(".Nodes");
@@ -382,6 +401,7 @@
     let clickedValuePk = clickedBtn.classList[0]; //선택한 Node의 Pk
     let clickedNodeData;
 
+    console.log("clicked Value Pk type은 !"+typeof clickedValuePk);
     $.ajax({
           url: "{% url 'node:load_node_data' %}",
           type: 'POST',
