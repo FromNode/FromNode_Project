@@ -145,7 +145,7 @@
               </div>
             </div>
           </div>
-          <div class="row align-items-left">
+          <!-- <div class="row align-items-left">
             <div class="col">
               <span class="text-sm text-body font-weight-600">Similarity</span>
               <span id="similarity" class="text-sm text-muted font-weight-600"></span>
@@ -156,7 +156,7 @@
             <div class="text-right">
               <span id="is_workflow" class="text-sm text-danger font-weight-500"></span> 
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="modal-body">
@@ -204,7 +204,7 @@
     let location_Data = sorted_data;
     let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
     let locationData = await getLocationData(data, location_Data);
-    // console.log("locationData\n" + locationData);
+    console.log("locationData\n" + locationData);
     await createGrid(data); // 그리드 만들기
     await createNodeBtn(data, locationData);
     await createGhostDiv();
@@ -284,12 +284,15 @@
         "column": locationData[i].Column,
         "Pk": locationData[i].Pk,
       };
+
+
+
       let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
       var all_node_data = JSON.parse(all_node_data_to_json);
-
+      
       let btnDiv = document.createElement("div");
       let n_btn = document.createElement("button");
-      // bootstrap modal 개조
+      // bootstrap modal 개조 
       n_btn.setAttribute("data-target", "#nodeModal");
       n_btn.setAttribute("type", "button");
       n_btn.setAttribute("data-toggle", "modal");
@@ -390,34 +393,35 @@
             let color = "background-color:" + data['author_color'] +"; border:1px solid rgba(0, 0, 0, .05)";
             document.getElementById('author_color').setAttribute("style", color);
             document.getElementById('author_nickname').innerText = data['author_nickname'];
-            document.getElementById('summary_text').innerText = data['summary'];
-            if(data['similarity'] != null) {
-              // similarity 값이 있으면
-              document.getElementById('similarity').innerText = data['similarity'] +"% | ";
-            }
-            else{
-              document.getElementById('similarity').innerText = "0%  | ";
-            }
+            // document.getElementById('summary_text').innerText = data['summary'];
+            // if(data['similarity'] != null) {
+            //   // similarity 값이 있으면
+            //   document.getElementById('similarity').innerText = data['similarity'] +"% | ";
+            // }
+            // else{
+            //   document.getElementById('similarity').innerText = "0%  | ";
+            // }
 
-            if(data['added_letters'] != null){
-              // added letters 값이 있으면
-              document.getElementById('added_letters').innerText = data['added_letters'] + " ++";
-            }
-            else{
-              document.getElementById('added_letters').innerText = "0++";
-            }
+            // if(data['added_letters'] != null){
+            //   // added letters 값이 있으면
+            //   document.getElementById('added_letters').innerText = data['added_letters'] + " ++";
+            // }
+            // else{
+            //   document.getElementById('added_letters').innerText = "0++";
+            // }
 
-            if(data['is_workflow'] == "1") {
-              // 작업중 파일
-              document.getElementById('is_workflow').innerText = "작업중 파일";
-            }
-            else{
-              document.getElementById('is_workflow').innerText = "기타 파일";
-            }
+            // if(data['is_workflow'] == "1") {
+            //   // 작업중 파일
+            //   document.getElementById('is_workflow').innerText = "작업중 파일";
+            // }
+            // else{
+            //   document.getElementById('is_workflow').innerText = "기타 파일";
+            // }
 
             //upload, download 버튼
             document.getElementById('upload_hiddenInput').setAttribute("value", clickedValuePk);
             let node_downloadBtn = document.querySelector('.download');
+            console.log("먀아"+node_downloadBtn)
             node_downloadBtn.setAttribute('href', `/node/download/${clickedValuePk}`);
                         
             // console.log(document.getElemen('node_name').innerHTML);
