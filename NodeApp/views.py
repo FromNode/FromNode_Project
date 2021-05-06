@@ -16,12 +16,12 @@ from ProjectApp.models import Projects
 from UserApp.models import Profile
 
 from NodeApp.forms import CommentForm
-from NodeApp.similarity.similarity import (similarity_compare,
-                                           similarity_sentence_compare)
-from NodeApp.summarization.summary import summary
+
 from NodeApp.textualization.convert import convert, get_str
 
 from .models import Node_Comment, Nodes
+from docx import Document
+import docx
 
 
 def filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check):
@@ -161,7 +161,7 @@ def node_list(request, proj_Code):
         proj_obj = all_proj
         # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
         project = Projects.objects.get(Code=proj_Code)
-        node_objs =project.Proj_Nodes.all()
+        node_objs = project.Proj_Nodes.all()
         pro_name = project.name
         pro_code = proj_Code
         proj_user = project.unliked_members.all().union(project.liked_members.all())
@@ -188,7 +188,7 @@ def node_list(request, proj_Code):
         if node_objs:
             tuple_return = get_location_list(node_objs)
         else:
-            tuple_return = [0,0,0,0]
+            tuple_return = [0, 0, 0, 0]
         li_location = tuple_return[0]
         num_of_row = tuple_return[1]
         num_of_column = tuple_return[2]
@@ -270,8 +270,8 @@ def node_list(request, proj_Code):
         "test_comments": comment_data_to_json,
         "comment_data": comment_data,
         "all_node_data_to_json": all_node_data_to_json,
-        'empty_check':empty_check,
-        'pro_code':pro_code,
+        'empty_check': empty_check,
+        'pro_code': pro_code,
     }
     # print(json_data)
     return render(request, 'NodeApp/node_list.html', objects)
@@ -470,7 +470,7 @@ def create_node(request):
             # first node
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
-            node_obj.ownerPCode = Projects.objects.get(Code = PCode)
+            node_obj.ownerPCode = Projects.objects.get(Code=PCode)
             node_obj.comment = request.POST['node_name']
             node_obj.whoIsOwner = request.user
             node_obj.save()
@@ -481,44 +481,44 @@ def create_node(request):
             redirectURL = '/node/node_list/'+str(PCode)
         else:
             clickedNode = Nodes.objects.get(Code=str(nodePk))
-            print(clickedNode,'안녕')
+            print(clickedNode, '안녕')
             redirectURL = '/node/node_list/'+str(PCode)
-        # Start Summary part
-            # File 확장자 확인, docx인가?
-            # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
-            if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.filename.split(".")[-1] == "docx":
-                # temp_summary_file 변수에 convert된 Object 담기
-                temp_summary_file = convert(request.FILES['uploadFile'])
-                # convert된 문서 object를 get_str 함수를 통해 String화
-                temp_summary_file_str = get_str(temp_summary_file)
-                # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
-                str_summary = summary(temp_summary_file_str)
-                # description 필드에 요약된 Text 삽입
 
-                # 유사도 결과물 넣을 Empty_list 생성
-                similarity_list = []
-                previous_node_file = clickedNode.fileObj
-                previous_node_file = convert(previous_node_file)
-                # Similarity Module 사용하여 유사도 비교
-                similarity_sentence_compare(previous_node_file,
-                                temp_summary_file, "temp_user", similarity_list)
-                # similarity와 summary text 저장
-                node_obj.similarity = 100 - similarity_list[4]
-                node_obj.description = str_summary
+            # Start Preview
 
-                # 추가한 글자수와 라인수를 저장
-                node_obj.added_letters = similarity_list[5]
-                node_obj.added_sentences = similarity_list[6]
-
-                # 기존 Project File에 해당하는지 or 기타 File인지 판단
-                if 100 - similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
-                    node_obj.is_workflow = 1  # Project File로 판단하여 1 삽입
+            def docx_read(file=None):
+                txt_val = ''
+                if file:
+                    for paragraph in document.paragraphs:
+                        if paragraph.text == '':  # 여러줄의 공백 제거를 위한 조건문
+                            pass
+                        else:
+                            txt_val = txt_val + paragraph.text
                 else:
-                    node_obj.is_workflow = 0
-            else:  # docx 외의 File
-                node_obj.is_workflow = 0
-            # End Summary part
+                    return 0
 
+                txt_val = txt_val.replace("\n", "")
+                txt_val = txt_val.replace("\t", "")
+                txt_val = txt_val.replace("\'", '')
+                txt_val = txt_val.replace("“", '')
+                txt_val = txt_val.replace('”', '')
+                txt_val = txt_val.replace('\/', '')
+                txt_val = txt_val.replace('/', '')
+                txt_val = txt_val.replace('\"', '')
+                txt_val = txt_val.replace('\r', '')
+                txt_val = txt_val.replace('\b', '')
+
+                # 전체 문자열 안에 \n이 포함되어 있으므로, print 함수로 씌워서 함수 실행하면 줄바꿈 되어 출력
+                return str(txt_val)
+
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "파일 없음"
+            # End Preview
+
+            node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
             node_obj.previousCode = clickedNode
@@ -562,10 +562,10 @@ def load_node_data(request):
     ownerPCode = target_node.ownerPCode
     whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
     comment = target_node.comment  # : actually 노드 이름입니다.
-    similarity = target_node.similarity  # : 유사도
-    description = target_node.description  # : 문서 요약
-    is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
-    added_letters = target_node.added_letters # : text 몇개가 추가됐니?
+    # similarity = target_node.similarity  # : 유사도
+    description = target_node.description  # : Node의 File의 txt 데이터
+    is_workflow = target_node.is_workflow  # : workflow에서 작업하던 파일이니?
+    added_letters = target_node.added_letters  # : text 몇개가 추가됐니?
 
     owner_profile = whoIsOwner.Profile.profile_image.url  # : 유저 프로필 사진
     owner_nickname = whoIsOwner.Profile.nickname  # : 유저 닉네임
@@ -575,12 +575,11 @@ def load_node_data(request):
             'created_date': created_date.strftime("%Y-%m-%d %p %I:%M"),
             'author_color': owner_color,
             'author_nickname': owner_nickname,
-            'summary': description,
-            'similarity': similarity,
-            'is_workflow':is_workflow,
-            'added_letters':added_letters
+            'file_content_data': description,
+            # 'similarity': similarity,
+            'is_workflow': is_workflow,
+            'added_letters': added_letters
             }
 
     # print(data)
     return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type="application/json")
-
