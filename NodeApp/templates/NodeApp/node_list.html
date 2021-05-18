@@ -37,7 +37,7 @@
                       <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
                     </a>
               {% endfor %}
-              <a href="{% url 'file:invite' project_id %}" class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="#">
+              <a href="{% url 'file:invite' pro_code %}" class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="#">
                       <img alt="Image placeholder" src="{% static 'MainApp/picture/pluslogo.png' %}">
               </a>
               <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#inviteModal">
@@ -69,7 +69,7 @@
 <div class="modal fade invite_Moal" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-          <h3>fromnode.com/project/invite/{{project_code}}</h3>
+          <h3>fromnode.com/project/invite/{{pro_code}}</h3>
       </div>
   </div>
 </div>

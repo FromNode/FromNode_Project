@@ -353,10 +353,10 @@ def add_notice(request):
 #     return redirect(next_url)
     
 
-# def create_invite_url(request, project_id):
-#     if request.user.is_authenticated:
-#         project_code = Projects.objects.get(id = project_id).Code
-#         invite_url = project_code
-#         return render(request, 'FileApp/create_invite_url.html', {'invite_url':invite_url})
-#     else:
-#         return render(request, 'error')
+def create_invite_url(request, project_id):
+     if request.user.is_authenticated:
+         project_code = Projects.objects.get(id = project_id).Code
+         invite_url = project_code
+         return render(request, 'FileApp/create_invite_url.html', {'invite_url':invite_url})
+     else:
+         return render(request, 'error')
