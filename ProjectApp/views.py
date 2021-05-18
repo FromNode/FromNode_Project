@@ -159,7 +159,11 @@ def project_create(request):
     else:
         return redirect('project:project_list')
 
+def create_invite_url(request):
+    project_Code = request.GET['project_Code']
+    return render(request, 'ProjectApp/create_invite_url.html', {'project_Code':project_Code})
 
+    
 def error(request):
     return render(request, 'ProjectApp/error.html')
 

@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="row">
+            <a href="{% url 'project:create_invite_url' proj.Code %}">초대 링크 만들기</a>
             {% for proj in proj_obj %}
             <div class="col-xl-3 col-md-5">
                 <div class="card card-stats">
