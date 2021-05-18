@@ -32,15 +32,18 @@
 
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
           <div class="avatar-group">
-            {% for member in proj_user %}
-            <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip"
-              data-original-title="{{member.Profile.nickname}}"
-              style='border:3px solid {{member.Profile.user_color}} !important'>
-              <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
-            </a>
-            {% endfor %}
+              {% for member in proj_user %}
+                  <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="{{member.Profile.nickname}}">
+                      <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
+                    </a>
+              {% endfor %}
+              <a href="{% url 'file:invite' pro_code %}" class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="#">
+                      <img alt="Image placeholder" src="{% static 'MainApp/picture/pluslogo.png' %}">
+              </a>
+              <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#inviteModal">
+                  + invite! </button>
           </div>
-        </nav>
+      </nav>
 
       </div>
     <div class="col text-right">
@@ -61,6 +64,17 @@
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#uploadModal">
             + Add First Node  </button>
     </div>
+
+  <!-- inviteModal-->
+<div class="modal fade invite_Moal" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <h3>아래 링크를 복사해서 팀원에게 알려주세요! 로그인한 상태로 저 링크에 접속하시면 팀원으로 참여됩니다.</h3>
+          <h3>fromnode.com/project/invite/{{pro_code}}</h3>
+      </div>
+  </div>
+</div>
+
   <!-- 여기에 노드리스트 깔자 -->
   <div class="NodeContainer">
     <?xml version="1.1" ?>

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+
 from . import views
 
 app_name = 'project'
@@ -10,6 +11,7 @@ urlpatterns = [
     path('project_create',views.project_create,name='project_create'),
     path('project_likeornot/<str:project_Code>',views.likeornot,name='project_likeornot'),
     path('error/', views.error, name='error'),
+    path('create/<str:project_Code>', views.create_invite_url, name='create_invite_url'),
     path('invite/<str:project_Code>', views.confirm_project_checkin, name='confirm_project_checkin'),
     path('project_checkin/', views.project_checkin, name='project_checkin'),
     path('already_exist/', views.already_exist, name='already_exist'),
