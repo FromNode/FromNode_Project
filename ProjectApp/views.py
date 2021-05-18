@@ -178,33 +178,32 @@ def confirm_project_checkin(request, project_Code):
 
 
 def project_checkin(request):
+    print("0")
     if request.method == 'POST':
+        print("post메써드는 맞아")
         project_code = request.POST['project_code']
         if request.user.is_authenticated:
+            print("User authenticated 확인")
             user = request.user
             project_obj = Projects.objects.get(Code=project_code)
             project_member = proj_with_user.objects.filter(proj_id = project_obj.id)
+            print("프로젝트 검색 완료")
+            detected = False
             for member in project_member:
                 if member.user_id == user.id: #내가 안속해있는 프로젝트인지 확인
-                    return redirect('project:already_exist')
+                    detected = True
+                    break
                 else:
-                    project_obj.unliked_members.add(user)
-                    project_obj.save()
-                    try:
-                        p_w_u_obj =proj_with_user();
-                        p_w_u_obj.proj_id = project_obj
-                        p_w_u_obj.user_id = user
-                        p_w_u_obj.save()
-                        return redirect('project:project_list')
-                    except:
-                        project_obj.unliked_members.remove(user)
-                        project_obj.save()
-                        return redirect('project:error')
+                    pass
+            if detected == True:
+                return redirect('project:already')
+            else:
+                print("저 프로젝트에 나 없네")
+                project_obj.unliked_members.add(user)
+                project_obj.save()
+                return redirect('index')
         else:
-            request.COOKIES['project_code']=project_code
-            response = render(request, 'UserApp/login.html')
-            response.set_cookie(key='project_code', value=project_code)
-            return response
+            return redirect('index')
     else:
-        return redirect('main:index')
+        return redirect('index')
     
