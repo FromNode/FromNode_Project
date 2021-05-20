@@ -302,10 +302,12 @@
                                     <span>Support</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="#!" class="dropdown-item">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'user:logout' %}" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>
+                                {% endif %}
                             </div>
                         </li>
                     </ul>
