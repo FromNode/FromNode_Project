@@ -57,7 +57,7 @@ def get_location_list(dbData):
             li_test.append([obj.Code, obj.previousCode.Code, obj.createdDate])
     i_dict = {}
     first_node_code = ''
-
+    print(li_test)
     for i in li_test:
         if i[1] == None:
             first_node_code = i[0]
@@ -76,8 +76,7 @@ def get_location_list(dbData):
 
     coordinate_node_test.append([x_value, y_value, first_node_code])
     child_list = i_dict.get(first_node_code)
-    last = filter_axis(child_list, x_value, y_value,
-                       coordinate_node_test, i_dict, check)
+    last = filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check)
     x_save = 'first'
     ch = 0
     max_x = max([x[0] for x in last])

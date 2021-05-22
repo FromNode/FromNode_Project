@@ -216,6 +216,7 @@
   const init = async () => {
     let sorted_data = '{{li_location}}'.replaceAll("&#x27;", "");
     let location_Data = sorted_data;
+    console.log(location_Data);
     let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
     let locationData = await getLocationData(data, location_Data);
     console.log("locationData\n" + locationData);
@@ -252,7 +253,7 @@
         Pk: locationStr.split(",")[3 * i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
       })
     }
-
+    console.log(locationArray);
     for (let i = 0; i < splitStr.length / 3; i++) {
       for (let k = 0; k < data.length; k++) {
         target = data[k].pk
@@ -291,19 +292,16 @@
   }
   const createNodeBtn = async (data, locationData) => {
     //node data 받아올 것 
+    let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
+    var all_node_data = JSON.parse(all_node_data_to_json);
+
     for (let i = 0; i < locationData.length; i++) { // 노드 수 만큼
       //location data
       let varObj = {
         "row": locationData[i].Row,
         "column": locationData[i].Column,
         "Pk": locationData[i].Pk,
-      };
-
-
-
-      let all_node_data_to_json = '{{all_node_data_to_json}}'.replaceAll("&quot;", "\"");
-      var all_node_data = JSON.parse(all_node_data_to_json);
-      
+      };  
       let btnDiv = document.createElement("div");
       let n_btn = document.createElement("button");
       // bootstrap modal 개조 
@@ -314,20 +312,26 @@
       n_btn.setAttribute("onclick", "sendDataToModal(this);")
       n_btn.setAttribute("class", `${varObj.Pk} node_btn`); // searchDataSameToClickedBtnData에서 노드 pk 추적할 때 쓰인다. (중요)
       n_btn.setAttribute("id", `${varObj.Pk}`);
-      let node_color = all_node_data[i]['owner_color']
+      console.log(varObj);
+      let node_check = all_node_data.filter(all_node_data => all_node_data['node_code'] == varObj.Pk);
+      console.log(node_check) 
+      
+      let node_color = node_check[0]['owner_color']
       n_btn.style.setProperty('border', `3px solid ${node_color}`);
       
       let n_name_text = document.createElement("h5");
       n_name_text.setAttribute("class", "text-sm mb-0");
       n_name_text.setAttribute("id", "n_btn_name");
-      n_name_text.innerText = all_node_data[i]['node_name'];
+      n_name_text.innerText = node_check[0]['node_name'];
       n_btn.appendChild(n_name_text);
 
       let n_date = document.createElement("h6");
       n_date.setAttribute("class", "text-muted mb-0");
       n_date.setAttribute("id","n_btn_created_date");
-      n_date.innerText = all_node_data[i]['created_date'];
-      n_btn.appendChild(n_date);
+      n_date.innerText = node_check[0]['created_date'];
+      n_btn.appendChild(n_date);  
+      
+      
 
       
       btnDiv.appendChild(n_btn);
@@ -642,7 +646,6 @@
     let coordinates_split = coordinates_replace7.split('x');
     let set_x = 0;
     let set_y = 0;
-
     for (let i = 0; i < coordinates_split.length - 1; i++) {
       x = coordinates_split[i];
       let x_split = x.split(',');
