@@ -27,18 +27,27 @@
 <div class="header bg-primary">
   <div class="container-fluid">
     <div class="row align-items-center py-4 bg-primary">
-      <div class="col-lg-6 col-7 d-flex align-items-center">
+      <div class="col-lg-9 col-9 d-flex align-items-center">
         <h6 class="h1 text-white d-inline-block mb-0">{{pro_name}}</h6>
 
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-          <div class="avatar-group">
+          <div class="avatar-group d-flex">
               {% for member in proj_user %}
-                  <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="{{member.Profile.nickname}}">
+                  <a class="avatar avatar-lg rounded-circle" data-toggle="tooltip" data-original-title="{{member.Profile.nickname}}" style="border: 2px solid {{member.Profile.user_color}}">
                       <img alt="Image placeholder" src="{{member.Profile.profile_image.url}}">
                     </a>
               {% endfor %}
-              <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#inviteModal">
-                  + invite! </button>
+          
+                    <div class="d-inline-block mt-3 ml-2">
+                      <button class="btn btn-sm btn-icon btn-secondary" type="button" data-toggle="modal" data-target="#inviteModal">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text">invite !</span>
+                    </button>
+                    </div>
+                   
+
+              <!-- <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#inviteModal">
+                  + invite! </button> -->
           </div>
       </nav>
 
@@ -47,31 +56,62 @@
         <button type="button" class="btn btn-icon btn-secondary btn-inner--text" style='float: right;' onclick = "location.href = '{% url "file:file_list" pro_code %}' ">
             Node 분석하기 </button>
     </div>
-      <!-- <div class="col-lg-6 col-5 text-right">
-        <button class="btn btn-icon btn-secondary" type="button">
-          <span class="btn-inner--icon"><i class="ni ni-active-40"></i></span>
-          <span class="btn-inner--text">New Node</span>
-        </button>
-      </div> -->
     </div>
   </div>
 </div>
 <div class="container-fluid">
     <div class="col text-left" style='display:{{empty_check}}; margin:20px;'>
-        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#uploadModal">
-            + Add First Node  </button>
+        <button type="button" class="node_btn"
+        data-toggle="modal" data-target="#uploadModal"
+        style="border: 3px solid #5e72e4;"><h5 class="text-sm mb-0">+ Add First Node</h5>
+        </button>
     </div>
 
-  <!-- inviteModal-->
-<div class="modal fade invite_Moal" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- invite Modal -->
+<div class="modal fade " id="inviteModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <h3>아래 링크를 복사해서 팀원에게 알려주세요! 로그인한 상태로 저 링크에 접속하시면 팀원으로 참여됩니다.</h3>
-          <h3>fromnode.com/project/invite/{{pro_code}}</h3>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <div class="modal-card pt-0">
+          <div class="row align-items-center border-bottom pb-3">
+            <div class="col">
+              <h4 class="h2 mb-0 text-center">팀원 초대하기😎</h4>
+            </div>
+          </div>
+          <div class="row align-items-center py-3">
+            <div class="col">
+              <p class="text-sm text-body font-weight-600 m-0 text-center">아래 링크를 복사해서 팀원에게 알려주세요!</p>
+               <p class="text-sm text-body font-weight-600 m-0 text-center">로그인한 상태로 저 링크에 접속하시면 팀원으로 참여됩니다.</p>
+            </div>
+          </div>
+           <div class="row align-items-left">
+              <div class="col">
+                <div style="background-color: #ffd56b; border-radius: 30px; padding: 10px; margin: 0 50px;">
+                  <p class="text-sm font-weight-600 m-0 text-center" style="color:black;"
+                  >
+                  fromnode.com/project/invite/{{pro_code}}
+                  </p>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="modal-footer">
+      </div>
+    </div>
   </div>
 </div>
-
+<!-- end -->
   <!-- 여기에 노드리스트 깔자 -->
   <div class="NodeContainer">
     <?xml version="1.1" ?>
@@ -98,7 +138,16 @@
           <input type="hidden" id="upload_hiddenInput" name="this_node_pk">
           <input type='hidden' name='ownerPCode' value = '{{pro_code}}'>
         </div>
-        <div class="modal-body py-4">
+        <div class="modal-body">
+          <div class="modal-card pt-0">
+            <div class="row align-items-center">
+              <div class="col">
+              <h4 class="h2 mb-0 text-center">👉 새로운 노드 생성 👈</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body px-5">
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -120,7 +169,7 @@
             <span class="btn-inner--icon"><i class="ni ni-cloud-upload-96"></i></span>
             <span class="btn-inner--text">Make New Node</span>
           </button>
-        </div>
+          </div>
         </div>
         <div class="modal-footer">
         </div>
