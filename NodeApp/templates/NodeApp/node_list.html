@@ -151,7 +151,7 @@
           <div class="form-group">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">Comment</span>
+                <span class="input-group-text" id="basic-addon3">Name</span>
               </div>
               <input type="text" name="node_name" class="form-control" aria-describedby="basic-addon3">
 
@@ -221,7 +221,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-card">
-          <span id="summary_text"></div>
+          <!-- <span id="node_comment"></div> -->
         <div class="d-flex justify-content-center">
 
           <button class="btn btn-icon btn-primary" type="button" data-toggle="modal" data-target="#uploadModal">
@@ -262,10 +262,10 @@
   const init = async () => {
     let sorted_data = '{{li_location}}'.replaceAll("&#x27;", "");
     let location_Data = sorted_data;
-    console.log(location_Data);
+    // console.log(location_Data);
     let data = await getNodeData(); // data는 file에 속한 모든 노드 object인가보오
     let locationData = await getLocationData(data, location_Data);
-    console.log("locationData\n" + locationData);
+    // console.log("locationData\n" + locationData);
     await createGrid(data); // 그리드 만들기
     await createNodeBtn(data, locationData);
     await createGhostDiv();
@@ -299,7 +299,7 @@
         Pk: locationStr.split(",")[3 * i + 2].trim(),//숫자로하면 맨 앞에 0이 지워져서 문자열로
       })
     }
-    console.log(locationArray);
+    // console.log(locationArray);
     for (let i = 0; i < splitStr.length / 3; i++) {
       for (let k = 0; k < data.length; k++) {
         target = data[k].pk
@@ -358,9 +358,9 @@
       n_btn.setAttribute("onclick", "sendDataToModal(this);")
       n_btn.setAttribute("class", `${varObj.Pk} node_btn`); // searchDataSameToClickedBtnData에서 노드 pk 추적할 때 쓰인다. (중요)
       n_btn.setAttribute("id", `${varObj.Pk}`);
-      console.log(varObj);
+      // console.log(varObj);
       let node_check = all_node_data.filter(all_node_data => all_node_data['node_code'] == varObj.Pk);
-      console.log(node_check) 
+      // console.log(node_check) 
       
       let node_color = node_check[0]['owner_color']
       n_btn.style.setProperty('border', `3px solid ${node_color}`);
@@ -485,7 +485,7 @@
             //upload, download 버튼
             document.getElementById('upload_hiddenInput').setAttribute("value", clickedValuePk);
             let node_downloadBtn = document.querySelector('.download');
-            console.log("먀아"+node_downloadBtn)
+            // console.log("먀아"+node_downloadBtn)
             node_downloadBtn.setAttribute('href', `/node/download/${clickedValuePk}`);
                         
             // console.log(document.getElemen('node_name').innerHTML);
@@ -524,160 +524,148 @@
 
   const searchNodeComments = async(clickedBtn) => {
     let clickedValuePk = clickedBtn.classList[0]; // button tag의 class 이름들 List로 받아오는건데, 0번째 있는게 선택한 Node의 Pk다 !
-        //comment 만드는 부분입니다
-        let comment_object = [ // node_list 페이지에 있는 전체 comment 불러오는중
-          {% for com in comment_data %}
-            {
-              node_code: "{{ com.node_code }}",
-                content: "{{ com.content }}",
-                  author: "{{ com.author }}", //닉네임이다
-                    author_img: "{{ com.author_img_url }}",
-                      who_is_mentioned: "{{ com.who_is_mentioned }}", //닉네임이다
-                        create_date: "{{ com.created_date }}"
-            },
-          {% endfor %}
-        ]
 
-        // 불러온 comment_object를 for문으로 순회하여 현재 클릭된 Node PK(nowCommentPK)와 동일한 node_code를
-        // 가진 코멘트 정보만 comment_array 배열에 push
-        var comment_array = [];
-        for (idx in comment_object) {
-          if (clickedValuePk == comment_object[idx]['node_code']) {
-            comment_array.push(comment_object[idx]);
-          }
-        }
-        comment_array.reverse();
+        $.ajax({
+          url: "{% url 'node:load_comment' %}",
+          type: 'POST',
+          data: {'node_pk' : clickedValuePk},
+          success: function(data){
+            let load_data = JSON.parse(data);
+            load_data.reverse(); //최신순으로 reverse
+            
+            // comment data를 html로 쏴주자
+            const clicked_node_pk = clickedValuePk;
+            const comment_write_box = document.getElementById('test');
+            comment_write_box.innerText = "";
+            const comment_write_but = document.getElementById('cmt_but');
+            comment_write_but.setAttribute("name", `${clicked_node_pk}`);
+            const comment_container = document.getElementById('comment_body');
+            comment_container.innerHTML = "";
 
-        // comment data를 html로 쏴주자
-        const clicked_node_pk = clickedValuePk;
-        const comment_write_box = document.getElementById('test');
-        comment_write_box.innerText = "";
-        const comment_write_but = document.getElementById('cmt_but');
-        comment_write_but.setAttribute("name", `${clicked_node_pk}`);
-        const comment_container = document.getElementById('comment_body');
-        comment_container.innerHTML = "";
+            for (let i = 0; i < load_data.length; i++) {
+              let commentObj = {
+                "author_img": load_data[i]['author_img_url'],
+                "author": load_data[i]['author'],
+                "content": load_data[i]['content'],
+                "created_date": load_data[i]['created_date'],
+                "who_is_mentioned": load_data[i]['who_is_mentioned'],
+              };
+              let each_comment = document.createElement("div");
+              each_comment.setAttribute("class", 'each_comment row');
+              comment_container.appendChild(each_comment);
 
-        for (let i = 0; i < comment_array.length; i++) {
-          let commentObj = {
-            "node_code": comment_array[i]['node_code'],
-            "author_img": comment_array[i]['author_img'],
-            "author": comment_array[i]['author'],
-            "content": comment_array[i]['content'],
-            "created_date": comment_array[i]['create_date'],
-            "who_is_mentioned": comment_array[i]['who_is_mentioned'],
-          };
-          let each_comment = document.createElement("div");
-          each_comment.setAttribute("class", 'each_comment row');
-          comment_container.appendChild(each_comment);
+              let profile_part = document.createElement("div");
+              profile_part.setAttribute("class", 'col-auto');
+              each_comment.appendChild(profile_part);
 
-          let profile_part = document.createElement("div");
-          profile_part.setAttribute("class", 'col-auto');
-          each_comment.appendChild(profile_part);
+              let prof_img = document.createElement("img");
+              prof_img.setAttribute("class", 'img-circle img-sm');
+              prof_img.setAttribute("alt", 'Profile picture');
+              prof_img.setAttribute("src", `${commentObj.author_img}`);
+              profile_part.appendChild(prof_img);
 
-          let prof_img = document.createElement("img");
-          prof_img.setAttribute("class", 'img-circle img-sm');
-          prof_img.setAttribute("alt", 'Profile picture');
-          prof_img.setAttribute("src", `${commentObj.author_img}`);
-          profile_part.appendChild(prof_img);
+              let comment_text_block = document.createElement("div");
+              comment_text_block.setAttribute("class", 'col px-0 comment_text_block');
+              each_comment.appendChild(comment_text_block);
 
-          let comment_text_block = document.createElement("div");
-          comment_text_block.setAttribute("class", 'col px-0 comment_text_block');
-          each_comment.appendChild(comment_text_block);
+              let cmt_top = document.createElement("div");
+              cmt_top.setAttribute("class", 'cmt_top');
+              comment_text_block.appendChild(cmt_top);
 
-          let cmt_top = document.createElement("div");
-          cmt_top.setAttribute("class", 'cmt_top');
-          comment_text_block.appendChild(cmt_top);
+              let author_name = document.createElement("span");
+              author_name.setAttribute("class", 'author_name text-sm');
+              author_name.innerHTML = `${commentObj.author}`;
+              cmt_top.appendChild(author_name);
+              // console.log(`${commentObj.author}`);
 
-          let author_name = document.createElement("span");
-          author_name.setAttribute("class", 'author_name text-sm');
-          author_name.innerHTML = `${commentObj.author}`;
-          cmt_top.appendChild(author_name);
-          // console.log(`${commentObj.author}`);
+              let created_date = document.createElement("span");
+              created_date.setAttribute("class", 'created_date text-sm');
+              created_date.innerHTML = `${commentObj.created_date}`;
+              cmt_top.appendChild(created_date);
 
-          let created_date = document.createElement("span");
-          created_date.setAttribute("class", 'created_date text-sm');
-          created_date.innerHTML = `${commentObj.created_date}`;
-          cmt_top.appendChild(created_date);
+              let cmt_bottom = document.createElement("div");
+              cmt_bottom.setAttribute("class", 'cmt_bottom');
+              comment_text_block.appendChild(cmt_bottom);
+              
+              let cmt_content_block = document.createElement("p");
+              cmt_content_block.setAttribute("class", "cmt_text_block");
+              cmt_bottom.appendChild(cmt_content_block);
 
-          let cmt_bottom = document.createElement("div");
-          cmt_bottom.setAttribute("class", 'cmt_bottom');
-          comment_text_block.appendChild(cmt_bottom);
-          // <p class="cmt_text_block">
-          //   <span class="who_is_mentioned text-sm">@admin</span>
-          //   <span class="cmt_text_block cmt_text text-sm">oveflow를 블라블라블라블라블라 인데 .. 이거 참 어렵네요&nbsp; .. 근데 아샷추가 맛있어서 버틸만해요</span>
-          // </p>
+              if (commentObj['who_is_mentioned'] != "") {
+                // 언급된 사람이 있을 때만 추가하기 !
+                let who_is_mentioned = document.createElement("span");
+                who_is_mentioned.setAttribute("class", 'who_is_mentioned text-sm');
+                who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
+                cmt_content_block.appendChild(who_is_mentioned);
+              }
 
-          let cmt_content_block = document.createElement("p");
-          cmt_content_block.setAttribute("class", "cmt_text_block");
-          cmt_bottom.appendChild(cmt_content_block);
+              let cmt_text = document.createElement("span");
+              cmt_text.setAttribute("class", 'cmt_text text-sm');
+              cmt_text.innerHTML = `${commentObj.content}`;
+              cmt_content_block.appendChild(cmt_text);
+            }
 
-          if (commentObj['who_is_mentioned'] != "") {
-            // 언급된 사람이 있을 때만 추가하기 !
-            let who_is_mentioned = document.createElement("span");
-            who_is_mentioned.setAttribute("class", 'who_is_mentioned text-sm');
-            who_is_mentioned.innerHTML = `${commentObj.who_is_mentioned}`;
-            cmt_content_block.appendChild(who_is_mentioned);
+
+          },
+          error: function(e){
+            console.log("comment load error");
           }
 
-          let cmt_text = document.createElement("span");
-          cmt_text.setAttribute("class", 'cmt_text text-sm');
-          cmt_text.innerHTML = `${commentObj.content}`;
-          cmt_content_block.appendChild(cmt_text);
-        }
+        })
   }
 
-  const searchDataSameToClickedBtnData = async (clickedBtn) => {
-    // 2021.02.20 이거 이제 안써요 !
-    let regionalDataArray = globalDataArray.slice();
-    let clickedValuePk = clickedBtn.classList[0]; // button tag의 class 이름들 List로 받아오는건데, 0번째 있는게 선택한 Node의 Pk다 !
-    // console.log("무엇에 쓰는 물건이고" + clickedValuePk);
-    let clickedNode = [];
+  // const searchDataSameToClickedBtnData = async (clickedBtn) => {
+  //   // 2021.02.20 이거 이제 안써요 !
+  //   let regionalDataArray = globalDataArray.slice();
+  //   let clickedValuePk = clickedBtn.classList[0]; // button tag의 class 이름들 List로 받아오는건데, 0번째 있는게 선택한 Node의 Pk다 !
+  //   // console.log("무엇에 쓰는 물건이고" + clickedValuePk);
+  //   let clickedNode = [];
 
-    for (let i = 0; i < regionalDataArray.length; i++) {
-      if (clickedValuePk == regionalDataArray[i].pk) {
-        let fields = regionalDataArray[i].fields;
-        let clickedNodeData = {
-          'NodeTitle': fields.comment,
-          'filename': fields.filename,
-          'NodeCreatedDate': fields.createdDate,
-          'NodeDescription': fields.desecription,
-          'NodeFileObj': fields.fileObj,
-          'NodeName': fields.nodeName,
-          'NodeOwnerFileCode': fields.ownerFCode,
-          'NodeOwnerProjectCode': fields.ownerPCode,
-          'NodePreviousCode': fields.previousCode,
-          'NodeOwner': fields.whoIsOwner,
-          'NodePk': clickedValuePk,
-        }
-        nowCommentPK = clickedNodeData['NodePk'];
-        // console.log("nowCommentPK\n" + nowCommentPK);
-      }
-      clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
+  //   for (let i = 0; i < regionalDataArray.length; i++) {
+  //     if (clickedValuePk == regionalDataArray[i].pk) {
+  //       let fields = regionalDataArray[i].fields;
+  //       let clickedNodeData = {
+  //         'NodeTitle': fields.comment,
+  //         'filename': fields.filename,
+  //         'NodeCreatedDate': fields.createdDate,
+  //         'NodeDescription': fields.desecription,
+  //         'NodeFileObj': fields.fileObj,
+  //         'NodeName': fields.nodeName,
+  //         'NodeOwnerFileCode': fields.ownerFCode,
+  //         'NodeOwnerProjectCode': fields.ownerPCode,
+  //         'NodePreviousCode': fields.previousCode,
+  //         'NodeOwner': fields.whoIsOwner,
+  //         'NodePk': clickedValuePk,
+  //       }
+  //       nowCommentPK = clickedNodeData['NodePk'];
+  //       // console.log("nowCommentPK\n" + nowCommentPK);
+  //     }
+  //     clickedNode.push(clickedNodeData); //사실 굳이 array에 안넣어도 돼요
 
-    }
-      return clickedNode
+  //   }
+  //     return clickedNode
       
-    }
+  //   }
 
-  const sendInputContents = async (btnData) => {
-    // 이거 이제 안써요 !!
-    // 클릭된 노드에 대한 data를 btnData가 가지고 있고, 그것을 hidden으로 html에 쏴줍니다.
-    // console.log(btnData);
-    const sendDataInput = document.querySelector(".hiddenInput");
-    const dataLength = Object.keys(btnData[0]).length;
-    for (let i = 0; i < dataLength; i++) {
-      let objectKeys = Object.keys(btnData[0])[i];
-      let objectValues = Object.values(btnData[0])[i];
-      let createInput = document.createElement("input");
-      let downloadBtn = document.querySelector('.download');
-      downloadBtn.setAttribute('href', `/node/download/${btnData[0].NodePk}`);
-      createInput.setAttribute("type", "hidden");
-      createInput.setAttribute("class", "sendDataInput");
-      createInput.setAttribute("name", `${objectKeys}`);
-      createInput.setAttribute("value", `${objectValues}`);
-      sendDataInput.appendChild(createInput);
-    }
-  }
+  // const sendInputContents = async (btnData) => {
+  //   // 이거 이제 안써요 !!
+  //   // 클릭된 노드에 대한 data를 btnData가 가지고 있고, 그것을 hidden으로 html에 쏴줍니다.
+  //   // console.log(btnData);
+  //   const sendDataInput = document.querySelector(".hiddenInput");
+  //   const dataLength = Object.keys(btnData[0]).length;
+  //   for (let i = 0; i < dataLength; i++) {
+  //     let objectKeys = Object.keys(btnData[0])[i];
+  //     let objectValues = Object.values(btnData[0])[i];
+  //     let createInput = document.createElement("input");
+  //     let downloadBtn = document.querySelector('.download');
+  //     downloadBtn.setAttribute('href', `/node/download/${btnData[0].NodePk}`);
+  //     createInput.setAttribute("type", "hidden");
+  //     createInput.setAttribute("class", "sendDataInput");
+  //     createInput.setAttribute("name", `${objectKeys}`);
+  //     createInput.setAttribute("value", `${objectValues}`);
+  //     sendDataInput.appendChild(createInput);
+  //   }
+  // }
 
   const MakeCurveLine = async () => {
 
