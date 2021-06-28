@@ -414,6 +414,7 @@ $(function () {
 
     'use strict';
     var graph_datas_2 = `{{graph_datas_2}}`.replaceAll('&#x27;','');
+    console.log(graph_datas_2);
     var graph_datas_2_2 = graph_datas_2.replaceAll('[','');
     var a = graph_datas_2_2.replaceAll(']','');
     var b = a.replaceAll(',{','');
@@ -422,6 +423,7 @@ $(function () {
     var users_arr = new Array();
     var all_contri_arr = new Array();
     var save_len = new Array();
+    console.log(graph_datas_split);
 
     for(var i=0;i<graph_datas_split.length-1;i++){
 
@@ -467,7 +469,6 @@ $(function () {
         }
     }
     
-    console.log(Fix_Data);
     var Arr_Data = new Array();
     for (let i = 0; i <= all_contri_arr.length; i++) {
         let Data = {
@@ -482,7 +483,6 @@ $(function () {
     }
 
     
-    console.log(Arr_Data);
         
 
     if ($("#chartjs-staked-area-chart").length) {
