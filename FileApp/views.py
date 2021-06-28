@@ -97,3 +97,52 @@ def add_notice(request):
 
     next_url = '/file/file_list/'+str(proj_code)
     return redirect(next_url)
+# def form_create_new_file(request):
+#     return render(request, 'FileApp/form_create_new_file.html')
+
+# def show_upload(request):
+#     return render(request, 'FileApp/upload.html')
+
+# def create_new_file(request):
+#     pk = request.POST['pk']
+#     user_write_f_name = request.POST['file_name']
+#     next_url = '/file/file_list/'+str(pk)
+#     filename = request.FILES['myFile']
+#     fileExtension = str(filename).split('.')[1]
+#     #str(filename).split('.')[0] 디폴트 파일 명
+#     file_obj = Files()
+#     file_obj.fileName = request.POST['file_name']
+#     file_obj.whoIsOwner = request.user
+#     file_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
+#     file_obj.description = "파일 설명 필드 지금 안쓴다."
+#     if(fileExtension == 'pptx'):
+#         file_obj.image = 'ppt'
+#     elif(fileExtension =='doc' or fileExtension == 'docx'):
+#         file_obj.image = 'word'
+#     elif(fileExtension=='pdf'):
+#         file_obj.image = 'pdf'
+#     else:
+#         file_obj.image = 'etc'
+#     file_obj.save()
+#     # first node
+#     node_obj = Nodes()
+#     node_obj.fileObj = request.FILES['myFile']
+#     node_obj.ownerPCode = Projects.objects.get(id=request.POST['pk'])
+#     node_obj.ownerFCode = file_obj
+#     node_obj.comment = request.POST['file_name']
+#     node_obj.filename = request.FILES['myFile'].name
+#     node_obj.whoIsOwner = request.user
+#     node_obj.save()
+#     file_obj.File_Nodes.add(node_obj)
+#     file_obj.save()
+
+#     return redirect(next_url)
+    
+
+def create_invite_url(request, project_id):
+     if request.user.is_authenticated:
+         project_code = Projects.objects.get(id = project_id).Code
+         invite_url = project_code
+         return render(request, 'FileApp/create_invite_url.html', {'invite_url':invite_url})
+     else:
+         return render(request, 'error')

@@ -5,23 +5,23 @@ import os
 import urllib
 from datetime import datetime
 
+import docx
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from docx import Document
 from FileApp.models import Files
 from ProjectApp.models import Projects
-from UserApp.models import Profile
+from UserApp.models import Dashboard_User, Profile
 
 from NodeApp.forms import CommentForm
-
 from NodeApp.textualization.convert import convert, get_str
+from NodeApp.similarity.vector_similarity import cosine_similarity_compare
 
 from .models import Node_Comment, Nodes
-from docx import Document
-import docx
 
 
 def filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check):
@@ -326,6 +326,12 @@ def comment_submit(request):
     # member=User.objects.get(username=mentioned_name)
     # print(member)
     if mentioned_name != "":
+        # User_Dashboard 수정 위해 값들 불러오기
+        node = Nodes.objects.get(pk=node_pk)
+        project = node.ownerPCode
+        user_dashboard = request.user.dashboard_user_set.get(project = project )
+        user_dashboard.comments +=1
+        user_dashboard.save()
         # 멘션된 사람 있으면
         cmt_obj = Node_Comment()
         cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
@@ -343,6 +349,12 @@ def comment_submit(request):
                 }
 
     else:
+         # User_Dashboard 수정 위해 값들 불러오기
+        node = Nodes.objects.get(pk=node_pk)
+        project = node.ownerPCode
+        user_dashboard = request.user.dashboard_user_set.get(project = project )
+        user_dashboard.comments +=1
+        user_dashboard.save()
         # 멘션된 사람 없으면
         cmt_obj = Node_Comment()
         cmt_obj.node_code = Nodes.objects.get(Code=node_pk)
@@ -421,11 +433,48 @@ def create_node(request):
     # 파일없을 때 예외 처리 해야합니다
     if request.method == 'POST':
         nodePk = request.POST['this_node_pk']
-        print(nodePk)
         PCode = request.POST['ownerPCode']
         node_obj = Nodes()
+        User = request.user
+        user_project = Projects.objects.get(Code=PCode)
+        user_dashboard = User.dashboard_user_set.get(project = user_project)
+        print(user_dashboard)
+        # dashboard_user = user.dashboard_user.set.get()
+        # dashboard_user = Dashboard_User.objects.get()
         if nodePk == '':
             # first node
+            def docx_read(file=None):
+                txt_val = ''
+                if file:
+                    for paragraph in document.paragraphs:
+                        if paragraph.text == '':  # 여러줄의 공백 제거를 위한 조건문
+                            pass
+                        else:
+                            txt_val = txt_val + paragraph.text
+                else:
+                    return 0
+
+                txt_val = txt_val.replace("\n", "")
+                txt_val = txt_val.replace("\t", "")
+                txt_val = txt_val.replace("\'", '')
+                txt_val = txt_val.replace("“", '')
+                txt_val = txt_val.replace('”', '')
+                txt_val = txt_val.replace('\/', '')
+                txt_val = txt_val.replace('/', '')
+                txt_val = txt_val.replace('\"', '')
+                txt_val = txt_val.replace('\r', '')
+                txt_val = txt_val.replace('\b', '')
+
+                # 전체 문자열 안에 \n이 포함되어 있으므로, print 함수로 씌워서 함수 실행하면 줄바꿈 되어 출력
+                return str(txt_val)
+
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "파일 없음"
+            # End Preview
+            node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
             node_obj.ownerPCode = Projects.objects.get(Code=PCode)
@@ -435,6 +484,8 @@ def create_node(request):
             proj_obj = Projects.objects.get(Code=PCode)
             proj_obj.Proj_Nodes.add(node_obj)
             proj_obj.save()
+            user_dashboard.nodes +=1
+            user_dashboard.save()
 
             redirectURL = '/node/node_list/'+str(PCode)
         else:
@@ -475,6 +526,13 @@ def create_node(request):
             else:
                 file_txt = "파일 없음"
             # End Preview
+
+            # Start Similarity Part
+            previous_node_file_txt = clickedNode.description
+            similarity_value = cosine_similarity_compare(file_txt, previous_node_file_txt)
+
+            node_obj.similarity = similarity_value
+            # End Similarity Part 
 
             node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
