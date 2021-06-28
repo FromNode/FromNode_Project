@@ -1,12 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
+import string
+from random import choice
+
+from colorfield.fields import ColorField
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from colorfield.fields import ColorField
-
-from random import choice
-import string
+from ProjectApp.models import Projects
 
 media_path = settings.MEDIA_ROOT
 
@@ -39,3 +40,10 @@ def save_user_profile(sender,instance,**kwargs):
 # receiver는 이벤트가 발생 할 때 찾는 놈입니다. 
 # save가 발생 할 때 마다 create_user_profile/save_user_profile로 Profile도 같이 생성되게 하는 놈이에여
 # 결론 = 지우지마!
+
+class Dashboard_User(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    nodes = models.IntegerField(default=0)
+    contribution = models.FloatField(default=0)
+    comments = models.IntegerField(default=0)
