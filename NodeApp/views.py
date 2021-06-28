@@ -18,6 +18,7 @@ from UserApp.models import Profile
 from NodeApp.forms import CommentForm
 
 from NodeApp.textualization.convert import convert, get_str
+from NodeApp.similarity.vector_similarity import cosine_similarity_compare
 
 from .models import Node_Comment, Nodes
 from docx import Document
@@ -426,6 +427,38 @@ def create_node(request):
         node_obj = Nodes()
         if nodePk == '':
             # first node
+            def docx_read(file=None):
+                txt_val = ''
+                if file:
+                    for paragraph in document.paragraphs:
+                        if paragraph.text == '':  # 여러줄의 공백 제거를 위한 조건문
+                            pass
+                        else:
+                            txt_val = txt_val + paragraph.text
+                else:
+                    return 0
+
+                txt_val = txt_val.replace("\n", "")
+                txt_val = txt_val.replace("\t", "")
+                txt_val = txt_val.replace("\'", '')
+                txt_val = txt_val.replace("“", '')
+                txt_val = txt_val.replace('”', '')
+                txt_val = txt_val.replace('\/', '')
+                txt_val = txt_val.replace('/', '')
+                txt_val = txt_val.replace('\"', '')
+                txt_val = txt_val.replace('\r', '')
+                txt_val = txt_val.replace('\b', '')
+
+                # 전체 문자열 안에 \n이 포함되어 있으므로, print 함수로 씌워서 함수 실행하면 줄바꿈 되어 출력
+                return str(txt_val)
+
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "파일 없음"
+            # End Preview
+            node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
             node_obj.ownerPCode = Projects.objects.get(Code=PCode)
@@ -475,6 +508,13 @@ def create_node(request):
             else:
                 file_txt = "파일 없음"
             # End Preview
+
+            # Start Similarity Part
+            previous_node_file_txt = clickedNode.description
+            similarity_value = cosine_similarity_compare(file_txt, previous_node_file_txt)
+
+            node_obj.similarity = similarity_value
+            # End Similarity Part 
 
             node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
