@@ -57,7 +57,7 @@ def get_location_list(dbData):
             li_test.append([obj.Code, obj.previousCode.Code, obj.createdDate])
     i_dict = {}
     first_node_code = ''
-
+    print(li_test)
     for i in li_test:
         if i[1] == None:
             first_node_code = i[0]
@@ -76,8 +76,7 @@ def get_location_list(dbData):
 
     coordinate_node_test.append([x_value, y_value, first_node_code])
     child_list = i_dict.get(first_node_code)
-    last = filter_axis(child_list, x_value, y_value,
-                       coordinate_node_test, i_dict, check)
+    last = filter_axis(child_list, x_value, y_value, coordinate_node_test, i_dict, check)
     x_save = 'first'
     ch = 0
     max_x = max([x[0] for x in last])
@@ -197,52 +196,7 @@ def node_list(request, proj_Code):
         gridColumnHeight = "200px "
         gridRowNum = gridRowWidth * num_of_row
         gridColumnNum = gridColumnHeight * num_of_column
-        # Html로 전송할 정보들
-        # json_set=[]
-        comment_data = []
-        first_comments = Node_Comment.objects.filter(node_code=61102394)
-        for node in node_objs:
-            node_comments = Node_Comment.objects.filter(node_code=node.Code)
-            first_comments = first_comments | node_comments
-        comments = first_comments
-        # comments = Node_Comment.objects.all()
-
-        for i in range(0, len(comments)):
-            if comments[i].who_is_mentioned != None:
-                comment_data.append(
-                    {'node_code': str(comments[i].node_code),
-                     'content': str(comments[i].content),
-                     'author': str(comments[i].author_comment.Profile.nickname),
-                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
-                     'who_is_mentioned': '@'+str(comments[i].who_is_mentioned.Profile.nickname)
-                     }
-                )
-            else:
-                comment_data.append(
-                    {'node_code': str(comments[i].node_code),
-                     'content': str(comments[i].content),
-                     'author': str(comments[i].author_comment.Profile.nickname),
-                     'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-                     'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
-                     'who_is_mentioned': ""
-                     }
-                )
-        # print(comment_data)
-        # comment_data_to_json = json.dumps(comment_data,ensure_ascii=False)
-            # json_set.append(comment_data_to_json)
-        comment_data_to_json = json.dumps(comment_data, ensure_ascii=False)
-        # json_set.append(comment_data_to_json)
-
-        # print("냐아", comment_data_to_json)
-        # print(comments[0].author_comment.Profile.filter(user_id=comments[0].author_comment.id)[0].name)
-        # print(comments[0].author_comment.Profile.profile_image.url)
-        # print(comments[0].create_date.strftime("%Y-%m-%d %H:%M"))
-
-        # print("comment_data는??\n",comment_data)
-    else:
-        pass
-
+        
     if request.method == "POST":
         node_comment_create(request, proj_Code)
 
@@ -265,10 +219,7 @@ def node_list(request, proj_Code):
         "json": json_data,
         "proj_user": proj_user,
         "pro_name": pro_name,
-        "comments": comments,
         "coordinates": coordinates,
-        "test_comments": comment_data_to_json,
-        "comment_data": comment_data,
         "all_node_data_to_json": all_node_data_to_json,
         'empty_check': empty_check,
         'pro_code': pro_code,
@@ -417,20 +368,27 @@ def load_comment(request):
     comments = Node_Comment.objects.filter(node_code=node_pk)
     comment_data = []
     for i in range(0, len(comments)):
-        comment_data.append(
-            # [str(comments[i].node_code),
-            # str(comments[i].content),
-            # str(comments[i].author_comment),
-            # str(comments[i].author_comment.Profile.profile_image.url),
-            # str(comments[i].create_date)
-            # ]
-            {'node_code': str(comments[i].node_code),
-             'content': str(comments[i].content),
-             'author': str(comments[i].author_comment),
-             'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
-             'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M")
-             }
-        )
+        if comments[i].who_is_mentioned != None:
+
+            comment_data.append(
+                {'node_code': str(comments[i].node_code),
+                'content': str(comments[i].content),
+                'author': str(comments[i].author_comment),
+                'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
+                'who_is_mentioned': '@'+str(comments[i].who_is_mentioned.Profile.nickname)
+                }
+            )
+        else:
+            comment_data.append(
+                {'node_code': str(comments[i].node_code),
+                'content': str(comments[i].content),
+                'author': str(comments[i].author_comment.Profile.nickname),
+                'author_img_url': str(comments[i].author_comment.Profile.profile_image.url),
+                'created_date': comments[i].create_date.strftime("%Y-%m-%d %p %I:%M"),
+                'who_is_mentioned': ""
+                }
+            )    
         # print(comment_data)
     data = json.dumps(comment_data, ensure_ascii=False)
     return JsonResponse(data, safe=False)

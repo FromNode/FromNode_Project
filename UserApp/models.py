@@ -1,12 +1,12 @@
-from django.db import models
-from django.contrib.auth.models import User
+import string
+from random import choice
+
+from colorfield.fields import ColorField
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from colorfield.fields import ColorField
-
-from random import choice
-import string
 
 media_path = settings.MEDIA_ROOT
 
@@ -24,7 +24,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    profile_image = models.ImageField(upload_to = user_path,blank=True,default='MainApp\image\default_profile.png')
+    profile_image = models.ImageField(upload_to = user_path,blank=True,default='profiles\default_profile.png')
     user_color = ColorField(default='#FF0000')
 
 
