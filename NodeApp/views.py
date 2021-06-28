@@ -441,6 +441,9 @@ def create_node(request):
             clickedNode = Nodes.objects.get(Code=str(nodePk))
             print(clickedNode,'안녕')
             redirectURL = '/node/node_list/'+str(PCode)
+
+
+        ''' # Summary Part 미사용으로 일시 보존
         # Start Summary part
             # File 확장자 확인, docx인가?
             # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
@@ -476,6 +479,7 @@ def create_node(request):
             else:  # docx 외의 File
                 node_obj.is_workflow = 0
             # End Summary part
+        '''
 
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
