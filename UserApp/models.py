@@ -42,6 +42,7 @@ def save_user_profile(sender,instance,**kwargs):
 # 결론 = 지우지마!
 
 class Dashboard_User(models.Model):
+    objects = models.Manager()
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     nodes = models.IntegerField(default=0)

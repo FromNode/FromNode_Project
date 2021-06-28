@@ -24,30 +24,39 @@ def show_file_list(request,proj_Code):
         all_proj = unliked_proj.union(liked_proj)
         proj_obj = all_proj
 
-        # 로그인 한 유저가 포함된 Project를 역참조로 불러옵니다.
         project = Projects.objects.get(Code=proj_Code)
-        node_objs = project.Proj_Nodes.all()
+        
         pro_name = project.name
         pro_code = proj_Code
+        # 로그인 한 유저가 포함된 Project 정보 불러오는 부분
         proj_user = project.unliked_members.all().union(project.liked_members.all())
-        total_comment = 0
+        # 프로젝트 유저 불러오는 부분
+        node_objs = project.Proj_Nodes.all()
+        # 프로젝트 속한 노드 정보 불러오는 부분
 
+
+        total_comment = 0
+        #total_comment위한 초기값 선언
         for i in proj_user:
-            total_comment += i.comments
+            total_comment += i.dashboard_user_set.get(project=project.pk).comments
+            
 
         if bool(node_objs) == True:            
-            contribution_each = contribution(proj_user,node_objs,total_comment)
-            comment_each = communication_frequency(proj_user,total_comment)
-            node_upload_nums = node_upload_distribution(proj_user)
-
+            contribution_each = contribution(proj_user,len(node_objs),total_comment,project.pk)
+            comment_each = communication_frequency(proj_user,total_comment,project.pk)
+            node_upload_nums = node_upload_distribution(proj_user,node_objs)
+            print(len(node_objs))
         else:
-            graph_datas = [1,2,3,0,0,0]
+            contribution_each = 0
+            comment_each = 0
+            node_upload_nums = 0
+            
     else:
         
         pass
 
     is_there_notice = False
-    noticeboard = board.objects.filter(proj_id = pro_code)
+    noticeboard = board.objects.filter(proj_id = project.pk)
     if noticeboard.count() != 0:
         is_there_notice = True
     project = Projects.objects.get(Code = proj_Code)
@@ -60,16 +69,16 @@ def show_file_list(request,proj_Code):
         'pro_name':pro_name,
         'project':project.id, 
         'proj_user':proj_user,
-        'proj_id':pro_code,
+        'proj_id':project.pk,
         'empty':empty,
         'is_there_notice':is_there_notice,
         'noticeboard':noticeboard,
 
         'graph_datas_1':comment_each,  
         'graph_datas_2':contribution_each,
-        'graph_datas_3':node_upload_nums,
+        'graph_datas_3':node_upload_nums[0],
         'total_node':len(node_objs),
-        'date_last_node':node_objs[-1].createDate,
+        'date_last_node':node_upload_nums[1],
         'total_comment':total_comment,
         }
     return render(request, 'FileApp/file_list.html', contents)
