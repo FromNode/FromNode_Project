@@ -18,7 +18,5 @@ def cosine_similarity_compare(sentence_1, sentence_2):
 
     cosine_similarity_value = cosine_similarity(matrix[0:1], matrix[1:2])[0][0]
     cosine_similarity_value = float(cosine_similarity_value)
-    if cosine_similarity_value > 1.0:
-        cosine_similarity_value = 1
 
     return cosine_similarity_value
