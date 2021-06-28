@@ -18,6 +18,7 @@ from UserApp.models import Profile
 from NodeApp.forms import CommentForm
 
 from NodeApp.textualization.convert import convert, get_str
+from NodeApp.similarity.vector_similarity import cosine_similarity_compare
 
 from .models import Node_Comment, Nodes
 from docx import Document
@@ -517,6 +518,13 @@ def create_node(request):
             else:
                 file_txt = "파일 없음"
             # End Preview
+
+            # Start Similarity Part
+            previous_node_file_txt = docx_read(clickedNode.fileObj)
+            similarity_value = cosine_similarity_compare(file_txt, previous_node_file_txt)
+
+            node_obj.similarity = similarity_value
+            # End Similarity Part 
 
             node_obj.description = file_txt
             node_obj.fileObj = request.FILES['uploadFile']
