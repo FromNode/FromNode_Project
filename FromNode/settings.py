@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     ".fromnode.com",
     '127.0.0.1',
     '3.34.187.248',
+    '13.125.160.94',
 ]
 
 
@@ -89,15 +90,15 @@ WSGI_APPLICATION = 'FromNode.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-'''
-DATABASES = mysql_setting.DATABASES
+
+# DATABASES = mysql_setting.DATABASES
 
 
 
