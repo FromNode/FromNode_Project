@@ -19,7 +19,11 @@ from NodeApp.forms import CommentForm
 from NodeApp.similarity.similarity import (similarity_compare,
                                            similarity_sentence_compare)
 from NodeApp.summarization.summary import summary
-from NodeApp.textualization.convert import convert, get_str
+from NodeApp.textualization.convert import convert, get_str, docx_read
+from NodeApp.similarity.vector_similarity import cosine_similarity_compare
+
+from docx import Document
+import docx
 
 from .models import Node_Comment, Nodes
 
@@ -426,6 +430,15 @@ def create_node(request):
         node_obj = Nodes()
         if nodePk == '':
             # first node
+
+            # docx_read 함수를 통해 현재 업로드 되는 Docx File의 txt 추출 후 description 필드에 txt str 삽입
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "-"
+            node_obj.description = file_txt
+
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
             node_obj.ownerPCode = Projects.objects.get(Code = PCode)
@@ -441,41 +454,58 @@ def create_node(request):
             clickedNode = Nodes.objects.get(Code=str(nodePk))
             print(clickedNode,'안녕')
             redirectURL = '/node/node_list/'+str(PCode)
-        # Start Summary part
-            # File 확장자 확인, docx인가?
-            # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
-            if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.filename.split(".")[-1] == "docx":
-                # temp_summary_file 변수에 convert된 Object 담기
-                temp_summary_file = convert(request.FILES['uploadFile'])
-                # convert된 문서 object를 get_str 함수를 통해 String화
-                temp_summary_file_str = get_str(temp_summary_file)
-                # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
-                str_summary = summary(temp_summary_file_str)
-                # description 필드에 요약된 Text 삽입
 
-                # 유사도 결과물 넣을 Empty_list 생성
-                similarity_list = []
-                previous_node_file = clickedNode.fileObj
-                previous_node_file = convert(previous_node_file)
-                # Similarity Module 사용하여 유사도 비교
-                similarity_sentence_compare(previous_node_file,
-                                temp_summary_file, "temp_user", similarity_list)
-                # similarity와 summary text 저장
-                node_obj.similarity = 100 - similarity_list[4]
-                node_obj.description = str_summary
 
-                # 추가한 글자수와 라인수를 저장
-                node_obj.added_letters = similarity_list[5]
-                node_obj.added_sentences = similarity_list[6]
+        # # Summary Part 미사용으로 일시 보존
+        # # Start Summary part
+        #     # File 확장자 확인, docx인가?
+        #     # 현재 summary/convert 대상 확장자 docx이므로 docx에 한정, 추후 판단을 위한 사용자정의 function 사용 고려
+        #     if request.FILES['uploadFile'].name.split(".")[-1] == "docx" and clickedNode.filename.split(".")[-1] == "docx":
+        #         # temp_summary_file 변수에 convert된 Object 담기
+        #         temp_summary_file = convert(request.FILES['uploadFile'])
+        #         # convert된 문서 object를 get_str 함수를 통해 String화
+        #         temp_summary_file_str = get_str(temp_summary_file)
+        #         # summary 함수로 String화 된 문서 Object를 요약하여 str_summary 변수에 담기
+        #         str_summary = summary(temp_summary_file_str)
+        #         # description 필드에 요약된 Text 삽입
 
-                # 기존 Project File에 해당하는지 or 기타 File인지 판단
-                if 100 - similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
-                    node_obj.is_workflow = 1  # Project File로 판단하여 1 삽입
-                else:
-                    node_obj.is_workflow = 0
-            else:  # docx 외의 File
-                node_obj.is_workflow = 0
-            # End Summary part
+        #         # 유사도 결과물 넣을 Empty_list 생성
+        #         similarity_list = []
+        #         previous_node_file = clickedNode.fileObj
+        #         previous_node_file = convert(previous_node_file)
+        #         # Similarity Module 사용하여 유사도 비교
+        #         similarity_sentence_compare(previous_node_file,
+        #                         temp_summary_file, "temp_user", similarity_list)
+        #         # similarity와 summary text 저장
+        #         node_obj.similarity = 100 - similarity_list[4]
+        #         node_obj.description = str_summary
+
+        #         # 추가한 글자수와 라인수를 저장
+        #         node_obj.added_letters = similarity_list[5]
+        #         node_obj.added_sentences = similarity_list[6]
+
+        #         # 기존 Project File에 해당하는지 or 기타 File인지 판단
+        #         if 100 - similarity_list[4] > 5:  # 5% 이상의 유사도를 가진 File이며, docx 확장자에 해당하는 File
+        #             node_obj.is_workflow = 1  # Project File로 판단하여 1 삽입
+        #         else:
+        #             node_obj.is_workflow = 0
+        #     else:  # docx 외의 File
+        #         node_obj.is_workflow = 0
+        #     # End Summary part 
+
+            # docx_read 함수를 통해 현재 업로드 되는 Docx File의 txt 추출 후 description 필드에 txt str 삽입
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "-"
+            node_obj.description = file_txt
+
+            # Start Similarity Part
+            previous_node_file_txt = clickedNode.description
+            similarity_value = cosine_similarity_compare(file_txt, previous_node_file_txt)
+            node_obj.similarity = similarity_value
+            # End Similarity Part
 
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
@@ -521,7 +551,7 @@ def load_node_data(request):
     whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
     comment = target_node.comment  # : actually 노드 이름입니다.
     similarity = target_node.similarity  # : 유사도
-    description = target_node.description  # : 문서 요약
+    description = target_node.description  # : Node의 File의 txt 데이터
     is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
     added_letters = target_node.added_letters # : text 몇개가 추가됐니?
 
@@ -533,7 +563,7 @@ def load_node_data(request):
             'created_date': created_date.strftime("%Y-%m-%d %p %I:%M"),
             'author_color': owner_color,
             'author_nickname': owner_nickname,
-            'summary': description,
+            'description': description,
             'similarity': similarity,
             'is_workflow':is_workflow,
             'added_letters':added_letters
