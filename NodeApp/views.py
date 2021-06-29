@@ -436,7 +436,7 @@ def create_node(request):
                 document = docx.Document(request.FILES['uploadFile'])
                 file_txt = docx_read(document)
             else:
-                file_txt = "파일 없음"
+                file_txt = "-"
             node_obj.description = file_txt
 
             node_obj.fileObj = request.FILES['uploadFile']
@@ -498,7 +498,7 @@ def create_node(request):
                 document = docx.Document(request.FILES['uploadFile'])
                 file_txt = docx_read(document)
             else:
-                file_txt = "파일 없음"
+                file_txt = "-"
             node_obj.description = file_txt
 
             # Start Similarity Part
