@@ -548,7 +548,7 @@ def load_node_data(request):
             'created_date': created_date.strftime("%Y-%m-%d %p %I:%M"),
             'author_color': owner_color,
             'author_nickname': owner_nickname,
-            'summary': description,
+            'description': description,
             'similarity': similarity,
             'is_workflow':is_workflow,
             'added_letters':added_letters
