@@ -32,3 +32,23 @@ def get_str(converted_document):
         return document_string
     else:
         raise Exception("Unsupported file extension. Only use docx or ...")
+
+
+# docx file의 txt를 DB에 삽입하거나 별도 이용시 에러 발생시키는 이스케이프 코드 제거한 후, str 반환
+def docx_read(file=None):
+    txt_val = ''
+    if file:
+        for paragraph in file.paragraphs:
+            if paragraph.text == '':  # 여러줄의 공백 제거를 위한 조건문
+                pass
+            else:
+                txt_val = txt_val + paragraph.text
+    else:
+        return 0
+
+    escape_code = ["\n", "\t", "\'", "“", '”', '\/', '/', '\"', '\r', '\b']
+    for escape in escape_code:
+        txt_val = txt_val.replace(escape, "")
+
+    # 전체 문자열 안에 \n이 포함되어 있으므로, print 함수로 씌워서 함수 실행하면 줄바꿈 되어 출력
+    return str(txt_val)
