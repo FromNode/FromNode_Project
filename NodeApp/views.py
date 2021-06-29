@@ -536,7 +536,7 @@ def load_node_data(request):
     whoIsOwner = target_node.whoIsOwner  # : 노드 올린 사람
     comment = target_node.comment  # : actually 노드 이름입니다.
     similarity = target_node.similarity  # : 유사도
-    description = target_node.description  # : 문서 요약
+    description = target_node.description  # : Node의 File의 txt 데이터
     is_workflow = target_node.is_workflow # : workflow에서 작업하던 파일이니?
     added_letters = target_node.added_letters # : text 몇개가 추가됐니?
 
