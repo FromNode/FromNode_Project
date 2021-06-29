@@ -20,6 +20,7 @@ from NodeApp.similarity.similarity import (similarity_compare,
                                            similarity_sentence_compare)
 from NodeApp.summarization.summary import summary
 from NodeApp.textualization.convert import convert, get_str, docx_read
+from NodeApp.similarity.vector_similarity import cosine_similarity_compare
 
 from docx import Document
 import docx
@@ -498,8 +499,13 @@ def create_node(request):
                 file_txt = docx_read(document)
             else:
                 file_txt = "파일 없음"
-
             node_obj.description = file_txt
+
+            # Start Similarity Part
+            previous_node_file_txt = clickedNode.description
+            similarity_value = cosine_similarity_compare(file_txt, previous_node_file_txt)
+            node_obj.similarity = similarity_value
+            # End Similarity Part
 
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
