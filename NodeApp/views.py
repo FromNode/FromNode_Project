@@ -429,6 +429,15 @@ def create_node(request):
         node_obj = Nodes()
         if nodePk == '':
             # first node
+
+            # docx_read 함수를 통해 현재 업로드 되는 Docx File의 txt 추출 후 description 필드에 txt str 삽입
+            if request.FILES['uploadFile'].name.split(".")[-1] == "docx":
+                document = docx.Document(request.FILES['uploadFile'])
+                file_txt = docx_read(document)
+            else:
+                file_txt = "파일 없음"
+            node_obj.description = file_txt
+
             node_obj.fileObj = request.FILES['uploadFile']
             node_obj.filename = request.FILES['uploadFile'].name
             node_obj.ownerPCode = Projects.objects.get(Code = PCode)
