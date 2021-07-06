@@ -39,3 +39,11 @@ def save_user_profile(sender,instance,**kwargs):
 # receiver는 이벤트가 발생 할 때 찾는 놈입니다. 
 # save가 발생 할 때 마다 create_user_profile/save_user_profile로 Profile도 같이 생성되게 하는 놈이에여
 # 결론 = 지우지마!
+
+class Dashboard_User(models.Model):
+    objects = models.Manager()
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    nodes = models.IntegerField(default=0)
+    contribution = models.FloatField(default=0)
+    comments = models.IntegerField(default=0)
